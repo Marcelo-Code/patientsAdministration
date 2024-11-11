@@ -32,7 +32,6 @@ export const PatientsDetail = (props) => {
     direccion,
     personaResponsablePaciente,
     telefonoResponsable,
-    obraSocial,
     nroAfiliado,
     ciudad,
     escuela,

@@ -14,18 +14,7 @@ import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 // import osde from "../../../assets/osde.png";
 
 export const PatientsList = (props) => {
-  const {
-    patientId,
-    nombre,
-    apellido,
-    dni,
-    direccion,
-    obraSocial,
-    nroAfiliado,
-    ciudad,
-    telefono,
-    imagen,
-  } = props;
+  const { patientId, nombre, apellido, dni, nroAfiliado, imagen } = props;
   return (
     <Card sx={{ width: "300px" }}>
       <CardMedia

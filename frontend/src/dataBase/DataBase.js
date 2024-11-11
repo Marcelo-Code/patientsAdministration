@@ -21,7 +21,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": true,
         "fechaVencimientoCud": "2025-12-31",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/osde.png",
+        "imagen": "/dist/assets/osde.png",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-02-14",
@@ -72,7 +72,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2026-01-15",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/swissMedical.png",
+        "imagen": "/dist/assets/swissMedical.png",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-10",
@@ -123,7 +123,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2024-11-30",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/galeno.jpg",
+        "imagen": "/dist/assets/galeno.jpg",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-15",
@@ -199,7 +199,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2027-05-20",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/osam.png",
+        "imagen": "/dist/assets/osam.png",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-10",
@@ -275,7 +275,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2025-07-15",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/osap.jpeg",
+        "imagen": "/dist/assets/osap.jpeg",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-10",
@@ -351,7 +351,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2028-03-21",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/osde.png",
+        "imagen": "/dist/assets/osde.png",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-15",
@@ -427,7 +427,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2026-08-12",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/swissMedical.png",
+        "imagen": "/dist/assets/swissMedical.png",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-15",
@@ -503,7 +503,7 @@ export const dataBase = [{
         "certificadoDiscapacidad": false,
         "fechaVencimientoCud": "2023-09-01",
         "fechaInicio": "2024-01-01",
-        "imagen": "/assets/galeno.jpg",
+        "imagen": "/dist/assets/galeno.jpg",
         "historiaClinica": [{
                 "idConsulta": 1,
                 "fechaConsulta": "2024-01-15",
