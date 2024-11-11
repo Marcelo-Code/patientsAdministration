@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { MedicalHistory } from "./medicalHistory";
 import { useContext, useState } from "react";
-import { Box, Button, Card, CardContent, Tab, Tabs } from "@mui/material";
+import { Box, Button, Tab, Tabs } from "@mui/material";
 import { dataBase } from "../../../dataBase/DataBase";
 import { MedicalHistoryRecord } from "./MedicalHistoryRecord";
 import { GeneralContext } from "../../../context/GeneralContext";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ArticleIcon from "@mui/icons-material/Article";
 
 function a11yProps(index) {
