@@ -20,7 +20,7 @@ export const PatientsListContainer = () => {
           telefono: patient.telefono,
           imagen: patient.imagen,
         };
-        return <PatientsList key={patient.id} {...props} />;
+        return <PatientsList key={patient.patientId} {...props} />;
       })}
     </div>
   );
