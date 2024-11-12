@@ -8,6 +8,7 @@ import {
     DB_PORT,
     DB_USER,
     FRONTEND_URL,
+    DB_HOST,
     PORT
 } from "./config.js"
 
@@ -17,7 +18,10 @@ const pool = new pg.Pool({
     database: DB_DATABASE,
     user: DB_USER,
     password: DB_PASSWORD,
-    port: DB_PORT
+    port: DB_PORT,
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 app.use(cors({
@@ -25,15 +29,20 @@ app.use(cors({
 }))
 
 app.get("/ping", async (req, res) => {
-
-    const result = await pool.query('SELECT NOW()')
-    console.log(result);
-
-    res.send({
-        pong: result[0].now,
-    })
+    try {
+        const result = await pool.query('SELECT NOW()');
+        console.log(result);
+        res.send({
+            pong: result.rows[0].now,
+        })
+    } catch (error) {
+        console.log("Error en consulta: ", error);
+        res.status(500).send({
+            error: "Error al conectarse a la DB"
+        });
+    }
 });
 
 app.listen(PORT, () => {
-    console.log("server started");
-})
+    console.log(`server started on port ${PORT}`);
+});
