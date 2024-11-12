@@ -13,7 +13,7 @@ import {
 
 const app = express();
 const pool = new pg.Pool({
-    hot: DB_HOST,
+    host: DB_HOST,
     database: DB_DATABASE,
     user: DB_USER,
     password: DB_PASSWORD,
