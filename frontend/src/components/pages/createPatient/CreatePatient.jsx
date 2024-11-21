@@ -17,7 +17,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import SchoolIcon from "@mui/icons-material/School";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
+import MedicationIcon from "@mui/icons-material/Medication";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import {
   CalendarIcon,
@@ -27,15 +29,22 @@ import {
 import { Link } from "react-router-dom";
 
 import "./createPatient.css";
-import { useState } from "react";
 
 export const CreatePatient = ({
   handleGoBack,
   handleChange,
   selectedValue,
+  handleSubmit,
+  handleDateChange,
+  handleRadioChange,
+  loading,
 }) => {
-  const [result, setResult] = useState("");
-  const URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const style = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    with: "300px",
+  };
 
   return (
     <div
@@ -47,424 +56,341 @@ export const CreatePatient = ({
         top: "90px",
       }}
     >
-      <FormGroup>
-        <h2
-          style={{
-            textAlign: "center",
-            width: "100%",
-            margin: "10px",
-            paddingBottom: "10px",
-            borderBottom: "2px solid black",
-          }}
-        >
-          Generar nuevo paciente
-        </h2>
-        <Box
-          sx={{
-            display: "grid",
-            gap: "30px",
-            gridTemplateColumns: "1fr 1fr",
-            "@media (max-width: 800px)": {
-              gridTemplateColumns: "1fr",
-            },
-          }}
-        >
-          <span
+      <form>
+        <FormGroup>
+          <h2
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <PersonIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Nombre"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <PersonIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Apellido"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CardMembershipIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Nro Afiliado"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <ImportContactsIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="DNI"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <HouseIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Dirección"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <WhatsAppIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Teléfono Responsable"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <LocationCityIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Ciudad"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "right",
-                maxWidth: "100%",
-              }}
-            >
-              <PersonIcon sx={{ marginRight: "0px" }} />
-              <span
-                style={{
-                  marginLeft: "0px",
-                  padding: "0px",
-                  textAlign: "right",
-                  whiteSpace: "normal",
-                  wordWrap: "break-word",
-                }}
-              ></span>
-            </span>
-            <TextField
-              style={{
-                margin: "10px 10px 10px 5px",
-                padding: "0px",
-                minWidth: "200px",
-                width: "200px",
-              }}
-              id="outlined-basic"
-              label="Responsable Paciente"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <SchoolIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Escuela"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <SchoolIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Dirección Escuela"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <WhatsAppIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Teléfono Escuela"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <SchoolIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Dirección Escuela"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <SchoolIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Año/Grado/Sala"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <PersonIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Docente Referente"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <PersonIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Directivo Escuela"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <SchoolIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Escuela Especial"
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <PersonIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Ref. Escuela Esp."
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <WhatsAppIcon />
-            <TextField
-              style={{ margin: "10px", width: "200px" }}
-              id="outlined-basic"
-              label="Tel. Ref. Escuela Esp."
-              variant="outlined"
-            />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CardMembershipIcon />
-            <span style={{}}>CUD</span>
-            <RadioGroup
-              row
-              sx={{ margin: "10px 0px 10px 40px", width: "200px" }}
-              value={selectedValue}
-              onChange={handleChange}
-            >
-              <FormControlLabel value="yes" control={<Radio />} label="Sí" />
-              <FormControlLabel value="no" control={<Radio />} label="No" />
-            </RadioGroup>
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <CalendarIcon />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                sx={{ width: "200px", margin: "10px" }}
-                label="Fecha vto. CUD"
-              />
-            </LocalizationProvider>
-          </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <CalendarIcon />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                sx={{ width: "200px", margin: "10px" }}
-                label="Fecha inicio"
-              />
-            </LocalizationProvider>
-          </span>
-        </Box>
-        <div className="buttonGroup">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "10px",
+              textAlign: "center",
               width: "100%",
+              margin: "10px 0px 10px 0px",
+              paddingBottom: "10px",
+              borderBottom: "2px solid black",
             }}
           >
-            <Link style={{}}>
-              <Button
-                size="small"
-                sx={{ width: "280px" }}
-                variant="contained"
-                startIcon={<CancelIcon />}
+            Generar nuevo paciente
+          </h2>
+          <Box
+            sx={{
+              display: "grid",
+              gap: "30px",
+              gridTemplateColumns: "1fr 1fr",
+              "@media (max-width: 800px)": {
+                gridTemplateColumns: "1fr",
+              },
+            }}
+          >
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Nombre y Apellido Paciente"
+                variant="outlined"
+                name="nombreYApellidoPaciente"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <CardMembershipIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Obra Social"
+                variant="outlined"
+                name="obraSocialPaciente"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <CardMembershipIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Nro Afiliado"
+                variant="outlined"
+                name="nroAfiliadoPaciente"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <ImportContactsIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="DNI"
+                variant="outlined"
+                name="dniPaciente"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <CalendarIcon />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  sx={{ width: "200px", margin: "10px" }}
+                  label="Fecha Nacimiento"
+                  name="fechaNacimientoPaciente"
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) =>
+                    handleDateChange("fechaNacimientoPaciente", newDate)
+                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </LocalizationProvider>
+            </span>
+            <span style={style}>
+              <MedicationIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Diagnóstico Previo"
+                variant="outlined"
+                name="diagnosticoPrevio"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <HouseIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Dirección"
+                variant="outlined"
+                name="direccionPaciente"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <LocationCityIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Ciudad"
+                variant="outlined"
+                name="ciudadPaciente"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Nombre y Apellido Responsable"
+                variant="outlined"
+                name="nombreYApellidoResponsable"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <WhatsAppIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Teléfono Responsable"
+                variant="outlined"
+                name="telefonoResponsable"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <SchoolIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Escuela"
+                variant="outlined"
+                name="escuela"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <SchoolIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Dirección Escuela"
+                variant="outlined"
+                name="direccionEscuela"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <WhatsAppIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Teléfono Escuela"
+                variant="outlined"
+                name="telefonoEscuela"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <SchoolIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Año/Grado/Sala"
+                variant="outlined"
+                name="anioGradoSala"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Nombre Docente Referente"
+                variant="outlined"
+                name="nombreYApellidoDocenteReferenteEscuela"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Nombre Directivo Escuela"
+                variant="outlined"
+                name="nombreYApellidoDirectivoEscuela"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <SchoolIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Escuela Especial"
+                variant="outlined"
+                name="escuelaEspecial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Nombre Docente Ref. Esc. Esp."
+                variant="outlined"
+                name="nombreYApellidoDocenteReferenteEscuelaEspecial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <WhatsAppIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                label="Tel. Ref. Escuela Esp."
+                variant="outlined"
+                name="telefonoDocenteReferenteEscuelaEspecial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <CardMembershipIcon />
+              <span>CUD</span>
+              <RadioGroup
+                row
+                sx={{ margin: "10px", width: "200px" }}
+                value={selectedValue}
+                name="CUD"
+                onChange={handleRadioChange}
               >
-                Cancelar
-              </Button>
-            </Link>
-            <Link style={{}}>
-              <Button
-                onClick={async () => {
-                  const res = await fetch(`${URL}/ping`);
-                  const data = await res.json();
-                  console.log(data);
-                  setResult(data);
-                }}
+                <FormControlLabel value="yes" control={<Radio />} label="Sí" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            </span>
+            <span style={style}>
+              <CalendarIcon />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  sx={{ width: "200px", margin: "10px" }}
+                  label="Fecha vto. CUD"
+                  name="fechaVencimientoCud"
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) =>
+                    handleDateChange("fechaVencimientoCud", newDate)
+                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </LocalizationProvider>
+            </span>
+            <span style={style}>
+              <CalendarIcon />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  sx={{ width: "200px", margin: "10px" }}
+                  label="Fecha inicio Tto."
+                  name="fechaInicioTto"
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) =>
+                    handleDateChange("fechaInicioTto", newDate)
+                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </LocalizationProvider>
+            </span>
+          </Box>
+          <div className="buttonGroup">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                gap: "10px",
+                width: "100%",
+              }}
+            >
+              <Link style={{}}>
+                <Button
+                  size="small"
+                  sx={{ width: "280px" }}
+                  variant="contained"
+                  startIcon={<CancelIcon />}
+                >
+                  Cancelar
+                </Button>
+              </Link>
+              <LoadingButton
+                loading={loading}
+                onClick={handleSubmit}
                 size="small"
                 sx={{ width: "280px" }}
                 variant="contained"
                 startIcon={<SaveIcon />}
               >
                 Guardar
-              </Button>
-            </Link>
+              </LoadingButton>
+            </div>
+            <Button
+              onClick={handleGoBack}
+              size="small"
+              sx={{
+                marginTop: "10px",
+                height: "2.5em",
+                width: "100%",
+              }}
+            >
+              Volver
+            </Button>
           </div>
-          <Button
-            onClick={handleGoBack}
-            size="small"
-            sx={{
-              marginTop: "10px",
-              height: "2.5em",
-              width: "100%",
-            }}
-          >
-            Volver
-          </Button>
-        </div>
-      </FormGroup>
+        </FormGroup>
+      </form>
     </div>
   );
 };

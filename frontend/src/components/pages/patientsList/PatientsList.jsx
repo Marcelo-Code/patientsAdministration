@@ -4,64 +4,96 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { deletePatient } from "../../../api/patients";
 
-// import osde from "../../../assets/osde.png";
-
-export const PatientsList = (props) => {
-  const { patientId, nombre, apellido, dni, nroAfiliado, imagen } = props;
+export const PatientsList = ({
+  patients,
+  editMode,
+  updateList,
+  setUpdateList,
+}) => {
   return (
-    <Card sx={{ width: "300px" }}>
-      <CardMedia
-        component="img"
-        sx={{
-          width: "auto",
-          height: "85px",
-          margin: "0 auto",
-          paddingTop: "20px",
-        }}
-        image={imagen}
-        title="Obra Social"
-      />
-      <CardContent sx={{ textAlign: "center", color: "text.secondary" }}>
-        <Typography gutterBottom variant="h5" component="div">
-          {nombre} {apellido}
-        </Typography>
-        <Typography
-          gutterBottom
-          variant="h7"
-          component="div"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <CardMembershipIcon sx={{ marginRight: "10px" }} />
-          <b style={{ marginRight: "10px" }}>Nro afiliado:</b> {nroAfiliado}
-        </Typography>
-        <Typography
-          gutterBottom
-          variant="h7"
-          component="div"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <ImportContactsIcon sx={{ marginRight: "10px" }} />
-          <b style={{ marginRight: "10px" }}>DNI</b>: {dni}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ justifyContent: "center" }}>
-        <Link to={`/patientsDetail/${patientId}`}>
-          <Button size="small">Ver detalles</Button>
-        </Link>
-      </CardActions>
-    </Card>
+    <>
+      {patients.map((patient) => {
+        return (
+          <Card key={patient.id} sx={{ width: "300px" }}>
+            <CardContent sx={{ textAlign: "center", color: "text.secondary" }}>
+              <Typography
+                sx={{
+                  textAlign: "left",
+                  paddingBottom: "10px",
+                }}
+                gutterBottom
+                variant="h5"
+                component="div"
+              >
+                {patient.obrasocialpaciente}
+              </Typography>
+              <Typography gutterBottom variant="h5" component="div">
+                {patient.nombreyapellidopaciente}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="h7"
+                component="div"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <CardMembershipIcon sx={{ marginRight: "10px" }} />
+                <b style={{ marginRight: "10px" }}>Nro afiliado:</b>{" "}
+                {patient.nroafiliadopaciente}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="h7"
+                component="div"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <ImportContactsIcon sx={{ marginRight: "10px" }} />
+                <b style={{ marginRight: "10px" }}>DNI</b>:{" "}
+                {patient.dnipaciente}
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ justifyContent: "center" }}>
+              {editMode ? (
+                <>
+                  <Link
+                    onClick={() =>
+                      deletePatient(patient.id, patient.nombreyapellidopaciente)
+                        .then((response) => {
+                          console.log(response);
+                          setUpdateList(!updateList);
+                        })
+                        .catch((error) => console.log(error))
+                    }
+                  >
+                    <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
+                  </Link>
+                  <Link to={`/editPatient/${patient.id}`}>
+                    <EditIcon sx={{ margin: "10px", fontSize: "2em" }} />
+                  </Link>
+                </>
+              ) : (
+                <Link to={`/patientsDetail/${patient.id}`}>
+                  <Button size="small">Ver detalles</Button>
+                </Link>
+              )}
+            </CardActions>
+          </Card>
+        );
+      })}
+    </>
   );
 };

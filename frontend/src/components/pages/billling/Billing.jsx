@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 export const Billing = (props) => {
   const { handleGoBack } = props;
@@ -14,6 +14,7 @@ export const Billing = (props) => {
         justifyContent: "center",
       }}
     >
+      <CircularProgress size={40} />
       <Button sx={{ margin: "0 auto", width: "300px" }} onClick={handleGoBack}>
         Volver
       </Button>

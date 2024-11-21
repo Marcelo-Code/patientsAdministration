@@ -14,9 +14,15 @@ export const documentData = [{
         "button": "C. Alumno Regular",
     },
     {
-        "button": "RP Médico",
+        "button": "RP Y H.C. Médico",
     },
     {
         "button": "Autorización OS",
-    }
+    },
+    {
+        "button": "Informes Previos",
+    },
+    {
+        "button": "CUD",
+    },
 ]

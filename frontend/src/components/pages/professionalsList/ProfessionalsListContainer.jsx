@@ -1,16 +1,15 @@
-import { PatientsList } from "./PatientsList";
-// import { dataBase } from "../../../dataBase/DataBase";
-import "./patientsList.css";
 import { useEffect, useState } from "react";
-import { getPatients } from "../../../api/patients";
+import { ProfessionalsList } from "./ProfessionalsList";
+import { Button, CircularProgress } from "@mui/material";
+import { getProfessionals } from "../../../api/professionals";
 import { Android12Switch } from "../../common/switchEditionMode/SwitchEditionMode";
-import { Button } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Link } from "react-router-dom";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import "./professionalsList.css";
 import { Spinner } from "../../common/spinner/Spinner";
 
-export const PatientsListContainer = () => {
-  const [patients, setPatients] = useState(null);
+export const ProfessionalsListContainer = () => {
+  const [professionals, setProfessionals] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const handleChange = (e) => {
@@ -18,37 +17,33 @@ export const PatientsListContainer = () => {
   };
 
   useEffect(() => {
-    getPatients()
-      .then((response) => setPatients(response))
+    getProfessionals()
+      .then((response) => setProfessionals(response))
       .catch((error) => console.log(error));
   }, [updateList]);
 
-  if (!patients) return <Spinner />;
+  if (!professionals) return <Spinner />;
 
-  const props = {
-    editMode,
-    patients,
-    updateList,
-    setUpdateList,
-  };
+  const props = { professionals, editMode, updateList, setUpdateList };
 
   return (
-    <div className="patientsContainer">
+    <div className="professionalsContainer">
       <span
         style={{
           display: "flex",
           alignItems: "center",
           gap: "30px",
+          marginBottom: "30px",
         }}
       >
-        <Link to="/createPatient">
+        <Link to="/createProfessional">
           <Button
             aria-label="fingerprint"
             size="small"
             variant="contained"
             startIcon={<PersonAddIcon />}
           >
-            Crear Paciente
+            Crear Profesional
           </Button>
         </Link>
         <div
@@ -74,7 +69,7 @@ export const PatientsListContainer = () => {
           alignItems: "center",
         }}
       ></div>
-      <PatientsList {...props} />
+      <ProfessionalsList {...props} />
     </div>
   );
 };

@@ -1,12 +1,17 @@
 /* eslint-disable react/prop-types */
 import { MedicalHistory } from "./medicalHistory";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Button, Tab, Tabs } from "@mui/material";
-import { dataBase } from "../../../dataBase/DataBase";
 import { MedicalHistoryRecord } from "./MedicalHistoryRecord";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
 import ArticleIcon from "@mui/icons-material/Article";
+import {
+  createMedicalRecord,
+  getMedicalHistory,
+} from "../../../api/medicalRecords";
+import { getPatient } from "../../../api/patients";
+import { Spinner } from "../../common/spinner/Spinner";
 
 function a11yProps(index) {
   return {
@@ -17,26 +22,58 @@ function a11yProps(index) {
 
 export const MedicalHistoryContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
+  const [isLoading, setIsLoading] = useState(false);
   const { patientId } = useParams();
+  const [records, setRecords] = useState(null);
+  const [patient, setPatient] = useState(null);
+  const [updateList, setUpdateList] = useState(false);
+  const [medicalRecord, setMedicalRecord] = useState({
+    idPaciente: patientId,
+    idProfesional: null,
+    fechaConsulta: null,
+    tipoConsulta: null,
+    descripcion: "",
+  });
 
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const patient = dataBase.find((patient) => patient.patientId == patientId);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedMedicalRecord = { ...medicalRecord, [name]: value };
+    setMedicalRecord(updatedMedicalRecord);
+    console.log(medicalRecord);
+  };
 
-  const historiaClinica = patient.historiaClinica;
+  const handleSubmit = () => {
+    createMedicalRecord(medicalRecord)
+      .then((response) => {
+        console.log(response), setUpdateList(!updateList);
+      })
+      .catch((error) => console.log(error.message));
+  };
 
-  console.log(historiaClinica);
+  useEffect(() => {
+    setIsLoading(true);
+    Promise.all([getMedicalHistory(patientId), getPatient(patientId)])
+      .then(([responseMedicalHistory, responsePatient]) => {
+        setRecords(responseMedicalHistory);
+        setPatient(responsePatient);
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, [patientId, updateList]);
 
-  // console.log(patientId);
+  if (!records) return <Spinner />;
 
   const props = {
     patient,
     handleGoBack,
-    patientId,
+    handleChange,
+    handleSubmit,
   };
 
   return (
@@ -58,20 +95,16 @@ export const MedicalHistoryContainer = () => {
       >
         <Tabs
           value={value}
-          onChange={handleChange}
+          onChange={handleTabChange}
           aria-label="basic tabs example"
           sx={{}}
         >
-          <Tab label="Editar" {...a11yProps(0)} />
-          <Tab label="Historial" {...a11yProps(1)} />
+          <Tab label="Historial" {...a11yProps(0)} />
+          <Tab label="Nuevo Report" {...a11yProps(1)} />
         </Tabs>
       </Box>
 
       <CustomTabPanel value={value} index={0}>
-        <MedicalHistory {...props} />
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={1}>
         <div
           style={{
             margin: "0 auto",
@@ -107,15 +140,29 @@ export const MedicalHistoryContainer = () => {
             borderBottom: "2px solid black",
           }}
         >
-          Historia Clínica: Historial
+          Historial Terapéutico {patient.nombreyapellidopaciente}:
         </h2>
-        {patient.historiaClinica.map((historia, index) => (
-          <MedicalHistoryRecord
-            key={index}
-            fecha={historia.fechaConsulta}
-            consulta={historia.consulta}
-          />
-        ))}
+        {records.length == 0 ? (
+          <h3 style={{ textAlign: "center", marginTop: "20px" }}>
+            Aun no hay consultas para este paciente
+          </h3>
+        ) : (
+          records.map((historia) => (
+            <MedicalHistoryRecord
+              key={historia.id}
+              id={historia.id}
+              fecha={historia.fechaconsulta}
+              tipo={historia.tipoconsulta}
+              descripcion={historia.descripcion}
+              profesional={historia.nombreyapellidoprofesional}
+              updateList={updateList}
+              setUpdateList={setUpdateList}
+            />
+          ))
+        )}
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <MedicalHistory {...props} />
       </CustomTabPanel>
     </Box>
   );

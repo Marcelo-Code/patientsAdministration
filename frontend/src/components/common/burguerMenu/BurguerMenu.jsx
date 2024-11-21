@@ -21,10 +21,15 @@ export const BurguerMenu = () => {
       <div className="bm-menu-sub-title">Sub Título</div>
       <div className="bm-menu">
         <ul className="bm-item-list">
-          <Link to="/createPatient" onClick={closeMenu}>
-            <li className="bm-item">Nuevo Paciente</li>
+          <Link to="" onClick={closeMenu}>
+            <li className="bm-item">Pacientes</li>
           </Link>
-          <li className="bm-item">Editar Paciente</li>
+          <Link to="/professionalsList" onClick={closeMenu}>
+            <li className="bm-item">Profesionales</li>
+          </Link>
+          <Link to="" onClick={closeMenu}>
+            <li className="bm-item">Coord./Admin.</li>
+          </Link>
         </ul>
       </div>
     </Menu>

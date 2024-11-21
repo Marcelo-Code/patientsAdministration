@@ -8,6 +8,11 @@ import { MedicalHistoryContainer } from "./components/pages/medicalHistory/Medic
 import { BillingContainer } from "./components/pages/billling/BillingContainer";
 import { CreatePatientContainer } from "./components/pages/createPatient/CreatePatientContainer";
 import { NavBar } from "./components/layout/navbar/Navbar";
+import { EditPatientContainer } from "./components/pages/editPatient/EditPatientContainer";
+import { ProfessionalsListContainer } from "./components/pages/professionalsList/professionalsListContainer";
+import { CreateProfessionalContainer } from "./components/pages/createProfessional/createProfessionalContainer";
+import { EditProfessionalContainer } from "./components/pages/editProfessional/editProfessionalContainer";
+import { EditMedicalRecordContainer } from "./components/pages/editMedicalRecord/EditMedicalRecordContainer";
 
 function App() {
   return (
@@ -25,8 +30,28 @@ function App() {
             path={"/medicalHistory/:patientId"}
             element={<MedicalHistoryContainer />}
           />
-          <Route path={"/billing"} element={<BillingContainer />} />
+          <Route
+            path={"/editPatient/:patientId"}
+            element={<EditPatientContainer />}
+          />
+          <Route
+            path={"/editProfessional/:professionalId"}
+            element={<EditProfessionalContainer />}
+          />
+          <Route
+            path={"/editMedicalRecord/:medicalRecordId"}
+            element={<EditMedicalRecordContainer />}
+          />
+          <Route
+            path={"/professionalsList"}
+            element={<ProfessionalsListContainer />}
+          />
+          <Route
+            path={"/createProfessional"}
+            element={<CreateProfessionalContainer />}
+          />
           <Route path={"/createPatient"} element={<CreatePatientContainer />} />
+          <Route path={"/billing"} element={<BillingContainer />} />
         </Routes>
       </GeneralContextProvider>
     </BrowserRouter>

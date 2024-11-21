@@ -1,42 +1,32 @@
-/* eslint-disable react/prop-types */
 import { Button, TextareaAutosize } from "@mui/material";
-import "./medicalHistory.css";
-import { Link } from "react-router-dom";
-import UploadIcon from "@mui/icons-material/Upload";
-import SaveIcon from "@mui/icons-material/Save";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { meetings } from "../../common/Menu/meetings";
-import { getProfessionals } from "../../../api/professionals";
+import { Link } from "react-router-dom";
 import { OptionsMenu } from "../../common/Menu/OptionsMenu";
-import { useEffect, useState } from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import SaveIcon from "@mui/icons-material/Save";
+import { meetings } from "../../common/Menu/meetings";
+import "./editMedicalRecord.css";
 
-export const MedicalHistory = ({
-  patient,
+/* eslint-disable react/prop-types */
+export const EditMedicalRecord = ({
   handleChange,
-  handleSubmit,
   handleGoBack,
+  handleSubmit,
+  medicalRecord,
+  patient,
+  professional,
+  arrayProfessionals,
 }) => {
   const arrayMeetings = meetings;
 
   const propsMeetings = {
-    name: "tipoConsulta",
+    name: "tipoconsulta",
     array: arrayMeetings,
     handleChange,
-    initialValue: "Selecc. Reunión",
+    initialValue: medicalRecord.tipoconsulta,
   };
-
-  const [arrayProfessionals, setArrayProfessionals] = useState(null);
-  useEffect(() => {
-    getProfessionals()
-      .then((response) => {
-        setArrayProfessionals(response);
-      })
-      .catch((error) => console.log(error));
-  }, []);
 
   const array = arrayProfessionals
     ? arrayProfessionals.map((element) => ({
@@ -47,16 +37,17 @@ export const MedicalHistory = ({
     : [];
 
   const propsProfessionals = {
-    name: "idProfesional",
+    name: "idprofesional",
     array: array,
     handleChange,
-    initialValue: "Selecc. Profesional",
+    initialValue: professional.nombreyapellidoprofesional,
   };
 
   return (
-    <div className="medicalHistory">
+    <div className="medicalHistoryContainer">
       <span
         style={{
+          marginTop: "100px",
           width: "80%",
           minWidth: "280px",
           display: "flex",
@@ -68,7 +59,7 @@ export const MedicalHistory = ({
           alignItems: "center",
         }}
       >
-        <h2 style={{ marginRight: "10px" }}>Generar Nuevo Report: </h2>
+        <h2 style={{ marginRight: "10px" }}>Editar Report: </h2>
         <h2> {patient.nombreyapellidopaciente}</h2>
       </span>
       <div
@@ -89,15 +80,16 @@ export const MedicalHistory = ({
           <DatePicker
             sx={{ width: "150px" }}
             name="fechaConsulta"
-            onChange={(newDate) =>
+            value={dayjs(medicalRecord.fechaconsulta)}
+            format="DD-MM-YYYY"
+            onChange={(newDate) => {
               handleChange({
                 target: {
-                  name: "fechaConsulta",
+                  name: "fechaconsulta",
                   value: dayjs(newDate).format("YYYY-MM-DD"),
                 },
-              })
-            }
-            format="DD/MM/YYYY"
+              });
+            }}
             label="Fecha"
             slots={{
               openPickerIcon: CalendarMonthIcon,
@@ -122,6 +114,7 @@ export const MedicalHistory = ({
         minRows={3}
         placeholder="Escribí el texto de tu consulta"
         name="descripcion"
+        value={medicalRecord.descripcion}
         onChange={handleChange}
       />
       <div className="buttonMedicalHistory">
@@ -135,17 +128,12 @@ export const MedicalHistory = ({
           }}
         >
           <Link style={{}}>
-            <Button
-              size="small"
-              sx={{ width: "280px" }}
-              variant="contained"
-              startIcon={<UploadIcon />}
-            >
+            <Button size="small" sx={{ width: "280px" }} variant="contained">
               Subir Documentación
             </Button>
           </Link>
           <Button
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             size="small"
             sx={{ width: "280px" }}
             variant="contained"

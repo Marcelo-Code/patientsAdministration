@@ -4,7 +4,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Typography,
 } from "@mui/material";
 
@@ -19,34 +18,39 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import PersonIcon from "@mui/icons-material/Person";
 import SchoolIcon from "@mui/icons-material/School";
+import MedicationIcon from "@mui/icons-material/Medication";
+import CakeIcon from "@mui/icons-material/Cake";
 
 import "./patientDetail.css";
 import { Link } from "react-router-dom";
 
 export const PatientsDetail = (props) => {
   const {
-    patientId,
-    nombre,
-    apellido,
-    dni,
-    direccion,
-    personaResponsablePaciente,
-    telefonoResponsable,
-    nroAfiliado,
-    ciudad,
+    id,
+    nombreyapellidopaciente,
+    obrasocialpaciente,
+    nroafiliadopaciente,
+    dnipaciente,
+    fechanacimientopaciente,
+    edad,
+    diagnosticoprevio,
+    direccionpaciente,
+    ciudadpaciente,
+    nombreyapellidoresponsable,
+    telefonoresponsable,
     escuela,
-    direccionEscuela,
-    telefonoEscuela,
-    anioGradoSala,
-    docenteReferente,
-    directivoEscuela,
-    escuelaEspecial,
-    nombreReferenteEscuelaEspecial,
-    telefonoReferenteEscuelaEspecial,
-    certificadoDiscapacidad,
-    fechaVencimientoCud,
-    fechaInicio,
-    imagen,
+    direccionescuela,
+    telefonoescuela,
+    aniogradoSala,
+    nombreyapellidodocentereferenteescuela,
+    nombreyapellidodirectivoescuela,
+    escuelaespecial,
+    nombreyapellidodocentereferenteescuelaespecial,
+    telefonodocentereferenteescuelaespecial,
+    cud,
+    fechavencimientocud,
+    fechainiciotto,
+    fechaultimaactualizacion,
     handleGoBack,
   } = props;
 
@@ -67,7 +71,7 @@ export const PatientsDetail = (props) => {
   };
 
   const lineStyle = {
-    marginRight: "1px",
+    marginRight: "5px",
   };
 
   return (
@@ -79,18 +83,18 @@ export const PatientsDetail = (props) => {
           color: "text.secondary",
         }}
       >
-        <CardMedia
-          component="img"
-          sx={{
-            width: "auto",
-            height: "85px",
-            margin: "0 auto",
-            paddingTop: "20px",
-          }}
-          image={imagen}
-          title="Obra Social"
-        />
         <CardContent>
+          <Typography
+            sx={{
+              textAlign: "left",
+              paddingBottom: "10px",
+            }}
+            gutterBottom
+            variant="h5"
+            component="div"
+          >
+            {obrasocialpaciente}
+          </Typography>
           <Typography
             sx={{
               textAlign: "center",
@@ -101,7 +105,7 @@ export const PatientsDetail = (props) => {
             variant="h4"
             component="div"
           >
-            {nombre} {apellido}
+            {nombreyapellidopaciente}
           </Typography>
         </CardContent>
         <CardContent
@@ -122,44 +126,63 @@ export const PatientsDetail = (props) => {
               alignItems: "center",
             }}
           >
-            <CardMembershipIcon sx={{ marginRight: "10px" }} />
+            <CardMembershipIcon sx={lineStyle} />
             <span>
-              <b style={{ marginRight: "10px" }}>Nro afiliado:</b> {nroAfiliado}
+              <b style={lineStyle}> Nro afiliado: </b>
+              {nroafiliadopaciente}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
-            <ImportContactsIcon sx={{ marginRight: "10px" }} />
+            <ImportContactsIcon sx={lineStyle} />
             <span>
               <b style={lineStyle}> DNI: </b>
-              {dni}
+              {dnipaciente}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <CalendarMonthIcon variant="h7" sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> Fecha Nacimiento: </b>
+              {new Date(fechanacimientopaciente).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <CakeIcon sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> Edad: </b>
+              {edad}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <HouseIcon sx={lineStyle} />
             <span>
               <b style={lineStyle}> Dirección: </b>
-              {direccion}
+              {direccionpaciente}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <WhatsAppIcon sx={lineStyle} />
             <span>
-              <b style={lineStyle}>Tel. Resp.: </b>
-              {telefonoResponsable}
+              <b style={lineStyle}> Tel. Resp.: </b>
+              {telefonoresponsable}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <LocationCityIcon sx={lineStyle} />
             <span>
               <b style={lineStyle}>Ciudad: </b>
-              {ciudad}
+              {ciudadpaciente}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <PersonIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Pers. Resp. Paciente: </b>
-              {personaResponsablePaciente}
+              {nombreyapellidoresponsable}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
@@ -173,77 +196,103 @@ export const PatientsDetail = (props) => {
             <SchoolIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Dirección Escuela: </b>
-              {direccionEscuela}
+              {direccionescuela}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <WhatsAppIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Teléfono Escuela: </b>
-              {telefonoEscuela}
+              {telefonoescuela}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <SchoolIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Año / Grado / Sala: </b>
-              {anioGradoSala}
+              {aniogradoSala}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <PersonIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Docente Referente: </b>
-              {docenteReferente}
+              {nombreyapellidodocentereferenteescuela}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <PersonIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Directivo Escuela: </b>
-              {directivoEscuela}
+              {nombreyapellidodirectivoescuela}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <SchoolIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Escuela Especial: </b>
-              {escuelaEspecial}
+              {escuelaespecial}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <PersonIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Ref. Esc. Esp.: </b>
-              {nombreReferenteEscuelaEspecial}
+              {nombreyapellidodocentereferenteescuelaespecial}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <WhatsAppIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Tel. Ref. Esc. Esp.: </b>
-              {telefonoReferenteEscuelaEspecial}
+              {telefonodocentereferenteescuelaespecial}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <CardMembershipIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>CUD: </b>
-              {certificadoDiscapacidad}
+              {cud ? "Si" : "No"}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <CalendarMonthIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Fecha Venc. CUD: </b>
-              {fechaVencimientoCud}
+              {new Date(fechavencimientocud).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <CalendarMonthIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}>Fecha inicio: </b>
-              {fechaInicio}
+              {new Date(fechainiciotto).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <MedicationIcon variant="h7" sx={lineStyle} />
+            <span>
+              <b style={lineStyle}>Diagóstico Previo: </b>
+              {diagnosticoprevio}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <CalendarMonthIcon variant="h7" sx={lineStyle} />
+            <span>
+              <b style={lineStyle}>Última Actualización: </b>
+              {new Date(fechaultimaactualizacion).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </span>
           </Typography>
         </CardContent>
@@ -299,15 +348,14 @@ export const PatientsDetail = (props) => {
               margin: "0 auto",
             }}
           >
-            <Link to={`/medicalHistory/${patientId}`}>
-              {/* <Link to="/medicalHistory/"> */}
+            <Link to={`/medicalHistory/${id}`}>
               <Button
                 size="small"
                 sx={buttonStyle}
                 variant="contained"
                 startIcon={<LocalHospitalIcon />}
               >
-                H. Clínica
+                H. Report
               </Button>
             </Link>
           </Link>
