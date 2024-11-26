@@ -1,8 +1,10 @@
 import axios from "axios";
+
+import Swal from 'sweetalert2';
 import {
     BACKEND_URL
 } from "./config";
-import Swal from 'sweetalert2';
+
 
 
 
@@ -22,6 +24,7 @@ export const createPatient = async (newPatient) => {
             showConfirmButton: true,
             confirmButtonText: "Aceptar",
         });
+        window.history.back();
         return response;
     } catch (error) {
         Swal.fire({
@@ -135,6 +138,7 @@ export const updatePatient = async (patient, patientId) => {
                 confirmButtonText: "Aceptar",
                 icon: "success",
             });
+            window.history.back();
             return response.data;
         }
     } catch (error) {

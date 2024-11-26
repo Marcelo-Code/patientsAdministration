@@ -2,7 +2,13 @@
 import { Button, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 
-export const OptionsMenu = ({ handleChange, name, array, initialValue }) => {
+export const OptionsMenu = ({
+  handleChange, //función para cambiar los valores
+  name, //el nombre de la variable
+  array, // array de la variable
+  initialValue, //valor inicial del menú
+  modified, // flag para saber si se modificó
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -28,7 +34,7 @@ export const OptionsMenu = ({ handleChange, name, array, initialValue }) => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{ color: "gray", width: "200px" }}
+        sx={{ color: modified ? "red" : "gray", width: "200px" }}
       >
         {type || initialValue}
       </Button>
@@ -48,7 +54,13 @@ export const OptionsMenu = ({ handleChange, name, array, initialValue }) => {
             key={element.id}
             onClick={() => {
               handleChange({
-                target: { name, value: element.value },
+                target: {
+                  name,
+                  value: element.value,
+                  value2: element.value2 || null,
+                  value3: element.value3 || null,
+                  value4: element.value4 || null,
+                },
               });
               handleSelect(element.name);
             }}

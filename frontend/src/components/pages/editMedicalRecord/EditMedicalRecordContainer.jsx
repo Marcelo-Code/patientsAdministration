@@ -11,24 +11,49 @@ import { getPatient } from "../../../api/patients";
 import { getProfessional, getProfessionals } from "../../../api/professionals";
 
 export const EditMedicalRecordContainer = () => {
-  const { updateList, setUpdateList } = useState(false);
   const { medicalRecordId } = useParams();
-  const { handleGoBack } = useContext(GeneralContext);
-  const [medicalRecord, setMedicalRecord] = useState({
+  const { handleGoBack, goBackAction, cancelAction, isLoading, setIsLoading } =
+    useContext(GeneralContext);
+
+  //hooks para guardar los datos que se recuperan de la DB:
+  //* Paciente de la consulta
+  //* Profesional de la consulta
+  //* Lista de profesionales
+  //* Consulta
+
+  const initialRecordState = {
     idpaciente: null,
     idprofesional: null,
     fechaconsulta: null,
     tipoconsulta: null,
     descripcion: "",
-  });
+  };
+
+  const [medicalRecord, setMedicalRecord] = useState(initialRecordState);
+
   const [patient, setPatient] = useState(null);
   const [professional, setProfessional] = useState(null);
   const [arrayProfessionals, setArrayProfessionals] = useState(null);
+
+  //hooks para detectar los cambios
+
+  const initialModifiedState = {
+    idprofesional: false,
+    fechaconsulta: false,
+    tipoconsulta: false,
+    descripcion: false,
+  };
+  const [modified, setModified] = useState(initialModifiedState);
+  const [modifiedFlag, setModifiedFlag] = useState(false);
+
+  //Función para guardar los cambios en el registro
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedMedicalRecord = { ...medicalRecord, [name]: value };
     setMedicalRecord(updatedMedicalRecord);
+    setModified({ ...modified, [name]: true });
+    if (!modifiedFlag) setModifiedFlag(true);
   };
 
   useEffect(() => {
@@ -56,11 +81,14 @@ export const EditMedicalRecordContainer = () => {
   if (!medicalRecord || !patient || !professional || !arrayProfessionals)
     return <Spinner />;
 
+  //Función para llamar a la función PUT
+
   const handleSubmit = () => {
+    setIsLoading(true);
     updateMedicalRecord(medicalRecord, medicalRecordId)
       .then((response) => {
         console.log(response);
-        handleGoBack();
+        setIsLoading(false);
       })
       .catch((error) => console.log(error.message));
   };
@@ -68,11 +96,16 @@ export const EditMedicalRecordContainer = () => {
   const props = {
     handleChange,
     handleGoBack,
+    goBackAction,
     handleSubmit,
     medicalRecord,
     patient,
     professional,
     arrayProfessionals,
+    modified,
+    modifiedFlag,
+    cancelAction,
+    isLoading,
   };
   return <EditMedicalRecord {...props} />;
 };

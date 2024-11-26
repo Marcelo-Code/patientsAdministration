@@ -13,7 +13,7 @@ export const PatientsListContainer = () => {
   const [patients, setPatients] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const handleChange = (e) => {
+  const handleEditModeChange = (e) => {
     setEditMode(e.target.checked);
   };
 
@@ -61,7 +61,7 @@ export const PatientsListContainer = () => {
           Edición
           <Android12Switch
             checked={editMode}
-            onChange={handleChange}
+            onChange={handleEditModeChange}
             sx={{ transform: "scale(1.3)" }}
           />
         </div>

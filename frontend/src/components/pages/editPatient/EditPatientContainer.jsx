@@ -8,11 +8,15 @@ import { Spinner } from "../../common/spinner/Spinner";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
-  const [cud, setCud] = useState(false);
-  const { goBackAction, handleGoBack, isLoading, setIsLoading, cancelAction } =
+  const { goBackAction, cancelAction, isLoading, setIsLoading } =
     useContext(GeneralContext);
-  const [modifiedFlag, setModifiedFlag] = useState(false);
+
+  //hook para guardar los datos que se recuperan de la DB:
+  //* Paciente de la consulta
+
   const [patient, setPatient] = useState(null);
+
+  //hooks para detectar los cambios
 
   const initialModifiedState = {
     obrasocialpaciente: false,
@@ -38,32 +42,30 @@ export const EditPatientContainer = () => {
     fechainiciotto: false,
     diagnosticoprevio: false,
   };
-
   const [modified, setModified] = useState(initialModifiedState);
+  const [modifiedFlag, setModifiedFlag] = useState(false);
+
+  //Función para guardar los cambios en el registro
 
   const handleChange = (e) => {
     const { value, name } = e.target;
     setPatient({ ...patient, [name]: value });
     setModified({ ...modified, [name]: true });
-    setModifiedFlag(true);
+    if (!modifiedFlag) setModifiedFlag(true);
+    console.log(patient);
   };
 
-  const handleDateChange = (name, newDate) => {
-    const formattedDate = dayjs(newDate).format("YYYY-MM-DD");
-    setPatient((prevPatient) => ({ ...prevPatient, [name]: formattedDate }));
-    setPatient((prevPatient) => ({ ...prevPatient, [name]: formattedDate }));
-    setModified({ ...modified, [name]: true });
-    setModifiedFlag(true);
-  };
+  useEffect(() => {
+    getPatient(patientId)
+      .then((response) => {
+        setPatient(response);
+      })
+      .catch((error) => console.log(error));
+  }, [patientId]);
 
-  const handleRadioChange = (e) => {
-    const newCud = e.target.value === "yes";
-    setCud(newCud);
-    console.log(cud);
-    setPatient({ ...patient, cud: newCud });
-    setModified({ ...modified, cud: true });
-    setModifiedFlag(true);
-  };
+  if (!patient) return <Spinner />;
+
+  //Función para llamar a la función PUT
 
   const handleSubmit = () => {
     const today = dayjs().format("YYYY-MM-DD");
@@ -71,25 +73,11 @@ export const EditPatientContainer = () => {
     setIsLoading(true);
     updatePatient(updatedPatient, patientId)
       .then((response) => {
-        console.log(response),
-          setIsLoading(false),
-          setModified(false),
-          handleGoBack();
+        console.log(response);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error.message));
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-    getPatient(patientId)
-      .then((response) => {
-        setPatient(response);
-        setIsLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, [patientId, setIsLoading]);
-
-  if (!patient) return <Spinner />;
 
   const props = {
     obrasocialpaciente: patient.obrasocialpaciente,
@@ -119,13 +107,10 @@ export const EditPatientContainer = () => {
     diagnosticoprevio: patient.diagnosticoprevio,
     goBackAction,
     handleChange,
-    handleDateChange,
-    handleRadioChange,
     handleSubmit,
     isLoading,
     modified,
     modifiedFlag,
-    setModifiedFlag,
     cancelAction,
   };
 

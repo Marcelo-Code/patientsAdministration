@@ -22,5 +22,30 @@ export const meetings = [{
         "id": 5,
         "value": "Report de Sesión",
         "name": "Report de Sesión",
+    },
+    {
+        "id": 6,
+        "value": "Informe Mensual",
+        "name": "Informe Mensual",
+    },
+    {
+        "id": 7,
+        "value": "Informe Trimestral",
+        "name": "Informe Trimestral",
+    },
+    {
+        "id": 8,
+        "value": "Plan Terapéutico",
+        "name": "Plan Terapéutico",
+    },
+    {
+        "id": 9,
+        "value": "Objetivos",
+        "name": "Objetivos",
+    },
+    {
+        "id": 10,
+        "value": "PPI",
+        "name": "PPI",
     }
 ]

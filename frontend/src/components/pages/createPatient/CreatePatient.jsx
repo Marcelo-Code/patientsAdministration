@@ -29,15 +29,16 @@ import {
 import { Link } from "react-router-dom";
 
 import "./createPatient.css";
+import dayjs from "dayjs";
 
 export const CreatePatient = ({
-  handleGoBack,
   handleChange,
-  selectedValue,
   handleSubmit,
-  handleDateChange,
-  handleRadioChange,
-  loading,
+  isLoading,
+  cud,
+  modifiedFlag,
+  cancelAction,
+  goBackAction,
 }) => {
   const style = {
     display: "flex",
@@ -132,9 +133,14 @@ export const CreatePatient = ({
                   label="Fecha Nacimiento"
                   name="fechaNacimientoPaciente"
                   format="DD/MM/YYYY"
-                  onChange={(newDate) =>
-                    handleDateChange("fechaNacimientoPaciente", newDate)
-                  }
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechaNacimientoPaciente",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -301,9 +307,17 @@ export const CreatePatient = ({
               <RadioGroup
                 row
                 sx={{ margin: "10px", width: "200px" }}
-                value={selectedValue}
+                value={cud ? "yes" : "no"}
                 name="CUD"
-                onChange={handleRadioChange}
+                onChange={(e) => {
+                  const value = e.target.value === "yes";
+                  handleChange({
+                    target: {
+                      name: "CUD",
+                      value: value,
+                    },
+                  });
+                }}
               >
                 <FormControlLabel value="yes" control={<Radio />} label="Sí" />
                 <FormControlLabel value="no" control={<Radio />} label="No" />
@@ -318,9 +332,14 @@ export const CreatePatient = ({
                   label="Fecha vto. CUD"
                   name="fechaVencimientoCud"
                   format="DD/MM/YYYY"
-                  onChange={(newDate) =>
-                    handleDateChange("fechaVencimientoCud", newDate)
-                  }
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechaVencimientoCud",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -336,9 +355,14 @@ export const CreatePatient = ({
                   label="Fecha inicio Tto."
                   name="fechaInicioTto"
                   format="DD/MM/YYYY"
-                  onChange={(newDate) =>
-                    handleDateChange("fechaInicioTto", newDate)
-                  }
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechaInicioTto",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -358,16 +382,20 @@ export const CreatePatient = ({
             >
               <Link style={{}}>
                 <Button
+                  disabled={!modifiedFlag ? true : false}
+                  onClick={() => {
+                    cancelAction();
+                  }}
                   size="small"
                   sx={{ width: "280px" }}
                   variant="contained"
                   startIcon={<CancelIcon />}
                 >
-                  Cancelar
+                  Descartar Cambios
                 </Button>
               </Link>
               <LoadingButton
-                loading={loading}
+                loading={isLoading}
                 onClick={handleSubmit}
                 size="small"
                 sx={{ width: "280px" }}
@@ -378,7 +406,7 @@ export const CreatePatient = ({
               </LoadingButton>
             </div>
             <Button
-              onClick={handleGoBack}
+              onClick={() => goBackAction(modifiedFlag)}
               size="small"
               sx={{
                 marginTop: "10px",

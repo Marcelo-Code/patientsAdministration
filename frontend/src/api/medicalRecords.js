@@ -1,8 +1,9 @@
 import axios from "axios";
+
+import Swal from "sweetalert2";
 import {
     BACKEND_URL
-} from "./config.js"
-import Swal from "sweetalert2";
+} from "./config";
 
 
 //POST: consultas médicas
@@ -20,6 +21,7 @@ export const createMedicalRecord = async (newMedicalRecord) => {
             showConfirmButton: true,
             confirmButtonText: "Aceptar",
         });
+        window.history.back();
         return response;
     } catch (error) {
         Swal.fire({
@@ -33,7 +35,7 @@ export const createMedicalRecord = async (newMedicalRecord) => {
     }
 }
 
-//GET: conusltas médicas por id de paciente
+//GET: consultas médicas por id de paciente
 //-----------------------------------------
 
 export const getMedicalHistory = async (patientId) => {
@@ -126,6 +128,7 @@ export const updateMedicalRecord = async (medicalRecord, medicalRecordId) => {
                 confirmButtonText: "Aceptar",
                 icon: "success",
             });
+            window.history.back();
             return response.data;
         }
     } catch (error) {

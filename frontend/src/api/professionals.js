@@ -57,6 +57,7 @@ export const createProfessional = async (newProfessional) => {
             showConfirmButton: true,
             confirmButtonText: "Aceptar",
         });
+        window.history.back();
         return response;
     } catch (error) {
         Swal.fire({
@@ -132,6 +133,7 @@ export const updateProfessional = async (professional, profesionalId) => {
                 confirmButtonText: "Aceptar",
                 icon: "success",
             });
+            window.history.back();
             return response.data;
         }
     } catch (error) {

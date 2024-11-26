@@ -295,7 +295,7 @@ app.get("/getMedicalHistory/:id", async (req, res) => {
     } = req.params;
     try {
         const result = await pool.query(
-            "SELECT consultas.*, profesionales.nombreyapellidoProfesional, pacientes.nombreyapellidopaciente FROM consultas JOIN profesionales ON consultas.idprofesional = profesionales.id JOIN pacientes ON consultas.idpaciente = pacientes.id WHERE consultas.idpaciente = $1", [id]);
+            "SELECT consultas.*, profesionales.nombreyapellidoProfesional,profesionales.matriculaprofesional, profesionales.especialidadprofesional, profesionales.cuitprofesional, pacientes.nombreyapellidopaciente FROM consultas JOIN profesionales ON consultas.idprofesional = profesionales.id JOIN pacientes ON consultas.idpaciente = pacientes.id WHERE consultas.idpaciente = $1", [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error al obtener paciente: ", error);

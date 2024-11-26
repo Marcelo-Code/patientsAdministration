@@ -7,5 +7,5 @@ export const DB_PASSWORD = process.env.DB_PASSWORD || "JBzkse6zoXBUp0YgtKgtEZABY
 
 export const PORT = process.env.PORT || 3000
 
-// export const BACKEND_URL =
-//     import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+export const BACKEND_URL = "http://localhost:3000"
+// import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";

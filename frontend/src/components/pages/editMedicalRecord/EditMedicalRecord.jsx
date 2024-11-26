@@ -7,40 +7,47 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SaveIcon from "@mui/icons-material/Save";
 import { meetings } from "../../common/Menu/meetings";
+import CancelIcon from "@mui/icons-material/Cancel";
+import LoadingButton from "@mui/lab/LoadingButton";
+
 import "./editMedicalRecord.css";
 
 /* eslint-disable react/prop-types */
 export const EditMedicalRecord = ({
   handleChange,
-  handleGoBack,
+  goBackAction,
   handleSubmit,
   medicalRecord,
   patient,
   professional,
   arrayProfessionals,
+  modified,
+  modifiedFlag,
+  cancelAction,
+  isLoading,
 }) => {
+  //Props para el menú de tipo de consulta
   const arrayMeetings = meetings;
-
   const propsMeetings = {
     name: "tipoconsulta",
     array: arrayMeetings,
     handleChange,
     initialValue: medicalRecord.tipoconsulta,
+    modified: modified.tipoconsulta,
   };
 
-  const array = arrayProfessionals
-    ? arrayProfessionals.map((element) => ({
-        id: element.id,
-        value: element.id,
-        name: element.nombreyapellidoprofesional,
-      }))
-    : [];
-
+  //Props para el menú de profesionales
+  const array = arrayProfessionals.map((element) => ({
+    id: element.id,
+    value: element.id,
+    name: element.nombreyapellidoprofesional,
+  }));
   const propsProfessionals = {
     name: "idprofesional",
     array: array,
     handleChange,
     initialValue: professional.nombreyapellidoprofesional,
+    modified: modified.idprofesional,
   };
 
   return (
@@ -92,7 +99,11 @@ export const EditMedicalRecord = ({
             }}
             label="Fecha"
             slots={{
-              openPickerIcon: CalendarMonthIcon,
+              openPickerIcon: () => (
+                <CalendarMonthIcon
+                  sx={{ color: modified.fechaconsulta ? "red" : "gray" }}
+                />
+              ),
             }}
           />
         </LocalizationProvider>
@@ -109,6 +120,7 @@ export const EditMedicalRecord = ({
           width: "80%",
           minWidth: "280px",
           height: "100px",
+          borderColor: modified.descripcion ? "red" : "gray",
         }}
         aria-label="minimum height"
         minRows={3}
@@ -128,11 +140,24 @@ export const EditMedicalRecord = ({
           }}
         >
           <Link style={{}}>
-            <Button size="small" sx={{ width: "280px" }} variant="contained">
-              Subir Documentación
+            <Button
+              disabled={!modifiedFlag ? true : false}
+              onClick={() => {
+                cancelAction();
+              }}
+              size="small"
+              sx={{ width: "280px" }}
+              variant="contained"
+              startIcon={<CancelIcon />}
+            >
+              Descartar Cambios
             </Button>
           </Link>
-          <Button
+          <Button size="small" sx={{ width: "280px" }} variant="contained">
+            Subir Documentación
+          </Button>
+          <LoadingButton
+            loading={isLoading}
             onClick={handleSubmit}
             size="small"
             sx={{ width: "280px" }}
@@ -140,10 +165,10 @@ export const EditMedicalRecord = ({
             startIcon={<SaveIcon />}
           >
             Guardar
-          </Button>
+          </LoadingButton>
         </div>
         <Button
-          onClick={handleGoBack}
+          onClick={() => goBackAction(modifiedFlag)}
           size="small"
           sx={{
             marginTop: "10px",

@@ -12,10 +12,12 @@ import { Link } from "react-router-dom";
 import "./createProfessional.css";
 
 export const CreateProfessional = ({
-  handleGoBack,
   handleChange,
   handleSubmit,
   isLoading,
+  modifiedFlag,
+  cancelAction,
+  goBackAction,
 }) => {
   const style = {
     display: "flex",
@@ -114,12 +116,16 @@ export const CreateProfessional = ({
             >
               <Link style={{}}>
                 <Button
+                  disabled={!modifiedFlag ? true : false}
+                  onClick={() => {
+                    cancelAction();
+                  }}
                   size="small"
                   sx={{ width: "280px" }}
                   variant="contained"
                   startIcon={<CancelIcon />}
                 >
-                  Cancelar
+                  Descartar Cambios
                 </Button>
               </Link>
               <LoadingButton
@@ -134,7 +140,7 @@ export const CreateProfessional = ({
               </LoadingButton>
             </div>
             <Button
-              onClick={handleGoBack}
+              onClick={() => goBackAction(modifiedFlag)}
               size="small"
               sx={{
                 marginTop: "10px",

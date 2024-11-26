@@ -19,7 +19,6 @@ import SchoolIcon from "@mui/icons-material/School";
 import MedicationIcon from "@mui/icons-material/Medication";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
-
 import { Link } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -64,36 +63,12 @@ export const EditPatient = (props) => {
     diagnosticoprevio,
     goBackAction,
     handleChange,
-    handleDateChange,
-    handleRadioChange,
     handleSubmit,
     isLoading,
     modified,
     modifiedFlag,
     cancelAction,
   } = props;
-
-  const dataStyle = {
-    display: "flex",
-    alignItems: "center",
-  };
-
-  const lineStyle = {
-    marginRight: "5px",
-  };
-
-  const buttonStyle = {
-    marginTop: "10px",
-    height: "2.5em",
-    minWidth: "100px",
-    width: "95%",
-    "@media (max-width: 800px)": {
-      width: "100%",
-      minWidth: "300px",
-    },
-  };
-
-  // console.log(props);
 
   return (
     <div className="patientDetail">
@@ -221,15 +196,19 @@ export const EditPatient = (props) => {
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                type="date"
                 sx={{ width: "200px", margin: "10px" }}
                 label="Fecha Nacimiento"
                 name="fechanacimientopaciente"
                 format="DD/MM/YYYY"
                 value={dayjs(fechanacimientopaciente)}
-                onChange={(newDate) =>
-                  handleDateChange("fechanacimientopaciente", newDate)
-                }
+                onChange={(newDate) => {
+                  handleChange({
+                    target: {
+                      name: "fechanacimientopaciente",
+                      value: dayjs(newDate).format("YYYY-MM-DD"),
+                    },
+                  });
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -552,7 +531,15 @@ export const EditPatient = (props) => {
               sx={{ margin: "10px", width: "200px" }}
               value={cud ? "yes" : "no"}
               name="cud"
-              onChange={handleRadioChange}
+              onChange={(e) => {
+                const value = e.target.value === "yes";
+                handleChange({
+                  target: {
+                    name: "cud",
+                    value: value,
+                  },
+                });
+              }}
             >
               <FormControlLabel value="yes" control={<Radio />} label="Sí" />
               <FormControlLabel value="no" control={<Radio />} label="No" />
@@ -573,9 +560,14 @@ export const EditPatient = (props) => {
                 name="fechavencimientocud"
                 value={dayjs(fechavencimientocud)}
                 format="DD/MM/YYYY"
-                onChange={(newDate) =>
-                  handleDateChange("fechavencimientocud", newDate)
-                }
+                onChange={(newDate) => {
+                  handleChange({
+                    target: {
+                      name: "fechavencimientocud",
+                      value: dayjs(newDate).format("YYYY-MM-DD"),
+                    },
+                  });
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -602,9 +594,14 @@ export const EditPatient = (props) => {
                 name="fechainiciotto"
                 value={dayjs(fechainiciotto)}
                 format="DD/MM/YYYY"
-                onChange={(newDate) =>
-                  handleDateChange("fechainiciotto", newDate)
-                }
+                onChange={(newDate) => {
+                  handleChange({
+                    target: {
+                      name: "fechainiciotto",
+                      value: dayjs(newDate).format("YYYY-MM-DD"),
+                    },
+                  });
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}

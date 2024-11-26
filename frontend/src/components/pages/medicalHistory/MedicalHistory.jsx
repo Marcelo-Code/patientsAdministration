@@ -2,7 +2,6 @@
 import { Button, TextareaAutosize } from "@mui/material";
 import "./medicalHistory.css";
 import { Link } from "react-router-dom";
-import UploadIcon from "@mui/icons-material/Upload";
 import SaveIcon from "@mui/icons-material/Save";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -13,12 +12,17 @@ import { meetings } from "../../common/Menu/meetings";
 import { getProfessionals } from "../../../api/professionals";
 import { OptionsMenu } from "../../common/Menu/OptionsMenu";
 import { useEffect, useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 export const MedicalHistory = ({
   patient,
   handleChange,
   handleSubmit,
-  handleGoBack,
+  cancelAction,
+  goBackAction,
+  isLoading,
+  modifiedFlag,
 }) => {
   const arrayMeetings = meetings;
 
@@ -136,26 +140,31 @@ export const MedicalHistory = ({
         >
           <Link style={{}}>
             <Button
+              disabled={!modifiedFlag ? true : false}
+              onClick={() => {
+                cancelAction();
+              }}
               size="small"
               sx={{ width: "280px" }}
               variant="contained"
-              startIcon={<UploadIcon />}
+              startIcon={<CancelIcon />}
             >
-              Subir Documentación
+              Descartar Cambios
             </Button>
           </Link>
-          <Button
-            onClick={() => handleSubmit()}
+          <LoadingButton
+            loading={isLoading}
+            onClick={(e) => handleSubmit(e)}
             size="small"
             sx={{ width: "280px" }}
             variant="contained"
             startIcon={<SaveIcon />}
           >
             Guardar
-          </Button>
+          </LoadingButton>
         </div>
         <Button
-          onClick={handleGoBack}
+          onClick={() => goBackAction(modifiedFlag)}
           size="small"
           sx={{
             marginTop: "10px",

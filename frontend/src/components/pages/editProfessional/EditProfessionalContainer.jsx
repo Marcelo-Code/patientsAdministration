@@ -11,10 +11,15 @@ import { EditProfessional } from "./EditProfessional";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();
-  const { goBackAction, handleGoBack, isLoading, setIsLoading, cancelAction } =
+  const { goBackAction, cancelAction, isLoading, setIsLoading } =
     useContext(GeneralContext);
-  const [modifiedFlag, setModifiedFlag] = useState(false);
+
+  //hook para guardar los datos que se recuperan de la DB:
+  //* Profesional
+
   const [professional, setProfessional] = useState(null);
+
+  //hooks para detectar los cambios
 
   const initialModifiedState = {
     nombreyapallidoprofesional: false,
@@ -22,15 +27,27 @@ export const EditProfessionalContainer = () => {
     matriculaprofesional: false,
     cuitprofesional: false,
   };
-
   const [modified, setModified] = useState(initialModifiedState);
+  const [modifiedFlag, setModifiedFlag] = useState(false);
+
+  //Función para guardar los cambios en el registro
 
   const handleChange = (e) => {
     const { value, name } = e.target;
     setProfessional({ ...professional, [name]: value });
     setModified({ ...modified, [name]: true });
-    setModifiedFlag(true);
+    if (!modifiedFlag) setModifiedFlag(true);
   };
+
+  useEffect(() => {
+    getProfessional(professionalId)
+      .then((response) => {
+        setProfessional(response);
+      })
+      .catch((error) => console.log(error));
+  }, [professionalId]);
+
+  if (!professional) return <Spinner />;
 
   const handleSubmit = () => {
     const today = dayjs().format("YYYY-MM-DD");
@@ -41,25 +58,11 @@ export const EditProfessionalContainer = () => {
     setIsLoading(true);
     updateProfessional(updatedProfessional, professionalId)
       .then((response) => {
-        console.log(response),
-          setIsLoading(false),
-          setModified(false),
-          handleGoBack();
+        console.log(response);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error.message));
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-    getProfessional(professionalId)
-      .then((response) => {
-        setProfessional(response);
-        setIsLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, [professionalId, setIsLoading]);
-
-  if (!professional) return <Spinner />;
 
   const props = {
     nombreyapellidoprofesional: professional.nombreyapellidoprofesional,

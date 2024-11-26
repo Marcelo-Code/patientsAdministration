@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { PatientsDetail } from "./PatientsDetail";
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../context/GeneralContext";
-import { CircularProgress } from "@mui/material";
 import { getPatient } from "../../../api/patients";
 import { Spinner } from "../../common/spinner/Spinner";
+import { age } from "../../common/age";
 
 export const PatientsDetailContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
@@ -21,9 +21,8 @@ export const PatientsDetailContainer = () => {
 
   if (!patient) return <Spinner />;
 
-  const today = new Date();
   const birth = new Date(patient.fechanacimientopaciente);
-  const age = today.getFullYear() - birth.getFullYear();
+  const agePatient = age(birth);
 
   const props = {
     id: patient.id,
@@ -32,7 +31,7 @@ export const PatientsDetailContainer = () => {
     nroafiliadopaciente: patient.nroafiliadopaciente,
     dnipaciente: patient.dnipaciente,
     fechanacimientopaciente: patient.fechanacimientopaciente,
-    edad: age,
+    edad: agePatient,
     diagnosticoprevio: patient.diagnosticoprevio,
     direccionpaciente: patient.direccionpaciente,
     ciudadpaciente: patient.ciudadpaciente,

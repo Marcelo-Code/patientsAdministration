@@ -5,9 +5,12 @@ import { CreatePatient } from "./CreatePatient";
 import { createPatient } from "../../../api/patients";
 
 export const CreatePatientContainer = () => {
-  const { handleGoBack, isLoading, setIsLoading } = useContext(GeneralContext);
-  const [selectedValue, setSelectedValue] = useState("no");
-  const [patient, setPatient] = useState({
+  const { cancelAction, goBackAction, isLoading, setIsLoading } =
+    useContext(GeneralContext);
+
+  //hook para guardar los datos del nuevo paciente
+
+  const initialState = {
     nombreYApellidoPaciente: "",
     obraSocialPaciente: "",
     nroAfiliadoPaciente: "",
@@ -31,7 +34,23 @@ export const CreatePatientContainer = () => {
     fechaVencimientoCud: null,
     fechaInicioTto: null,
     fechaUltimaActualizacion: null,
-  });
+  };
+
+  const [patient, setPatient] = useState(initialState);
+
+  //hooks para detectar los cambios
+
+  const [modifiedFlag, setModifiedFlag] = useState(false);
+
+  //Función para guardar los cambios en el registro
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setPatient({ ...patient, [name]: value });
+    if (!modifiedFlag) setModifiedFlag(true);
+  };
+
+  //Función para llamar a la función POST
 
   const handleSubmit = (e) => {
     const today = dayjs().format("YYYY-MM-DD");
@@ -43,42 +62,15 @@ export const CreatePatientContainer = () => {
       .catch((error) => console.log(error.message));
   };
 
-  const handleRadioChange = (e) => {
-    setSelectedValue(e.target.value);
-    let cud;
-    if (e.target.value === "yes") {
-      cud = true;
-    } else {
-      cud = false;
-    }
-    setPatient({ ...patient, CUD: cud });
-  };
-
-  const handleDateChange = (name, newDate) => {
-    if (newDate) {
-      const formattedDate = newDate
-        ? dayjs(newDate).format("YYYY-MM-DD")
-        : null;
-      setPatient({ ...patient, [name]: formattedDate });
-    } else {
-      console.error("Fecha inválida: ", newDate);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-    setPatient({ ...patient, [name]: value });
-  };
-
   const props = {
-    handleGoBack,
     handleChange,
-    selectedValue,
     patient,
     handleSubmit,
-    handleDateChange,
-    handleRadioChange,
     isLoading,
+    cud: patient.CUD,
+    modifiedFlag,
+    cancelAction,
+    goBackAction,
   };
   return <CreatePatient {...props} />;
 };
