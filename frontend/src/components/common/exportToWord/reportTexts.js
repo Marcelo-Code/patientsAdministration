@@ -6,6 +6,4 @@ export const observations = `El presente plan de trabajo/tratamiento, se encuent
 
 export const titleHeaderText = `Centro Educativo Terapéutico Con I.E. y S.A.I.E. "El Reino del Revés"`
 
-export const adressHeaderText = `Ovidio Lagos 1233, Rosario, Santa Fe.`
-
-export const PhoneHeaderText = `Tel: 341-3096999, email: reinodreves@gmail.com`
+export const adressHeaderText = `Ovidio Lagos 1233, Rosario, Santa Fe. Tel: 341-3096999, email: reinodreves@gmail.com`

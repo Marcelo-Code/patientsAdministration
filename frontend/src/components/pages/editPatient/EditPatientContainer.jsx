@@ -8,8 +8,8 @@ import { Spinner } from "../../common/spinner/Spinner";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
-  const { goBackAction, cancelAction, isLoading, setIsLoading } =
-    useContext(GeneralContext);
+  const { goBackAction, cancelAction } = useContext(GeneralContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   //hook para guardar los datos que se recuperan de la DB:
   //* Paciente de la consulta
@@ -22,6 +22,11 @@ export const EditPatientContainer = () => {
     obrasocialpaciente: false,
     nombreyapellidopaciente: false,
     nroafiliadopaciente: false,
+    telefonoobrasocial: false,
+    email1obrasocial: false,
+    email2obrasocial: false,
+    email3obrasocial: false,
+    nombreyapellidoreferenteobrasocial: false,
     dnipaciente: false,
     fechanacimientopaciente: false,
     direccionpaciente: false,
@@ -83,6 +88,12 @@ export const EditPatientContainer = () => {
     obrasocialpaciente: patient.obrasocialpaciente,
     nombreyapellidopaciente: patient.nombreyapellidopaciente,
     nroafiliadopaciente: patient.nroafiliadopaciente,
+    telefonoobrasocial: patient.telefonoobrasocial,
+    email1obrasocial: patient.email1obrasocial,
+    email2obrasocial: patient.email2obrasocial,
+    email3obrasocial: patient.email3obrasocial,
+    nombreyapellidoreferenteobrasocial:
+      patient.nombreyapellidoreferenteobrasocial,
     dnipaciente: patient.dnipaciente,
     fechanacimientopaciente: patient.fechanacimientopaciente,
     direccionpaciente: patient.direccionpaciente,

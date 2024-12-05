@@ -1,6 +1,8 @@
 .navBar {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
   padding: 20px;
   position: absolute;
   top: 0;

@@ -25,8 +25,8 @@ export const meetings = [{
     },
     {
         "id": 6,
-        "value": "Informe Mensual",
-        "name": "Informe Mensual",
+        "value": "Inf. Mensual/O.S.",
+        "name": "Inf. Mensual/O.S.",
     },
     {
         "id": 7,
@@ -47,5 +47,15 @@ export const meetings = [{
         "id": 10,
         "value": "PPI",
         "name": "PPI",
+    },
+    {
+        "id": 11,
+        "value": "Informe de Cierre",
+        "name": "Informe de Cierre",
+    },
+    {
+        "id": 12,
+        "value": "Informe S.A.I.E.",
+        "name": "Informe S.A.I.E.",
     }
 ]

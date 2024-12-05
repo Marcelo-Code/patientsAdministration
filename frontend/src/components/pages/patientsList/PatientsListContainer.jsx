@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Link } from "react-router-dom";
 import { Spinner } from "../../common/spinner/Spinner";
+import { borrarImagen } from "../../../api/Images";
 
 export const PatientsListContainer = () => {
   const [patients, setPatients] = useState(null);

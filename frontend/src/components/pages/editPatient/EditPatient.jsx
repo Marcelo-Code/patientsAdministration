@@ -19,6 +19,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import MedicationIcon from "@mui/icons-material/Medication";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
+import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -42,6 +43,11 @@ export const EditPatient = (props) => {
     obrasocialpaciente,
     nombreyapellidopaciente,
     nroafiliadopaciente,
+    telefonoobrasocial,
+    email1obrasocial,
+    email2obrasocial,
+    email3obrasocial,
+    nombreyapellidoreferenteobrasocial,
     dnipaciente,
     fechanacimientopaciente,
     direccionpaciente,
@@ -79,9 +85,9 @@ export const EditPatient = (props) => {
           color: "text.secondary",
         }}
       >
-        {/* Obra Social Paciente */}
-
         <CardContent>
+          {/* Obra Social Paciente */}
+
           <span style={style}>
             <CardMembershipIcon
               style={{ color: modified.obrasocialpaciente ? "red" : "" }}
@@ -113,7 +119,6 @@ export const EditPatient = (props) => {
               alignItems: "center",
               justifyContent: "center",
               with: "300px",
-              borderBottom: "1px solid black",
             }}
           >
             <PersonIcon
@@ -134,6 +139,86 @@ export const EditPatient = (props) => {
               }}
             />
           </span>
+
+          {/* emails Obra Social */}
+
+          <div
+            style={{
+              borderBottom: "1px solid black",
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <span style={style}>
+              <MailIcon
+                style={{ color: modified.email1obrasocial ? "red" : "" }}
+              />
+              <TextField
+                sx={{
+                  margin: "30px 10px 10px 10px",
+                  width: "200px",
+                }}
+                id="outlined-basic"
+                label="email 1 Obra Social"
+                variant="outlined"
+                name="email1obrasocial"
+                value={email1obrasocial}
+                onChange={handleChange}
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
+              />
+            </span>
+
+            <span style={style}>
+              <MailIcon
+                style={{ color: modified.email2obrasocial ? "red" : "" }}
+              />
+              <TextField
+                sx={{
+                  margin: "30px 10px 10px 10px",
+                  width: "200px",
+                }}
+                id="outlined-basic"
+                label="email 2 Obra Social"
+                variant="outlined"
+                name="email2obrasocial"
+                value={email3obrasocial}
+                onChange={handleChange}
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
+              />
+            </span>
+
+            <span style={style}>
+              <MailIcon
+                style={{ color: modified.email3obrasocial ? "red" : "" }}
+              />
+              <TextField
+                sx={{
+                  margin: "30px 10px 10px 10px",
+                  width: "200px",
+                }}
+                id="outlined-basic"
+                label="email 3 Obra Social"
+                variant="outlined"
+                name="email3obrasocial"
+                value={email3obrasocial}
+                onChange={handleChange}
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
+              />
+            </span>
+          </div>
         </CardContent>
         <CardContent
           sx={{
@@ -158,6 +243,30 @@ export const EditPatient = (props) => {
               name="nroafiliadopaciente"
               onChange={handleChange}
               value={nroafiliadopaciente}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
+            />
+          </span>
+
+          {/* Referente Obra Social */}
+
+          <span style={style}>
+            <PersonIcon
+              style={{
+                color: modified.nombreyapellidoreferenteobrasocial ? "red" : "",
+              }}
+            />
+            <TextField
+              style={{ margin: "10px", width: "200px" }}
+              id="outlined-basic"
+              label="Referente Obra Social"
+              variant="outlined"
+              name="nombreyapellidoreferenteobrasocial"
+              onChange={handleChange}
+              value={nombreyapellidoreferenteobrasocial}
               slotProps={{
                 inputLabel: {
                   shrink: true,
@@ -521,65 +630,6 @@ export const EditPatient = (props) => {
             />
           </span>
 
-          {/* CUD */}
-
-          <span style={style}>
-            <CardMembershipIcon style={{ color: modified.cud ? "red" : "" }} />
-            <span>CUD</span>
-            <RadioGroup
-              row
-              sx={{ margin: "10px", width: "200px" }}
-              value={cud ? "yes" : "no"}
-              name="cud"
-              onChange={(e) => {
-                const value = e.target.value === "yes";
-                handleChange({
-                  target: {
-                    name: "cud",
-                    value: value,
-                  },
-                });
-              }}
-            >
-              <FormControlLabel value="yes" control={<Radio />} label="Sí" />
-              <FormControlLabel value="no" control={<Radio />} label="No" />
-            </RadioGroup>
-          </span>
-
-          {/* Fecha Vencimiento CUD */}
-
-          <span style={style}>
-            <CalendarIcon
-              style={{ color: modified.fechavencimientocud ? "red" : "" }}
-            />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                type="date"
-                label="Fecha vto. CUD"
-                sx={{ width: "200px", margin: "10px" }}
-                name="fechavencimientocud"
-                value={dayjs(fechavencimientocud)}
-                format="DD/MM/YYYY"
-                onChange={(newDate) => {
-                  handleChange({
-                    target: {
-                      name: "fechavencimientocud",
-                      value: dayjs(newDate).format("YYYY-MM-DD"),
-                    },
-                  });
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                slotProps={{
-                  input: {
-                    "aria-hidden": false,
-                  },
-                }}
-              />
-            </LocalizationProvider>
-          </span>
-
           {/* Fecha Inicio Tratamiento */}
 
           <span style={style}>
@@ -613,6 +663,67 @@ export const EditPatient = (props) => {
               />
             </LocalizationProvider>
           </span>
+
+          {/* CUD */}
+
+          <span style={style}>
+            <CardMembershipIcon style={{ color: modified.cud ? "red" : "" }} />
+            <span>CUD</span>
+            <RadioGroup
+              row
+              sx={{ margin: "10px", width: "200px" }}
+              value={cud ? "yes" : "no"}
+              name="cud"
+              onChange={(e) => {
+                const value = e.target.value === "yes";
+                handleChange({
+                  target: {
+                    name: "cud",
+                    value: value,
+                  },
+                });
+              }}
+            >
+              <FormControlLabel value="yes" control={<Radio />} label="Sí" />
+              <FormControlLabel value="no" control={<Radio />} label="No" />
+            </RadioGroup>
+          </span>
+
+          {/* Fecha Vencimiento CUD */}
+
+          {cud && (
+            <span style={style}>
+              <CalendarIcon
+                style={{ color: modified.fechavencimientocud ? "red" : "" }}
+              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  label="Fecha vto. CUD"
+                  sx={{ width: "200px", margin: "10px" }}
+                  name="fechavencimientocud"
+                  value={dayjs(fechavencimientocud)}
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechavencimientocud",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  slotProps={{
+                    input: {
+                      "aria-hidden": false,
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            </span>
+          )}
 
           {/* Diagnóstico Previo */}
 

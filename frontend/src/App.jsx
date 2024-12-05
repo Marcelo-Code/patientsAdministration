@@ -13,15 +13,20 @@ import { ProfessionalsListContainer } from "./components/pages/professionalsList
 import { CreateProfessionalContainer } from "./components/pages/createProfessional/createProfessionalContainer";
 import { EditProfessionalContainer } from "./components/pages/editProfessional/editProfessionalContainer";
 import { EditMedicalRecordContainer } from "./components/pages/editMedicalRecord/EditMedicalRecordContainer";
+import { MedicalRecordListContainer } from "./components/pages/medicalRecordsList/medicalRecordListContainer";
+import { CreateMedicalRecordContainer } from "./components/pages/createMedicalRecord/CreateMedicalRecordContainer";
 
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
       <GeneralContextProvider>
+        <NavBar />
         <Routes>
           <Route path="/" element={<PatientsListContainer />} />
-          <Route path="/documentation" element={<DocumentationContainer />} />
+          <Route
+            path="/documentation/:patientId"
+            element={<DocumentationContainer />}
+          />
           <Route
             path={"/patientsDetail/:patientId"}
             element={<PatientsDetailContainer />}
@@ -52,6 +57,14 @@ function App() {
           />
           <Route path={"/createPatient"} element={<CreatePatientContainer />} />
           <Route path={"/billing"} element={<BillingContainer />} />
+          <Route
+            path={"/medicalRecordsList"}
+            element={<MedicalRecordListContainer />}
+          />
+          <Route
+            path={"/createMedicalRecord"}
+            element={<CreateMedicalRecordContainer />}
+          />
         </Routes>
       </GeneralContextProvider>
     </BrowserRouter>

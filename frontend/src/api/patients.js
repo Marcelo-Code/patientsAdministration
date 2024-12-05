@@ -1,13 +1,20 @@
 import axios from "axios";
 
-import Swal from 'sweetalert2';
 import {
     BACKEND_URL
 } from "./config";
-
-
-
-
+import {
+    ConfirmAlert,
+    ErrorAlert,
+    SuccessAlert
+} from "../components/common/alerts/alerts";
+import {
+    documentData
+} from "../components/common/documentCard/DocumentData";
+import {
+    borrarImagen,
+    DeleteImage,
+} from "./Images";
 
 //POST: pacientes
 //---------------
@@ -17,23 +24,11 @@ export const createPatient = async (newPatient) => {
     try {
         const response = await axios.post(`${BACKEND_URL}/createPatient`, newPatient);
         console.log("Paciente creado: ", response.data)
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `Paciente ${newPatient.nombreYApellidoPaciente} creado`,
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-        });
+        SuccessAlert(`Paciente ${newPatient.nombreYApellidoPaciente} creado`);
         window.history.back();
         return response;
     } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Ups...",
-            text: "¡Error al crear paciente!",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
+        ErrorAlert("¡Error al crear paciente!")
         console.log("Error al crear paciente: ", error.message)
     }
 }
@@ -46,13 +41,7 @@ export const getPatients = async () => {
         const response = await axios.get(`${BACKEND_URL}/getPatients`)
         return (response.data);
     } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Ups...",
-            text: "¡Error al buscar pacientes!",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
+        ErrorAlert("¡Error al buscar pacientes!");
         console.log("Error al buscar pacientes: ", error.message);
     }
 }
@@ -65,13 +54,7 @@ export const getPatient = async (patientId) => {
         const response = await axios.get(`${BACKEND_URL}/getPatient/${patientId}`)
         return (response.data);
     } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Ups...",
-            text: "¡Error al buscar paciente!",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
+        ErrorAlert("¡Error al buscar paciente!");
         console.log("Error al buscar paciente: ", error.message);
     }
 }
@@ -81,36 +64,28 @@ export const getPatient = async (patientId) => {
 
 export const deletePatient = async (patientId, patientName) => {
     try {
-        const result = await Swal.fire({
-            title: "¿Estás seguro de eliminar este paciente?",
-            text: `Vas a eliminar a ${patientName}`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Eliminar",
-            cancelButtonText: "Cancelar",
-        });
-
+        const result = await ConfirmAlert("¿Estás seguro de eliminar este paciente?", `Vas a eliminar a ${patientName}`, "Eliminar", "Cancelar");
         if (result.isConfirmed) {
+
+            getPatient(patientId)
+                .then((response) => {
+                    documentData.map((document) => {
+                        console.log(response[document.name]);
+                        if (response[document.name] !== "")
+                            borrarImagen(response[document.name])
+                            .then((response) => console.log(response))
+                            .catch((error) => console.log(error))
+                    });
+                })
+                .catch((error) => console.log(error))
+
             const response = await axios.delete(`${BACKEND_URL}/deletePatient/${patientId}`);
-            Swal.fire({
-                title: "¡Eliminado!",
-                text: `Acabas de eliminar a ${patientName}`,
-                icon: "success",
-                showConfirmButton: true,
-                confirmButtonText: "Aceptar"
-            });
+
+            SuccessAlert(`Acabas de eliminar a ${patientName}`)
             return response.data;
         }
     } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Ups...",
-            text: "¡Error al eliminar paciente!",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
+        ErrorAlert("¡Error al eliminar paciente!");
         console.log("Error al eliminar paciente: ", error.message);
         throw error;
     }
@@ -121,34 +96,31 @@ export const deletePatient = async (patientId, patientName) => {
 
 export const updatePatient = async (patient, patientId) => {
     try {
-        const result = await Swal.fire({
-            title: "¿Estás seguro de modificar este paciente?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Modificar",
-            cancelButtonText: "Cancelar",
-        });
+        const result = await ConfirmAlert("¿Estás seguro de modificar este paciente?", "", "Modificar", "Cancelar")
+        console.log(result.isConfirmed);
         if (result.isConfirmed) {
             const response = await axios.put(`${BACKEND_URL}/updatePatient/${patientId}`, patient);
-            Swal.fire({
-                title: "¡Modificado!",
-                showConfirmButton: true,
-                confirmButtonText: "Aceptar",
-                icon: "success",
-            });
+            SuccessAlert("¡Paciente modificado!")
             window.history.back();
             return response.data;
         }
     } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Ups...",
-            text: "¡Error al modificar paciente!",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar"
-        });
+        ErrorAlert("¡Error al modificar paciente!");
+        console.log("Error al modificar paciente: ", error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+//PATCH: paciente
+//---------------
+
+export const partialUpdatePatient = async (patient, patientId) => {
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdatePatient/${patientId}`, patient)
+    try {
+        SuccessAlert("¡Paciente modificado!");
+        return response.data;
+    } catch (error) {
+        ErrorAlert("¡Error al modificar paciente!");
         console.log("Error al modificar paciente: ", error.response ? error.response.data : error.message);
         throw error;
     }

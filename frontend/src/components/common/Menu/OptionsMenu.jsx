@@ -40,7 +40,7 @@ export const OptionsMenu = ({
       </Button>
       <Menu
         disableScrollLock={true}
-        sx={{ color: "gray", width: "auto" }}
+        sx={{ color: "gray", width: "230px" }}
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}

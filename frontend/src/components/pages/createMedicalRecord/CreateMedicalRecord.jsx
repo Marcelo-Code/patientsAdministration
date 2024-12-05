@@ -1,60 +1,33 @@
+/* eslint-disable react/prop-types */
 import { Button, TextareaAutosize } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { OptionsMenu } from "../../common/Menu/OptionsMenu";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import SaveIcon from "@mui/icons-material/Save";
-import { meetings } from "../../common/Menu/meetings";
 import CancelIcon from "@mui/icons-material/Cancel";
+import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
+import "./createMedicalRecord.css";
+import { OptionsMenu } from "../../common/Menu/OptionsMenu";
 
-import "./editMedicalRecord.css";
-
-/* eslint-disable react/prop-types */
-export const EditMedicalRecord = ({
-  handleChange,
+export const CreateMedicalRecord = ({
   goBackAction,
-  handleSubmit,
-  medicalRecord,
-  patient,
-  professional,
-  arrayProfessionals,
-  modified,
+  patientsProps,
+  professionalsProps,
+  meetingsProps,
+  handleChange,
   modifiedFlag,
   cancelAction,
   isLoading,
+  handleSubmit,
+  modified,
 }) => {
-  //Props para el menú de tipo de consulta
-  const arrayMeetings = meetings;
-  const propsMeetings = {
-    name: "tipoconsulta",
-    array: arrayMeetings,
-    handleChange,
-    initialValue: medicalRecord.tipoconsulta,
-    modified: modified.tipoconsulta,
-  };
-
-  //Props para el menú de profesionales
-  const array = arrayProfessionals.map((element) => ({
-    id: element.id,
-    value: element.id,
-    name: element.nombreyapellidoprofesional,
-  }));
-  const propsProfessionals = {
-    name: "idprofesional",
-    array: array,
-    handleChange,
-    initialValue: professional.nombreyapellidoprofesional,
-    modified: modified.idprofesional,
-  };
-
   return (
-    <div className="medicalHistoryContainer">
+    <div className="medicalRecordContainer">
       <span
         style={{
-          marginTop: "180px",
           width: "80%",
           minWidth: "280px",
           display: "flex",
@@ -66,8 +39,7 @@ export const EditMedicalRecord = ({
           alignItems: "center",
         }}
       >
-        <h2 style={{ marginRight: "10px" }}>Editar Report: </h2>
-        <h2> {patient.nombreyapellidopaciente}</h2>
+        <h2 style={{ marginRight: "10px" }}>Generar Nuevo Report: </h2>
       </span>
       <div
         style={{
@@ -87,16 +59,15 @@ export const EditMedicalRecord = ({
           <DatePicker
             sx={{ width: "150px" }}
             name="fechaConsulta"
-            value={dayjs(medicalRecord.fechaconsulta)}
-            format="DD-MM-YYYY"
-            onChange={(newDate) => {
+            onChange={(newDate) =>
               handleChange({
                 target: {
                   name: "fechaconsulta",
                   value: dayjs(newDate).format("YYYY-MM-DD"),
                 },
-              });
-            }}
+              })
+            }
+            format="DD/MM/YYYY"
             label="Fecha"
             slots={{
               openPickerIcon: () => (
@@ -108,10 +79,13 @@ export const EditMedicalRecord = ({
           />
         </LocalizationProvider>
         <span>
-          <OptionsMenu {...propsProfessionals} />
+          <OptionsMenu {...patientsProps} />
         </span>
         <span>
-          <OptionsMenu {...propsMeetings} />
+          <OptionsMenu {...professionalsProps} />
+        </span>
+        <span>
+          <OptionsMenu {...meetingsProps} />
         </span>
       </div>
       <TextareaAutosize
@@ -126,7 +100,6 @@ export const EditMedicalRecord = ({
         minRows={3}
         placeholder="Escribí el texto de tu consulta"
         name="descripcion"
-        value={medicalRecord.descripcion}
         onChange={handleChange}
       />
       <div className="buttonMedicalHistory">
@@ -155,7 +128,7 @@ export const EditMedicalRecord = ({
           </Link>
           <LoadingButton
             loading={isLoading}
-            onClick={handleSubmit}
+            onClick={(e) => handleSubmit(e)}
             size="small"
             sx={{ width: "280px" }}
             variant="contained"

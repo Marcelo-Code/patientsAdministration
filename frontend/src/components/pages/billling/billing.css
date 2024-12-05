@@ -1,0 +1,11 @@
+th {
+  width: 150px;
+}
+
+thead {
+  border-bottom: 1px solid black;
+}
+
+td {
+  text-align: center;
+}

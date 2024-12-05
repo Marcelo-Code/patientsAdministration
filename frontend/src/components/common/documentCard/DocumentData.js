@@ -1,28 +1,38 @@
 export const documentData = [{
-        "button": "Frente DNI",
+        "name": "imgdnifrentepaciente",
+        "title": "Frente DNI Paciente",
     },
     {
-        "button": "Dorso DNI",
+        "name": "imgdnidorsopaciente",
+        "title": "Dorso DNI Paciente",
     },
     {
-        "button": "Carnet Obra Social",
+        "name": "imgdnifrentetitularos",
+        "title": "Frente DNI Titular OS",
     },
     {
-        "button": "Libreta Sanitaria",
+        "name": "imgdnidorsotitularos",
+        "title": "Dorso DNI Titular OS",
     },
     {
-        "button": "C. Alumno Regular",
+        "name": "imgcarnetospaciente",
+        "title": "Carnet OS Paciente",
     },
     {
-        "button": "RP Y H.C. Médico",
+        "name": "imgcarnetostitular",
+        "title": "Carnet OS Titular",
     },
     {
-        "button": "Autorización OS",
+        "name": "imgconstanciaalumnoregular",
+        "title": "Constancia Alumno Regular",
     },
     {
-        "button": "Informes Previos",
+        "name": "imgcud",
+        "title": "CUD",
     },
     {
-        "button": "CUD",
+        "name": "imgcertificadoeventual",
+        "title": "Certificado Eventual",
     },
+
 ]

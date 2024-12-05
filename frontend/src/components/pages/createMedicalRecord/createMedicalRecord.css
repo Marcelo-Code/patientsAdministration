@@ -1,0 +1,7 @@
+.medicalRecordContainer {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 180px;
+}

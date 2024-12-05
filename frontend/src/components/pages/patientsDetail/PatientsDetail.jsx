@@ -13,13 +13,15 @@ import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import UploadIcon from "@mui/icons-material/Upload";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import PersonIcon from "@mui/icons-material/Person";
 import SchoolIcon from "@mui/icons-material/School";
 import MedicationIcon from "@mui/icons-material/Medication";
 import CakeIcon from "@mui/icons-material/Cake";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import MailIcon from "@mui/icons-material/Mail";
 
 import "./patientDetail.css";
 import { Link } from "react-router-dom";
@@ -29,6 +31,11 @@ export const PatientsDetail = (props) => {
     id,
     nombreyapellidopaciente,
     obrasocialpaciente,
+    telefonoobrasocial,
+    email1obrasocial,
+    email2obrasocial,
+    email3obrasocial,
+    nombreyapellidoreferenteobrasocial,
     nroafiliadopaciente,
     dnipaciente,
     fechanacimientopaciente,
@@ -95,11 +102,55 @@ export const PatientsDetail = (props) => {
           >
             {obrasocialpaciente}
           </Typography>
+          <Typography gutterBottom variant="h6" component="div">
+            <div>
+              <PhoneInTalkIcon sx={{ ...lineStyle, verticalAlign: "middle" }} />
+              {telefonoobrasocial}
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {email1obrasocial !== "" ? (
+                <span>
+                  <MailIcon
+                    sx={{
+                      ...lineStyle,
+                      marginLeft: "5px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                  {email1obrasocial}{" "}
+                </span>
+              ) : null}
+              {email2obrasocial !== "" ? (
+                <span>
+                  <MailIcon
+                    sx={{
+                      ...lineStyle,
+                      marginLeft: "5px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                  {email2obrasocial}{" "}
+                </span>
+              ) : null}
+              {email3obrasocial !== "" ? (
+                <span>
+                  <MailIcon
+                    sx={{
+                      ...lineStyle,
+                      marginLeft: "5px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                  {email3obrasocial}
+                </span>
+              ) : null}
+            </div>
+          </Typography>
           <Typography
             sx={{
               textAlign: "center",
               borderBottom: "1px solid black",
-              paddingBottom: "10px",
+              padding: "10px",
             }}
             gutterBottom
             variant="h4"
@@ -130,6 +181,13 @@ export const PatientsDetail = (props) => {
             <span>
               <b style={lineStyle}> Nro afiliado: </b>
               {nroafiliadopaciente}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <PersonIcon sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> Referente O.S.: </b>
+              {nombreyapellidoreferenteobrasocial}
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
@@ -255,17 +313,24 @@ export const PatientsDetail = (props) => {
               {cud ? "Si" : "No"}
             </span>
           </Typography>
-          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
-            <CalendarMonthIcon variant="h7" sx={lineStyle} />
-            <span>
-              <b style={lineStyle}>Fecha Venc. CUD: </b>
-              {new Date(fechavencimientocud).toLocaleDateString("es-AR", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}
-            </span>
-          </Typography>
+          {cud && (
+            <Typography
+              gutterBottom
+              variant="h7"
+              component="div"
+              sx={dataStyle}
+            >
+              <CalendarMonthIcon variant="h7" sx={lineStyle} />
+              <span>
+                <b style={lineStyle}>Fecha Venc. CUD: </b>
+                {new Date(fechavencimientocud).toLocaleDateString("es-AR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </span>
+            </Typography>
+          )}
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <CalendarMonthIcon variant="h7" sx={lineStyle} />
             <span>
@@ -309,7 +374,7 @@ export const PatientsDetail = (props) => {
           }}
         >
           <Link
-            to="/documentation"
+            to={`/documentation/${id}`}
             style={{
               width: "100%",
               justifyContent: "center",
@@ -320,7 +385,7 @@ export const PatientsDetail = (props) => {
               size="small"
               sx={buttonStyle}
               variant="contained"
-              startIcon={<UploadIcon />}
+              startIcon={<DescriptionIcon />}
             >
               Documentación
             </Button>

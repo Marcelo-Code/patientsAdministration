@@ -28,6 +28,12 @@ export const PatientsDetailContainer = () => {
     id: patient.id,
     nombreyapellidopaciente: patient.nombreyapellidopaciente,
     obrasocialpaciente: patient.obrasocialpaciente,
+    telefonoobrasocial: patient.telefonoobrasocial,
+    email1obrasocial: patient.email1obrasocial,
+    email2obrasocial: patient.email2obrasocial,
+    email3obrasocial: patient.email3obrasocial,
+    nombreyapellidoreferenteobrasocial:
+      patient.nombreyapellidoreferenteobrasocial,
     nroafiliadopaciente: patient.nroafiliadopaciente,
     dnipaciente: patient.dnipaciente,
     fechanacimientopaciente: patient.fechanacimientopaciente,

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Button } from "@mui/material";
-import Swal from "sweetalert2";
 import {
   AlignmentType,
   BorderStyle,
@@ -20,7 +19,6 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { format } from "date-fns";
 import { age } from "../age";
 import {
-  PhoneHeaderText,
   adressHeaderText,
   confidentialityPolicy,
   observations,
@@ -28,8 +26,8 @@ import {
   titleHeaderText,
 } from "./reportTexts";
 
-import logo from "/elReinoDelReves.png";
-// import { useEffect, useState } from "react";
+import logo from "/elReinoDelReves.jpg";
+import { ErrorAlert, SuccessAlert } from "../alerts/alerts";
 
 export const ExportToWord = ({
   patient,
@@ -242,7 +240,7 @@ export const ExportToWord = ({
         },
       ];
 
-      console.log(reportTitle);
+      // console.log(reportTitle);
 
       const patientDataList = patientData.map((data) => {
         return new Paragraph({
@@ -308,6 +306,7 @@ export const ExportToWord = ({
                                     },
                                   }),
                                 ],
+                                spacing: { after: 10 },
                               }),
                             ],
                             borders: {
@@ -328,7 +327,7 @@ export const ExportToWord = ({
                               },
                               bottom: {
                                 style: BorderStyle.SINGLE,
-                                size: 12,
+                                size: 20,
                                 color: "000000",
                               },
                             },
@@ -351,25 +350,15 @@ export const ExportToWord = ({
                                   new TextRun({
                                     text: `${adressHeaderText}`,
                                     font: "Arial",
-                                    size: 24,
+                                    size: 17,
                                     bold: true,
                                   }),
                                 ],
                                 alignment: AlignmentType.CENTER,
-                              }),
-                              new Paragraph({
-                                children: [
-                                  new TextRun({
-                                    text: `${PhoneHeaderText}`,
-                                    font: "Arial",
-                                    size: 24,
-                                    bold: true,
-                                  }),
-                                ],
-                                alignment: AlignmentType.CENTER,
+                                spacing: { line: 240, before: 300, after: 10 },
                               }),
                             ],
-                            verticalAlign: "center",
+                            verticalAlign: "bottom",
                             borders: {
                               top: {
                                 style: BorderStyle.NONE,
@@ -388,7 +377,7 @@ export const ExportToWord = ({
                               },
                               bottom: {
                                 style: BorderStyle.SINGLE,
-                                size: 12,
+                                size: 20,
                                 color: "000000",
                               },
                             },
@@ -414,7 +403,7 @@ export const ExportToWord = ({
                       },
                       bottom: {
                         style: BorderStyle.SINGLE,
-                        size: 12,
+                        size: 20,
                         color: "000000",
                       },
                     },
@@ -454,21 +443,11 @@ export const ExportToWord = ({
         generateDoc()
           .then((response) => {
             console.log(response);
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Informe generado exitosamente",
-              showConfirmButton: false,
-              timer: 1500,
-            });
+            SuccessAlert("¡Informe generado exitosamente!");
           })
           .catch((error) => {
+            ErrorAlert("Error al generar informe");
             console.log(error);
-            Swal.fire({
-              icon: "error",
-              title: "Ups...",
-              text: "Error al generar informe",
-            });
           })
       }
       variant="contained"

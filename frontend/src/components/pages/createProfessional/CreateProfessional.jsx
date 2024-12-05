@@ -42,7 +42,7 @@ export const CreateProfessional = ({
             style={{
               textAlign: "center",
               width: "100%",
-              margin: "10px 0px 10px 0px",
+              margin: "80px 0px 10px 0px",
               paddingBottom: "10px",
               borderBottom: "2px solid black",
             }}

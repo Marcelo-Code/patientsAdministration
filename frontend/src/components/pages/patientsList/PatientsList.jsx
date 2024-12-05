@@ -12,6 +12,7 @@ import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { deletePatient } from "../../../api/patients";
+import PersonIcon from "@mui/icons-material/Person";
 
 export const PatientsList = ({
   patients,
@@ -36,6 +37,8 @@ export const PatientsList = ({
               >
                 {patient.obrasocialpaciente}
               </Typography>
+              <PersonIcon style={{ fontSize: "4em" }} />
+
               <Typography gutterBottom variant="h5" component="div">
                 {patient.nombreyapellidopaciente}
               </Typography>

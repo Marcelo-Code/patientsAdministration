@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { MedicalHistory } from "./medicalHistory";
 import { useContext, useEffect, useState } from "react";
-import { Box, Button, Menu, Tab, Tabs } from "@mui/material";
+import { Box, Button, Tab, Tabs } from "@mui/material";
 import { MedicalHistoryRecord } from "./MedicalHistoryRecord";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,8 @@ import { ExportToWord } from "../../common/exportToWord/ExportToWord";
 import { OptionsMenu } from "../../common/Menu/OptionsMenu";
 import { DocxGenerator } from "../../common/exportToWord/docGenerator";
 import { format } from "date-fns";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 function a11yProps(index) {
   return {
@@ -68,6 +70,10 @@ export const MedicalHistoryContainer = () => {
       })
       .catch((error) => console.log(error.message));
   };
+
+  //Hook para habilitar modo ascendente descendente
+
+  const [sortUpMode, setSortUpMode] = useState(false);
 
   //Hook para habilitar el modo edición
 
@@ -132,11 +138,14 @@ export const MedicalHistoryContainer = () => {
       updatedRecordsToReport = recordsToReport.filter((item) => item.id !== id);
     }
 
+    //Ordena de menor a mayor las consultas por fecha
+
     const sortedRecords = updatedRecordsToReport.sort(
       (a, b) => new Date(a.fechaconsulta) - new Date(b.fechaconsulta)
     );
 
-    console.log(sortedRecords);
+    //Muestro por consola las consultas ordenadas por fecha
+    // console.log(sortedRecords);
 
     let periodoabordaje;
 
@@ -204,6 +213,11 @@ export const MedicalHistoryContainer = () => {
     value: tipoConsulta,
   }));
 
+  //Si hay un solo tipo de consultas que tome ese valor para el informe
+  if (meetings.length === 1 && reportTitle.tipoconsulta === "") {
+    setReportTitle({ ...reportTitle, tipoconsulta: meetings[0].value });
+  }
+
   const handleMenuChange = (e) => {
     const { name, value } = e.target;
 
@@ -217,7 +231,23 @@ export const MedicalHistoryContainer = () => {
     if (e.target.value4)
       updatedReportTitle.especialidadprofesional = e.target.value4;
     setReportTitle(updatedReportTitle);
-    console.log(reportTitle);
+    // console.log(reportTitle);
+  };
+
+  const sortUpRecords = (records) => {
+    const sortedRecords = records.sort(
+      (a, b) => new Date(b.fechaconsulta) - new Date(a.fechaconsulta)
+    );
+    setSortUpMode(false);
+    setRecords(sortedRecords);
+  };
+
+  const sortDownRecords = (records) => {
+    const sortedRecords = records.sort(
+      (a, b) => new Date(a.fechaconsulta) - new Date(b.fechaconsulta)
+    );
+    setSortUpMode(true);
+    setRecords(sortedRecords);
   };
 
   const meetingsProps = {
@@ -280,7 +310,7 @@ export const MedicalHistoryContainer = () => {
     <Box
       sx={{
         width: "100%",
-        marginTop: "0px",
+        marginTop: "80px",
         position: "absolute",
         top: "80px",
       }}
@@ -305,46 +335,67 @@ export const MedicalHistoryContainer = () => {
       </Box>
 
       <CustomTabPanel value={value} index={0}>
-        <div
-          style={{
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            width: "80%",
-            flexWrap: "wrap",
-            gap: "20px",
-          }}
-        >
+        {records.length != 0 && (
           <div
             style={{
-              fontFamily: "Arial",
-              fontSize: "1.2em",
-              color: "gray",
+              margin: "0 auto",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              width: "80%",
+              flexWrap: "wrap",
+              gap: "20px",
             }}
           >
-            Edición
-            <Android12Switch
-              checked={editMode}
-              onChange={handleEditModeChange}
-              sx={{ transform: "scale(1.3)" }}
-            />
+            {sortUpMode ? (
+              <Button
+                onClick={() => sortUpRecords(records)}
+                variant="contained"
+                startIcon={<KeyboardArrowUpIcon />}
+              >
+                Orden Fecha
+              </Button>
+            ) : (
+              <Button
+                onClick={() => sortDownRecords(records)}
+                variant="contained"
+                startIcon={<KeyboardArrowDownIcon />}
+              >
+                Orden Fecha
+              </Button>
+            )}
+
+            <div
+              style={{
+                fontFamily: "Arial",
+                fontSize: "1.2em",
+                color: "gray",
+              }}
+            >
+              Edición
+              <Android12Switch
+                checked={editMode}
+                onChange={handleEditModeChange}
+                sx={{ transform: "scale(1.3)" }}
+              />
+            </div>
+            <div
+              style={{
+                fontFamily: "Arial",
+                fontSize: "1.2em",
+                color: "gray",
+              }}
+            >
+              Informe
+              <Android12Switch
+                checked={reportMode}
+                onChange={handleReportModeChange}
+                sx={{ transform: "scale(1.3)" }}
+              />
+            </div>
           </div>
-          <div
-            style={{
-              fontFamily: "Arial",
-              fontSize: "1.2em",
-              color: "gray",
-            }}
-          >
-            Informe
-            <Android12Switch
-              checked={reportMode}
-              onChange={handleReportModeChange}
-              sx={{ transform: "scale(1.3)" }}
-            />
-          </div>
-        </div>
+        )}
+
         <div
           style={{
             display: "flex",

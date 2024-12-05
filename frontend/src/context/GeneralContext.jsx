@@ -54,12 +54,70 @@ export const GeneralContextProvider = ({ children }) => {
       : handleGoBack();
   };
 
+  //Función para ordenar registros
+
+  const sortRecords = (records, setRecords, sortField, order, setSortFlag) => {
+    let sortedRecords;
+    if (typeof records[0][sortField] === "string") {
+      sortedRecords = [...records].sort((a, b) =>
+        order === "down"
+          ? a[sortField].localeCompare(b[sortField])
+          : b[sortField].localeCompare(a[sortField])
+      );
+    }
+    order === "down" ? setSortFlag(true) : setSortFlag(false);
+    setRecords(sortedRecords);
+  };
+
+  //Función para crear listas
+  const createList = (
+    records,
+    name,
+    value,
+    includeAllOption,
+    value2,
+    value3,
+    value4
+  ) => {
+    const uniqueFileds = new Set();
+    const result = [];
+
+    records.forEach((record) => {
+      const fieldValue = record[name];
+      const value2 = record[value];
+
+      if (!uniqueFileds.has(fieldValue)) {
+        uniqueFileds.add(fieldValue);
+        result.push({
+          id: record.id,
+          name: fieldValue,
+          value: value2,
+          value2: record.value2 || null,
+          value3: record.value3 || null,
+          value4: record.value4 || null,
+        });
+      }
+    });
+
+    const sortedRecords = result.sort((a, b) => a.name.localeCompare(b.name));
+    if (includeAllOption) {
+      sortedRecords.unshift({
+        id: -1,
+        name: "Todos",
+        value: "Todos",
+      });
+    }
+    return sortedRecords;
+  };
+
   const data = {
     goBackAction,
     isLoading,
     setIsLoading,
     cancelAction,
     handleGoBack,
+    sortRecords,
+    createList,
   };
 
   return (
