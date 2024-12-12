@@ -1,5 +1,5 @@
 th {
-  width: 150px;
+  width: 200px;
 }
 
 thead {
@@ -8,4 +8,5 @@ thead {
 
 td {
   text-align: center;
+  height: 80px;
 }

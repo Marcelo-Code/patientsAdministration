@@ -61,7 +61,7 @@ export const deleteProfessional = async (professionalId, professionalName) => {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este profesional?", `Vas a eliminar a ${professionalName}`, "Eliminar", "Cancelar");
         if (result.isConfirmed) {
             const response = await axios.delete(`${BACKEND_URL}/deleteProfessional/${professionalId}`);
-            SuccessAlert("¡Profesional Eliminado!");
+            SuccessAlert("¡Profesional eliminado!");
             return (response.data);
         }
     } catch (error) {

@@ -3,21 +3,42 @@ import { GeneralContext } from "../../../context/GeneralContext";
 import { Billing } from "./Billing";
 import {
   getBillRecordCud,
-  getCudBills,
+  getCudBillPatient,
   updateBillRecordCud,
 } from "../../../api/cudBilling";
 import { Spinner } from "../../common/spinner/Spinner";
+import { useParams } from "react-router-dom";
 import { getProfessionals } from "../../../api/professionals";
 import { getPatients } from "../../../api/patients";
 
-export const BillingContainer = () => {
-  const { handleGoBack, createList, cancelAction, cancelTableAction } =
+export const BillingContainerPatient = () => {
+  const { handleGoBack, cancelAction, createList, cancelTableAction, trimUrl } =
     useContext(GeneralContext);
-  const [billingRecords, setBillingRecords] = useState(null);
-  const [filteredBillingRecords, setFilteredBillingRecords] = useState(null);
+  const [billingRecords, setBillingRecord] = useState(null);
   const [updateList, setUpdateList] = useState(false);
-
   const [editModeFields, setEditModeFields] = useState(null);
+
+  const billRecordInitialState = {
+    idprofesional: "",
+    nombreyapellidoprofesional: "",
+    prestacion: "",
+    idpaciente: "",
+    nombreyapellidopaciente: "",
+    obrasocialpaciente: "",
+    periodofacturado: null,
+    nrofactura: "",
+    montofacturado: 0,
+    fechapresentacionos: null,
+    fecharecepcionos: null,
+    fechareclamo: null,
+    medioreclamo: "",
+    respuestareclamo: "",
+    cobradaenfecha: true,
+    montopercibido: 0,
+    percepcion: 0,
+    montofinalprofesional: 0,
+  };
+  const [billRecordCud, setBillRecordCud] = useState(billRecordInitialState);
 
   const initialModifiedState = {
     idprofesional: false,
@@ -45,54 +66,20 @@ export const BillingContainer = () => {
   const [patients, setPatients] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const billRecordInitialState = {
-    idprofesional: "",
-    nombreyapellidoprofesional: "",
-    prestacion: "",
-    idpaciente: "",
-    nombreyapellidopaciente: "",
-    obrasocialpaciente: "",
-    periodofacturado: null,
-    nrofactura: "",
-    montofacturado: 0,
-    fechapresentacionos: null,
-    fecharecepcionos: null,
-    fechareclamo: null,
-    medioreclamo: "",
-    respuestareclamo: "",
-    cobradaenfecha: true,
-    montopercibido: 0,
-    percepcion: 0,
-    montofinalprofesional: 0,
-  };
-  const [billRecordCud, setBillRecordCud] = useState(billRecordInitialState);
+  const [filteredBillingRecords, setFilteredBillingRecords] = useState(null);
+  const [billingrecords, setBillingRecords] = useState(null);
 
-  const handleEditModeField = (id) => {
-    setEditModeFields(id);
-    setIsLoading(true);
-    // console.log(id);
-    getBillRecordCud(id)
-      .then((response) => {
-        setBillRecordCud(response);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
-    // console.log(billRecordCud);
-  };
+  const { patientId } = useParams();
 
   useEffect(() => {
-    getCudBills()
+    getCudBillPatient(patientId)
       .then((response) => {
-        // console.log(response);
         const sortedResponse = response.sort((a, b) => {
           return a.nombreyapellidoprofesional.localeCompare(
             b.nombreyapellidoprofesional
           );
         });
-        setBillingRecords(sortedResponse);
+        setBillingRecord(sortedResponse);
         setFilteredBillingRecords(sortedResponse);
       })
       .catch((error) => console.log(error));
@@ -106,11 +93,34 @@ export const BillingContainer = () => {
         setPatients(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList]);
+  }, [patientId, updateList]);
 
   if (!billingRecords || !patients || !professionals) return <Spinner />;
 
-  // console.log(billingRecords);
+  const handleSubmit = (idRecordCud) => {
+    setIsLoading(true);
+    updateBillRecordCud(billRecordCud, idRecordCud)
+      .then((response) => {
+        console.log(response);
+        setUpdateList(!updateList);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
+  const handleEditModeField = (id) => {
+    setEditModeFields(id);
+    console.log(id);
+    getBillRecordCud(id)
+      .then((response) => {
+        setBillRecordCud(response);
+      })
+      .catch((error) => console.log(error));
+    console.log(billRecordCud);
+  };
 
   const handleChange = (e) => {
     const { name, value, value2 } = e.target;
@@ -122,44 +132,23 @@ export const BillingContainer = () => {
     setBillRecordCud(updatedBillRecordCud);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
-    // console.log(updatedBillRecordCud);
-  };
-
-  const handleSubmit = (idRecordCud) => {
-    setIsLoading(true);
-    updateBillRecordCud(billRecordCud, idRecordCud)
-      .then((response) => {
-        // console.log(response);
-        setEditModeFields(null);
-        setUpdateList(!updateList);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+    console.log(updatedBillRecordCud);
   };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
+    let updatedBilligRecords;
+
     if (value === "Todos") {
-      setBillingRecords(filteredBillingRecords);
+      updatedBilligRecords = filteredBillingRecords;
     } else {
-      const filteredRecords = filteredBillingRecords.filter(
+      updatedBilligRecords = filteredBillingRecords.filter(
         (record) => record.periodofacturado === value
       );
-      setBillingRecords(filteredRecords);
+      setBillingRecords(updatedBilligRecords);
     }
   };
-
-  const billingPeriodFilterList = createList(
-    billingRecords,
-    "periodofacturado",
-    "periodofacturado",
-    true,
-    "periodofacturado"
-  );
 
   const professionalsList = createList(
     professionals,
@@ -177,12 +166,20 @@ export const BillingContainer = () => {
     "nombreyapellidopaciente"
   );
 
+  const billingPeriodFilterList = createList(
+    billingRecords,
+    "periodofacturado",
+    "periodofacturado",
+    true,
+    "periodofacturado"
+  );
+
   const professionalsProps = {
     handleChange: handleChange,
     name: "idprofesional",
     array: professionalsList,
     // initialValue: "Selecc. Profesional",
-    modified: modified.idprofesional,
+    modified: modified.nombreyapellidoprofesional,
   };
 
   const patientsProps = {
@@ -190,7 +187,7 @@ export const BillingContainer = () => {
     name: "idpaciente",
     array: patientsList,
     // initialValue: "Selecc. Paciente",
-    modified: modified.idpaciente,
+    modified: modified.nombreyapellidopaciente,
   };
 
   const menuFilterProps = {
@@ -213,7 +210,6 @@ export const BillingContainer = () => {
     setEditModeFields,
     handleChange,
     professionalsProps,
-    prestacion: billRecordCud.prestacion,
     patientsProps,
     billRecordCud,
     modified,
@@ -221,9 +217,12 @@ export const BillingContainer = () => {
     initialModifiedState,
     cancelAction,
     cancelTableAction,
-    modifiedFlag,
     isLoading,
     menuFilterProps,
+    trimUrl,
+
+    // prestacion: billRecordCud.prestacion,
+    // modifiedFlag,
   };
   return <Billing {...props} />;
 };

@@ -8,6 +8,7 @@ export const OptionsMenu = ({
   array, // array de la variable
   initialValue, //valor inicial del menú
   modified, // flag para saber si se modificó
+  date = false,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -62,10 +63,22 @@ export const OptionsMenu = ({
                   value4: element.value4 || null,
                 },
               });
-              handleSelect(element.name);
+              handleSelect(
+                date && !isNaN(new Date(element.name).getTime())
+                  ? new Date(element.name).toLocaleDateString("es-ES", {
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : element.name
+              );
             }}
           >
-            {element.name}
+            {date && !isNaN(new Date(element.name).getTime())
+              ? new Date(element.name).toLocaleDateString("es-ES", {
+                  month: "long",
+                  year: "numeric",
+                })
+              : element.name}
           </MenuItem>
         ))}
       </Menu>

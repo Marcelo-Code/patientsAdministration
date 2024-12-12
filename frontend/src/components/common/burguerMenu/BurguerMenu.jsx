@@ -30,6 +30,9 @@ export const BurguerMenu = () => {
           <Link to="/MedicalRecordsList" onClick={closeMenu}>
             <li className="bm-item">Consultas</li>
           </Link>
+          <Link to="/Billing" onClick={closeMenu}>
+            <li className="bm-item">Facturación</li>
+          </Link>
         </ul>
       </div>
     </Menu>

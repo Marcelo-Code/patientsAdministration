@@ -98,6 +98,8 @@ export const uploadImages = async (file, name, patient) => {
         // Define la ruta en el bucket
         const fileName = `products/${name}_${patient.dnipaciente}_${patient.nombreyapellidopaciente}.jpg`;
 
+        console.log(fileName);
+
         // Sube el archivo a Supabase
         await supabase.storage
             .from(bucketName)
@@ -129,6 +131,7 @@ export const uploadImages = async (file, name, patient) => {
         console.error("Error al manejar la carga de la imagen:", error);
     }
 };
+
 
 //DownLoad: imagenes
 //------------------

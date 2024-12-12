@@ -20,6 +20,8 @@ import MedicationIcon from "@mui/icons-material/Medication";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import MailIcon from "@mui/icons-material/Mail";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+
 import { Link } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -111,6 +113,31 @@ export const EditPatient = (props) => {
             />
           </span>
 
+          {/* Teléfono Obra Social */}
+
+          <span style={style}>
+            <PhoneInTalkIcon
+              style={{ color: modified.telefonoobrasocial ? "red" : "" }}
+            />
+            <TextField
+              sx={{
+                margin: "10px",
+                width: "200px",
+              }}
+              id="outlined-basic"
+              label="Teléfono Obra Social"
+              variant="outlined"
+              name="telefonoobrasocial"
+              value={telefonoobrasocial}
+              onChange={handleChange}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
+            />
+          </span>
+
           {/* Nombre y Apellido Paciente */}
 
           <span
@@ -186,7 +213,7 @@ export const EditPatient = (props) => {
                 label="email 2 Obra Social"
                 variant="outlined"
                 name="email2obrasocial"
-                value={email3obrasocial}
+                value={email2obrasocial}
                 onChange={handleChange}
                 slotProps={{
                   inputLabel: {

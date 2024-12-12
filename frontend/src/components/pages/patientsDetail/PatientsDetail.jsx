@@ -391,7 +391,7 @@ export const PatientsDetail = (props) => {
             </Button>
           </Link>
           <Link
-            to={"/billing"}
+            to={`/billingPatient/${id}`}
             style={{
               width: "100%",
               justifyContent: "center",

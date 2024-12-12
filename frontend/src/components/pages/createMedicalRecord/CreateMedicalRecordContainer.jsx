@@ -34,7 +34,6 @@ export const CreateMedicalRecordContainer = () => {
   useEffect(() => {
     getMedicalRecords()
       .then((response) => {
-        // console.log(response);
         setRecords(response);
       })
       .catch((error) => console.log(error));
@@ -76,6 +75,8 @@ export const CreateMedicalRecordContainer = () => {
     "idprofesional",
     false
   );
+
+  console.log(professionalList);
 
   const meetingsList = meetings;
 

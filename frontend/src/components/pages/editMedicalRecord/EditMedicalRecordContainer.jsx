@@ -54,7 +54,7 @@ export const EditMedicalRecordContainer = () => {
     setMedicalRecord(updatedMedicalRecord);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
-    console.log(medicalRecord);
+    console.log(updatedMedicalRecord);
   };
 
   useEffect(() => {

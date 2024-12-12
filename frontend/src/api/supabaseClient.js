@@ -10,3 +10,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 export const supabase = createClient(supabaseUrl, supabaseKey);
 export const bucketName = 'ImagesPatientAdministration';
 export const publicBucketUrl = 'https://aidomabsbykwegmcqukz.supabase.co/storage/v1/object/public/ImagesPatientAdministration/';
+
+
+export const publicbucketCudBillingtUrl = 'https://aidomabsbykwegmcqukz.supabase.co/storage/v1/object/public/CudBillingDocumentsPatientsAdministrations/';
+export const bucketCudBillingName = 'CudBillingDocumentsPatientsAdministrations';

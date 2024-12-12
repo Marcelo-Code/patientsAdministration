@@ -1,19 +1,9 @@
 /* eslint-disable react/prop-types */
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import "./billing.css";
-import { Android12Switch } from "../../common/switchEditionMode/SwitchEditionMode";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { Link } from "react-router-dom";
+import { CudBilling } from "./cudBilling";
+import { NoCudBilling } from "./NoCudBilling";
 
 function a11yProps(index) {
   return {
@@ -22,7 +12,28 @@ function a11yProps(index) {
   };
 }
 
-export const Billing = (props) => {
+export const Billing = ({
+  handleGoBack,
+  handleSubmit,
+  billingRecords,
+  updateList,
+  setUpdateList,
+  handleEditModeField,
+  editModeFields,
+  setEditModeFields,
+  handleChange,
+  professionalsProps,
+  patientsProps,
+  billRecordCud,
+  modified,
+  setModified,
+  initialModifiedState,
+  cancelAction,
+  cancelTableAction,
+  isLoading,
+  menuFilterProps,
+  trimUrl,
+}) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -31,11 +42,60 @@ export const Billing = (props) => {
   const [editMode, setEditMode] = useState(false);
   const handleEditModeChange = (e) => {
     setEditMode(e.target.checked);
+    !editMode && setModified(initialModifiedState);
+    editMode && setEditModeFields(null);
   };
 
-  console.log(editMode);
+  billRecordCud.percepcion = billRecordCud.montopercibido * 0.35;
+  billRecordCud.montofinalprofesional =
+    billRecordCud.montopercibido - billRecordCud.percepcion;
 
-  const { handleGoBack } = props;
+  const cudBillingProps = {
+    billingRecords,
+    editMode,
+    handleEditModeChange,
+    handleEditModeField,
+    handleSubmit,
+    handleChange,
+    setEditModeFields,
+    editModeFields,
+    setUpdateList,
+    updateList,
+    cancelAction,
+    cancelTableAction,
+    professionalsProps,
+    patientsProps,
+    billRecordCud,
+    modified,
+    setModified,
+    initialModifiedState,
+    isLoading,
+    menuFilterProps,
+    trimUrl,
+  };
+
+  const noCudBillingProps = {
+    billingRecords,
+    editMode,
+    handleEditModeChange,
+    handleEditModeField,
+    handleSubmit,
+    handleChange,
+    setEditModeFields,
+    editModeFields,
+    setUpdateList,
+    updateList,
+    cancelAction,
+    cancelTableAction,
+    professionalsProps,
+    patientsProps,
+    billRecordCud,
+    modified,
+    isLoading,
+    menuFilterProps,
+  };
+
+  // console.log(billingRecords);
 
   return (
     <Box
@@ -65,214 +125,17 @@ export const Billing = (props) => {
         >
           <Tab label="Cud" {...a11yProps(0)} />
           <Tab label="No Cud" {...a11yProps(1)} />
+          <Tab label="Documentación Cud" {...a11yProps(2)} />
         </Tabs>
       </Box>
 
       <CustomTabPanel value={value} index={0}>
-        <div
-          style={{ display: "flex", justifyContent: "center", padding: "20px" }}
-        >
-          <div
-            style={{
-              fontFamily: "Arial",
-              fontSize: "1.2em",
-              color: "gray",
-            }}
-          >
-            Edición
-            <Android12Switch
-              checked={editMode}
-              onChange={handleEditModeChange}
-              sx={{ transform: "scale(1.3)" }}
-            />
-          </div>
-        </div>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{
-                borderBottom: "1px solid black",
-                padding: "10px",
-                marginBottom: "20px",
-              }}
-            >
-              Nombre del Paciente
-            </Typography>
-            <div
-              style={{
-                overflowX: "auto",
-                maxWidth: "100%",
-                paddingBottom: "50px",
-              }}
-            >
-              <table
-                style={{
-                  tableLayout: "fixed",
-                  width: "100%",
-                  borderCollapse: "collapse",
-                }}
-              >
-                <thead>
-                  <tr style={{ borderBottom: "1px solid black" }}>
-                    {editMode && <th style={{ width: "120px" }}>Edición</th>}
-                    <th>Profesional</th>
-                    <th>Prestación</th>
-                    <th>Paciente</th>
-                    <th>Obra Social</th>
-                    <th>Período Facturado</th>
-                    <th>Nro. Factura</th>
-                    <th>Monto Facturado</th>
-                    <th>Fecha Presentación O.S.</th>
-                    <th>Fecha Aviso Recepción O.S.</th>
-                    <th>Reclamos Fecha</th>
-                    <th>Medio Reclamo</th>
-                    <th>Respuesta Reclamo y Fecha</th>
-                    <th>Cobrada en Fecha</th>
-                    <th>Monto Percibido</th>
-                    <th>35% Percepción</th>
-                    <th>Monto Final Profesional</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {editMode && (
-                      <td>
-                        <Link>
-                          <DeleteIcon
-                            sx={{ margin: "10px", fontSize: "2em" }}
-                          />
-                        </Link>
-                        <Link>
-                          <EditIcon sx={{ margin: "10px", fontSize: "2em" }} />
-                        </Link>
-                      </td>
-                    )}
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                  </tr>
-                </tbody>
-              </table>
-              {/* <div>Asistencia Mensual</div>
-                <div>Informe Mensual</div>
-                <div>Factura Mensual</div> */}
-            </div>
-          </CardContent>
-        </Card>
+        <CudBilling {...cudBillingProps} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <div
-          style={{ display: "flex", justifyContent: "center", padding: "20px" }}
-        >
-          <div
-            style={{
-              fontFamily: "Arial",
-              fontSize: "1.2em",
-              color: "gray",
-            }}
-          >
-            Edición
-            <Android12Switch
-              checked={editMode}
-              onChange={handleEditModeChange}
-              sx={{ transform: "scale(1.3)" }}
-            />
-          </div>
-        </div>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{
-                borderBottom: "1px solid black",
-                padding: "10px",
-                marginBottom: "20px",
-              }}
-            >
-              Nombre del Paciente
-            </Typography>
-            <div
-              style={{
-                overflowX: "auto",
-                maxWidth: "100%",
-                paddingBottom: "50px",
-              }}
-            >
-              <table
-                style={{
-                  tableLayout: "fixed",
-                  width: "100%",
-                  borderCollapse: "collapse",
-                }}
-              >
-                <thead>
-                  <tr style={{ borderBottom: "1px solid black" }}>
-                    {editMode && <th style={{ width: "120px" }}>Edición</th>}
-                    <th>Profesional</th>
-                    <th>Prestación</th>
-                    <th>Paciente</th>
-                    <th>Modo Pago</th>
-                    <th>Medio de Pago</th>
-                    <th>Destinatario Pago</th>
-                    <th>Monto Sesión</th>
-                    <th>Fecha Presentación O.S.</th>
-                    <th>35% Percepción</th>
-                    <th>Monto a Percibir Profesional</th>
-                    <th>Medio Reclamo</th>
-                    <th>Fecha de Pago Retención</th>
-                    <th>Destinatario Percepción</th>
-                    <th>Paciente Adeuda y Fecha</th>
-                    <th>Pago Monto Adeudado Fecha</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {editMode && (
-                      <td>
-                        <Link>
-                          <DeleteIcon
-                            sx={{ margin: "10px", fontSize: "2em" }}
-                          />
-                        </Link>
-                        <Link>
-                          <EditIcon sx={{ margin: "10px", fontSize: "2em" }} />
-                        </Link>
-                      </td>
-                    )}
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                    <td>Ejemplo</td>
-                  </tr>
-                </tbody>
-              </table>
-              {/* <div>Asistencia Mensual</div>
-                <div>Informe Mensual</div>
-                <div>Factura Mensual</div> */}
-            </div>
-          </CardContent>
-        </Card>
+        <NoCudBilling {...noCudBillingProps} />
       </CustomTabPanel>
+      <CustomTabPanel value={value} index={0}></CustomTabPanel>
     </Box>
   );
 };

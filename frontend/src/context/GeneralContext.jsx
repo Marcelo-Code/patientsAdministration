@@ -35,6 +35,19 @@ export const GeneralContextProvider = ({ children }) => {
     });
   };
 
+  const cancelTableAction = () => {
+    return Swal.fire({
+      title: "¿Seguro que querés descartar cambios?",
+      text: "Se van a perder las modificaciones",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Confirmar",
+    }).then((result) => result.isConfirmed);
+  };
+
   const goBackAction = (modifiedFlag = false) => {
     modifiedFlag
       ? Swal.fire({
@@ -71,30 +84,33 @@ export const GeneralContextProvider = ({ children }) => {
 
   //Función para crear listas
   const createList = (
-    records,
-    name,
-    value,
-    includeAllOption,
-    value2,
-    value3,
-    value4
+    records, //nombre del array
+    name, //nombre de la variable
+    value, //valor de la variable
+    includeAllOption, //true o false para incluir todo
+    value2, //valor 2 de la variable
+    value3, //valor 3 de la variable
+    value4 //valor 4 de la variable
   ) => {
     const uniqueFileds = new Set();
     const result = [];
 
     records.forEach((record) => {
       const fieldValue = record[name];
-      const value2 = record[value];
+      const recordValue = record[value];
+      const recordValue2 = record[value2];
+      const recordValue3 = record[value3];
+      const recordValue4 = record[value4];
 
       if (!uniqueFileds.has(fieldValue)) {
         uniqueFileds.add(fieldValue);
         result.push({
           id: record.id,
           name: fieldValue,
-          value: value2,
-          value2: record.value2 || null,
-          value3: record.value3 || null,
-          value4: record.value4 || null,
+          value: recordValue,
+          value2: recordValue2 || null,
+          value3: recordValue3 || null,
+          value4: recordValue4 || null,
         });
       }
     });
@@ -110,6 +126,18 @@ export const GeneralContextProvider = ({ children }) => {
     return sortedRecords;
   };
 
+  const trimUrl = (url) => {
+    if (url && typeof url === "string") {
+      // Obtener todo después de la última barra diagonal
+      const lastSlashIndex = url.lastIndexOf("/");
+      if (lastSlashIndex !== -1) {
+        return url.slice(lastSlashIndex + 1); // Recorta todo lo que está después de la última barra
+      }
+      return url; // Si no hay barra diagonal, devolvemos la URL original
+    }
+    return "";
+  };
+
   const data = {
     goBackAction,
     isLoading,
@@ -118,6 +146,8 @@ export const GeneralContextProvider = ({ children }) => {
     handleGoBack,
     sortRecords,
     createList,
+    cancelTableAction,
+    trimUrl,
   };
 
   return (
