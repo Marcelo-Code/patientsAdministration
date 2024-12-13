@@ -1,15 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { CreateBill } from "./CreateBill";
-import { GeneralContext } from "../../../context/GeneralContext";
-import { getProfessionals } from "../../../api/professionals";
-import { Spinner } from "../../common/spinner/Spinner";
-import { getPatient, getPatients } from "../../../api/patients";
-import {
-  createBillRecordCud,
-  updateBillRecordCud,
-} from "../../../api/cudBilling";
+import { createBillRecordNoCud } from "../../../../../api/noCudBilling";
+import { CreateNoCudBilling } from "./CreateNoCudBilling";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { getProfessionals } from "../../../../../api/professionals";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { getPatient, getPatients } from "../../../../../api/patients";
 
-export const CreateBillContainer = () => {
+export const CreateNoCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
   const [professionals, setProfessionals] = useState(null);
   const [patients, setPatients] = useState(null);
@@ -44,21 +41,24 @@ export const CreateBillContainer = () => {
     prestacion: "",
     idpaciente: "",
     nombreyapellidopaciente: "",
-    obrasocialpaciente: "",
-    periodofacturado: null,
-    nrofactura: "",
-    montofacturado: 0,
-    fechapresentacionos: null,
-    fecharecepcionos: null,
-    fechareclamo: null,
-    medioreclamo: "",
-    respuestareclamo: "",
-    cobradaenfecha: true,
-    montopercibido: 0,
-    percepcion: 0,
-    montofinalprofesional: 0,
+    modopago: "",
+    mediopago: "",
+    destinatariopago: "",
+    montosesion: 0,
+    precepcion: 0,
+    montoapercibir: 0,
+    fechadepago: null,
+    destinatario: "",
+    pacienteadeuda: false,
+    fechadeuda: null,
+    pagomontoadeudado: "",
+    fechapagomontoadeudado: null,
+    documentofactura: "",
   };
-  const [billRecordCud, setBillRecordCud] = useState(billRecordInitialState);
+
+  const [billRecordNoCud, setBillRecordNoCud] = useState(
+    billRecordInitialState
+  );
 
   useEffect(() => {
     getProfessionals()
@@ -77,36 +77,35 @@ export const CreateBillContainer = () => {
 
   const handleChange = async (e) => {
     const { name, value, value2 } = e.target;
-    const updatedBillRecordCud = { ...billRecordCud, [name]: value };
+    const updatedBillRecordNoCud = { ...billRecordNoCud, [name]: value };
     if (name === "montopercibido") {
-      updatedBillRecordCud.percepcion =
-        updatedBillRecordCud.montopercibido * 0.35;
-      updatedBillRecordCud.montofinalprofesional =
-        updatedBillRecordCud.montopercibido * 0.65;
-      console.log(updatedBillRecordCud.percepcion);
+      updatedBillRecordNoCud.percepcion =
+        updatedBillRecordNoCud.montosesion * 0.35;
+      updatedBillRecordNoCud.apercibir =
+        updatedBillRecordNoCud.montosesion * 0.65;
     }
     if (value2 && name === "idprofesional") {
-      updatedBillRecordCud.nombreyapellidoprofesional = value2;
+      updatedBillRecordNoCud.nombreyapellidoprofesional = value2;
     }
     if (value2 && name === "idpaciente") {
-      updatedBillRecordCud.nombreyapellidopaciente = value2;
+      updatedBillRecordNoCud.nombreyapellidopaciente = value2;
       try {
         const response = await getPatient(value);
-        updatedBillRecordCud.obrasocialpaciente = response.obrasocialpaciente;
+        updatedBillRecordNoCud.obrasocialpaciente = response.obrasocialpaciente;
       } catch (error) {
         console.log(error);
       }
     }
-    setBillRecordCud(updatedBillRecordCud);
+    setBillRecordNoCud(updatedBillRecordNoCud);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
-    console.log(updatedBillRecordCud);
+    console.log(updatedBillRecordNoCud);
     // console.log(modified);
   };
 
   const handleSubmit = () => {
     setIsLoading(true);
-    createBillRecordCud(billRecordCud)
+    createBillRecordNoCud(billRecordNoCud)
       .then((response) => {
         console.log(response);
         setIsLoading(false);
@@ -148,18 +147,17 @@ export const CreateBillContainer = () => {
   };
 
   const props = {
-    professionalsProps,
-    patientsProps,
-    goBackAction,
+    handleChange,
     handleSubmit,
     isLoading,
     cancelAction,
-    handleChange,
-    modified,
+    goBackAction,
+    professionalsProps,
+    patientsProps,
     modifiedFlag,
-    cobradaenfecha: billRecordCud.cobradaenfecha,
-    billRecordCud,
+    pagomontoadeudado: billRecordNoCud.pagomontoadeudado,
+    billRecordNoCud,
   };
 
-  return <CreateBill {...props} />;
+  return <CreateNoCudBilling {...props} />;
 };

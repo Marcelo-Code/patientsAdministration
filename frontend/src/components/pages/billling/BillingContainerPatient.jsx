@@ -113,7 +113,6 @@ export const BillingContainerPatient = () => {
 
   const handleEditModeField = (id) => {
     setEditModeFields(id);
-    console.log(id);
     getBillRecordCud(id)
       .then((response) => {
         setBillRecordCud(response);
@@ -217,12 +216,11 @@ export const BillingContainerPatient = () => {
     initialModifiedState,
     cancelAction,
     cancelTableAction,
+    setIsLoading,
     isLoading,
     menuFilterProps,
     trimUrl,
-
-    // prestacion: billRecordCud.prestacion,
-    // modifiedFlag,
+    patientId,
   };
   return <Billing {...props} />;
 };

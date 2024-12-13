@@ -7,7 +7,6 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
@@ -15,18 +14,27 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Android12Switch } from "../../common/switchEditionMode/SwitchEditionMode";
-import { NotFoundRecord } from "../../common/errorPages/notFoundRecord";
-import { deleteCudBill } from "../../../api/cudBilling";
-import { OptionsMenu } from "../../common/Menu/OptionsMenu";
+import UploadIcon from "@mui/icons-material/Upload";
+import ClearIcon from "@mui/icons-material/Clear";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { CircularProgress } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 // import "dayjs/locale/es";
 import dayjs from "dayjs";
 
-export const NoCudBilling = ({
-  billingRecords,
+import { useContext } from "react";
+import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
+import { NotFoundRecord } from "../../../../common/errorPages/notFoundRecord";
+import { deleteBillRecord } from "../../../../../api/cudBilling";
+import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
+import {
+  DeleteFileFromBucket,
+  uploadFileToBucket,
+} from "../../../../../api/billingDocuments";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+
+export const CudBillingList = ({
+  cudBillingRecords,
   editMode,
   handleEditModeChange,
   handleEditModeField,
@@ -39,22 +47,36 @@ export const NoCudBilling = ({
   cancelTableAction,
   professionalsProps,
   patientsProps,
-  billRecordCud,
+  cudBillingRecord,
   modified,
+  setModified,
+  initialModifiedState,
+  setIsLoading,
   isLoading,
+  menuFilterProps,
+  patientId = null,
 }) => {
-  const totalProfesional = billingRecords.reduce((acc, record) => {
+  const totalProfesional = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montofinalprofesional);
   }, 0);
-  const totalPercepcion = billingRecords.reduce((acc, record) => {
+  const totalPercepcion = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.percepcion);
   }, 0);
-  const totalMontoPercibido = billingRecords.reduce((acc, record) => {
+  const totalMontoPercibido = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montopercibido);
   }, 0);
-  const totalMontoFacturado = billingRecords.reduce((acc, record) => {
+  const totalMontoFacturado = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montofacturado);
   }, 0);
+
+  const { trimUrl, formatPeriod, removeAccentsAndSpecialChars } =
+    useContext(GeneralContext);
+
+  const documentData = [
+    "imgasistenciamensual",
+    "documentofacturamensual",
+    "documentoinformemensual",
+  ];
 
   return (
     <>
@@ -67,7 +89,7 @@ export const NoCudBilling = ({
           padding: "20px",
         }}
       >
-        <Link to={"/createBill"}>
+        <Link to={"/createCudBilling"}>
           <Button
             variant={"contained"}
             size={"small"}
@@ -90,26 +112,18 @@ export const NoCudBilling = ({
             sx={{ transform: "scale(1.3)" }}
           />
         </div>
+        <OptionsMenu {...menuFilterProps} />
       </div>
-      {billingRecords.length === 0 ? (
+      {cudBillingRecords.length === 0 ? (
         <NotFoundRecord />
       ) : (
         <Card>
           <CardContent>
-            <Typography
-              sx={{
-                borderBottom: "1px solid black",
-                padding: "10px",
-                marginBottom: "20px",
-              }}
-            >
-              Nombre del Paciente
-            </Typography>
             <div
               style={{
                 overflowX: "auto",
                 overflowY: "auto",
-                maxHeight: "450px",
+                maxHeight: "500px",
                 minWidth: "100%",
                 position: "relative",
               }}
@@ -145,6 +159,9 @@ export const NoCudBilling = ({
                       <th>Profesional</th>
                       <th>Prestación</th>
                       <th>Paciente</th>
+                      <th>Asistencia Mensual</th>
+                      <th>Informe Mensual</th>
+                      <th>Factura Mensual</th>
                       <th>Obra Social</th>
                       <th>Período Facturado</th>
                       <th>Nro. Factura</th>
@@ -161,16 +178,16 @@ export const NoCudBilling = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {billingRecords.map((record) => {
+                    {cudBillingRecords.map((record) => {
                       return (
                         <>
-                          <tr>
+                          <tr key={record.id}>
                             {editModeFields === null && editMode ? (
                               <>
                                 <td>
                                   <Link
                                     onClick={() => {
-                                      deleteCudBill(record.id)
+                                      deleteBillRecord(record.id, documentData)
                                         .then((reponse) => {
                                           console.log(reponse);
                                           setUpdateList(!updateList);
@@ -198,16 +215,25 @@ export const NoCudBilling = ({
                             ) : null}
                             {editModeFields === record.id ? (
                               isLoading ? (
-                                <CircularProgress
-                                  sx={{ position: "relative", left: "50%" }}
-                                />
+                                <td>
+                                  <CircularProgress
+                                    size={20}
+                                    sx={{
+                                      position: "relative",
+                                      left: "10%",
+                                    }}
+                                  />
+                                </td>
                               ) : (
                                 <>
                                   <td>
                                     <Link
                                       onClick={() => {
                                         cancelTableAction().then((response) => {
-                                          response && setEditModeFields(null);
+                                          if (response) {
+                                            setEditModeFields(null);
+                                            setModified(initialModifiedState);
+                                          }
                                         });
                                       }}
                                     >
@@ -227,7 +253,7 @@ export const NoCudBilling = ({
                                     <OptionsMenu
                                       {...professionalsProps}
                                       initialValue={
-                                        billRecordCud.nombreyapellidoprofesional
+                                        cudBillingRecord.nombreyapellidoprofesional
                                       }
                                     />
                                   </td>
@@ -243,7 +269,7 @@ export const NoCudBilling = ({
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="prestacion"
-                                      value={billRecordCud.prestacion}
+                                      value={cudBillingRecord.prestacion}
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -252,15 +278,202 @@ export const NoCudBilling = ({
                                       }}
                                     />
                                   </td>
-                                  <td>
+                                  <td
+                                    style={{
+                                      pointerEvents: patientId && "none",
+                                    }}
+                                  >
                                     <OptionsMenu
                                       {...patientsProps}
                                       initialValue={
-                                        billRecordCud.nombreyapellidopaciente
+                                        cudBillingRecord.nombreyapellidopaciente
                                       }
                                     />
                                   </td>
-                                  <td>{billRecordCud.obrasocialpaciente}</td>
+                                  <td>
+                                    <div>
+                                      {record.imgasistenciamensual !== "" &&
+                                        trimUrl(record.imgasistenciamensual)}
+                                    </div>
+                                    <div
+                                      style={{
+                                        marginTop: "10px",
+                                        display: "flex",
+                                        justifyContent: "space-evenly",
+                                      }}
+                                    >
+                                      <Link
+                                        onClick={() => {
+                                          setIsLoading(true);
+                                          DeleteFileFromBucket(
+                                            "imgasistenciamensual",
+                                            record,
+                                            "cudBillingDocuments"
+                                          )
+                                            .then((response) => {
+                                              console.log(response);
+                                              setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
+                                        }}
+                                      >
+                                        <DeleteIcon />
+                                      </Link>
+                                      <Link
+                                        onClick={() => {
+                                          uploadFileToBucket(
+                                            `Asist_${formatPeriod(
+                                              record.periodofacturado
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.nombreyapellidoprofesional
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.prestacion
+                                            )}`,
+                                            record,
+                                            "imgasistenciamensual",
+                                            "cudBillingDocuments",
+                                            setIsLoading
+                                          )
+                                            .then((response) => {
+                                              console.log(response);
+                                              setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
+                                        }}
+                                      >
+                                        <UploadIcon />
+                                      </Link>
+                                    </div>
+                                    {/* {record.imgasistenciamensual} */}
+                                  </td>
+                                  <td>
+                                    {record.documentoinformemensual !== "" &&
+                                      trimUrl(record.documentoinformemensual)}
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-evenly",
+                                        marginTop: "10px",
+                                      }}
+                                    >
+                                      <Link
+                                        onClick={() => {
+                                          setIsLoading(true);
+                                          DeleteFileFromBucket(
+                                            "documentoinformemensual",
+                                            record,
+                                            "cudBillingDocuments"
+                                          )
+                                            .then((response) => {
+                                              console.log(response);
+                                              setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
+                                        }}
+                                      >
+                                        <DeleteIcon />
+                                      </Link>
+                                      <Link
+                                        onClick={() => {
+                                          uploadFileToBucket(
+                                            `InformeMensual_${record.nombreyapellidoprofesional}_${record.nrofactura}`,
+                                            record,
+                                            "documentoinformemensual",
+                                            "cudBillingDocuments",
+                                            setIsLoading
+                                          )
+                                            .then((response) => {
+                                              console.log(response);
+                                              setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
+                                        }}
+                                      >
+                                        <UploadIcon />
+                                      </Link>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      {record.documentofacturamensual !== "" &&
+                                        trimUrl(record.documentofacturamensual)}
+                                    </div>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-evenly",
+                                        marginTop: "10px",
+                                      }}
+                                    >
+                                      <Link
+                                        onClick={() => {
+                                          setIsLoading(true);
+                                          DeleteFileFromBucket(
+                                            "documentofacturamensual",
+                                            record,
+                                            "cudBillingDocuments"
+                                          )
+                                            .then((response) => {
+                                              console.log(response);
+                                              setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
+                                        }}
+                                      >
+                                        <DeleteIcon />
+                                      </Link>
+                                      <Link
+                                        onClick={() => {
+                                          uploadFileToBucket(
+                                            `FacturaMensual${record.nombreyapellidoprofesional}_${record.nrofactura}`,
+                                            record,
+                                            "documentofacturamensual",
+                                            "cudBillingDocuments",
+                                            setIsLoading
+                                          )
+                                            .then((response) => {
+                                              console.log(response);
+                                              setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
+                                        }}
+                                      >
+                                        <UploadIcon />
+                                      </Link>
+                                    </div>
+                                    {/* {record.documentofacturamensual} */}
+                                  </td>
+                                  <td>{cudBillingRecord.obrasocialpaciente}</td>
                                   <td>
                                     <LocalizationProvider
                                       dateAdapter={AdapterDayjs}
@@ -273,7 +486,7 @@ export const NoCudBilling = ({
                                             : null,
                                         }}
                                         defaultValue={dayjs(
-                                          billRecordCud.periodofacturado
+                                          cudBillingRecord.periodofacturado
                                         )}
                                         views={["year", "month"]}
                                         inputFormat="MM/YYYY"
@@ -303,7 +516,7 @@ export const NoCudBilling = ({
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="nrofactura"
-                                      value={billRecordCud.nrofactura}
+                                      value={cudBillingRecord.nrofactura}
                                       onChange={(e) =>
                                         handleChange(e, record.id)
                                       }
@@ -327,7 +540,7 @@ export const NoCudBilling = ({
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="montofacturado"
-                                      value={billRecordCud.montofacturado}
+                                      value={cudBillingRecord.montofacturado}
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -348,7 +561,7 @@ export const NoCudBilling = ({
                                             : null,
                                         }}
                                         value={dayjs(
-                                          billRecordCud.fechapresentacionos,
+                                          cudBillingRecord.fechapresentacionos,
                                           "YYYY-MM-DD"
                                         )}
                                         onChange={(newDate) => {
@@ -382,7 +595,7 @@ export const NoCudBilling = ({
                                             : null,
                                         }}
                                         value={dayjs(
-                                          billRecordCud.fecharecepcionos,
+                                          cudBillingRecord.fecharecepcionos,
                                           "YYYY-MM-DD"
                                         )}
                                         onChange={(newDate) => {
@@ -416,7 +629,7 @@ export const NoCudBilling = ({
                                             : null,
                                         }}
                                         value={dayjs(
-                                          billRecordCud.fechareclamo,
+                                          cudBillingRecord.fechareclamo,
                                           "YYYY-MM-DD"
                                         )}
                                         onChange={(newDate) => {
@@ -450,7 +663,7 @@ export const NoCudBilling = ({
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="medioreclamo"
-                                      value={billRecordCud.medioreclamo}
+                                      value={cudBillingRecord.medioreclamo}
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -471,7 +684,7 @@ export const NoCudBilling = ({
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="respuestareclamo"
-                                      value={billRecordCud.respuestareclamo}
+                                      value={cudBillingRecord.respuestareclamo}
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -493,7 +706,7 @@ export const NoCudBilling = ({
                                           : null,
                                       }}
                                       value={
-                                        billRecordCud.cobradaenfecha
+                                        cudBillingRecord.cobradaenfecha
                                           ? "yes"
                                           : "no"
                                       }
@@ -533,7 +746,7 @@ export const NoCudBilling = ({
                                       variant="outlined"
                                       type="number"
                                       name="montopercibido"
-                                      value={billRecordCud.montopercibido}
+                                      value={cudBillingRecord.montopercibido}
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -543,21 +756,21 @@ export const NoCudBilling = ({
                                     />
                                   </td>
                                   <td onChange={handleChange}>
-                                    {billRecordCud.montopercibido !==
+                                    {cudBillingRecord.montopercibido !==
                                       undefined &&
                                       new Intl.NumberFormat("es-AR", {
                                         style: "currency",
                                         currency: "ARS",
-                                      }).format(billRecordCud.percepcion)}
+                                      }).format(cudBillingRecord.percepcion)}
                                   </td>
                                   <td onChange={handleChange}>
-                                    {billRecordCud.montopercibido !==
+                                    {cudBillingRecord.montopercibido !==
                                       undefined &&
                                       new Intl.NumberFormat("es-AR", {
                                         style: "currency",
                                         currency: "ARS",
                                       }).format(
-                                        billRecordCud.montofinalprofesional
+                                        cudBillingRecord.montofinalprofesional
                                       )}
                                   </td>
                                 </>
@@ -567,6 +780,64 @@ export const NoCudBilling = ({
                                 <td>{record.nombreyapellidoprofesional}</td>
                                 <td>{record.prestacion}</td>
                                 <td>{record.nombreyapellidopaciente}</td>
+                                <td>
+                                  {record.imgasistenciamensual === "" ? (
+                                    // <div>No hay archivo cargado</div>
+                                    <ClearIcon />
+                                  ) : (
+                                    <Link
+                                      to={`${record.imgasistenciamensual}`}
+                                      onClick={(e) => {
+                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
+                                        window.open(
+                                          record.imgasistenciamensual,
+                                          "_blank"
+                                        ); // Abrir la URL en una nueva pestaña
+                                      }}
+                                    >
+                                      {trimUrl(record.imgasistenciamensual)}
+                                    </Link>
+                                  )}
+                                </td>
+                                <td>
+                                  {record.documentoinformemensual === "" ? (
+                                    <ClearIcon />
+                                  ) : (
+                                    // <div>No hay archivo cargado</div>
+                                    <Link
+                                      to={`${record.documentoinformemensual}`}
+                                      onClick={(e) => {
+                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
+                                        window.open(
+                                          record.documentoinformemensual,
+                                          "_blank"
+                                        ); // Abrir la URL en una nueva pestaña
+                                      }}
+                                    >
+                                      {trimUrl(record.documentoinformemensual)}
+                                    </Link>
+                                  )}
+                                </td>
+                                <td>
+                                  {record.documentofacturamensual === "" ? (
+                                    <ClearIcon />
+                                  ) : (
+                                    // <div>No hay archivo cargado</div>
+                                    <Link
+                                      to={`${record.documentofacturamensual}`}
+                                      onClick={(e) => {
+                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
+                                        window.open(
+                                          record.documentofacturamensual,
+                                          "_blank"
+                                        ); // Abrir la URL en una nueva pestaña
+                                      }}
+                                    >
+                                      {trimUrl(record.documentofacturamensual)}
+                                    </Link>
+                                  )}
+                                  {/* {record.documentofacturamensual} */}
+                                </td>
                                 <td>{record.obrasocialpaciente}</td>
                                 <td>
                                   {new Intl.DateTimeFormat("es-AR", {
@@ -664,7 +935,7 @@ export const NoCudBilling = ({
                       }}
                     >
                       <td
-                        colSpan={editMode ? 7 : 6}
+                        colSpan={editMode ? 10 : 9}
                         style={{
                           textAlign: "center",
                           fontWeight: "bold",

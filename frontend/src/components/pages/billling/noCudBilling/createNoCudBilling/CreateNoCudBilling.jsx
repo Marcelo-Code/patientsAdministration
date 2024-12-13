@@ -8,14 +8,11 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import PersonIcon from "@mui/icons-material/Person";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import MedicationIcon from "@mui/icons-material/Medication";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import ErrorIcon from "@mui/icons-material/Error";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -26,11 +23,11 @@ import {
 } from "@mui/x-date-pickers";
 import { Link } from "react-router-dom";
 
-import "./createPatient.css";
+import "./createNoCudBilling.css";
 import dayjs from "dayjs";
-import { OptionsMenu } from "../../common/Menu/OptionsMenu";
+import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
 
-export const CreateBill = ({
+export const CreateNoCudBilling = ({
   handleChange,
   handleSubmit,
   isLoading,
@@ -39,8 +36,8 @@ export const CreateBill = ({
   professionalsProps,
   patientsProps,
   modifiedFlag,
-  cobradaenfecha,
-  billRecordCud,
+  pagomontoadeudado,
+  billRecordNoCud,
 }) => {
   const style = {
     display: "flex",
@@ -70,7 +67,7 @@ export const CreateBill = ({
               borderBottom: "2px solid black",
             }}
           >
-            Generar nueva facturación
+            Generar nueva facturación no CUD
           </h2>
           <Box
             sx={{
@@ -102,51 +99,14 @@ export const CreateBill = ({
               <OptionsMenu {...patientsProps} />
             </span>
             <span style={style}>
-              <CardMembershipIcon />
+              <MonetizationOnIcon />
               <TextField
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
-                disabled={true}
-                label="Obra Social Paciente"
+                label="Modo Pago"
                 variant="outlined"
-                name="obrasocialpaciente"
-                // value={"jajaja"}
-                value={billRecordCud.obrasocialpaciente}
-                onChange={handleChange}
-              />
-            </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  views={["year", "month"]}
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Período Facturado"
-                  name="periodofacturado"
-                  format="MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "periodofacturado",
-                        value: dayjs(newDate).format("YYYY-MM-01"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
-            <span style={style}>
-              <ReceiptIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                label="Nro Factura"
-                variant="outlined"
-                name="nrofactura"
+                name="modopago"
+                value={billRecordNoCud.modopago}
                 onChange={handleChange}
               />
             </span>
@@ -155,102 +115,154 @@ export const CreateBill = ({
               <TextField
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
-                label="Monto Facturado"
+                label="Medio de Pago"
                 variant="outlined"
-                name="montofacturado"
+                name="mediopago"
+                value={billRecordNoCud.modopago}
                 onChange={handleChange}
               />
             </span>
             <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Presentación O.S."
-                  name="fechapresentacionos"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fechapresentacionos",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Recepción O.S."
-                  name="fecharecepcionos"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fecharecepcionos",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Fecha Reclamo"
-                  name="fechareclamo"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fechareclamo",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
-            <span style={style}>
-              <ErrorIcon />
+              <PersonIcon />
               <TextField
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
-                label="Medio Reclamo"
+                label="Destinatario"
                 variant="outlined"
-                name="medioreclamo"
+                name="destinatario"
+                value={billRecordNoCud.destinatario}
                 onChange={handleChange}
               />
             </span>
             <span style={style}>
-              <ErrorIcon />
+              <MonetizationOnIcon />
               <TextField
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
-                label="Respuesta Reclamo"
+                type="number"
+                disabled={false}
+                label={billRecordNoCud.montosesion === 0 && "Monto Sesión"}
                 variant="outlined"
-                name="respuestareclamo"
+                name="montosesion"
+                value={
+                  billRecordNoCud.montosesion !== 0 &&
+                  billRecordNoCud.montosesion
+                    ? parseFloat(billRecordNoCud.montosesion).toFixed(2)
+                    : ""
+                }
                 onChange={handleChange}
               />
+            </span>
+            <span style={style}>
+              <MonetizationOnIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                type="number"
+                disabled={true}
+                label={billRecordNoCud.percepcion === 0 && "Percepción"}
+                variant="outlined"
+                name="percepcion"
+                value={
+                  billRecordNoCud.percepcion !== 0 && billRecordNoCud.percepcion
+                    ? parseFloat(billRecordNoCud.percepcion).toFixed(2)
+                    : ""
+                }
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MonetizationOnIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                type="number"
+                disabled={true}
+                label={
+                  billRecordNoCud.montoapercibir === 0 && "Monto a Percibir"
+                }
+                variant="outlined"
+                name="montoapercibir"
+                value={
+                  billRecordNoCud.montoapercibir !== 0 &&
+                  billRecordNoCud.montoapercibir
+                    ? parseFloat(billRecordNoCud.montoapercibir).toFixed(2)
+                    : ""
+                }
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <CalendarIcon />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  sx={{ width: "200px", margin: "10px" }}
+                  label="Fecha de Pago"
+                  name="fechadepago"
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechadepago",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </LocalizationProvider>
+            </span>
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                disabled={true}
+                label="Destinatario"
+                variant="outlined"
+                name="destinatario"
+                value={billRecordNoCud.destinatario}
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MonetizationOnIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                disabled={true}
+                label="Paciente Adeuda"
+                variant="outlined"
+                name="pacienteadeuda"
+                value={billRecordNoCud.pacienteadeuda}
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <CalendarIcon />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  sx={{ width: "200px", margin: "10px" }}
+                  label="Fecha Deuda"
+                  name="fechadeuda"
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechadeuda",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </LocalizationProvider>
             </span>
             <span
               style={{
@@ -264,7 +276,7 @@ export const CreateBill = ({
                 <MonetizationOnIcon
                   sx={{ marginRight: "5px", verticalAlign: "middle" }}
                 />
-                Cobrada en Fecha
+                Pago Monto Adeudado
               </span>
               <RadioGroup
                 row
@@ -273,13 +285,13 @@ export const CreateBill = ({
                   width: "200px",
                   justifyContent: "center",
                 }}
-                value={cobradaenfecha ? "yes" : "no"}
-                name="cobradaenfecha"
+                value={pagomontoadeudado ? "yes" : "no"}
+                name="pagomontoadeudado"
                 onChange={(e) => {
                   const value = e.target.value === "yes";
                   handleChange({
                     target: {
-                      name: "cobradaenfecha",
+                      name: "pagomontoadeudado",
                       value: value,
                     },
                   });
@@ -289,56 +301,28 @@ export const CreateBill = ({
                 <FormControlLabel value="no" control={<Radio />} label="No" />
               </RadioGroup>
             </span>
-
             <span style={style}>
-              <MonetizationOnIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                type="number"
-                label="Monto Percibido"
-                variant="outlined"
-                name="montopercibido"
-                onChange={handleChange}
-              />
-            </span>
-            <span style={style}>
-              <MonetizationOnIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                disabled={true}
-                value={
-                  billRecordCud.percepcion !== 0 && billRecordCud.percepcion
-                    ? parseFloat(billRecordCud.percepcion).toFixed(2)
-                    : ""
-                }
-                label={billRecordCud.percepcion === 0 && "Percepción"}
-                variant="outlined"
-                name="percepcion"
-                onChange={handleChange}
-              />
-            </span>
-            <span style={style}>
-              <MonetizationOnIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                disabled={true}
-                value={
-                  billRecordCud.montofinalprofesional !== 0 &&
-                  billRecordCud.montofinalprofesional
-                    ? parseFloat(billRecordCud.montofinalprofesional).toFixed(2)
-                    : ""
-                }
-                label={
-                  billRecordCud.montofinalprofesional === 0 &&
-                  "Monto Final Profesional"
-                }
-                variant="outlined"
-                name="montofinalprofesional"
-                onChange={handleChange}
-              />
+              <CalendarIcon />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  type="date"
+                  sx={{ width: "200px", margin: "10px" }}
+                  label="Fecha de Pago"
+                  name="fechapagomontoadeudado"
+                  format="DD/MM/YYYY"
+                  onChange={(newDate) => {
+                    handleChange({
+                      target: {
+                        name: "fechapagomontoadeudado",
+                        value: dayjs(newDate).format("YYYY-MM-DD"),
+                      },
+                    });
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </LocalizationProvider>
             </span>
           </Box>
           <div className="buttonGroup">

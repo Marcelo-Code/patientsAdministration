@@ -138,6 +138,38 @@ export const GeneralContextProvider = ({ children }) => {
     return "";
   };
 
+  //Función para aplicar fomato al período facturado
+  //------------------------------------------------
+
+  const formatPeriod = (datePeriod) => {
+    const date = new Date(datePeriod);
+    // Crear el formateador para el mes y el año
+    const formatter = new Intl.DateTimeFormat("es-ES", {
+      month: "long",
+      year: "numeric",
+    });
+
+    // Formatear la fecha
+    const formattedDate = formatter.format(date);
+
+    // Capitalizar el mes
+    const formattedDateCapitalized =
+      formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+
+    return formattedDateCapitalized;
+  };
+
+  //Función para quitar caracteres especiales de un string
+  //------------------------------------------------------
+
+  const removeAccentsAndSpecialChars = (str) => {
+    const normalizedStr = str.normalize("NFD");
+    const cleanedStr = normalizedStr
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9\s]/g, "");
+    return cleanedStr;
+  };
+
   const data = {
     goBackAction,
     isLoading,
@@ -148,6 +180,8 @@ export const GeneralContextProvider = ({ children }) => {
     createList,
     cancelTableAction,
     trimUrl,
+    formatPeriod,
+    removeAccentsAndSpecialChars,
   };
 
   return (

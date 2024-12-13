@@ -14,13 +14,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import UploadIcon from "@mui/icons-material/Upload";
-import DownloadIcon from "@mui/icons-material/Download";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Android12Switch } from "../../common/switchEditionMode/SwitchEditionMode";
 import { NotFoundRecord } from "../../common/errorPages/notFoundRecord";
-import { deleteCudBill } from "../../../api/cudBilling";
+import { deleteBillRecord } from "../../../api/cudBilling";
 import { OptionsMenu } from "../../common/Menu/OptionsMenu";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { CircularProgress } from "@mui/material";
@@ -29,7 +27,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import {
   DeleteFileFromBucket,
-  handleFileSelectionAndUpload,
+  uploadFileToBucket,
 } from "../../../api/billingDocuments";
 import { useContext } from "react";
 import { GeneralContext } from "../../../context/GeneralContext";
@@ -52,8 +50,10 @@ export const CudBilling = ({
   modified,
   setModified,
   initialModifiedState,
+  setIsLoading,
   isLoading,
   menuFilterProps,
+  patientId,
 }) => {
   const totalProfesional = billingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montofinalprofesional);
@@ -68,7 +68,14 @@ export const CudBilling = ({
     return acc + parseFloat(record.montofacturado);
   }, 0);
 
-  const { trimUrl } = useContext(GeneralContext);
+  const { trimUrl, formatPeriod, removeAccentsAndSpecialChars } =
+    useContext(GeneralContext);
+
+  const documentData = [
+    "imgasistenciamensual",
+    "documentofacturamensual",
+    "documentoinformemensual",
+  ];
 
   return (
     <>
@@ -179,7 +186,7 @@ export const CudBilling = ({
                                 <td>
                                   <Link
                                     onClick={() => {
-                                      deleteCudBill(record.id)
+                                      deleteBillRecord(record.id, documentData)
                                         .then((reponse) => {
                                           console.log(reponse);
                                           setUpdateList(!updateList);
@@ -270,7 +277,11 @@ export const CudBilling = ({
                                       }}
                                     />
                                   </td>
-                                  <td>
+                                  <td
+                                    style={{
+                                      pointerEvents: patientId && "none",
+                                    }}
+                                  >
                                     <OptionsMenu
                                       {...patientsProps}
                                       initialValue={
@@ -292,35 +303,51 @@ export const CudBilling = ({
                                     >
                                       <Link
                                         onClick={() => {
+                                          setIsLoading(true);
                                           DeleteFileFromBucket(
                                             "imgasistenciamensual",
-                                            record
+                                            record,
+                                            "cudBillingDocuments"
                                           )
                                             .then((response) => {
                                               console.log(response);
                                               setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
                                             })
-                                            .catch((error) =>
-                                              console.log(error)
-                                            );
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
                                         }}
                                       >
                                         <DeleteIcon />
                                       </Link>
                                       <Link
                                         onClick={() => {
-                                          handleFileSelectionAndUpload(
-                                            `AsistenciaMensual_${record.nombreyapellidoprofesional}_${record.nrofactura}`,
+                                          uploadFileToBucket(
+                                            `Asist_${formatPeriod(
+                                              record.periodofacturado
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.nombreyapellidoprofesional
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.prestacion
+                                            )}`,
                                             record,
-                                            "imgasistenciamensual"
+                                            "imgasistenciamensual",
+                                            "cudBillingDocuments",
+                                            setIsLoading
                                           )
                                             .then((response) => {
                                               console.log(response);
                                               setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
                                             })
-                                            .catch((error) =>
-                                              console.log(error)
-                                            );
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
                                         }}
                                       >
                                         <UploadIcon />
@@ -340,35 +367,45 @@ export const CudBilling = ({
                                     >
                                       <Link
                                         onClick={() => {
+                                          setIsLoading(true);
                                           DeleteFileFromBucket(
                                             "documentoinformemensual",
-                                            record
+                                            record,
+                                            "cudBillingDocuments"
                                           )
                                             .then((response) => {
                                               console.log(response);
                                               setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
                                             })
-                                            .catch((error) =>
-                                              console.log(error)
-                                            );
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
                                         }}
                                       >
                                         <DeleteIcon />
                                       </Link>
                                       <Link
                                         onClick={() => {
-                                          handleFileSelectionAndUpload(
+                                          uploadFileToBucket(
                                             `InformeMensual_${record.nombreyapellidoprofesional}_${record.nrofactura}`,
                                             record,
-                                            "documentoinformemensual"
+                                            "documentoinformemensual",
+                                            "cudBillingDocuments",
+                                            setIsLoading
                                           )
                                             .then((response) => {
                                               console.log(response);
                                               setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
                                             })
-                                            .catch((error) =>
-                                              console.log(error)
-                                            );
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
                                         }}
                                       >
                                         <UploadIcon />
@@ -389,35 +426,45 @@ export const CudBilling = ({
                                     >
                                       <Link
                                         onClick={() => {
+                                          setIsLoading(true);
                                           DeleteFileFromBucket(
                                             "documentofacturamensual",
-                                            record
+                                            record,
+                                            "cudBillingDocuments"
                                           )
                                             .then((response) => {
                                               console.log(response);
                                               setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
                                             })
-                                            .catch((error) =>
-                                              console.log(error)
-                                            );
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
                                         }}
                                       >
                                         <DeleteIcon />
                                       </Link>
                                       <Link
                                         onClick={() => {
-                                          handleFileSelectionAndUpload(
+                                          uploadFileToBucket(
                                             `FacturaMensual${record.nombreyapellidoprofesional}_${record.nrofactura}`,
                                             record,
-                                            "documentofacturamensual"
+                                            "documentofacturamensual",
+                                            "cudBillingDocuments",
+                                            setIsLoading
                                           )
                                             .then((response) => {
                                               console.log(response);
                                               setUpdateList(!updateList);
+                                              setEditModeFields(null);
+                                              setIsLoading(false);
                                             })
-                                            .catch((error) =>
-                                              console.log(error)
-                                            );
+                                            .catch((error) => {
+                                              console.log(error);
+                                              setIsLoading(false);
+                                            });
                                         }}
                                       >
                                         <UploadIcon />

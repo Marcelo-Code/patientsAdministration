@@ -2,8 +2,8 @@
 import { Box, Button, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import "./billing.css";
-import { CudBilling } from "./cudBilling";
-import { NoCudBilling } from "./NoCudBilling";
+import { NoCudBillingListContainer } from "./noCudBilling/noCudBillingList/NoCudBillingListContainer";
+import { CudBillingListContainer } from "./cudBilling/cudBillingList/CudBillingListContainer";
 
 function a11yProps(index) {
   return {
@@ -12,90 +12,11 @@ function a11yProps(index) {
   };
 }
 
-export const Billing = ({
-  handleGoBack,
-  handleSubmit,
-  billingRecords,
-  updateList,
-  setUpdateList,
-  handleEditModeField,
-  editModeFields,
-  setEditModeFields,
-  handleChange,
-  professionalsProps,
-  patientsProps,
-  billRecordCud,
-  modified,
-  setModified,
-  initialModifiedState,
-  cancelAction,
-  cancelTableAction,
-  isLoading,
-  menuFilterProps,
-  trimUrl,
-}) => {
+export const Billing = ({ handleGoBack }) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const [editMode, setEditMode] = useState(false);
-  const handleEditModeChange = (e) => {
-    setEditMode(e.target.checked);
-    !editMode && setModified(initialModifiedState);
-    editMode && setEditModeFields(null);
-  };
-
-  billRecordCud.percepcion = billRecordCud.montopercibido * 0.35;
-  billRecordCud.montofinalprofesional =
-    billRecordCud.montopercibido - billRecordCud.percepcion;
-
-  const cudBillingProps = {
-    billingRecords,
-    editMode,
-    handleEditModeChange,
-    handleEditModeField,
-    handleSubmit,
-    handleChange,
-    setEditModeFields,
-    editModeFields,
-    setUpdateList,
-    updateList,
-    cancelAction,
-    cancelTableAction,
-    professionalsProps,
-    patientsProps,
-    billRecordCud,
-    modified,
-    setModified,
-    initialModifiedState,
-    isLoading,
-    menuFilterProps,
-    trimUrl,
-  };
-
-  const noCudBillingProps = {
-    billingRecords,
-    editMode,
-    handleEditModeChange,
-    handleEditModeField,
-    handleSubmit,
-    handleChange,
-    setEditModeFields,
-    editModeFields,
-    setUpdateList,
-    updateList,
-    cancelAction,
-    cancelTableAction,
-    professionalsProps,
-    patientsProps,
-    billRecordCud,
-    modified,
-    isLoading,
-    menuFilterProps,
-  };
-
-  // console.log(billingRecords);
 
   return (
     <Box
@@ -125,17 +46,15 @@ export const Billing = ({
         >
           <Tab label="Cud" {...a11yProps(0)} />
           <Tab label="No Cud" {...a11yProps(1)} />
-          <Tab label="Documentación Cud" {...a11yProps(2)} />
         </Tabs>
       </Box>
 
       <CustomTabPanel value={value} index={0}>
-        <CudBilling {...cudBillingProps} />
+        <CudBillingListContainer />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <NoCudBilling {...noCudBillingProps} />
+        <NoCudBillingListContainer />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={0}></CustomTabPanel>
     </Box>
   );
 };
@@ -148,7 +67,7 @@ function CustomTabPanel({ children, value, index }) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
     </div>
   );
 }

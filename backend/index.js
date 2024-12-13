@@ -203,8 +203,8 @@ app.post("/createMedicalRecord", async (req, res) => {
     }
 })
 
-// POST: Facturación
-//------------------
+// POST: Facturación CUD
+//----------------------
 
 app.post("/createBillRecordCud", async (req, res) => {
     const {
@@ -276,6 +276,82 @@ app.post("/createBillRecordCud", async (req, res) => {
                 montopercibido,
                 percepcion,
                 montofinalprofesional
+            ]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error al crear registro: ", error);
+        res.status(500).json({
+            error: "Error al crear registro: ",
+            details: error.message
+        });
+    }
+})
+
+// POST: Facturación no CUD
+//-------------------------
+
+app.post("/createBillRecordNoCud", async (req, res) => {
+    const {
+        idprofesional,
+        nombreyapellidoprofesional,
+        prestacion,
+        idpaciente,
+        nombreyapellidopaciente,
+        modopago,
+        mediopago,
+        destinatariopago,
+        montosesion,
+        percepcion,
+        montoapercibir,
+        fechadepago,
+        destinatario,
+        pacienteadeuda,
+        fechadeuda,
+        pagomontoadeudado,
+        fechapagomontoadeudado,
+        documentofactura
+    } = req.body;
+    try {
+        const result = await pool.query(
+            `INSERT INTO facturacionnocud (idprofesional,
+                                            nombreyapellidoprofesional,
+                                            prestacion,
+                                            idpaciente,
+                                            nombreyapellidopaciente,
+                                            modopago,
+                                            mediopago,
+                                            destinatariopago,
+                                            montosesion,
+                                            percepcion, 
+                                            montoapercibir,
+                                            fechadepago,
+                                            destinatario,
+                                            pacienteadeuda,
+                                            fechadeuda,
+                                            pagomontoadeudado,
+                                            fechapagomontoadeudado,
+                                            documentofactura
+                                        )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id`,
+            [idprofesional,
+                nombreyapellidoprofesional,
+                prestacion,
+                idpaciente,
+                nombreyapellidopaciente,
+                modopago,
+                mediopago,
+                destinatariopago,
+                montosesion,
+                percepcion,
+                montoapercibir,
+                fechadepago,
+                destinatario,
+                pacienteadeuda,
+                fechadeuda,
+                pagomontoadeudado,
+                fechapagomontoadeudado,
+                documentofactura
             ]
         );
         res.status(201).json(result.rows[0]);
@@ -417,8 +493,8 @@ app.get("/getMedicalRecord/:id", async (req, res) => {
 });
 
 
-// GET: Facturación
-//-----------------
+// GET: Facturación CUD
+//---------------------
 
 app.get("/getBillRecordCud/:id", async (req, res) => {
     const {
@@ -427,6 +503,26 @@ app.get("/getBillRecordCud/:id", async (req, res) => {
     try {
         const result = await pool.query(
             "SELECT * FROM facturacioncud WHERE id = $1", [id]);
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error al obtener registro: ", error);
+        res.status(500).json({
+            error: "Error al obtener registro: ",
+            details: error.message
+        });
+    }
+});
+
+// GET: Facturación no CUD
+//------------------------
+
+app.get("/getBillRecordNoCud/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        const result = await pool.query(
+            "SELECT * FROM facturacionnocud WHERE id = $1", [id]);
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.log("Error al obtener registro: ", error);
@@ -503,13 +599,32 @@ app.get("/getProfessionals", async (req, res) => {
     }
 });
 
-// GET: Facturación
-//-------------------
+// GET: Facturación CUD
+//----------------------
 
 app.get("/getCudBills", async (req, res) => {
     try {
         // Consulta a la base de datos
         const result = await pool.query("SELECT * FROM facturacioncud");
+
+        // Respuesta con los pacientes en formato JSON
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.log("Error al obtener registros: ", error);
+        res.status(500).json({
+            error: "Error al obtener registros: ",
+            details: error.message
+        });
+    }
+});
+
+// GET: Facturación no CUD
+//------------------------
+
+app.get("/getNoCudBills", async (req, res) => {
+    try {
+        // Consulta a la base de datos
+        const result = await pool.query("SELECT * FROM facturacionnocud");
 
         // Respuesta con los pacientes en formato JSON
         res.status(200).json(result.rows);
@@ -633,12 +748,40 @@ app.delete("/deleteMedicalRecord/:id", async (req, res) => {
 //DELETE: facturacion CUD
 //-----------------------
 
-app.delete("/deleteCudBill/:id", async (req, res) => {
+app.delete("/deleteBillRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
     try {
         const result = await pool.query("DELETE FROM facturacioncud WHERE id = $1 RETURNING *", [id]);
+        if (result.rowCount > 0) {
+            res.status(200).json({
+                message: "Registro eliminado exitosamente: ",
+                deletedPatient: result.rows[0]
+            });
+        } else {
+            res.status(404).json({
+                message: "Registro no encontrado: "
+            });
+        }
+    } catch (error) {
+        console.log("Error al eliminar registro: ", error);
+        res.status(500).json({
+            error: "Error al eliminar registro: ",
+            details: error.message
+        });
+    }
+});
+
+//DELETE: facturacion no CUD
+//--------------------------
+
+app.delete("/deleteNoCudBillingRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        const result = await pool.query("DELETE FROM facturacionnocud WHERE id = $1 RETURNING *", [id]);
         if (result.rowCount > 0) {
             res.status(200).json({
                 message: "Registro eliminado exitosamente: ",
@@ -963,6 +1106,98 @@ app.put("/updateBillRecordCud/:id", async (req, res) => {
     }
 });
 
+//PUT: facturación
+//----------------
+
+app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
+    const {
+        idprofesional,
+        nombreyapellidoprofesional,
+        prestacion,
+        idpaciente,
+        nombreyapellidopaciente,
+        modopago,
+        mediopago,
+        destinatariopago,
+        montosesion,
+        percepcion,
+        montoapercibir,
+        fechadepago,
+        destinatario,
+        pacienteadeuda,
+        fechadeuda,
+        pagomontoadeudado,
+        fechapagomontoadeudado,
+        documentofactura
+    } = req.body;
+
+    const {
+        id
+    } = req.params;
+
+    try {
+        const result = await pool.query(
+            `UPDATE facturacionnocud
+             SET    idprofesional = $1,
+                    nombreyapellidoprofesional = $2,
+                    prestacion = $3,
+                    idpaciente = $4,
+                    nombreyapellidopaciente = $5,
+                    modopago = $6,
+                    mediopago = $7,
+                    destinatariopago = $8,
+                    montosesion = $9,
+                    percepcion = $10,
+                    montoapercibir = $11,
+                    fechadepago = $12,
+                    destinatario = $13,
+                    pacienteadeuda = $14,
+                    fechadeuda = $15,
+                    pagomontoadeudado = $16,
+                    fechapagomontoadeudado = $17,
+                    documentofactura = $18
+             WHERE id = $19`,
+            [
+                idprofesional,
+                nombreyapellidoprofesional,
+                prestacion,
+                idpaciente,
+                nombreyapellidopaciente,
+                modopago,
+                mediopago,
+                destinatariopago,
+                montosesion,
+                percepcion,
+                montoapercibir,
+                fechadepago,
+                destinatario,
+                pacienteadeuda,
+                fechadeuda,
+                pagomontoadeudado,
+                fechapagomontoadeudado,
+                documentofactura,
+                id
+            ]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                error: "Registro no encontrado: "
+            });
+        }
+
+        res.status(200).json({
+            message: "Registro actualizado correctamente: "
+        });
+    } catch (error) {
+        console.log("Error al actualizar registro: ", error);
+        res.status(500).json({
+            error: "Error al actualizar registro: ",
+            details: error.message
+        });
+    }
+});
+
 //PUT: consulta
 //-------------
 
@@ -1077,7 +1312,7 @@ app.patch("/partialUpdatePatient/:id", async (req, res) => {
 //PATCH: facturación CUD
 //----------------------
 
-app.patch("/partialUpdateCudBilling/:id", async (req, res) => {
+app.patch("/partialUpdateRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -1105,6 +1340,58 @@ app.patch("/partialUpdateCudBilling/:id", async (req, res) => {
         // Ejecutar la consulta dinámica
         const result = await pool.query(
             `UPDATE facturacioncud SET ${setQuery} WHERE id = $${keys.length + 1}`,
+            [...values, id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                error: "Registro no encontrado: "
+            });
+        }
+
+        res.status(200).json({
+            message: "Registro actualizado correctamente: "
+        });
+    } catch (error) {
+        console.log("Error al actualizar registro: ", error);
+        res.status(500).json({
+            error: "Error al actualizar registro: ",
+            details: error.message,
+        });
+    }
+});
+
+//PATCH: facturación no CUD
+//-------------------------
+
+app.patch("/partialUpdateNoCudBillingRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+    const fieldsToUpdate = req.body;
+
+    try {
+        // Validar si el paciente existe
+        const {
+            rows
+        } = await pool.query("SELECT * FROM facturacionnocud WHERE id = $1", [id]);
+        if (rows.length === 0) {
+            return res.status(404).json({
+                error: "Registro no encontrado: "
+            });
+        }
+
+        // Construir dinámicamente la consulta para actualizar solo los campos enviados
+        const keys = Object.keys(fieldsToUpdate);
+        const values = Object.values(fieldsToUpdate);
+
+        const setQuery = keys
+            .map((key, index) => `${key} = $${index + 1}`)
+            .join(", ");
+
+        // Ejecutar la consulta dinámica
+        const result = await pool.query(
+            `UPDATE facturacionnocud SET ${setQuery} WHERE id = $${keys.length + 1}`,
             [...values, id]
         );
 
