@@ -12,10 +12,18 @@ function a11yProps(index) {
   };
 }
 
-export const Billing = ({ handleGoBack }) => {
+export const Billing = ({ handleGoBack, patientId }) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const cudBillingListContainerProps = {
+    patientId,
+  };
+
+  const noCudBillingListContainerProps = {
+    patientId,
   };
 
   return (
@@ -50,10 +58,10 @@ export const Billing = ({ handleGoBack }) => {
       </Box>
 
       <CustomTabPanel value={value} index={0}>
-        <CudBillingListContainer />
+        <CudBillingListContainer {...cudBillingListContainerProps} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <NoCudBillingListContainer />
+        <NoCudBillingListContainer {...noCudBillingListContainerProps} />
       </CustomTabPanel>
     </Box>
   );

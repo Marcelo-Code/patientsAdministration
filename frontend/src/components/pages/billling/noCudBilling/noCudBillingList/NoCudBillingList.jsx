@@ -170,585 +170,572 @@ export const NoCudBillingList = ({
                   <tbody>
                     {noCudBillingRecords.map((record) => {
                       return (
-                        <>
-                          <tr key={record.id}>
-                            {editModeFields === null && editMode ? (
+                        <tr key={record.id}>
+                          {editModeFields === null && editMode ? (
+                            <>
+                              <td>
+                                <Link
+                                  onClick={() => {
+                                    deleteNoCudBillingRecord(
+                                      record.id,
+                                      documentData
+                                    )
+                                      .then((reponse) => {
+                                        console.log(reponse);
+                                        setUpdateList(!updateList);
+                                      })
+                                      .catch((error) => console.log(error));
+                                  }}
+                                >
+                                  <DeleteIcon
+                                    sx={{ margin: "10px", fontSize: "2em" }}
+                                  />
+                                </Link>
+                                <Link
+                                  onClick={() => {
+                                    handleEditModeField(record.id);
+                                  }}
+                                >
+                                  <EditIcon
+                                    sx={{ margin: "10px", fontSize: "2em" }}
+                                  />
+                                </Link>
+                              </td>
+                            </>
+                          ) : editModeFields !== record.id && editMode ? (
+                            <td></td>
+                          ) : null}
+                          {editModeFields === record.id ? (
+                            isLoading ? (
+                              <td>
+                                <CircularProgress
+                                  size={20}
+                                  sx={{
+                                    position: "relative",
+                                    left: "10%",
+                                  }}
+                                />
+                              </td>
+                            ) : (
                               <>
                                 <td>
                                   <Link
                                     onClick={() => {
-                                      deleteNoCudBillingRecord(
-                                        record.id,
-                                        documentData
-                                      )
-                                        .then((reponse) => {
-                                          console.log(reponse);
-                                          setUpdateList(!updateList);
-                                        })
-                                        .catch((error) => console.log(error));
+                                      cancelTableAction().then((response) => {
+                                        if (response) {
+                                          setEditModeFields(null);
+                                          setModified(initialModifiedState);
+                                        }
+                                      });
                                     }}
                                   >
-                                    <DeleteIcon
+                                    <CancelIcon
                                       sx={{ margin: "10px", fontSize: "2em" }}
                                     />
                                   </Link>
-                                  <Link
-                                    onClick={() => {
-                                      handleEditModeField(record.id);
-                                    }}
-                                  >
-                                    <EditIcon
+                                  <Link onClick={() => handleSubmit(record.id)}>
+                                    <SaveIcon
                                       sx={{ margin: "10px", fontSize: "2em" }}
                                     />
                                   </Link>
                                 </td>
-                              </>
-                            ) : editModeFields !== record.id && editMode ? (
-                              <td></td>
-                            ) : null}
-                            {editModeFields === record.id ? (
-                              isLoading ? (
                                 <td>
-                                  <CircularProgress
-                                    size={20}
+                                  <OptionsMenu
+                                    {...professionalsProps}
+                                    initialValue={
+                                      billRecordNoCud.nombreyapellidoprofesional
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
                                     sx={{
-                                      position: "relative",
-                                      left: "10%",
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.prestacion
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="prestacion"
+                                    value={billRecordNoCud.prestacion}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
                                     }}
                                   />
                                 </td>
-                              ) : (
-                                <>
-                                  <td>
-                                    <Link
-                                      onClick={() => {
-                                        cancelTableAction().then((response) => {
-                                          if (response) {
-                                            setEditModeFields(null);
-                                            setModified(initialModifiedState);
-                                          }
+                                <td>
+                                  <OptionsMenu
+                                    {...patientsProps}
+                                    initialValue={
+                                      billRecordNoCud.nombreyapellidopaciente
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    sx={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.modopago
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="modopago"
+                                    value={billRecordNoCud.modopago}
+                                    onChange={(e) => handleChange(e, record.id)}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    sx={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.mediopago
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="mediopago"
+                                    value={billRecordNoCud.mediopago}
+                                    onChange={(e) => handleChange(e, record.id)}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    sx={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.destinatario
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="destinatario"
+                                    value={billRecordNoCud.destinatario}
+                                    onChange={(e) => handleChange(e, record.id)}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    style={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.montosesion
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    type="number"
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="montosesion"
+                                    value={billRecordNoCud.montosesion}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    style={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.percepcion
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    type="number"
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="percepcion"
+                                    value={billRecordNoCud.percepcion}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    style={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.montoapercibir
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    type="number"
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="montoapercibir"
+                                    value={billRecordNoCud.montoapercibir}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
+                                      sx={{
+                                        width: "80%",
+                                        border: modified.fechadepago
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={dayjs(
+                                        billRecordNoCud.fechadepago,
+                                        "YYYY-MM-DD"
+                                      )}
+                                      onChange={(newDate) => {
+                                        handleChange({
+                                          target: {
+                                            name: "fechadepago",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-DD"
+                                              ),
+                                          },
+                                        });
+                                      }}
+                                      slotProps={{
+                                        textField: {
+                                          inputFormat: "DD/MM/YYYY",
+                                        },
+                                      }}
+                                    />
+                                  </LocalizationProvider>
+                                </td>
+                                <td>
+                                  <TextField
+                                    sx={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.destinatario
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="destinatario"
+                                    value={billRecordNoCud.destinatario}
+                                    onChange={(e) => handleChange(e, record.id)}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <span>
+                                    <RadioGroup
+                                      row
+                                      sx={{
+                                        margin: "10px",
+                                        width: "200px",
+                                        justifyContent: "center",
+                                        border: modified.pacienteadeuda
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={
+                                        billRecordNoCud.pacienteadeuda
+                                          ? "yes"
+                                          : "no"
+                                      }
+                                      name="pacienteadeuda"
+                                      onChange={(e) => {
+                                        const value = e.target.value === "yes";
+                                        handleChange({
+                                          target: {
+                                            name: "pacienteadeuda",
+                                            value: value,
+                                          },
                                         });
                                       }}
                                     >
-                                      <CancelIcon
-                                        sx={{ margin: "10px", fontSize: "2em" }}
+                                      <FormControlLabel
+                                        value="yes"
+                                        control={<Radio />}
+                                        label="Si"
                                       />
+                                      <FormControlLabel
+                                        value="no"
+                                        control={<Radio />}
+                                        label="No"
+                                      />
+                                    </RadioGroup>
+                                  </span>
+                                </td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
+                                      sx={{
+                                        width: "80%",
+                                        border: modified.fechadeuda
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={dayjs(
+                                        billRecordNoCud.fechadeuda,
+                                        "YYYY-MM-DD"
+                                      )}
+                                      onChange={(newDate) => {
+                                        handleChange({
+                                          target: {
+                                            name: "fechadeuda",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-DD"
+                                              ),
+                                          },
+                                        });
+                                      }}
+                                      slotProps={{
+                                        textField: {
+                                          inputFormat: "DD/MM/YYYY",
+                                        },
+                                      }}
+                                    />
+                                  </LocalizationProvider>
+                                </td>
+                                <td>
+                                  <TextField
+                                    style={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.pagomontoadeudado
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    type="number"
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="pagomontoadeudado"
+                                    value={billRecordNoCud.pagomontoadeudado}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
+                                      sx={{
+                                        width: "80%",
+                                        border: modified.fechapagomontoadeudado
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={dayjs(
+                                        billRecordNoCud.fechapagomontoadeudado,
+                                        "YYYY-MM-DD"
+                                      )}
+                                      onChange={(newDate) => {
+                                        handleChange({
+                                          target: {
+                                            name: "fechapagomontoadeudado",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-DD"
+                                              ),
+                                          },
+                                        });
+                                      }}
+                                      slotProps={{
+                                        textField: {
+                                          inputFormat: "DD/MM/YYYY",
+                                        },
+                                      }}
+                                    />
+                                  </LocalizationProvider>
+                                </td>
+                                <td>
+                                  <div>
+                                    {record.documentofactura !== "" &&
+                                      trimUrl(record.documentofactura)}
+                                  </div>
+                                  <div
+                                    style={{
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-evenly",
+                                    }}
+                                  >
+                                    <Link
+                                      onClick={() => {
+                                        setIsLoading(true);
+                                        DeleteNoCudBillingDocumentFromBucket(
+                                          "documentofactura",
+                                          record
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
+                                    >
+                                      <DeleteIcon />
                                     </Link>
                                     <Link
-                                      onClick={() => handleSubmit(record.id)}
+                                      onClick={() => {
+                                        uploadNoCudBillingDocumentToBucket(
+                                          `Asist_${removeAccentsAndSpecialChars(
+                                            record.nombreyapellidoprofesional
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.prestacion
+                                          )}`,
+                                          record,
+                                          "documentofactura",
+                                          setIsLoading
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
                                     >
-                                      <SaveIcon
-                                        sx={{ margin: "10px", fontSize: "2em" }}
-                                      />
+                                      <UploadIcon />
                                     </Link>
-                                  </td>
-                                  <td>
-                                    <OptionsMenu
-                                      {...professionalsProps}
-                                      initialValue={
-                                        billRecordNoCud.nombreyapellidoprofesional
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      sx={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.prestacion
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="prestacion"
-                                      value={billRecordNoCud.prestacion}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <OptionsMenu
-                                      {...patientsProps}
-                                      initialValue={
-                                        billRecordNoCud.nombreyapellidopaciente
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      sx={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.modopago
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="modopago"
-                                      value={billRecordNoCud.modopago}
-                                      onChange={(e) =>
-                                        handleChange(e, record.id)
-                                      }
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      sx={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.mediopago
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="mediopago"
-                                      value={billRecordNoCud.mediopago}
-                                      onChange={(e) =>
-                                        handleChange(e, record.id)
-                                      }
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      sx={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.destinatario
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="destinatario"
-                                      value={billRecordNoCud.destinatario}
-                                      onChange={(e) =>
-                                        handleChange(e, record.id)
-                                      }
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.montosesion
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      type="number"
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="montosesion"
-                                      value={billRecordNoCud.montosesion}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.percepcion
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      type="number"
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="percepcion"
-                                      value={billRecordNoCud.percepcion}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.montoapercibir
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      type="number"
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="montoapercibir"
-                                      value={billRecordNoCud.montoapercibir}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border: modified.fechadepago
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        value={dayjs(
-                                          billRecordNoCud.fechadepago,
-                                          "YYYY-MM-DD"
-                                        )}
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "fechadepago",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-DD"
-                                                ),
-                                            },
-                                          });
-                                        }}
-                                        slotProps={{
-                                          textField: {
-                                            inputFormat: "DD/MM/YYYY",
-                                          },
-                                        }}
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      sx={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.destinatario
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="destinatario"
-                                      value={billRecordNoCud.destinatario}
-                                      onChange={(e) =>
-                                        handleChange(e, record.id)
-                                      }
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <span>
-                                      <RadioGroup
-                                        row
-                                        sx={{
-                                          margin: "10px",
-                                          width: "200px",
-                                          justifyContent: "center",
-                                          border: modified.pacienteadeuda
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        value={
-                                          billRecordNoCud.pacienteadeuda
-                                            ? "yes"
-                                            : "no"
-                                        }
-                                        name="pacienteadeuda"
-                                        onChange={(e) => {
-                                          const value =
-                                            e.target.value === "yes";
-                                          handleChange({
-                                            target: {
-                                              name: "pacienteadeuda",
-                                              value: value,
-                                            },
-                                          });
-                                        }}
-                                      >
-                                        <FormControlLabel
-                                          value="yes"
-                                          control={<Radio />}
-                                          label="Si"
-                                        />
-                                        <FormControlLabel
-                                          value="no"
-                                          control={<Radio />}
-                                          label="No"
-                                        />
-                                      </RadioGroup>
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border: modified.fechadeuda
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        value={dayjs(
-                                          billRecordNoCud.fechadeuda,
-                                          "YYYY-MM-DD"
-                                        )}
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "fechadeuda",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-DD"
-                                                ),
-                                            },
-                                          });
-                                        }}
-                                        slotProps={{
-                                          textField: {
-                                            inputFormat: "DD/MM/YYYY",
-                                          },
-                                        }}
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.pagomontoadeudado
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      type="number"
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="pagomontoadeudado"
-                                      value={billRecordNoCud.pagomontoadeudado}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border:
-                                            modified.fechapagomontoadeudado
-                                              ? "1px solid red"
-                                              : null,
-                                        }}
-                                        value={dayjs(
-                                          billRecordNoCud.fechapagomontoadeudado,
-                                          "YYYY-MM-DD"
-                                        )}
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "fechapagomontoadeudado",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-DD"
-                                                ),
-                                            },
-                                          });
-                                        }}
-                                        slotProps={{
-                                          textField: {
-                                            inputFormat: "DD/MM/YYYY",
-                                          },
-                                        }}
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <div>
-                                      {record.documentofactura !== "" &&
-                                        trimUrl(record.documentofactura)}
-                                    </div>
-                                    <div
-                                      style={{
-                                        marginTop: "10px",
-                                        display: "flex",
-                                        justifyContent: "space-evenly",
-                                      }}
-                                    >
-                                      <Link
-                                        onClick={() => {
-                                          setIsLoading(true);
-                                          DeleteNoCudBillingDocumentFromBucket(
-                                            "documentofactura",
-                                            record
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <DeleteIcon />
-                                      </Link>
-                                      <Link
-                                        onClick={() => {
-                                          uploadNoCudBillingDocumentToBucket(
-                                            `Asist_${removeAccentsAndSpecialChars(
-                                              record.nombreyapellidoprofesional
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.prestacion
-                                            )}`,
-                                            record,
-                                            "documentofactura",
-                                            setIsLoading
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <UploadIcon />
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </>
-                              )
-                            ) : (
-                              <>
-                                <td>{record.nombreyapellidoprofesional}</td>
-                                <td>{record.prestacion}</td>
-                                <td>{record.nombreyapellidopaciente}</td>
-                                <td>{record.modopago}</td>
-                                <td>{record.mediopago}</td>
-                                <td>{record.destinatariopago}</td>
-                                <td>
-                                  {record.montosesion !== undefined &&
-                                    new Intl.NumberFormat("es-AR", {
-                                      style: "currency",
-                                      currency: "ARS",
-                                    }).format(record.montosesion)}
-                                </td>
-                                <td>
-                                  {record.percepcion !== undefined &&
-                                    new Intl.NumberFormat("es-AR", {
-                                      style: "currency",
-                                      currency: "ARS",
-                                    }).format(record.percepcion)}
-                                </td>
-                                <td>
-                                  {record.montoapercibir !== undefined &&
-                                    new Intl.NumberFormat("es-AR", {
-                                      style: "currency",
-                                      currency: "ARS",
-                                    }).format(record.montoapercibir)}
-                                </td>
-                                <td>
-                                  {new Date(
-                                    record.fechadepago
-                                  ).toLocaleDateString("es-AR", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  })}
-                                </td>
-                                <td>{record.destinatario}</td>
-                                <td>{record.pacienteadeuda ? "Si" : "No"}</td>
-                                <td>
-                                  {new Date(
-                                    record.fechadeuda
-                                  ).toLocaleDateString("es-AR", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  })}
-                                </td>
-                                <td>{record.pagomontoadeudado}</td>
-                                <td>
-                                  {new Date(
-                                    record.fechapagomontoadeudado
-                                  ).toLocaleDateString("es-AR", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  })}
-                                </td>
-                                <td>
-                                  {record.documentofactura === "" ? (
-                                    // <div>No hay archivo cargado</div>
-                                    <ClearIcon />
-                                  ) : (
-                                    <Link
-                                      to={`${record.documentofactura}`}
-                                      onClick={(e) => {
-                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
-                                        window.open(
-                                          record.documentofactura,
-                                          "_blank"
-                                        ); // Abrir la URL en una nueva pestaña
-                                      }}
-                                    >
-                                      {trimUrl(record.documentofactura)}
-                                    </Link>
-                                  )}
+                                  </div>
                                 </td>
                               </>
-                            )}
-                          </tr>
-                        </>
+                            )
+                          ) : (
+                            <>
+                              <td>{record.nombreyapellidoprofesional}</td>
+                              <td>{record.prestacion}</td>
+                              <td>{record.nombreyapellidopaciente}</td>
+                              <td>{record.modopago}</td>
+                              <td>{record.mediopago}</td>
+                              <td>{record.destinatariopago}</td>
+                              <td>
+                                {record.montosesion !== undefined &&
+                                  new Intl.NumberFormat("es-AR", {
+                                    style: "currency",
+                                    currency: "ARS",
+                                  }).format(record.montosesion)}
+                              </td>
+                              <td>
+                                {record.percepcion !== undefined &&
+                                  new Intl.NumberFormat("es-AR", {
+                                    style: "currency",
+                                    currency: "ARS",
+                                  }).format(record.percepcion)}
+                              </td>
+                              <td>
+                                {record.montoapercibir !== undefined &&
+                                  new Intl.NumberFormat("es-AR", {
+                                    style: "currency",
+                                    currency: "ARS",
+                                  }).format(record.montoapercibir)}
+                              </td>
+                              <td>
+                                {new Date(
+                                  record.fechadepago
+                                ).toLocaleDateString("es-AR", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                })}
+                              </td>
+                              <td>{record.destinatario}</td>
+                              <td>{record.pacienteadeuda ? "Si" : "No"}</td>
+                              <td>
+                                {new Date(record.fechadeuda).toLocaleDateString(
+                                  "es-AR",
+                                  {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </td>
+                              <td>{record.pagomontoadeudado}</td>
+                              <td>
+                                {new Date(
+                                  record.fechapagomontoadeudado
+                                ).toLocaleDateString("es-AR", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                })}
+                              </td>
+                              <td>
+                                {record.documentofactura === "" ? (
+                                  // <div>No hay archivo cargado</div>
+                                  <ClearIcon />
+                                ) : (
+                                  <Link
+                                    to={`${record.documentofactura}`}
+                                    onClick={(e) => {
+                                      e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
+                                      window.open(
+                                        record.documentofactura,
+                                        "_blank"
+                                      ); // Abrir la URL en una nueva pestaña
+                                    }}
+                                  >
+                                    {trimUrl(record.documentofactura)}
+                                  </Link>
+                                )}
+                              </td>
+                            </>
+                          )}
+                        </tr>
                       );
                     })}
                   </tbody>

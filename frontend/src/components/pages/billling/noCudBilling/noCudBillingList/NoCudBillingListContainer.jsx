@@ -10,7 +10,7 @@ import {
 } from "../../../../../api/noCudBilling";
 import { NoCudBillingList } from "./NoCudBillingList";
 
-export const NoCudBillingListContainer = () => {
+export const NoCudBillingListContainer = ({ patientId }) => {
   const {
     handleGoBack,
     createList,
@@ -85,7 +85,6 @@ export const NoCudBillingListContainer = () => {
   const handleEditModeField = (id) => {
     setEditModeFields(id);
     setIsLoading(true);
-    // console.log(id);
     getBillRecordNoCud(id)
       .then((response) => {
         console.log(response);
@@ -96,14 +95,20 @@ export const NoCudBillingListContainer = () => {
         console.log(error);
         setIsLoading(false);
       });
-    console.log(billRecordNoCud);
   };
 
   useEffect(() => {
     getNoCudBills()
       .then((response) => {
-        // console.log(response);
-        const sortedResponse = response.sort((a, b) => {
+        let filteredResponse;
+        if (patientId) {
+          filteredResponse = response.filter(
+            (record) => record.idpaciente === parseInt(patientId)
+          );
+        } else {
+          filteredResponse = response;
+        }
+        const sortedResponse = filteredResponse.sort((a, b) => {
           return a.nombreyapellidoprofesional.localeCompare(
             b.nombreyapellidoprofesional
           );
@@ -122,11 +127,9 @@ export const NoCudBillingListContainer = () => {
         setPatients(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList]);
+  }, [updateList, patientId]);
 
   if (!noCudBillingRecords || !patients || !professionals) return <Spinner />;
-
-  // console.log(billingRecords);
 
   const handleChange = (e) => {
     const { name, value, value2 } = e.target;

@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
 
 import { CudBillingList } from "./CudBillingList";
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import {
   getBillRecordCud,
+  getCudBillPatient,
   getCudBills,
   updateBillRecordCud,
 } from "../../../../../api/cudBilling";
@@ -11,7 +13,7 @@ import { Spinner } from "../../../../common/spinner/Spinner";
 import { getProfessionals } from "../../../../../api/professionals";
 import { getPatients } from "../../../../../api/patients";
 
-export const CudBillingListContainer = () => {
+export const CudBillingListContainer = ({ patientId }) => {
   const { createList, cancelTableAction } = useContext(GeneralContext);
   const [cudBillingRecords, setCudBillingRecords] = useState(null);
   const [filteredCudBillingRecords, setFilteredCudBillingRecords] =
@@ -96,8 +98,16 @@ export const CudBillingListContainer = () => {
   useEffect(() => {
     getCudBills()
       .then((response) => {
-        // console.log(response);
-        const sortedResponse = response.sort((a, b) => {
+        let filteredResponse;
+        if (patientId) {
+          filteredResponse = response.filter(
+            (record) => record.idpaciente === parseInt(patientId)
+          );
+          console.log(filteredResponse);
+        } else {
+          filteredResponse = response;
+        }
+        const sortedResponse = filteredResponse.sort((a, b) => {
           return a.nombreyapellidoprofesional.localeCompare(
             b.nombreyapellidoprofesional
           );
@@ -116,7 +126,7 @@ export const CudBillingListContainer = () => {
         setPatients(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList]);
+  }, [updateList, patientId]);
 
   if (!cudBillingRecords || !patients || !professionals) return <Spinner />;
 

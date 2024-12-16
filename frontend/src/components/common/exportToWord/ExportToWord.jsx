@@ -35,67 +35,10 @@ export const ExportToWord = ({
   reportTitle,
   enableReportButton,
 }) => {
-  const imagen = logo;
-
-  // const handleImageUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setImageData(reader.result); // Guardamos la imagen como Data URL (base64)
-  //     };
-  //     reader.readAsDataURL(file); // Leemos el archivo como base64
-  //   }
-  // };
-
-  // const [imageBase64, setImageBase64] = useState("");
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // const convertImageToBase64 = async (url) => {
-  //   const response = await fetch(url);
-  //   const blob = await response.blob();
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       resolve(reader.result.replace(/^data:image\/\w+;base64,/, ""));
-  //     };
-  //     reader.onerror = reject;
-  //     reader.readAsDataURL(blob);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   const loadImage = async () => {
-  //     try {
-  //       let imageBase64 = await convertImageToBase64(logo); // Usar la variable 'logo' que contiene la URL de la imagen
-
-  //       if (!imageBase64.startsWith("data:image/png;base64,")) {
-  //         imageBase64 = "data:image/png;base64," + imageBase64;
-  //       }
-
-  //       console.log("Imagen Base64:", imageBase64);
-  //       // Aquí puedes usar 'imageBase64' como lo necesites
-
-  //       setImageBase64(imageBase64);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error("Error al convertir la imagen:", error);
-  //     }
-  //   };
-  //   loadImage();
-  // }, []);
-
   const generateDoc = async () => {
-    // if (isLoading) {
-    //   console.log("Imagen aún no cargada");
-    //   return;
-    // }
     try {
       const response = await fetch(logo);
-      const imageBlob = await response.blob(); // Convertimos la respuesta en un blob
-      const imageArrayBuffer = await imageBlob.arrayBuffer();
-      const imageUint8Array = new Uint8Array(await imageBlob.arrayBuffer());
-
+      const imageBlob = await response.blob();
       const docParagraphs = records.map((record) => {
         const dateRecord = format(new Date(record.fechaconsulta), "dd/MM/yyyy");
 
@@ -239,8 +182,6 @@ export const ExportToWord = ({
           value: reportTitle.periodoabordaje,
         },
       ];
-
-      // console.log(reportTitle);
 
       const patientDataList = patientData.map((data) => {
         return new Paragraph({
@@ -453,6 +394,7 @@ export const ExportToWord = ({
       variant="contained"
       startIcon={<ArticleIcon />}
       disabled={!enableReportButton}
+      size="small"
     >
       Generar Informe
     </Button>

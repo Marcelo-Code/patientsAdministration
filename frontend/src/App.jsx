@@ -2,22 +2,20 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { DocumentationContainer } from "./components/pages/documentation/documentationContainer";
 import { GeneralContextProvider } from "./context/GeneralContext";
-import { PatientsListContainer } from "./components/pages/patientsList/PatientsListContainer";
-import { PatientsDetailContainer } from "./components/pages/patientsDetail/PatientsDetailContainer";
-import { MedicalHistoryContainer } from "./components/pages/medicalHistory/MedicalHistoryContainer";
 import { BillingContainer } from "./components/pages/billling/BillingContainer";
-import { CreatePatientContainer } from "./components/pages/createPatient/CreatePatientContainer";
 import { NavBar } from "./components/layout/navbar/Navbar";
-import { EditPatientContainer } from "./components/pages/editPatient/EditPatientContainer";
-import { ProfessionalsListContainer } from "./components/pages/professionalsList/professionalsListContainer";
-import { CreateProfessionalContainer } from "./components/pages/createProfessional/createProfessionalContainer";
-import { EditProfessionalContainer } from "./components/pages/editProfessional/editProfessionalContainer";
-import { EditMedicalRecordContainer } from "./components/pages/editMedicalRecord/EditMedicalRecordContainer";
-import { MedicalRecordListContainer } from "./components/pages/medicalRecordsList/medicalRecordListContainer";
-import { CreateMedicalRecordContainer } from "./components/pages/createMedicalRecord/CreateMedicalRecordContainer";
-import { BillingContainerPatient } from "./components/pages/billling/BillingContainerPatient";
 import { CreateNoCudBillingContainer } from "./components/pages/billling/noCudBilling/createNoCudBilling/CreateNoCudBillingContainer";
 import { CreateCudBillingContainer } from "./components/pages/billling/cudBilling/createCudBilling/CreateCudBillingContainer";
+import { PatientsListContainer } from "./components/pages/patients/patientsList/PatientsListContainer";
+import { PatientsDetailContainer } from "./components/pages/patients/patientDetail/PatientsDetailContainer";
+import { CreatePatientContainer } from "./components/pages/patients/createPatient/CreatePatientContainer";
+import { EditPatientContainer } from "./components/pages/patients/editPatient/EditPatientContainer";
+import { ProfessionalsListContainer } from "./components/pages/professionals/professionalsList/ProfessionalsListContainer";
+import { CreateProfessionalContainer } from "./components/pages/professionals/createProfessional/CreateProfessionalContainer";
+import { EditProfessionalContainer } from "./components/pages/professionals/editProfessional/EditProfessionalContainer";
+import { EditMedicalRecordContainer } from "./components/pages/medicalRecords/editMedicalRecord/EditMedicalRecordContainer";
+import { MedicalRecordListContainer } from "./components/pages/medicalRecords/medicalRecordsList/MedicalRecordListContainer";
+import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/createMedicalRecord/CreateMedicalRecordContainer";
 
 function App() {
   return (
@@ -35,10 +33,6 @@ function App() {
             element={<PatientsDetailContainer />}
           />
           <Route
-            path={"/medicalHistory/:patientId"}
-            element={<MedicalHistoryContainer />}
-          />
-          <Route
             path={"/editPatient/:patientId"}
             element={<EditPatientContainer />}
           />
@@ -48,7 +42,7 @@ function App() {
           />
           <Route
             path={"/billingPatient/:patientId"}
-            element={<BillingContainerPatient />}
+            element={<BillingContainer />}
           />
           <Route
             path={"/editMedicalRecord/:medicalRecordId"}
@@ -67,6 +61,18 @@ function App() {
           <Route
             path={"/medicalRecordsList"}
             element={<MedicalRecordListContainer />}
+          />
+          <Route
+            path={"/medicalRecordsList/:patientId"}
+            element={<MedicalRecordListContainer />}
+          />
+          <Route
+            path={"/createMedicalRecord"}
+            element={<CreateMedicalRecordContainer />}
+          />
+          <Route
+            path={"/createMedicalRecord/:patientId"}
+            element={<CreateMedicalRecordContainer />}
           />
           <Route
             path={"/createMedicalRecord"}
