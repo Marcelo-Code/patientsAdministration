@@ -1,4 +1,4 @@
-import { BurguerMenu } from "../../common/burguerMenu/BurguerMenuTemp";
+import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
 import { SwitchMode } from "../../common/switchMode/SwitchMode";
 import "./navBar.css";
 
