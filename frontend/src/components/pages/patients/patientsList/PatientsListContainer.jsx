@@ -1,8 +1,9 @@
 import { PatientsList } from "./PatientsList";
 import "./patientsList.css";
 import { useEffect, useState } from "react";
-import { getPatients } from "../../../../api/patients";
 import { Spinner } from "../../../common/spinner/Spinner";
+import { getPatientsRecords } from "../../../../api/patients";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const PatientsListContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
@@ -13,8 +14,10 @@ export const PatientsListContainer = () => {
   };
 
   useEffect(() => {
-    getPatients()
-      .then((response) => setPatientsRecords(response))
+    getPatientsRecords()
+      .then((response) => {
+        setPatientsRecords(response);
+      })
       .catch((error) => console.log(error));
   }, [updateList]);
 
@@ -28,5 +31,10 @@ export const PatientsListContainer = () => {
     handleEditModeChange,
   };
 
-  return <PatientsList {...props} />;
+  return (
+    <>
+      <PatientsList {...props} />;
+      <Footer />
+    </>
+  );
 };

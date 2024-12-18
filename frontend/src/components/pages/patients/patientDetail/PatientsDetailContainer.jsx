@@ -2,9 +2,10 @@ import { useParams } from "react-router-dom";
 import { PatientsDetail } from "./PatientsDetail";
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
-import { getPatient } from "../../../../api/patients";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { age } from "../../../common/age";
+import { getPatientRecord } from "../../../../api/patients";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const PatientsDetailContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
@@ -14,7 +15,7 @@ export const PatientsDetailContainer = () => {
   const { patientId } = useParams();
 
   useEffect(() => {
-    getPatient(patientId)
+    getPatientRecord(patientId)
       .then((response) => setPatientRecord(response))
       .catch((error) => console.log(error));
   }, [patientId]);
@@ -63,5 +64,10 @@ export const PatientsDetailContainer = () => {
     handleGoBack,
   };
 
-  return <PatientsDetail {...props} />;
+  return (
+    <>
+      <PatientsDetail {...props} />
+      <Footer />
+    </>
+  );
 };

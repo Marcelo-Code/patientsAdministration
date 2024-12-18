@@ -30,10 +30,15 @@ app.use(cors({
     origin: FRONTEND_URL,
 }))
 
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+});
+
+
 // POST: Paciente
 //---------------
 
-app.post("/createPatient", async (req, res) => {
+app.post("/createPatientRecord", async (req, res) => {
     const {
         nombreYApellidoPaciente,
         obraSocialPaciente,
@@ -206,7 +211,7 @@ app.post("/createMedicalRecord", async (req, res) => {
 // POST: Facturación CUD
 //----------------------
 
-app.post("/createBillRecordCud", async (req, res) => {
+app.post("/createCudBillingRecord", async (req, res) => {
     const {
         idprofesional,
         nombreyapellidoprofesional,
@@ -291,7 +296,7 @@ app.post("/createBillRecordCud", async (req, res) => {
 // POST: Facturación no CUD
 //-------------------------
 
-app.post("/createBillRecordNoCud", async (req, res) => {
+app.post("/createNoCudBillingRecord", async (req, res) => {
     const {
         idprofesional,
         nombreyapellidoprofesional,
@@ -367,7 +372,7 @@ app.post("/createBillRecordNoCud", async (req, res) => {
 // POST: Profesional
 //------------------
 
-app.post("/createProfessional", async (req, res) => {
+app.post("/createProfessionalRecord", async (req, res) => {
     const {
         nombreYApellidoProfesional,
         especialidadProfesional,
@@ -404,7 +409,7 @@ app.post("/createProfessional", async (req, res) => {
 // GET: Pacientes
 //---------------
 
-app.get("/getPatients", async (req, res) => {
+app.get("/getPatientsRecords", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM pacientes");
         res.status(200).json(result.rows);
@@ -421,7 +426,7 @@ app.get("/getPatients", async (req, res) => {
 // GET: Profesionales
 //-------------------
 
-app.get("/getProfessionals", async (req, res) => {
+app.get("/getProfessionalsRecords", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM profesionales");
         res.status(200).json(result.rows);
@@ -437,7 +442,7 @@ app.get("/getProfessionals", async (req, res) => {
 // GET: paciente
 //--------------
 
-app.get("/getPatient/:id", async (req, res) => {
+app.get("/getPatientRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -456,7 +461,7 @@ app.get("/getPatient/:id", async (req, res) => {
 // GET: profesional
 //-----------------
 
-app.get("/getProfessional/:id", async (req, res) => {
+app.get("/getProfessionalRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -496,7 +501,7 @@ app.get("/getMedicalRecord/:id", async (req, res) => {
 // GET: Facturación CUD
 //---------------------
 
-app.get("/getBillRecordCud/:id", async (req, res) => {
+app.get("/getCudBillingRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -516,7 +521,7 @@ app.get("/getBillRecordCud/:id", async (req, res) => {
 // GET: Facturación no CUD
 //------------------------
 
-app.get("/getBillRecordNoCud/:id", async (req, res) => {
+app.get("/getNoCudBillingRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -536,7 +541,7 @@ app.get("/getBillRecordNoCud/:id", async (req, res) => {
 // GET: Consulta
 //--------------
 
-app.get("/getMedicalHistory/:id", async (req, res) => {
+app.get("/getMedicalHistoryRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -586,7 +591,7 @@ app.get("/getMedicalRecords", async (req, res) => {
 // GET: Profesionales
 //-------------------
 
-app.get("/getProfessionals", async (req, res) => {
+app.get("/getProfessionalsRecords", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM profesionales");
         res.status(200).json(result.rows);
@@ -602,7 +607,7 @@ app.get("/getProfessionals", async (req, res) => {
 // GET: Facturación CUD
 //----------------------
 
-app.get("/getCudBills", async (req, res) => {
+app.get("/getCudBillingRecords", async (req, res) => {
     try {
         // Consulta a la base de datos
         const result = await pool.query("SELECT * FROM facturacioncud");
@@ -621,7 +626,7 @@ app.get("/getCudBills", async (req, res) => {
 // GET: Facturación no CUD
 //------------------------
 
-app.get("/getNoCudBills", async (req, res) => {
+app.get("/getNoCudBillingRecords", async (req, res) => {
     try {
         // Consulta a la base de datos
         const result = await pool.query("SELECT * FROM facturacionnocud");
@@ -640,7 +645,7 @@ app.get("/getNoCudBills", async (req, res) => {
 // GET: Facturación paciente
 //--------------------------
 
-app.get("/getCudBillPatient/:patientId", async (req, res) => {
+app.get("/getCudBillingPatientRecord/:patientId", async (req, res) => {
     try {
         const {
             patientId
@@ -663,7 +668,7 @@ app.get("/getCudBillPatient/:patientId", async (req, res) => {
 //DELETE: paciente
 //----------------
 
-app.delete("/deletePatient/:id", async (req, res) => {
+app.delete("/deletePatientRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -692,7 +697,7 @@ app.delete("/deletePatient/:id", async (req, res) => {
 //-------------------
 
 
-app.delete("/deleteProfessional/:id", async (req, res) => {
+app.delete("/deleteProfessionalRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -748,7 +753,7 @@ app.delete("/deleteMedicalRecord/:id", async (req, res) => {
 //DELETE: facturacion CUD
 //-----------------------
 
-app.delete("/deleteBillRecord/:id", async (req, res) => {
+app.delete("/deleteCudBillingRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -804,7 +809,7 @@ app.delete("/deleteNoCudBillingRecord/:id", async (req, res) => {
 //PUT: paciente
 //-------------
 
-app.put("/updatePatient/:id", async (req, res) => {
+app.put("/updatePatientRecord/:id", async (req, res) => {
     const {
         nombreyapellidopaciente,
         obrasocialpaciente,
@@ -955,7 +960,7 @@ app.put("/updatePatient/:id", async (req, res) => {
 //PUT: profesional
 //----------------
 
-app.put("/updateProfessional/:id", async (req, res) => {
+app.put("/updateProfessionalRecord/:id", async (req, res) => {
     const {
         nombreyapellidoprofesional,
         especialidadprofesional,
@@ -1008,7 +1013,7 @@ app.put("/updateProfessional/:id", async (req, res) => {
 //PUT: facturación
 //----------------
 
-app.put("/updateBillRecordCud/:id", async (req, res) => {
+app.put("/updateCudBillingRecord/:id", async (req, res) => {
     const {
         idprofesional,
         nombreyapellidoprofesional,
@@ -1251,16 +1256,10 @@ app.put("/updateMedicalRecord/:id", async (req, res) => {
     }
 });
 
-
-
-app.listen(PORT, () => {
-    console.log(`server started on port ${PORT}`);
-});
-
 //PATCH: paciente
 //---------------
 
-app.patch("/partialUpdatePatient/:id", async (req, res) => {
+app.patch("/partialUpdatePatientRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;
@@ -1312,7 +1311,7 @@ app.patch("/partialUpdatePatient/:id", async (req, res) => {
 //PATCH: facturación CUD
 //----------------------
 
-app.patch("/partialUpdateRecord/:id", async (req, res) => {
+app.patch("/partialUpdateCudBillingRecord/:id", async (req, res) => {
     const {
         id
     } = req.params;

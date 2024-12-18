@@ -7,11 +7,12 @@ import {
 } from "../../../../api/medicalRecords";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
-import { getPatient } from "../../../../api/patients";
+import { getPatientRecord } from "../../../../api/patients";
 import {
-  getProfessional,
-  getProfessionals,
+  getProfessionalRecord,
+  getProfessionalsRecords,
 } from "../../../../api/professionals";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const EditMedicalRecordContainer = () => {
   const { medicalRecordId } = useParams();
@@ -66,13 +67,13 @@ export const EditMedicalRecordContainer = () => {
         const response = await getMedicalRecord(medicalRecordId);
         setMedicalRecord(response);
         if (response) {
-          const responsePatient = await getPatient(response.idpaciente);
+          const responsePatient = await getPatientRecord(response.idpaciente);
           setPatient(responsePatient);
-          const responseProfessional = await getProfessional(
+          const responseProfessional = await getProfessionalRecord(
             response.idprofesional
           );
           setProfessional(responseProfessional);
-          const responseArrayProfessionals = await getProfessionals();
+          const responseArrayProfessionals = await getProfessionalsRecords();
           setArrayProfessionals(responseArrayProfessionals);
         }
       } catch (error) {
@@ -111,5 +112,10 @@ export const EditMedicalRecordContainer = () => {
     cancelAction,
     isLoading,
   };
-  return <EditMedicalRecord {...props} />;
+  return (
+    <>
+      <EditMedicalRecord {...props} />;
+      <Footer />
+    </>
+  );
 };

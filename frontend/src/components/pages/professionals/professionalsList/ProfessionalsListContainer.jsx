@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { ProfessionalsList } from "./ProfessionalsList";
-import { getProfessionals } from "../../../../api/professionals";
 import { Spinner } from "../../../common/spinner/Spinner";
+import { getProfessionalsRecords } from "../../../../api/professionals";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const ProfessionalsListContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
@@ -12,7 +13,7 @@ export const ProfessionalsListContainer = () => {
   };
 
   useEffect(() => {
-    getProfessionals()
+    getProfessionalsRecords()
       .then((response) => setProfessionalsRecords(response))
       .catch((error) => console.log(error));
   }, [updateList]);
@@ -27,5 +28,10 @@ export const ProfessionalsListContainer = () => {
     handleChange,
   };
 
-  return <ProfessionalsList {...props} />;
+  return (
+    <>
+      <ProfessionalsList {...props} />
+      <Footer />
+    </>
+  );
 };

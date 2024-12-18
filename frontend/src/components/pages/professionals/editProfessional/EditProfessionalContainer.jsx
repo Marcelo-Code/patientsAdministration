@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
-import {
-  getProfessional,
-  updateProfessional,
-} from "../../../../api/professionals.js";
+
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext.jsx";
 import dayjs from "dayjs";
 import { Spinner } from "../../../common/spinner/Spinner.jsx";
 import { EditProfessional } from "./EditProfessional.jsx";
+import {
+  getProfessionalRecord,
+  updateProfessionalRecord,
+} from "../../../../api/professionals.js";
+import { Footer } from "../../../layout/footer/Footer.jsx";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();
@@ -40,7 +42,7 @@ export const EditProfessionalContainer = () => {
   };
 
   useEffect(() => {
-    getProfessional(professionalId)
+    getProfessionalRecord(professionalId)
       .then((response) => {
         setProfessionalRecord(response);
       })
@@ -56,7 +58,7 @@ export const EditProfessionalContainer = () => {
       fechaultimaactualizacion: today,
     };
     setIsLoading(true);
-    updateProfessional(updatedProfessional, professionalId)
+    updateProfessionalRecord(updatedProfessional, professionalId)
       .then((response) => {
         console.log(response);
         setIsLoading(false);
@@ -78,5 +80,10 @@ export const EditProfessionalContainer = () => {
     cancelAction,
   };
 
-  return <EditProfessional {...props} />;
+  return (
+    <>
+      <EditProfessional {...props} />
+      <Footer />
+    </>
+  );
 };

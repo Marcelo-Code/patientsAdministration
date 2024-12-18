@@ -1,14 +1,17 @@
+/* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import { Spinner } from "../../../../common/spinner/Spinner";
-import { getProfessionals } from "../../../../../api/professionals";
-import { getPatients } from "../../../../../api/patients";
+
+import { NoCudBillingList } from "./NoCudBillingList";
 import {
-  getBillRecordNoCud,
-  getNoCudBills,
+  getNoCudBillingRecord,
+  getNoCudBillingRecords,
   updateNoCudBillingRecord,
 } from "../../../../../api/noCudBilling";
-import { NoCudBillingList } from "./NoCudBillingList";
+import { getProfessionalsRecords } from "../../../../../api/professionals";
+import { getPatientsRecords } from "../../../../../api/patients";
+import { Footer } from "../../../../layout/footer/Footer";
 
 export const NoCudBillingListContainer = ({ patientId }) => {
   const {
@@ -85,7 +88,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
   const handleEditModeField = (id) => {
     setEditModeFields(id);
     setIsLoading(true);
-    getBillRecordNoCud(id)
+    getNoCudBillingRecord(id)
       .then((response) => {
         console.log(response);
         setBillRecordNoCud(response);
@@ -98,7 +101,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
   };
 
   useEffect(() => {
-    getNoCudBills()
+    getNoCudBillingRecords()
       .then((response) => {
         let filteredResponse;
         if (patientId) {
@@ -117,12 +120,12 @@ export const NoCudBillingListContainer = ({ patientId }) => {
         setFilteredNoCudBillingRecords(sortedResponse);
       })
       .catch((error) => console.log(error));
-    getProfessionals()
+    getProfessionalsRecords()
       .then((response) => {
         setProfessionals(response);
       })
       .catch((error) => console.log(error));
-    getPatients()
+    getPatientsRecords()
       .then((response) => {
         setPatients(response);
       })
@@ -248,6 +251,10 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     modifiedFlag,
     removeAccentsAndSpecialChars,
   };
-  return <NoCudBillingList {...props} />;
-  // return <div>no cud</div>;
+  return (
+    <>
+      <NoCudBillingList {...props} />;
+      <Footer />
+    </>
+  );
 };

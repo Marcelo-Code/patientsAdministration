@@ -1,20 +1,22 @@
 import axios from "axios";
 import {
+    BACKEND_URL
+} from "./config";
+import {
     ConfirmAlert,
     ErrorAlert,
     SuccessAlert
 } from "../components/common/alerts/alerts";
 import {
-    BACKEND_URL
-} from "./config";
-import {
     deleteFileAfterRecordFromBucket
 } from "./billingDocuments";
 
+//GET: facturación no CUD
+//-----------------------
 
-export const getNoCudBills = async () => {
+export const getNoCudBillingRecords = async () => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getNoCudBills`)
+        const response = await axios.get(`${BACKEND_URL}/getNoCudBillingRecords`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar registros!");
@@ -22,9 +24,12 @@ export const getNoCudBills = async () => {
     }
 }
 
-export const getBillRecordNoCud = async (billRecordNoCudId) => {
+//GET: facturaciones no CUD
+//------------------------
+
+export const getNoCudBillingRecord = async (noCudBillingRecordId) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getBillRecordNoCud/${billRecordNoCudId}`)
+        const response = await axios.get(`${BACKEND_URL}/getNoCudBillingRecord/${noCudBillingRecordId}`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar registro!");
@@ -32,11 +37,13 @@ export const getBillRecordNoCud = async (billRecordNoCudId) => {
     }
 }
 
+//POST: facturación no CUD
+//------------------------
 
-export const createBillRecordNoCud = async function name(newBillRecordNoCud) {
+export const createNoCudBillingRecord = async function name(noCudNewBillingRecord) {
     console.log("Creando registro...")
     try {
-        const response = await axios.post(`${BACKEND_URL}/createBillRecordNoCud`, newBillRecordNoCud);
+        const response = await axios.post(`${BACKEND_URL}/createNoCudBillingRecord`, noCudNewBillingRecord);
         console.log("Registro creado: ", response.data)
         SuccessAlert("Registro creado");
         window.history.back();
@@ -48,11 +55,14 @@ export const createBillRecordNoCud = async function name(newBillRecordNoCud) {
     }
 }
 
-export const updateNoCudBillingRecord = async (noCudbillRecord, noCudbillRecordId) => {
+//PUT: facturación no CUD
+//-----------------------
+
+export const updateNoCudBillingRecord = async (noCudbillingRecord, noCudbillingRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar este registro?", "", "Modificar", "Cancelar");
         if (result.isConfirmed) {
-            const response = await axios.put(`${BACKEND_URL}/updateNoCudBillingRecord/${noCudbillRecordId}`, noCudbillRecord);
+            const response = await axios.put(`${BACKEND_URL}/updateNoCudBillingRecord/${noCudbillingRecordId}`, noCudbillingRecord);
             SuccessAlert("Registro modificado!");
             return (response.data);
         }
@@ -63,11 +73,14 @@ export const updateNoCudBillingRecord = async (noCudbillRecord, noCudbillRecordI
     }
 }
 
-export const deleteNoCudBillingRecord = async (noCudBillingId, documentData) => {
+//DELETE: facturación no CUD
+//--------------------------
+
+export const deleteNoCudBillingRecord = async (noCudBillingRecordId, documentData) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar esta facturación?", "", "Eliminar", "Cancelar")
         if (result.isConfirmed) {
-            getBillRecordNoCud(noCudBillingId)
+            getNoCudBillingRecord(noCudBillingRecordId)
                 .then((response) => {
                     documentData.map((document) => {
                         console.log(response[document]);
@@ -80,7 +93,7 @@ export const deleteNoCudBillingRecord = async (noCudBillingId, documentData) => 
                     console.log(response)
                 })
                 .catch((error) => console.log(error))
-            await axios.delete(`${BACKEND_URL}/deleteNoCudBillingRecord/${noCudBillingId}`);
+            await axios.delete(`${BACKEND_URL}/deleteNoCudBillingRecord/${noCudBillingRecordId}`);
             SuccessAlert("¡Facturación eliminada!");
         }
     } catch (error) {

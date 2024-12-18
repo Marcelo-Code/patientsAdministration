@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
-import { DocumentImage } from "../../pages/documentation/DocumentImage";
+import { DocumentImage } from "./DocumentImage";
 import { DeleteImage, downloadImage } from "../../../api/Images";
 import { UploadContainer } from "./UploadContainer";
-import { WarningAlert } from "../alerts/alerts";
+import { WarningAlert } from "../../common/alerts/alerts";
 
 export const DocumentCard = ({
   patient,

@@ -3,15 +3,16 @@ import { useContext, useEffect, useState } from "react";
 
 import { CudBillingList } from "./CudBillingList";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import {
-  getBillRecordCud,
-  getCudBillPatient,
-  getCudBills,
-  updateBillRecordCud,
-} from "../../../../../api/cudBilling";
 import { Spinner } from "../../../../common/spinner/Spinner";
-import { getProfessionals } from "../../../../../api/professionals";
-import { getPatients } from "../../../../../api/patients";
+
+import {
+  getCudBillingRecord,
+  getCudBillingRecords,
+  updateCudBillingRecord,
+} from "../../../../../api/cudBilling";
+import { getProfessionalsRecords } from "../../../../../api/professionals";
+import { getPatientsRecords } from "../../../../../api/patients";
+import { Footer } from "../../../../layout/footer/Footer";
 
 export const CudBillingListContainer = ({ patientId }) => {
   const { createList, cancelTableAction } = useContext(GeneralContext);
@@ -83,7 +84,7 @@ export const CudBillingListContainer = ({ patientId }) => {
     setEditModeFields(id);
     setIsLoading(true);
     // console.log(id);
-    getBillRecordCud(id)
+    getCudBillingRecord(id)
       .then((response) => {
         setCudBillingRecord(response);
         setIsLoading(false);
@@ -96,7 +97,7 @@ export const CudBillingListContainer = ({ patientId }) => {
   };
 
   useEffect(() => {
-    getCudBills()
+    getCudBillingRecords()
       .then((response) => {
         let filteredResponse;
         if (patientId) {
@@ -116,12 +117,12 @@ export const CudBillingListContainer = ({ patientId }) => {
         setFilteredCudBillingRecords(sortedResponse);
       })
       .catch((error) => console.log(error));
-    getProfessionals()
+    getProfessionalsRecords()
       .then((response) => {
         setProfessionals(response);
       })
       .catch((error) => console.log(error));
-    getPatients()
+    getPatientsRecords()
       .then((response) => {
         setPatients(response);
       })
@@ -146,7 +147,7 @@ export const CudBillingListContainer = ({ patientId }) => {
 
   const handleSubmit = (idCudBillingRecord) => {
     setIsLoading(true);
-    updateBillRecordCud(cudBillingRecord, idCudBillingRecord)
+    updateCudBillingRecord(cudBillingRecord, idCudBillingRecord)
       .then((response) => {
         // console.log(response);
         setEditModeFields(null);
@@ -248,5 +249,10 @@ export const CudBillingListContainer = ({ patientId }) => {
     // modifiedFlag,
     // handleGoBack,
   };
-  return <CudBillingList {...props} />;
+  return (
+    <>
+      <CudBillingList {...props} />;
+      <Footer />
+    </>
+  );
 };

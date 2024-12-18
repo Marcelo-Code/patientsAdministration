@@ -1,10 +1,14 @@
 import { useParams } from "react-router-dom";
-import { EditPatient } from "./EditPatient";
-import { getPatient, updatePatient } from "../../../../api/patients";
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { Spinner } from "../../../common/spinner/Spinner";
+import {
+  getPatientRecord,
+  updatePatientRecord,
+} from "../../../../api/patients";
+import { EditPatient } from "./EditPatient";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
@@ -61,7 +65,7 @@ export const EditPatientContainer = () => {
   };
 
   useEffect(() => {
-    getPatient(patientId)
+    getPatientRecord(patientId)
       .then((response) => {
         setPatientRecord(response);
       })
@@ -79,7 +83,7 @@ export const EditPatientContainer = () => {
       fechaultimaactualizacion: today,
     };
     setIsLoading(true);
-    updatePatient(updatedPatient, patientId)
+    updatePatientRecord(updatedPatient, patientId)
       .then((response) => {
         console.log(response);
         setIsLoading(false);
@@ -129,5 +133,10 @@ export const EditPatientContainer = () => {
     cancelAction,
   };
 
-  return <EditPatient {...props} />;
+  return (
+    <>
+      <EditPatient {...props} />;
+      <Footer />
+    </>
+  );
 };

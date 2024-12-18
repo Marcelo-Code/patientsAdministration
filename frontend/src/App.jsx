@@ -16,6 +16,7 @@ import { EditProfessionalContainer } from "./components/pages/professionals/edit
 import { EditMedicalRecordContainer } from "./components/pages/medicalRecords/editMedicalRecord/EditMedicalRecordContainer";
 import { MedicalRecordListContainer } from "./components/pages/medicalRecords/medicalRecordsList/MedicalRecordListContainer";
 import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/createMedicalRecord/CreateMedicalRecordContainer";
+import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
 
 function App() {
   return (
@@ -85,6 +86,10 @@ function App() {
           <Route
             path={"/createNoCudBilling"}
             element={<CreateNoCudBillingContainer />}
+          />
+          <Route
+            path={"/medicalRecordDetail/:medicalRecordId"}
+            element={<MedicalRecordDetailContainer />}
           />
         </Routes>
       </GeneralContextProvider>

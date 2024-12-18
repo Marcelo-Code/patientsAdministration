@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../common/spinner/Spinner";
-import { getMedicalRecords } from "../../../../api/medicalRecords";
 import { MedicalRecordsList } from "./MedicalRecordsList";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { meetings } from "../../../common/Menu/meetings";
-import { getPatient } from "../../../../api/patients";
+import { getMedicalRecords } from "../../../../api/medicalRecords";
+import { getPatientRecord } from "../../../../api/patients";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const MedicalRecordListContainer = () => {
   const [patientFilter, setPatientFilter] = useState("Filtrar Paciente");
@@ -130,7 +131,7 @@ export const MedicalRecordListContainer = () => {
           );
           setRecords(filteredRecords);
           setListRecords(filteredRecords);
-          getPatient(patientId)
+          getPatientRecord(patientId)
             .then((response) => setPatient(response))
             .catch((error) => console.log(error));
         } else {
@@ -356,5 +357,10 @@ export const MedicalRecordListContainer = () => {
     patientId,
   };
 
-  return <MedicalRecordsList {...props} />;
+  return (
+    <>
+      <MedicalRecordsList {...props} />;
+      <Footer />
+    </>
+  );
 };

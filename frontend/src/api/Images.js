@@ -1,7 +1,4 @@
 import {
-    partialUpdatePatient
-} from "./patients";
-import {
     supabase,
     bucketName,
     publicBucketUrl
@@ -9,6 +6,9 @@ import {
 import {
     ConfirmAlert
 } from "../components/common/alerts/alerts";
+import {
+    partialUpdatePatientRecord
+} from "./patients";
 
 
 //DELETE: Imagenes
@@ -45,7 +45,7 @@ export const DeleteImage = async (name, patient) => {
                 ...patient,
                 [name]: ""
             };
-            await partialUpdatePatient(updatedPatient, patient.id)
+            await partialUpdatePatientRecord(updatedPatient, patient.id)
                 .then((response) => console.log(response))
                 .catch((error) => console.log(error));
         }
@@ -125,7 +125,7 @@ export const uploadImages = async (file, name, patient) => {
                 ...patient,
                 [name]: decodedUrl
             };
-            await partialUpdatePatient(updatedPatient, patient.id);
+            await partialUpdatePatientRecord(updatedPatient, patient.id);
         }
     } catch (error) {
         console.error("Error al manejar la carga de la imagen:", error);

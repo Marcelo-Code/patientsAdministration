@@ -2,7 +2,8 @@ import { useContext, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { CreateProfessional } from "./CreateProfessional";
-import { createProfessional } from "../../../../api/professionals";
+import { createProfessionalRecord } from "../../../../api/professionals";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const CreateProfessionalContainer = () => {
   const { cancelAction, goBackAction, isLoading, setIsLoading } =
@@ -42,7 +43,7 @@ export const CreateProfessionalContainer = () => {
     };
     setIsLoading(true);
     e.preventDefault();
-    createProfessional(updatedProfessional)
+    createProfessionalRecord(updatedProfessional)
       .then(((response) => console.log(response), setIsLoading(false)))
       .catch((error) => console.log(error.message));
   };
@@ -55,5 +56,10 @@ export const CreateProfessionalContainer = () => {
     goBackAction,
     cancelAction,
   };
-  return <CreateProfessional {...props} />;
+  return (
+    <>
+      <CreateProfessional {...props} />;
+      <Footer />
+    </>
+  );
 };

@@ -25,13 +25,13 @@ import dayjs from "dayjs";
 import { useContext } from "react";
 import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
 import { NotFoundRecord } from "../../../../common/errorPages/notFoundRecord";
-import { deleteBillRecord } from "../../../../../api/cudBilling";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
 import {
   DeleteFileFromBucket,
   uploadFileToBucket,
 } from "../../../../../api/billingDocuments";
 import { GeneralContext } from "../../../../../context/GeneralContext";
+import { deleteCudBillingRecord } from "../../../../../api/cudBilling";
 
 export const CudBillingList = ({
   cudBillingRecords,
@@ -187,7 +187,10 @@ export const CudBillingList = ({
                                 <td>
                                   <Link
                                     onClick={() => {
-                                      deleteBillRecord(record.id, documentData)
+                                      deleteCudBillingRecord(
+                                        record.id,
+                                        documentData
+                                      )
                                         .then((reponse) => {
                                           console.log(reponse);
                                           setUpdateList(!updateList);

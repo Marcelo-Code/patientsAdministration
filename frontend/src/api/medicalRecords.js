@@ -1,14 +1,12 @@
 import axios from "axios";
-
-import {
-    BACKEND_URL
-} from "./config";
 import {
     ConfirmAlert,
     ErrorAlert,
     SuccessAlert
 } from "../components/common/alerts/alerts";
-
+import {
+    BACKEND_URL
+} from "./config";
 
 //POST: consultas médicas
 //-----------------------
@@ -30,17 +28,17 @@ export const createMedicalRecord = async (newMedicalRecord) => {
 //GET: consultas médicas por id de paciente
 //-----------------------------------------
 
-export const getMedicalHistory = async (patientId) => {
+export const getMedicalHistoryRecord = async (patientRecordId) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getMedicalHistory/${patientId}`)
+        const response = await axios.get(`${BACKEND_URL}/getMedicalHistoryRecord/${patientRecordId}`)
         return (response.data);
     } catch (error) {
         console.log("Error al obtener consultas médicas", error.message)
     }
 }
 
-//GET: conusltas médicas por id de paciente
-//-----------------------------------------
+//GET: consulta médica por id de paciente
+//---------------------------------------
 
 export const getMedicalRecord = async (medicalRecordId) => {
     try {
@@ -51,6 +49,9 @@ export const getMedicalRecord = async (medicalRecordId) => {
         console.log("Error al obtener consulta: ", error.message)
     }
 }
+
+//GET: consultas médicas
+//----------------------
 
 export const getMedicalRecords = async () => {
     try {
@@ -67,11 +68,10 @@ export const getMedicalRecords = async () => {
 //DELETE: consulta
 //----------------
 
-export const deleteMedicalrecord = async (medicalRecordId) => {
+export const deleteMedicalRecord = async (medicalRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar esta consulta?", "", "Eliminar", "Cancelar");
         if (result.isConfirmed) {
-            console.log(`${BACKEND_URL}/deleteMedicalRecord/${medicalRecordId}`);
             const response = await axios.delete(`${BACKEND_URL}/deleteMedicalRecord/${medicalRecordId}`);
             SuccessAlert("¡Consulta eliminada!");
             return (response.data);

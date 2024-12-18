@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
+import { createPatientRecord } from "../../../../api/patients";
 import { CreatePatient } from "./CreatePatient";
-import { createPatient } from "../../../../api/patients";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const CreatePatientContainer = () => {
   const { cancelAction, goBackAction, isLoading, setIsLoading } =
@@ -57,7 +58,7 @@ export const CreatePatientContainer = () => {
     const updatedPatient = { ...patient, fechaUltimaActualizacion: today };
     setIsLoading(true);
     e.preventDefault();
-    createPatient(updatedPatient)
+    createPatientRecord(updatedPatient)
       .then(((response) => console.log(response), setIsLoading(false)))
       .catch((error) => console.log(error.message));
   };
@@ -72,5 +73,10 @@ export const CreatePatientContainer = () => {
     cancelAction,
     goBackAction,
   };
-  return <CreatePatient {...props} />;
+  return (
+    <>
+      <CreatePatient {...props} />;
+      <Footer />
+    </>
+  );
 };

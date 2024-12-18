@@ -11,12 +11,12 @@ import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { deletePatient } from "../../../../api/patients";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
 import "./patientsList.css";
+import { deletePatientRecord } from "../../../../api/patients";
 
 export const PatientsList = ({
   editMode,
@@ -123,7 +123,7 @@ export const PatientsList = ({
                   <>
                     <Link
                       onClick={() =>
-                        deletePatient(
+                        deletePatientRecord(
                           patient.id,
                           patient.nombreyapellidopaciente
                         )

@@ -26,9 +26,7 @@ import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEdit
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
 import { NotFoundRecord } from "../../../../common/errorPages/notFoundRecord";
 import {
-  DeleteFileFromBucket,
   DeleteNoCudBillingDocumentFromBucket,
-  uploadFileToBucket,
   uploadNoCudBillingDocumentToBucket,
 } from "../../../../../api/billingDocuments";
 import { GeneralContext } from "../../../../../context/GeneralContext";

@@ -5,11 +5,11 @@ import { useParams } from "react-router-dom";
 
 export const BillingContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
-  const { patientId } = useParams();
+  const { patientId = null } = useParams();
 
   const props = {
     handleGoBack,
-    patientId: patientId || null,
+    patientId,
   };
 
   return <Billing {...props} />;

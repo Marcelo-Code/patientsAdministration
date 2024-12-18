@@ -1,10 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { createBillRecordNoCud } from "../../../../../api/noCudBilling";
-import { CreateNoCudBilling } from "./CreateNoCudBilling";
+
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import { getProfessionals } from "../../../../../api/professionals";
 import { Spinner } from "../../../../common/spinner/Spinner";
-import { getPatient, getPatients } from "../../../../../api/patients";
+import { getProfessionalsRecords } from "../../../../../api/professionals";
+import {
+  getPatientRecord,
+  getPatientsRecords,
+} from "../../../../../api/patients";
+import { createNoCudBillingRecord } from "../../../../../api/noCudBilling";
+import { CreateNoCudBilling } from "./CreateNoCudBilling";
+import { Footer } from "../../../../layout/footer/Footer";
 
 export const CreateNoCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
@@ -61,12 +66,12 @@ export const CreateNoCudBillingContainer = () => {
   );
 
   useEffect(() => {
-    getProfessionals()
+    getProfessionalsRecords()
       .then((response) => {
         setProfessionals(response);
       })
       .catch((error) => console.log(error));
-    getPatients()
+    getPatientsRecords()
       .then((response) => {
         setPatients(response);
       })
@@ -90,7 +95,7 @@ export const CreateNoCudBillingContainer = () => {
     if (value2 && name === "idpaciente") {
       updatedBillRecordNoCud.nombreyapellidopaciente = value2;
       try {
-        const response = await getPatient(value);
+        const response = await getPatientRecord(value);
         updatedBillRecordNoCud.obrasocialpaciente = response.obrasocialpaciente;
       } catch (error) {
         console.log(error);
@@ -105,7 +110,7 @@ export const CreateNoCudBillingContainer = () => {
 
   const handleSubmit = () => {
     setIsLoading(true);
-    createBillRecordNoCud(billRecordNoCud)
+    createNoCudBillingRecord(billRecordNoCud)
       .then((response) => {
         console.log(response);
         setIsLoading(false);
@@ -159,5 +164,10 @@ export const CreateNoCudBillingContainer = () => {
     billRecordNoCud,
   };
 
-  return <CreateNoCudBilling {...props} />;
+  return (
+    <>
+      <CreateNoCudBilling {...props} />;
+      <Footer />
+    </>
+  );
 };

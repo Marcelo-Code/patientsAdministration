@@ -1,23 +1,27 @@
-//GET: pacientes
-//--------------
-
 import axios from "axios";
+import {
+    BACKEND_URL
+} from "./config";
 import {
     ConfirmAlert,
     ErrorAlert,
     SuccessAlert
 } from "../components/common/alerts/alerts";
-import {
-    BACKEND_URL
-} from "./config";
 
 import {
     deleteFileAfterRecordFromBucket
-} from "./billingDocuments";
+} from "./billingDocuments"
 
-export const getCudBills = async () => {
+
+
+
+
+//GET: facturaciones CUD
+//----------------------
+
+export const getCudBillingRecords = async () => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getCudBills`)
+        const response = await axios.get(`${BACKEND_URL}/getCudBillingRecords`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar registros!");
@@ -25,9 +29,12 @@ export const getCudBills = async () => {
     }
 }
 
-export const getCudBillPatient = async (patientId) => {
+//GET: facturación CUD, paciente
+//------------------------------
+
+export const getCudBillingPatientRecord = async (patientRecordId) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getCudBillPatient/${patientId}`)
+        const response = await axios.get(`${BACKEND_URL}/getCudBillingPatientRecord/${patientRecordId}`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar registros!");
@@ -35,9 +42,12 @@ export const getCudBillPatient = async (patientId) => {
     }
 }
 
-export const getBillRecordCud = async (billRecordCudId) => {
+//GET: facturación CUD
+//--------------------
+
+export const getCudBillingRecord = async (cudBillingRecordId) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getBillRecordCud/${billRecordCudId}`)
+        const response = await axios.get(`${BACKEND_URL}/getCudBillingRecord/${cudBillingRecordId}`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar registro!");
@@ -45,11 +55,14 @@ export const getBillRecordCud = async (billRecordCudId) => {
     }
 }
 
-export const deleteBillRecord = async (billId, documentData) => {
+//DELETE: facturación CUD
+//-----------------------
+
+export const deleteCudBillingRecord = async (billingRecordId, documentData) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar esta facturación?", "", "Eliminar", "Cancelar")
         if (result.isConfirmed) {
-            getBillRecordCud(billId)
+            getCudBillingRecord(billingRecordId)
                 .then((response) => {
                     documentData.map((document) => {
                         console.log(response[document]);
@@ -62,7 +75,7 @@ export const deleteBillRecord = async (billId, documentData) => {
                     console.log(response)
                 })
                 .catch((error) => console.log(error))
-            await axios.delete(`${BACKEND_URL}/deleteBillRecord/${billId}`);
+            await axios.delete(`${BACKEND_URL}/deleteCudBillingRecord/${billingRecordId}`);
             SuccessAlert("¡Facturación eliminada!");
         }
     } catch (error) {
@@ -72,10 +85,10 @@ export const deleteBillRecord = async (billId, documentData) => {
     }
 }
 
-export const createBillRecordCud = async function name(newBillRecordCud) {
+export const createCudBillingRecord = async function name(newCudBillingRecord) {
     console.log("Creando registro...")
     try {
-        const response = await axios.post(`${BACKEND_URL}/createBillRecordCud`, newBillRecordCud);
+        const response = await axios.post(`${BACKEND_URL}/createCudBillingRecord`, newCudBillingRecord);
         console.log("Registro creado: ", response.data)
         SuccessAlert("Registro creado");
         window.history.back();
@@ -90,11 +103,11 @@ export const createBillRecordCud = async function name(newBillRecordCud) {
 //PUT: facturación
 //----------------
 
-export const updateBillRecordCud = async (billRecordCud, billRecordCudId) => {
+export const updateCudBillingRecord = async (cudBillingRecord, cudBillingRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar este registro?", "", "Modificar", "Cancelar");
         if (result.isConfirmed) {
-            const response = await axios.put(`${BACKEND_URL}/updateBillRecordCud/${billRecordCudId}`, billRecordCud);
+            const response = await axios.put(`${BACKEND_URL}/updateCudBillingRecord/${cudBillingRecordId}`, cudBillingRecord);
             SuccessAlert("Registro modificado!");
             return (response.data);
         }

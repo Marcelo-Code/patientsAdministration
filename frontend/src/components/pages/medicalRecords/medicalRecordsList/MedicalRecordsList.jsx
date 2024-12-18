@@ -17,7 +17,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { OptionsMenu } from "../../../common/Menu/OptionsMenu";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import { deleteMedicalrecord } from "../../../../api/medicalRecords";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
@@ -27,6 +26,7 @@ import MedicalRecordListFilter from "./MedicalRecordListFilter";
 import { MedicalRecordListFilterDrawer } from "./MedicalRecordListFilterDrawer";
 import { ExportToWord } from "../../../common/exportToWord/ExportToWord";
 import { Animation } from "./Animation";
+import { deleteMedicalRecord } from "../../../../api/medicalRecords";
 export const MedicalRecordsList = ({
   records,
   setRecords,
@@ -263,7 +263,7 @@ export const MedicalRecordsList = ({
                 <>
                   <Link
                     onClick={() =>
-                      deleteMedicalrecord(record.id)
+                      deleteMedicalRecord(record.id)
                         .then((response) => {
                           console.log(response);
                           setUpdateFlag(!updateFlag);
@@ -278,7 +278,7 @@ export const MedicalRecordsList = ({
                   </Link>
                 </>
               ) : (
-                <Link>
+                <Link to={`/medicalRecordDetail/${record.id}`}>
                   <Button size="small">Ver detalles</Button>
                 </Link>
               )}

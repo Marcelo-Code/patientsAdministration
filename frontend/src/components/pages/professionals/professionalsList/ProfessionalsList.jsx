@@ -14,9 +14,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { deleteProfessional } from "../../../../api/professionals";
 import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
 import "./professionalsList.css";
+import { deleteProfessionalRecord } from "../../../../api/professionals";
 
 export const ProfessionalsList = ({
   professionalsRecords,
@@ -154,7 +154,7 @@ export const ProfessionalsList = ({
                   <>
                     <Link
                       onClick={() =>
-                        deleteProfessional(
+                        deleteProfessionalRecord(
                           professional.id,
                           professional.nombreyapellidoprofesional
                         )

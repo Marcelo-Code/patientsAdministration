@@ -1,8 +1,4 @@
-import axios from "axios";
-
-import {
-    BACKEND_URL
-} from "./config";
+import axios from 'axios';
 import {
     ConfirmAlert,
     ErrorAlert,
@@ -10,21 +6,23 @@ import {
 } from "../components/common/alerts/alerts";
 import {
     documentData
-} from "../components/common/documentCard/DocumentData";
+} from "../components/pages/documentation/DocumentData";
 import {
-    borrarImagen,
-    DeleteImage,
+    borrarImagen
 } from "./Images";
+import {
+    BACKEND_URL
+} from './config';
 
 //POST: pacientes
 //---------------
 
-export const createPatient = async (newPatient) => {
+export const createPatientRecord = async (newPatientRecord) => {
     console.log("Creando paciente...")
     try {
-        const response = await axios.post(`${BACKEND_URL}/createPatient`, newPatient);
+        const response = await axios.post(`${BACKEND_URL}/createPatientRecord`, newPatientRecord);
         console.log("Paciente creado: ", response.data)
-        SuccessAlert(`Paciente ${newPatient.nombreYApellidoPaciente} creado`);
+        SuccessAlert(`Paciente ${newPatientRecord.nombreYApellidoPaciente} creado`);
         window.history.back();
         return response;
     } catch (error) {
@@ -36,9 +34,9 @@ export const createPatient = async (newPatient) => {
 //GET: pacientes
 //--------------
 
-export const getPatients = async () => {
+export const getPatientsRecords = async () => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getPatients`)
+        const response = await axios.get(`${BACKEND_URL}/getPatientsRecords`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar pacientes!");
@@ -46,12 +44,12 @@ export const getPatients = async () => {
     }
 }
 
-//GET: paciente por id
-//--------------------
+//GET: paciente
+//-------------
 
-export const getPatient = async (patientId) => {
+export const getPatientRecord = async (patientRecordId) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getPatient/${patientId}`)
+        const response = await axios.get(`${BACKEND_URL}/getPatientRecord/${patientRecordId}`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar paciente!");
@@ -59,15 +57,15 @@ export const getPatient = async (patientId) => {
     }
 }
 
-//DELETE: paciente por id
-//-----------------------
+//DELETE: paciente
+//----------------
 
-export const deletePatient = async (patientId, patientName) => {
+export const deletePatientRecord = async (patientRecordId, patientName) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este paciente?", `Vas a eliminar a ${patientName}`, "Eliminar", "Cancelar");
         if (result.isConfirmed) {
 
-            getPatient(patientId)
+            getPatientRecord(patientRecordId)
                 .then((response) => {
                     documentData.map((document) => {
                         console.log(response[document.name]);
@@ -79,7 +77,7 @@ export const deletePatient = async (patientId, patientName) => {
                 })
                 .catch((error) => console.log(error))
 
-            const response = await axios.delete(`${BACKEND_URL}/deletePatient/${patientId}`);
+            const response = await axios.delete(`${BACKEND_URL}/deletePatientRecord/${patientRecordId}`);
 
             SuccessAlert(`Acabas de eliminar a ${patientName}`)
             return response.data;
@@ -94,12 +92,12 @@ export const deletePatient = async (patientId, patientName) => {
 //PUT: paciente
 //-------------
 
-export const updatePatient = async (patient, patientId) => {
+export const updatePatientRecord = async (patientRecord, patientRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar este paciente?", "", "Modificar", "Cancelar")
         console.log(result.isConfirmed);
         if (result.isConfirmed) {
-            const response = await axios.put(`${BACKEND_URL}/updatePatient/${patientId}`, patient);
+            const response = await axios.put(`${BACKEND_URL}/updatePatientRecord/${patientRecordId}`, patientRecord);
             SuccessAlert("¡Paciente modificado!")
             window.history.back();
             return response.data;
@@ -114,8 +112,8 @@ export const updatePatient = async (patient, patientId) => {
 //PATCH: paciente
 //---------------
 
-export const partialUpdatePatient = async (patient, patientId) => {
-    const response = await axios.patch(`${BACKEND_URL}/partialUpdatePatient/${patientId}`, patient)
+export const partialUpdatePatientRecord = async (patientRecord, patientRecordId) => {
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdatePatient/${patientRecordId}`, patientRecord)
     try {
         SuccessAlert("¡Paciente modificado!");
         return response.data;

@@ -11,9 +11,9 @@ import {
     SuccessAlert
 } from "../components/common/alerts/alerts";
 
-export const getProfessionals = async () => {
+export const getProfessionalsRecords = async () => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getProfessionals`)
+        const response = await axios.get(`${BACKEND_URL}/getProfessionalsRecords`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar profesionales!")
@@ -21,12 +21,12 @@ export const getProfessionals = async () => {
     }
 }
 
-//GET: paciente por id
-//--------------------
+//GET: profesional
+//----------------
 
-export const getProfessional = async (professionalId) => {
+export const getProfessionalRecord = async (professionalId) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/getProfessional/${professionalId}`)
+        const response = await axios.get(`${BACKEND_URL}/getProfessionalRecord/${professionalId}`)
         return (response.data);
     } catch (error) {
         ErrorAlert("¡Error al buscar profesional!");
@@ -34,13 +34,13 @@ export const getProfessional = async (professionalId) => {
     }
 }
 
-// POST: Profesionales
-//--------------------
+// POST: Profesional
+//------------------
 
-export const createProfessional = async (newProfessional) => {
+export const createProfessionalRecord = async (newProfessional) => {
     console.log("Creando profesional...")
     try {
-        const response = await axios.post(`${BACKEND_URL}/createProfessional`, newProfessional);
+        const response = await axios.post(`${BACKEND_URL}/createProfessionalRecord`, newProfessional);
         console.log("Profesional creado: ", response.data)
         SuccessAlert(`Profesional ${newProfessional.nombreYApellidoProfesional} creado`);
         window.history.back();
@@ -51,16 +51,16 @@ export const createProfessional = async (newProfessional) => {
     }
 }
 
-//DELETE: profesional por id
-//--------------------------
+//DELETE: profesional
+//-------------------
 
-export const deleteProfessional = async (professionalId, professionalName) => {
+export const deleteProfessionalRecord = async (professionalId, professionalName) => {
     console.log(professionalId);
     console.log(typeof (professionalId));
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este profesional?", `Vas a eliminar a ${professionalName}`, "Eliminar", "Cancelar");
         if (result.isConfirmed) {
-            const response = await axios.delete(`${BACKEND_URL}/deleteProfessional/${professionalId}`);
+            const response = await axios.delete(`${BACKEND_URL}/deleteProfessionalRecord/${professionalId}`);
             SuccessAlert("¡Profesional eliminado!");
             return (response.data);
         }
@@ -71,16 +71,14 @@ export const deleteProfessional = async (professionalId, professionalName) => {
     }
 };
 
-
-
 //PUT: profesional
 //----------------
 
-export const updateProfessional = async (professional, profesionalId) => {
+export const updateProfessionalRecord = async (professional, profesionalId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar este profesional?", "", "Modificar", "Cancelar");
         if (result.isConfirmed) {
-            const response = await axios.put(`${BACKEND_URL}/updateProfessional/${profesionalId}`, professional);
+            const response = await axios.put(`${BACKEND_URL}/updateProfessionalRecord/${profesionalId}`, professional);
             SuccessAlert("¡Profesional modificado!");
             window.history.back();
             return (response.data);

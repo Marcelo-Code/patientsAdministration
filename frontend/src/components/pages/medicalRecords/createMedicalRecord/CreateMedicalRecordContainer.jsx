@@ -8,7 +8,8 @@ import {
   getMedicalRecords,
 } from "../../../../api/medicalRecords";
 import { useParams } from "react-router-dom";
-import { getPatient } from "../../../../api/patients";
+import { getPatientRecord } from "../../../../api/patients";
+import { Footer } from "../../../layout/footer/Footer";
 
 export const CreateMedicalRecordContainer = () => {
   const [records, setRecords] = useState(null);
@@ -41,7 +42,7 @@ export const CreateMedicalRecordContainer = () => {
       .then((response) => {
         setRecords(response);
         if (patientId) {
-          getPatient(patientId)
+          getPatientRecord(patientId)
             .then((response) => setPatientRecord(response))
             .catch((error) => console.log(error));
         }
@@ -140,5 +141,10 @@ export const CreateMedicalRecordContainer = () => {
     patientId,
   };
 
-  return <CreateMedicalRecord {...props} />;
+  return (
+    <>
+      <CreateMedicalRecord {...props} />;
+      <Footer />
+    </>
+  );
 };

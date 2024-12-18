@@ -1,10 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { CreateCudBilling } from "./CreateCudBilling";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import { getProfessionals } from "../../../../../api/professionals";
 import { Spinner } from "../../../../common/spinner/Spinner";
-import { getPatient, getPatients } from "../../../../../api/patients";
-import { createBillRecordCud } from "../../../../../api/cudBilling";
+import { getProfessionalsRecords } from "../../../../../api/professionals";
+import {
+  getPatientRecord,
+  getPatientsRecords,
+} from "../../../../../api/patients";
+import { createCudBillingRecord } from "../../../../../api/cudBilling";
+import { CreateCudBilling } from "./CreateCudBilling";
+import { Footer } from "../../../../layout/footer/Footer";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
@@ -60,12 +64,12 @@ export const CreateCudBillingContainer = () => {
   );
 
   useEffect(() => {
-    getProfessionals()
+    getProfessionalsRecords()
       .then((response) => {
         setProfessionals(response);
       })
       .catch((error) => console.log(error));
-    getPatients()
+    getPatientsRecords()
       .then((response) => {
         setPatients(response);
       })
@@ -90,7 +94,7 @@ export const CreateCudBillingContainer = () => {
     if (value2 && name === "idpaciente") {
       updatedCudBillingRecord.nombreyapellidopaciente = value2;
       try {
-        const response = await getPatient(value);
+        const response = await getPatientRecord(value);
         updatedCudBillingRecord.obrasocialpaciente =
           response.obrasocialpaciente;
       } catch (error) {
@@ -106,7 +110,7 @@ export const CreateCudBillingContainer = () => {
 
   const handleSubmit = () => {
     setIsLoading(true);
-    createBillRecordCud(cudBillingRecord)
+    createCudBillingRecord(cudBillingRecord)
       .then((response) => {
         console.log(response);
         setIsLoading(false);
@@ -162,5 +166,10 @@ export const CreateCudBillingContainer = () => {
     modified,
   };
 
-  return <CreateCudBilling {...props} />;
+  return (
+    <>
+      <CreateCudBilling {...props} />
+      <Footer />
+    </>
+  );
 };
