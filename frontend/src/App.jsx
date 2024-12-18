@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { DocumentationContainer } from "./components/pages/documentation/documentationContainer";
 import { GeneralContextProvider } from "./context/GeneralContext";
+import { DocumentationContainer } from "./components/pages/documentation/DocumentationContainer";
 import { BillingContainer } from "./components/pages/billling/BillingContainer";
 import { NavBar } from "./components/layout/navbar/Navbar";
 import { CreateNoCudBillingContainer } from "./components/pages/billling/noCudBilling/createNoCudBilling/CreateNoCudBillingContainer";
