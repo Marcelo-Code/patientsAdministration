@@ -3,7 +3,6 @@ import "./App.css";
 import { GeneralContextProvider } from "./context/GeneralContext";
 import { DocumentationContainer } from "./components/pages/documentation/DocumentationContainer";
 import { BillingContainer } from "./components/pages/billling/BillingContainer";
-import { NavBar } from "./components/layout/navbar/Navbar";
 import { CreateNoCudBillingContainer } from "./components/pages/billling/noCudBilling/createNoCudBilling/CreateNoCudBillingContainer";
 import { CreateCudBillingContainer } from "./components/pages/billling/cudBilling/createCudBilling/CreateCudBillingContainer";
 import { PatientsListContainer } from "./components/pages/patients/patientsList/PatientsListContainer";
@@ -17,6 +16,7 @@ import { EditMedicalRecordContainer } from "./components/pages/medicalRecords/ed
 import { MedicalRecordListContainer } from "./components/pages/medicalRecords/medicalRecordsList/MedicalRecordListContainer";
 import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/createMedicalRecord/CreateMedicalRecordContainer";
 import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
+import { NavBar } from "./components/layout/navbar/Navbar";
 
 function App() {
   return (
