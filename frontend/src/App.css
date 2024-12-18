@@ -3,3 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.darkMode {
+  background-color: rgba(1, 37, 37, 0.48);
+}
+
+.lightMode {
+  background-color: aqua;
+}

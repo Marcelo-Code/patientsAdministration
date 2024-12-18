@@ -166,6 +166,8 @@ export const MedicalRecordListContainer = () => {
         true
       );
 
+      console.log(newFilteredRecords);
+
       const dateFilteredList = createList(
         newFilteredRecords,
         "fechaconsulta",

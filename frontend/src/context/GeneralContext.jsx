@@ -14,6 +14,8 @@ export const GeneralContextProvider = ({ children }) => {
     navigate(-1);
   };
 
+  const [darkMode, setDarkMode] = useState(false);
+
   const reloadPage = () => {
     window.location.reload();
   };
@@ -96,11 +98,11 @@ export const GeneralContextProvider = ({ children }) => {
     const result = [];
 
     records.forEach((record) => {
-      const fieldValue = record[name];
-      const recordValue = record[value];
-      const recordValue2 = record[value2];
-      const recordValue3 = record[value3];
-      const recordValue4 = record[value4];
+      const fieldValue = record[name] || "";
+      const recordValue = record[value] || "";
+      const recordValue2 = record[value2] || null;
+      const recordValue3 = record[value3] || null;
+      const recordValue4 = record[value4] || null;
 
       if (!uniqueFileds.has(fieldValue)) {
         uniqueFileds.add(fieldValue);
@@ -115,7 +117,12 @@ export const GeneralContextProvider = ({ children }) => {
       }
     });
 
-    const sortedRecords = result.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedRecords = result.sort((a, b) => {
+      const nameA = a.name || ""; // Asegura que siempre sea una cadena
+      const nameB = b.name || "";
+      return nameA.localeCompare(nameB, "es", { sensitivity: "base" });
+    });
+
     if (includeAllOption) {
       sortedRecords.unshift({
         id: -1,
@@ -182,6 +189,8 @@ export const GeneralContextProvider = ({ children }) => {
     trimUrl,
     formatPeriod,
     removeAccentsAndSpecialChars,
+    darkMode,
+    setDarkMode,
   };
 
   return (

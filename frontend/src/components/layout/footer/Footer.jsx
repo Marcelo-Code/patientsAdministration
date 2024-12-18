@@ -1,12 +1,16 @@
+import { useContext } from "react";
+import { GeneralContext } from "../../../context/GeneralContext";
+
 export const Footer = () => {
+  const { darkMode } = useContext(GeneralContext);
   return (
     <div
       style={{
+        backgroundColor: darkMode ? "rgba(1, 37, 37, 0.48)" : "aqua",
         position: "relative",
         bottom: "0",
         width: "100vw",
         height: "200px",
-        backgroundColor: "aqua",
         marginTop: "100px",
         textAlign: "center",
         paddingTop: "60px",

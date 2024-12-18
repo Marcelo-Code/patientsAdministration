@@ -55,7 +55,7 @@ export const CreateCudBilling = ({
         display: "flex",
         width: "100vw",
         justifyContent: "center",
-        position: "absolute",
+        position: "relative",
         top: "90px",
       }}
     >
