@@ -1,16 +1,24 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import pg from "pg";
 
-import {
-    DB_DATABASE,
-    DB_PASSWORD,
-    DB_PORT,
-    DB_USER,
-    FRONTEND_URL,
-    DB_HOST,
-    PORT
-} from "./config.js"
+//Aisnación de variables de entorno
+
+const FRONTEND_URL = process.env.FRONTEND_URL
+const PORT = process.env.PORT
+const BACKEND_URL = process.env.BACKEND_URL
+
+// Variables de la base de datos
+const DB_HOST = process.env.DB_HOST
+const DB_PORT = process.env.DB_PORT
+const DB_DATABASE = process.env.DB_DATABASE
+const DB_USER = process.env.DB_USER
+const DB_PASSWORD = process.env.DB_PASSWORD
+
+console.log(PORT);
 
 const app = express();
 const pool = new pg.Pool({

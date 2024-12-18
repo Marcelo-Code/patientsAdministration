@@ -24,7 +24,7 @@ import dayjs from "dayjs";
 
 import { useContext } from "react";
 import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
-import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecordTemp";
+import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecord";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
 import {
   DeleteFileFromBucket,
