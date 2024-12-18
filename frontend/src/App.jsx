@@ -16,7 +16,7 @@ import { EditMedicalRecordContainer } from "./components/pages/medicalRecords/ed
 import { MedicalRecordListContainer } from "./components/pages/medicalRecords/medicalRecordsList/MedicalRecordListContainer";
 import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/createMedicalRecord/CreateMedicalRecordContainer";
 import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
-import { NavBar } from "./components/layout/navBar/NavBar";
+import { NavBar } from "./components/layout/navBar/NavBarTemp";
 function App() {
   return (
     <BrowserRouter>
