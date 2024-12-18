@@ -10,9 +10,11 @@ import {
 import { useParams } from "react-router-dom";
 import { getPatientRecord } from "../../../../api/patients";
 import { Footer } from "../../../layout/footer/Footer";
+import { getProfessionalsRecords } from "../../../../api/professionals";
 
 export const CreateMedicalRecordContainer = () => {
-  const [records, setRecords] = useState(null);
+  const [medicalRecords, setMedicalRecords] = useState(null);
+  const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const { patientId = null } = useParams();
@@ -40,7 +42,7 @@ export const CreateMedicalRecordContainer = () => {
   useEffect(() => {
     getMedicalRecords()
       .then((response) => {
-        setRecords(response);
+        setMedicalRecords(response);
         if (patientId) {
           getPatientRecord(patientId)
             .then((response) => setPatientRecord(response))
@@ -48,9 +50,12 @@ export const CreateMedicalRecordContainer = () => {
         }
       })
       .catch((error) => console.log(error));
+    getProfessionalsRecords()
+      .then((response) => setProfessionalsRecords(response))
+      .catch((error) => console.log(error));
   }, [patientId]);
 
-  if (!records) return <Spinner />;
+  if (!medicalRecords || !professionalsRecords) return <Spinner />;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,16 +91,16 @@ export const CreateMedicalRecordContainer = () => {
   };
 
   const patientsList = createList(
-    records,
+    medicalRecords,
     "nombreyapellidopaciente",
     "idpaciente",
     false
   );
 
   const professionalList = createList(
-    records,
+    professionalsRecords,
     "nombreyapellidoprofesional",
-    "idprofesional",
+    "id",
     false
   );
 
