@@ -119,7 +119,7 @@ export const MedicalRecordsList = ({
             size="small"
             variant="contained"
             sx={{
-              width: "200px",
+              width: "170px",
               height: "30px",
               position: "relative",
             }}
@@ -130,36 +130,37 @@ export const MedicalRecordsList = ({
         </Link>
         <div
           style={{
-            width: "70px",
-            paddingTop: "6px",
+            width: "140px",
             display: "flex",
             justifyContent: "right",
             gap: "10px",
           }}
         >
           <Link onClick={resetFilters}>
-            {isResetEnabled && <AutorenewIcon />}
+            {isResetEnabled && <AutorenewIcon sx={{ marginTop: "5px" }} />}
           </Link>
           <MedicalRecordListFilterDrawer {...filterProps} />
         </div>
-        {patientId && (
+        <span style={{ display: "flex", gap: "10px" }}>
+          {patientId && (
+            <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              Informe
+              <Android12Switch
+                checked={reportMode}
+                onChange={handleReportModeChange}
+                sx={{ transform: "scale(1.3)" }}
+              />
+            </div>
+          )}
           <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            Informe
+            Edición
             <Android12Switch
-              checked={reportMode}
-              onChange={handleReportModeChange}
+              checked={editMode}
+              onChange={handleEditModeChange}
               sx={{ transform: "scale(1.3)" }}
             />
           </div>
-        )}
-        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-          Edición
-          <Android12Switch
-            checked={editMode}
-            onChange={handleEditModeChange}
-            sx={{ transform: "scale(1.3)" }}
-          />
-        </div>
+        </span>
       </div>
       <Button onClick={handleGoBack} sx={{ width: "80%" }}>
         Volver
@@ -167,7 +168,13 @@ export const MedicalRecordsList = ({
       <MedicalRecordListFilter {...filterProps} />
 
       {reportMode && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           <Animation component={ExportToWord} props={reportProps} />
           <Animation component={OptionsMenu} props={professionalsReportProps} />
           <Animation component={OptionsMenu} props={meetingsReportProps} />

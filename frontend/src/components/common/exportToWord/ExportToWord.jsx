@@ -391,6 +391,7 @@ export const ExportToWord = ({
             console.log(error);
           })
       }
+      sx={{ width: "200px" }}
       variant="contained"
       startIcon={<ArticleIcon />}
       disabled={!enableReportButton}

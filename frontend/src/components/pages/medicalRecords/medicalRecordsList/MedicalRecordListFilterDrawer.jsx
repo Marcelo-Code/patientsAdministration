@@ -51,7 +51,7 @@ export function MedicalRecordListFilterDrawer({
     >
       <div
         style={{
-          margin: "60px",
+          margin: "20px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -64,7 +64,7 @@ export function MedicalRecordListFilterDrawer({
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            gap: "20px",
+            gap: "10px",
             flexWrap: "wrap",
           }}
         >
@@ -171,7 +171,7 @@ export function MedicalRecordListFilterDrawer({
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            gap: "30px",
+            gap: "10px",
             flexWrap: "wrap",
           }}
         >
@@ -197,9 +197,23 @@ export function MedicalRecordListFilterDrawer({
           {list("top")}
         </SwipeableDrawer>
       </React.Fragment>
-      <Link onClick={toggleDrawer("top", true)}>
+      {/* <Link onClick={toggleDrawer("top", true)}>
         <TuneOutlinedIcon />
-      </Link>
+      </Link> */}
+      <Button
+        aria-label="fingerprint"
+        size="small"
+        onClick={toggleDrawer("top", true)}
+        variant="contained"
+        sx={{
+          width: "auto",
+          height: "30px",
+          position: "relative",
+        }}
+        startIcon={<TuneOutlinedIcon />}
+      >
+        Filtros
+      </Button>
     </div>
   );
 }

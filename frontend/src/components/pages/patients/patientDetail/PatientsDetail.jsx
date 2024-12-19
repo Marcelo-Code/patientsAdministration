@@ -97,12 +97,12 @@ export const PatientsDetail = (props) => {
               paddingBottom: "10px",
             }}
             gutterBottom
-            variant="h5"
+            variant="h6"
             component="div"
           >
             {obrasocialpaciente}
           </Typography>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography gutterBottom variant="h7" component="div">
             <div>
               <PhoneInTalkIcon sx={{ ...lineStyle, verticalAlign: "middle" }} />
               {telefonoobrasocial}
