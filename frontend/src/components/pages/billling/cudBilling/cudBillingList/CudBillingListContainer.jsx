@@ -140,6 +140,10 @@ export const CudBillingListContainer = ({ patientId }) => {
       updatedCudBillingRecord.nombreyapellidoprofesional = value2;
     if (value2 && name === "idpaciente")
       updatedCudBillingRecord.nombreyapellidopaciente = value2;
+    if (name === "montopercibido") {
+      updatedCudBillingRecord.percepcion = value * 0.35;
+      updatedCudBillingRecord.montofinalprofesional = value * 0.65;
+    }
     setCudBillingRecord(updatedCudBillingRecord);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
