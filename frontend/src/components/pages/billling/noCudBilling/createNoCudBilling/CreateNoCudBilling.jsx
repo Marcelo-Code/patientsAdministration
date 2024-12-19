@@ -36,7 +36,6 @@ export const CreateNoCudBilling = ({
   professionalsProps,
   patientsProps,
   modifiedFlag,
-  pagomontoadeudado,
   billRecordNoCud,
 }) => {
   const style = {
@@ -118,7 +117,7 @@ export const CreateNoCudBilling = ({
                 label="Medio de Pago"
                 variant="outlined"
                 name="mediopago"
-                value={billRecordNoCud.modopago}
+                value={billRecordNoCud.mediopago}
                 onChange={handleChange}
               />
             </span>
@@ -127,10 +126,10 @@ export const CreateNoCudBilling = ({
               <TextField
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
-                label="Destinatario"
+                label="Destinatario Pago"
                 variant="outlined"
-                name="destinatario"
-                value={billRecordNoCud.destinatario}
+                name="destinatariopago"
+                value={billRecordNoCud.destinatariopago}
                 onChange={handleChange}
               />
             </span>
@@ -140,14 +139,25 @@ export const CreateNoCudBilling = ({
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
                 type="number"
-                disabled={false}
-                label={billRecordNoCud.montosesion === 0 && "Monto Sesión"}
+                label="Monto Sesión"
                 variant="outlined"
                 name="montosesion"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MonetizationOnIcon />
+              <TextField
+                style={{ margin: "10px", width: "200px" }}
+                id="outlined-basic"
+                type="number"
+                disabled={true}
+                label="Retención 35%"
+                variant="outlined"
+                name="retencion"
                 value={
-                  billRecordNoCud.montosesion !== 0 &&
-                  billRecordNoCud.montosesion
-                    ? parseFloat(billRecordNoCud.montosesion).toFixed(2)
+                  billRecordNoCud.retencion !== 0 && billRecordNoCud.retencion
+                    ? parseFloat(billRecordNoCud.retencion).toFixed(2)
                     : ""
                 }
                 onChange={handleChange}
@@ -160,33 +170,15 @@ export const CreateNoCudBilling = ({
                 id="outlined-basic"
                 type="number"
                 disabled={true}
-                label={billRecordNoCud.percepcion === 0 && "Percepción"}
+                label="Monto Final Profesional"
                 variant="outlined"
-                name="percepcion"
+                name="montofinalprofesional"
                 value={
-                  billRecordNoCud.percepcion !== 0 && billRecordNoCud.percepcion
-                    ? parseFloat(billRecordNoCud.percepcion).toFixed(2)
-                    : ""
-                }
-                onChange={handleChange}
-              />
-            </span>
-            <span style={style}>
-              <MonetizationOnIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                type="number"
-                disabled={true}
-                label={
-                  billRecordNoCud.montoapercibir === 0 && "Monto a Percibir"
-                }
-                variant="outlined"
-                name="montoapercibir"
-                value={
-                  billRecordNoCud.montoapercibir !== 0 &&
-                  billRecordNoCud.montoapercibir
-                    ? parseFloat(billRecordNoCud.montoapercibir).toFixed(2)
+                  billRecordNoCud.montofinalprofesional !== 0 &&
+                  billRecordNoCud.montofinalprofesional
+                    ? parseFloat(billRecordNoCud.montofinalprofesional).toFixed(
+                        2
+                      )
                     : ""
                 }
                 onChange={handleChange}
@@ -220,50 +212,75 @@ export const CreateNoCudBilling = ({
               <TextField
                 style={{ margin: "10px", width: "200px" }}
                 id="outlined-basic"
-                disabled={true}
-                label="Destinatario"
+                label="Destinatario Pago"
                 variant="outlined"
                 name="destinatario"
                 value={billRecordNoCud.destinatario}
                 onChange={handleChange}
               />
             </span>
-            <span style={style}>
-              <MonetizationOnIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                disabled={true}
-                label="Paciente Adeuda"
-                variant="outlined"
-                name="pacienteadeuda"
-                value={billRecordNoCud.pacienteadeuda}
-                onChange={handleChange}
-              />
-            </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Fecha Deuda"
-                  name="fechadeuda"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fechadeuda",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+            <span
+              style={{
+                ...style,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <span>
+                <MonetizationOnIcon
+                  sx={{ marginRight: "5px", verticalAlign: "middle" }}
                 />
-              </LocalizationProvider>
+                Paciente Adeuda
+              </span>
+              <RadioGroup
+                row
+                sx={{
+                  margin: "10px",
+                  width: "200px",
+                  justifyContent: "center",
+                }}
+                value={billRecordNoCud.pacienteadeuda ? "yes" : "no"}
+                name="pacienteadeuda"
+                onChange={(e) => {
+                  const value = e.target.value === "yes";
+                  handleChange({
+                    target: {
+                      name: "pacienteadeuda",
+                      value: value,
+                    },
+                  });
+                }}
+              >
+                <FormControlLabel value="yes" control={<Radio />} label="Sí" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
             </span>
+            {billRecordNoCud.pacienteadeuda && (
+              <span style={style}>
+                <CalendarIcon />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    type="date"
+                    sx={{ width: "200px", margin: "10px" }}
+                    label="Fecha Deuda"
+                    name="fechadeuda"
+                    format="DD/MM/YYYY"
+                    onChange={(newDate) => {
+                      handleChange({
+                        target: {
+                          name: "fechadeuda",
+                          value: dayjs(newDate).format("YYYY-MM-DD"),
+                        },
+                      });
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </LocalizationProvider>
+              </span>
+            )}
             <span
               style={{
                 ...style,
@@ -285,7 +302,7 @@ export const CreateNoCudBilling = ({
                   width: "200px",
                   justifyContent: "center",
                 }}
-                value={pagomontoadeudado ? "yes" : "no"}
+                value={billRecordNoCud.pagomontoadeudado ? "yes" : "no"}
                 name="pagomontoadeudado"
                 onChange={(e) => {
                   const value = e.target.value === "yes";
@@ -301,29 +318,31 @@ export const CreateNoCudBilling = ({
                 <FormControlLabel value="no" control={<Radio />} label="No" />
               </RadioGroup>
             </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Fecha de Pago"
-                  name="fechapagomontoadeudado"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fechapagomontoadeudado",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
+            {billRecordNoCud.pagomontoadeudado && (
+              <span style={style}>
+                <CalendarIcon />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    type="date"
+                    sx={{ width: "200px", margin: "10px" }}
+                    label="Fecha de Pago"
+                    name="fechapagomontoadeudado"
+                    format="DD/MM/YYYY"
+                    onChange={(newDate) => {
+                      handleChange({
+                        target: {
+                          name: "fechapagomontoadeudado",
+                          value: dayjs(newDate).format("YYYY-MM-DD"),
+                        },
+                      });
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </LocalizationProvider>
+              </span>
+            )}
           </Box>
           <div className="buttonGroup">
             <div

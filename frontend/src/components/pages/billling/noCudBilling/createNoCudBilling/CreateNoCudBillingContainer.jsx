@@ -23,7 +23,6 @@ export const CreateNoCudBillingContainer = () => {
     prestacion: false,
     idpaciente: false,
     nombreyapellidopaciente: false,
-    obrasocialpaciente: false,
     periodofacturado: false,
     nrofactura: false,
     montofacturado: false,
@@ -34,7 +33,7 @@ export const CreateNoCudBillingContainer = () => {
     respuestareclamo: false,
     cobradaenfecha: false,
     montopercibido: false,
-    percepcion: false,
+    retencion: false,
     montofinalprofesional: false,
   };
   const [modified, setModified] = useState(initialModifiedState);
@@ -50,15 +49,16 @@ export const CreateNoCudBillingContainer = () => {
     mediopago: "",
     destinatariopago: "",
     montosesion: 0,
-    precepcion: 0,
-    montoapercibir: 0,
+    retencion: 0,
+    montofinalprofesional: 0,
     fechadepago: null,
     destinatario: "",
     pacienteadeuda: false,
     fechadeuda: null,
-    pagomontoadeudado: "",
+    pagomontoadeudado: true,
     fechapagomontoadeudado: null,
     documentofactura: "",
+    documentoconmprobantepagoretencion: "",
   };
 
   const [billRecordNoCud, setBillRecordNoCud] = useState(
@@ -83,29 +83,30 @@ export const CreateNoCudBillingContainer = () => {
   const handleChange = async (e) => {
     const { name, value, value2 } = e.target;
     const updatedBillRecordNoCud = { ...billRecordNoCud, [name]: value };
-    if (name === "montopercibido") {
-      updatedBillRecordNoCud.percepcion =
+    if (name === "montosesion") {
+      updatedBillRecordNoCud.retencion =
         updatedBillRecordNoCud.montosesion * 0.35;
-      updatedBillRecordNoCud.apercibir =
+      updatedBillRecordNoCud.montofinalprofesional =
         updatedBillRecordNoCud.montosesion * 0.65;
     }
+    if (name === "pacienteadeuda" && !value)
+      updatedBillRecordNoCud.fechadeuda = null;
+    if (name === "pagomontoadeudado" && !value)
+      updatedBillRecordNoCud.fechapagomontoadeudado = null;
+    console.log(updatedBillRecordNoCud);
     if (value2 && name === "idprofesional") {
       updatedBillRecordNoCud.nombreyapellidoprofesional = value2;
     }
     if (value2 && name === "idpaciente") {
       updatedBillRecordNoCud.nombreyapellidopaciente = value2;
-      try {
-        const response = await getPatientRecord(value);
-        updatedBillRecordNoCud.obrasocialpaciente = response.obrasocialpaciente;
-      } catch (error) {
-        console.log(error);
-      }
     }
+    console.log(updatedBillRecordNoCud);
     setBillRecordNoCud(updatedBillRecordNoCud);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
     console.log(updatedBillRecordNoCud);
     // console.log(modified);
+    console.log(billRecordNoCud);
   };
 
   const handleSubmit = () => {
@@ -160,7 +161,6 @@ export const CreateNoCudBillingContainer = () => {
     professionalsProps,
     patientsProps,
     modifiedFlag,
-    pagomontoadeudado: billRecordNoCud.pagomontoadeudado,
     billRecordNoCud,
   };
 

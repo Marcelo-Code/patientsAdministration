@@ -1,0 +1,7 @@
+th:first-child,
+td:first-child {
+  position: sticky; /* Hace que la columna sea fija */
+  left: 0; /* Se fija al borde izquierdo */
+  background-color: #f9f9f9; /* Fondo para la columna fija */
+  z-index: 1; /* Para asegurarse de que esté encima de otras columnas */
+}

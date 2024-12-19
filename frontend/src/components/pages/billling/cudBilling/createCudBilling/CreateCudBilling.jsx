@@ -207,51 +207,6 @@ export const CreateCudBilling = ({
                 />
               </LocalizationProvider>
             </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Fecha Reclamo"
-                  name="fechareclamo"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fechareclamo",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
-            <span style={style}>
-              <ErrorIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                label="Medio Reclamo"
-                variant="outlined"
-                name="medioreclamo"
-                onChange={handleChange}
-              />
-            </span>
-            <span style={style}>
-              <ErrorIcon />
-              <TextField
-                style={{ margin: "10px", width: "200px" }}
-                id="outlined-basic"
-                label="Respuesta Reclamo"
-                variant="outlined"
-                name="respuestareclamo"
-                onChange={handleChange}
-              />
-            </span>
             <span
               style={{
                 ...style,
@@ -290,6 +245,80 @@ export const CreateCudBilling = ({
               </RadioGroup>
             </span>
 
+            {!cudBillingRecord.cobradaenfecha ? (
+              <>
+                <span style={style}>
+                  <CalendarIcon />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      type="date"
+                      sx={{ width: "200px", margin: "10px" }}
+                      label="Fecha Reclamo"
+                      name="fechareclamo"
+                      format="DD/MM/YYYY"
+                      onChange={(newDate) => {
+                        handleChange({
+                          target: {
+                            name: "fechareclamo",
+                            value: dayjs(newDate).format("YYYY-MM-DD"),
+                          },
+                        });
+                      }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </LocalizationProvider>
+                </span>
+                <span style={style}>
+                  <ErrorIcon />
+                  <TextField
+                    style={{ margin: "10px", width: "200px" }}
+                    id="outlined-basic"
+                    label="Medio Reclamo"
+                    variant="outlined"
+                    name="medioreclamo"
+                    onChange={handleChange}
+                  />
+                </span>
+                <span style={style}>
+                  <ErrorIcon />
+                  <TextField
+                    style={{ margin: "10px", width: "200px" }}
+                    id="outlined-basic"
+                    label="Respuesta Reclamo"
+                    variant="outlined"
+                    name="respuestareclamo"
+                    onChange={handleChange}
+                  />
+                </span>
+              </>
+            ) : (
+              <span style={style}>
+                <CalendarIcon />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    type="date"
+                    sx={{ width: "200px", margin: "10px" }}
+                    label="Fecha Cobro"
+                    // name="fechareclamo"
+                    format="DD/MM/YYYY"
+                    // onChange={(newDate) => {
+                    //   handleChange({
+                    //     target: {
+                    //       name: "fechareclamo",
+                    //       value: dayjs(newDate).format("YYYY-MM-DD"),
+                    //     },
+                    //   });
+                    // }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </LocalizationProvider>
+              </span>
+            )}
+
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
@@ -309,14 +338,13 @@ export const CreateCudBilling = ({
                 id="outlined-basic"
                 disabled={true}
                 value={
-                  cudBillingRecord.percepcion !== 0 &&
-                  cudBillingRecord.percepcion
-                    ? parseFloat(cudBillingRecord.percepcion).toFixed(2)
+                  cudBillingRecord.retencion !== 0 && cudBillingRecord.retencion
+                    ? parseFloat(cudBillingRecord.retencion).toFixed(2)
                     : ""
                 }
-                label={cudBillingRecord.percepcion === 0 && "Percepción"}
+                label="Retención"
                 variant="outlined"
-                name="percepcion"
+                name="retencion"
                 onChange={handleChange}
               />
             </span>
@@ -334,10 +362,7 @@ export const CreateCudBilling = ({
                       ).toFixed(2)
                     : ""
                 }
-                label={
-                  cudBillingRecord.montofinalprofesional === 0 &&
-                  "Monto Final Profesional"
-                }
+                label="Monto Final Profesional"
                 variant="outlined"
                 name="montofinalprofesional"
                 onChange={handleChange}
@@ -354,20 +379,18 @@ export const CreateCudBilling = ({
                 width: "100%",
               }}
             >
-              <Link style={{}}>
-                <Button
-                  disabled={!modifiedFlag ? true : false}
-                  onClick={() => {
-                    cancelAction();
-                  }}
-                  size="small"
-                  sx={{ width: "280px" }}
-                  variant="contained"
-                  startIcon={<CancelIcon />}
-                >
-                  Descartar Cambios
-                </Button>
-              </Link>
+              <Button
+                disabled={!modifiedFlag ? true : false}
+                onClick={() => {
+                  cancelAction();
+                }}
+                size="small"
+                sx={{ width: "280px" }}
+                variant="contained"
+                startIcon={<CancelIcon />}
+              >
+                Descartar Cambios
+              </Button>
               <LoadingButton
                 loading={isLoading}
                 onClick={handleSubmit}

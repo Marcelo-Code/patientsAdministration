@@ -39,7 +39,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     destinatariopago: false,
     montosesion: false,
     precepcion: false,
-    montoapercibir: false,
+    montofinalprofesional: false,
     fechadepago: false,
     destinatario: false,
     pacienteadeuda: false,
@@ -64,15 +64,16 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     mediopago: "",
     destinatariopago: "",
     montosesion: 0,
-    precepcion: 0,
-    montoapercibir: 0,
+    retencion: 0,
+    montofinalprofesional: 0,
     fechadepago: null,
     destinatario: "",
     pacienteadeuda: false,
     fechadeuda: null,
-    pagomontoadeudado: "",
+    pagomontoadeudado: true,
     fechapagomontoadeudado: null,
     documentofactura: "",
+    documentoconmprobantepagoretencion: "",
   };
   const [billRecordNoCud, setBillRecordNoCud] = useState(
     billRecordInitialState

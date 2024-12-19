@@ -58,12 +58,15 @@ export const NoCudBillingList = ({
   const totalMontoSesion = noCudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montosesion);
   }, 0);
-  const totalPercepcion = noCudBillingRecords.reduce((acc, record) => {
-    return acc + parseFloat(record.percepcion);
+  const totalRetencion = noCudBillingRecords.reduce((acc, record) => {
+    return acc + parseFloat(record.retencion);
   }, 0);
-  const totalmontoapercibir = noCudBillingRecords.reduce((acc, record) => {
-    return acc + parseFloat(record.montoapercibir);
-  }, 0);
+  const totalmontofinalprofesional = noCudBillingRecords.reduce(
+    (acc, record) => {
+      return acc + parseFloat(record.montofinalprofesional);
+    },
+    0
+  );
 
   const { trimUrl } = useContext(GeneralContext);
 
@@ -154,8 +157,8 @@ export const NoCudBillingList = ({
                       <th>Medio de Pago</th>
                       <th>Destinatario</th>
                       <th>Monto Sesión</th>
-                      <th>Percepción</th>
-                      <th>Monto a Percibir</th>
+                      <th>35% Retención</th>
+                      <th>Monto Final Profesional</th>
                       <th>Fecha de Pago</th>
                       <th>Destinatario</th>
                       <th>Paciente Adeuda</th>
@@ -163,6 +166,7 @@ export const NoCudBillingList = ({
                       <th>Pago Monto Adeudado</th>
                       <th>Fecha Pago</th>
                       <th>Factura</th>
+                      <th>Comprobante Pago</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -364,15 +368,15 @@ export const NoCudBillingList = ({
                                     style={{
                                       margin: "10px",
                                       width: "80%",
-                                      border: modified.percepcion
+                                      border: modified.retencion
                                         ? "1px solid red"
                                         : null,
                                     }}
                                     type="number"
                                     id="outlined-basic"
                                     variant="outlined"
-                                    name="percepcion"
-                                    value={billRecordNoCud.percepcion}
+                                    name="retencion"
+                                    value={billRecordNoCud.retencion}
                                     onChange={handleChange}
                                     slotProps={{
                                       inputLabel: {
@@ -386,15 +390,17 @@ export const NoCudBillingList = ({
                                     style={{
                                       margin: "10px",
                                       width: "80%",
-                                      border: modified.montoapercibir
+                                      border: modified.montofinalprofesional
                                         ? "1px solid red"
                                         : null,
                                     }}
                                     type="number"
                                     id="outlined-basic"
                                     variant="outlined"
-                                    name="montoapercibir"
-                                    value={billRecordNoCud.montoapercibir}
+                                    name="montofinalprofesional"
+                                    value={
+                                      billRecordNoCud.montofinalprofesional
+                                    }
                                     onChange={handleChange}
                                     slotProps={{
                                       inputLabel: {
@@ -527,9 +533,23 @@ export const NoCudBillingList = ({
                                       }}
                                       slotProps={{
                                         textField: {
-                                          inputFormat: "DD/MM/YYYY",
+                                          inputProps: {
+                                            placeholder:
+                                              billRecordNoCud.fechadeuda
+                                                ? undefined
+                                                : "No hay deuda",
+                                          },
                                         },
                                       }}
+                                      renderInput={(params) => (
+                                        <TextField
+                                          {...params}
+                                          helperText={
+                                            !billRecordNoCud.fechadeuda &&
+                                            "No hay deuda"
+                                          }
+                                        />
+                                      )}
                                     />
                                   </LocalizationProvider>
                                 </td>
@@ -650,6 +670,70 @@ export const NoCudBillingList = ({
                                     </Link>
                                   </div>
                                 </td>
+                                <td>
+                                  <div>
+                                    {record.documentoconmprobantepagoretencion !==
+                                      "" &&
+                                      trimUrl(
+                                        record.documentoconmprobantepagoretencion
+                                      )}
+                                  </div>
+                                  <div
+                                    style={{
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-evenly",
+                                    }}
+                                  >
+                                    <Link
+                                      onClick={() => {
+                                        setIsLoading(true);
+                                        DeleteNoCudBillingDocumentFromBucket(
+                                          "documentoconmprobantepagoretencion",
+                                          record
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
+                                    >
+                                      <DeleteIcon />
+                                    </Link>
+                                    <Link
+                                      onClick={() => {
+                                        uploadNoCudBillingDocumentToBucket(
+                                          `Asist_${removeAccentsAndSpecialChars(
+                                            record.nombreyapellidoprofesional
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.prestacion
+                                          )}`,
+                                          record,
+                                          "documentoconmprobantepagoretencion",
+                                          setIsLoading
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
+                                    >
+                                      <UploadIcon />
+                                    </Link>
+                                  </div>
+                                </td>
                               </>
                             )
                           ) : (
@@ -668,18 +752,18 @@ export const NoCudBillingList = ({
                                   }).format(record.montosesion)}
                               </td>
                               <td>
-                                {record.percepcion !== undefined &&
+                                {record.retencion !== undefined &&
                                   new Intl.NumberFormat("es-AR", {
                                     style: "currency",
                                     currency: "ARS",
-                                  }).format(record.percepcion)}
+                                  }).format(record.retencion)}
                               </td>
                               <td>
-                                {record.montoapercibir !== undefined &&
+                                {record.montofinalprofesional !== undefined &&
                                   new Intl.NumberFormat("es-AR", {
                                     style: "currency",
                                     currency: "ARS",
-                                  }).format(record.montoapercibir)}
+                                  }).format(record.montofinalprofesional)}
                               </td>
                               <td>
                                 {new Date(
@@ -731,6 +815,25 @@ export const NoCudBillingList = ({
                                   </Link>
                                 )}
                               </td>
+                              <td>
+                                {record.documentocomprobantepago === "" ? (
+                                  // <div>No hay archivo cargado</div>
+                                  <ClearIcon />
+                                ) : (
+                                  <Link
+                                    to={`${record.documentocomprobantepago}`}
+                                    onClick={(e) => {
+                                      e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
+                                      window.open(
+                                        record.documentocomprobantepago,
+                                        "_blank"
+                                      ); // Abrir la URL en una nueva pestaña
+                                    }}
+                                  >
+                                    {trimUrl(record.documentocomprobantepago)}
+                                  </Link>
+                                )}
+                              </td>
                             </>
                           )}
                         </tr>
@@ -765,18 +868,18 @@ export const NoCudBillingList = ({
                           }).format(totalMontoSesion)}
                       </td>
                       <td>
-                        {totalPercepcion !== undefined &&
+                        {totalRetencion !== undefined &&
                           new Intl.NumberFormat("es-AR", {
                             style: "currency",
                             currency: "ARS",
-                          }).format(totalPercepcion)}
+                          }).format(totalRetencion)}
                       </td>
                       <td>
-                        {totalmontoapercibir !== undefined &&
+                        {totalmontofinalprofesional !== undefined &&
                           new Intl.NumberFormat("es-AR", {
                             style: "currency",
                             currency: "ARS",
-                          }).format(totalmontoapercibir)}
+                          }).format(totalmontofinalprofesional)}
                       </td>
                       <td colSpan={7}></td>
                     </tr>

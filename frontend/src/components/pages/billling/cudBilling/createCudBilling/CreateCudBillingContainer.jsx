@@ -32,8 +32,9 @@ export const CreateCudBillingContainer = () => {
     medioreclamo: false,
     respuestareclamo: false,
     cobradaenfecha: false,
+    fechacobro: false,
     montopercibido: false,
-    percepcion: false,
+    retencion: false,
     montofinalprofesional: false,
   };
   const [modified, setModified] = useState(initialModifiedState);
@@ -55,8 +56,9 @@ export const CreateCudBillingContainer = () => {
     medioreclamo: "",
     respuestareclamo: "",
     cobradaenfecha: true,
+    fechacobro: null,
     montopercibido: 0,
-    percepcion: 0,
+    retencion: 0,
     montofinalprofesional: 0,
   };
   const [cudBillingRecord, setCudBillingRecord] = useState(
@@ -82,11 +84,11 @@ export const CreateCudBillingContainer = () => {
     const { name, value, value2 } = e.target;
     const updatedCudBillingRecord = { ...cudBillingRecord, [name]: value };
     if (name === "montopercibido") {
-      updatedCudBillingRecord.percepcion =
+      updatedCudBillingRecord.retencion =
         updatedCudBillingRecord.montopercibido * 0.35;
       updatedCudBillingRecord.montofinalprofesional =
         updatedCudBillingRecord.montopercibido * 0.65;
-      console.log(updatedCudBillingRecord.percepcion);
+      console.log(updatedCudBillingRecord.retencion);
     }
     if (value2 && name === "idprofesional") {
       updatedCudBillingRecord.nombreyapellidoprofesional = value2;

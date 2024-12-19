@@ -32,6 +32,7 @@ import {
 } from "../../../../../api/billingDocuments";
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import { deleteCudBillingRecord } from "../../../../../api/cudBilling";
+// import "./cudBillingList.css";
 
 export const CudBillingList = ({
   cudBillingRecords,
@@ -59,8 +60,8 @@ export const CudBillingList = ({
   const totalProfesional = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montofinalprofesional);
   }, 0);
-  const totalPercepcion = cudBillingRecords.reduce((acc, record) => {
-    return acc + parseFloat(record.percepcion);
+  const totalRetencion = cudBillingRecords.reduce((acc, record) => {
+    return acc + parseFloat(record.retencion);
   }, 0);
   const totalMontoPercibido = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montopercibido);
@@ -138,7 +139,7 @@ export const CudBillingList = ({
                   style={{
                     tableLayout: "fixed",
                     width: "100%",
-                    borderCollapse: "collapse",
+                    // borderCollapse: "collapse",
                   }}
                 >
                   <thead
@@ -151,11 +152,21 @@ export const CudBillingList = ({
                     <tr
                       style={{
                         paddingBottom: "10px",
-                        background:
-                          "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 99%, rgba(0, 0, 0, 1)100%)",
+                        background: "white",
                       }}
                     >
-                      {editMode && <th style={{ width: "120px" }}>Edición</th>}
+                      {editMode && (
+                        <th
+                          style={{
+                            width: "120px",
+                            position: "sticky",
+                            left: 0,
+                            background: "white",
+                          }}
+                        >
+                          Edición
+                        </th>
+                      )}
                       <th>Profesional</th>
                       <th>Prestación</th>
                       <th>Paciente</th>
@@ -172,8 +183,9 @@ export const CudBillingList = ({
                       <th>Medio Reclamo</th>
                       <th>Respuesta Reclamo</th>
                       <th>Cobrada en Fecha</th>
+                      <th>Fecha de Cobro</th>
                       <th>Monto Percibido</th>
-                      <th>35% Percepción</th>
+                      <th>35% Retención</th>
                       <th>Monto Final Profesional</th>
                     </tr>
                   </thead>
@@ -184,7 +196,13 @@ export const CudBillingList = ({
                           <tr key={record.id}>
                             {editModeFields === null && editMode ? (
                               <>
-                                <td>
+                                <td
+                                  style={{
+                                    position: "sticky",
+                                    left: 0,
+                                    background: "white",
+                                  }}
+                                >
                                   <Link
                                     onClick={() => {
                                       deleteCudBillingRecord(
@@ -214,7 +232,14 @@ export const CudBillingList = ({
                                 </td>
                               </>
                             ) : editModeFields !== record.id && editMode ? (
-                              <td></td>
+                              <td
+                                style={{
+                                  position: "sticky",
+                                  left: 0,
+                                  background: "white",
+                                  zIndex: 2,
+                                }}
+                              ></td>
                             ) : null}
                             {editModeFields === record.id ? (
                               isLoading ? (
@@ -229,7 +254,14 @@ export const CudBillingList = ({
                                 </td>
                               ) : (
                                 <>
-                                  <td>
+                                  <td
+                                    style={{
+                                      position: "sticky",
+                                      left: 0,
+                                      background: "white",
+                                      zIndex: 2,
+                                    }}
+                                  >
                                     <Link
                                       onClick={() => {
                                         cancelTableAction().then((response) => {
@@ -583,6 +615,7 @@ export const CudBillingList = ({
                                             inputFormat: "DD/MM/YYYY",
                                           },
                                         }}
+                                        format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
                                   </td>
@@ -617,6 +650,7 @@ export const CudBillingList = ({
                                             inputFormat: "DD/MM/YYYY",
                                           },
                                         }}
+                                        format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
                                   </td>
@@ -651,6 +685,7 @@ export const CudBillingList = ({
                                             inputFormat: "DD/MM/YYYY",
                                           },
                                         }}
+                                        format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
                                   </td>
@@ -663,10 +698,14 @@ export const CudBillingList = ({
                                           ? "1px solid red"
                                           : null,
                                       }}
+                                      disabled={!cudBillingRecord.fechareclamo}
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="medioreclamo"
-                                      value={cudBillingRecord.medioreclamo}
+                                      value={
+                                        cudBillingRecord.fechareclamo &&
+                                        cudBillingRecord.medioreclamo
+                                      }
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -686,8 +725,13 @@ export const CudBillingList = ({
                                       }}
                                       id="outlined-basic"
                                       variant="outlined"
-                                      name="respuestareclamo"
-                                      value={cudBillingRecord.respuestareclamo}
+                                      disabled={
+                                        !cudBillingRecord.fechareclamo && true
+                                      }
+                                      value={
+                                        cudBillingRecord.fechareclamo &&
+                                        cudBillingRecord.respuestareclamo
+                                      }
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -737,6 +781,41 @@ export const CudBillingList = ({
                                     </RadioGroup>
                                   </span>
                                   <td>
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDayjs}
+                                    >
+                                      <MobileDatePicker
+                                        sx={{
+                                          width: "80%",
+                                          border: modified.fechacobro
+                                            ? "1px solid red"
+                                            : null,
+                                        }}
+                                        value={dayjs(
+                                          cudBillingRecord.fechacobro,
+                                          "YYYY-MM-DD"
+                                        )}
+                                        onChange={(newDate) => {
+                                          handleChange({
+                                            target: {
+                                              name: "fechacobro",
+                                              value:
+                                                dayjs(newDate).format(
+                                                  "YYYY-MM-DD"
+                                                ),
+                                            },
+                                          });
+                                        }}
+                                        slotProps={{
+                                          textField: {
+                                            inputFormat: "DD/MM/YYYY",
+                                          },
+                                        }}
+                                        format="DD/MM/YYYY"
+                                      />
+                                    </LocalizationProvider>
+                                  </td>
+                                  <td>
                                     <TextField
                                       style={{
                                         margin: "10px",
@@ -764,7 +843,7 @@ export const CudBillingList = ({
                                       new Intl.NumberFormat("es-AR", {
                                         style: "currency",
                                         currency: "ARS",
-                                      }).format(cudBillingRecord.percepcion)}
+                                      }).format(cudBillingRecord.retencion)}
                                   </td>
                                   <td onChange={handleChange}>
                                     {cudBillingRecord.montopercibido !==
@@ -890,7 +969,7 @@ export const CudBillingList = ({
                                 <td>
                                   {record.fechareclamo
                                     ? record.medioreclamo
-                                    : "Sin Reclamo"}
+                                    : "Sin reclamo"}
                                 </td>
                                 <td>
                                   {record.fechareclamo
@@ -898,6 +977,17 @@ export const CudBillingList = ({
                                     : "Sin reclamo"}
                                 </td>
                                 <td>{record.cobradaenfecha ? "Si" : "No"}</td>
+                                <td>
+                                  {record.fechacobro
+                                    ? new Date(
+                                        record.fechacobro
+                                      ).toLocaleDateString("es-AR", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                      })
+                                    : "Sin fecha"}
+                                </td>
                                 <td>
                                   {record.montopercibido !== undefined &&
                                     new Intl.NumberFormat("es-AR", {
@@ -910,7 +1000,7 @@ export const CudBillingList = ({
                                     new Intl.NumberFormat("es-AR", {
                                       style: "currency",
                                       currency: "ARS",
-                                    }).format(record.percepcion)}
+                                    }).format(record.retencion)}
                                 </td>
                                 <td>
                                   {record.montopercibido !== undefined &&
@@ -954,7 +1044,7 @@ export const CudBillingList = ({
                           }).format(totalMontoFacturado)}
                       </td>
                       <td
-                        colSpan={6}
+                        colSpan={7}
                         style={{
                           textAlign: "center",
                         }}
@@ -971,7 +1061,7 @@ export const CudBillingList = ({
                           new Intl.NumberFormat("es-AR", {
                             style: "currency",
                             currency: "ARS",
-                          }).format(totalPercepcion)}
+                          }).format(totalRetencion)}
                       </td>
                       <td>
                         {totalMontoFacturado !== undefined &&

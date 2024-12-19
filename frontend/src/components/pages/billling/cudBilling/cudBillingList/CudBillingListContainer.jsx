@@ -40,7 +40,7 @@ export const CudBillingListContainer = ({ patientId }) => {
     respuestareclamo: false,
     cobradaenfecha: false,
     montopercibido: false,
-    percepcion: false,
+    retencion: false,
     montofinalprofesional: false,
   };
   const [modified, setModified] = useState(initialModifiedState);
@@ -66,7 +66,7 @@ export const CudBillingListContainer = ({ patientId }) => {
     respuestareclamo: "",
     cobradaenfecha: true,
     montopercibido: 0,
-    percepcion: 0,
+    retencion: 0,
     montofinalprofesional: 0,
   };
   const [cudBillingRecord, setCudBillingRecord] = useState(
@@ -141,8 +141,12 @@ export const CudBillingListContainer = ({ patientId }) => {
     if (value2 && name === "idpaciente")
       updatedCudBillingRecord.nombreyapellidopaciente = value2;
     if (name === "montopercibido") {
-      updatedCudBillingRecord.percepcion = value * 0.35;
+      updatedCudBillingRecord.retencion = value * 0.35;
       updatedCudBillingRecord.montofinalprofesional = value * 0.65;
+    }
+    if (name === "fechareclamo" && !value) {
+      updateCudBillingRecord.medioreclamo = "";
+      updateCudBillingRecord.respuestareclamo = "";
     }
     setCudBillingRecord(updatedCudBillingRecord);
     setModified({ ...modified, [name]: true });

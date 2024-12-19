@@ -239,8 +239,9 @@ app.post("/createCudBillingRecord", async (req, res) => {
         medioreclamo,
         respuestareclamo,
         cobradaenfecha,
+        fechacobro,
         montopercibido,
-        percepcion,
+        retencion,
         montofinalprofesional
     } = req.body;
     try {
@@ -263,11 +264,12 @@ app.post("/createCudBillingRecord", async (req, res) => {
                                     medioreclamo,
                                     respuestareclamo,
                                     cobradaenfecha,
+                                    fechacobro,
                                     montopercibido,
-                                    percepcion,
+                                    retencion,
                                     montofinalprofesional
                                     )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) RETURNING id`,
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) RETURNING id`,
             [idprofesional,
                 nombreyapellidoprofesional,
                 prestacion,
@@ -286,8 +288,9 @@ app.post("/createCudBillingRecord", async (req, res) => {
                 medioreclamo,
                 respuestareclamo,
                 cobradaenfecha,
+                fechacobro,
                 montopercibido,
-                percepcion,
+                retencion,
                 montofinalprofesional
             ]
         );
@@ -315,8 +318,8 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
         mediopago,
         destinatariopago,
         montosesion,
-        percepcion,
-        montoapercibir,
+        retencion,
+        montofinalprofesional,
         fechadepago,
         destinatario,
         pacienteadeuda,
@@ -336,8 +339,8 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
                                             mediopago,
                                             destinatariopago,
                                             montosesion,
-                                            percepcion, 
-                                            montoapercibir,
+                                            retencion, 
+                                            montofinalprofesional,
                                             fechadepago,
                                             destinatario,
                                             pacienteadeuda,
@@ -356,8 +359,8 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
                 mediopago,
                 destinatariopago,
                 montosesion,
-                percepcion,
-                montoapercibir,
+                retencion,
+                montofinalprofesional,
                 fechadepago,
                 destinatario,
                 pacienteadeuda,
@@ -1018,8 +1021,8 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
     }
 });
 
-//PUT: facturación
-//----------------
+//PUT: facturación CUD
+//--------------------
 
 app.put("/updateCudBillingRecord/:id", async (req, res) => {
     const {
@@ -1041,8 +1044,9 @@ app.put("/updateCudBillingRecord/:id", async (req, res) => {
         medioreclamo,
         respuestareclamo,
         cobradaenfecha,
+        fechacobro,
         montopercibido,
-        percepcion,
+        retencion,
         montofinalprofesional,
     } = req.body;
 
@@ -1071,10 +1075,11 @@ app.put("/updateCudBillingRecord/:id", async (req, res) => {
                     medioreclamo = $16,
                     respuestareclamo = $17,
                     cobradaenfecha = $18,
-                    montopercibido = $19,
-                    percepcion = $20,
-                    montofinalprofesional = $21 
-             WHERE id = $22`,
+                    fechacobro = $19,
+                    montopercibido = $20,
+                    retencion = $21,
+                    montofinalprofesional = $22 
+             WHERE id = $23`,
             [
                 idprofesional,
                 nombreyapellidoprofesional,
@@ -1094,8 +1099,9 @@ app.put("/updateCudBillingRecord/:id", async (req, res) => {
                 medioreclamo,
                 respuestareclamo,
                 cobradaenfecha,
+                fechacobro,
                 montopercibido,
-                percepcion,
+                retencion,
                 montofinalprofesional,
                 id
             ]
@@ -1119,8 +1125,8 @@ app.put("/updateCudBillingRecord/:id", async (req, res) => {
     }
 });
 
-//PUT: facturación
-//----------------
+//PUT: facturación no CUD
+//-----------------------
 
 app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
     const {
@@ -1133,8 +1139,8 @@ app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
         mediopago,
         destinatariopago,
         montosesion,
-        percepcion,
-        montoapercibir,
+        retencion,
+        montofinalprofesional,
         fechadepago,
         destinatario,
         pacienteadeuda,
@@ -1160,8 +1166,8 @@ app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
                     mediopago = $7,
                     destinatariopago = $8,
                     montosesion = $9,
-                    percepcion = $10,
-                    montoapercibir = $11,
+                    retencion = $10,
+                    montofinalprofesional = $11,
                     fechadepago = $12,
                     destinatario = $13,
                     pacienteadeuda = $14,
@@ -1180,8 +1186,8 @@ app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
                 mediopago,
                 destinatariopago,
                 montosesion,
-                percepcion,
-                montoapercibir,
+                retencion,
+                montofinalprofesional,
                 fechadepago,
                 destinatario,
                 pacienteadeuda,
