@@ -73,9 +73,9 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     pagomontoadeudado: true,
     fechapagomontoadeudado: null,
     documentofactura: "",
-    documentoconmprobantepagoretencion: "",
+    documentocomprobantepagoretencion: "",
   };
-  const [billRecordNoCud, setBillRecordNoCud] = useState(
+  const [noCudBillingRecord, setNoCudBillingRecord] = useState(
     billRecordInitialState
   );
 
@@ -92,7 +92,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     getNoCudBillingRecord(id)
       .then((response) => {
         console.log(response);
-        setBillRecordNoCud(response);
+        setNoCudBillingRecord(response);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -137,12 +137,25 @@ export const NoCudBillingListContainer = ({ patientId }) => {
 
   const handleChange = (e) => {
     const { name, value, value2 } = e.target;
-    const updatedBillRecordCud = { ...billRecordNoCud, [name]: value };
+    const updatedNoCudBillingRecord = { ...noCudBillingRecord, [name]: value };
     if (value2 && name === "idprofesional")
-      updatedBillRecordCud.nombreyapellidoprofesional = value2;
+      updatedNoCudBillingRecord.nombreyapellidoprofesional = value2;
     if (value2 && name === "idpaciente")
-      updatedBillRecordCud.nombreyapellidopaciente = value2;
-    setBillRecordNoCud(updatedBillRecordCud);
+      updatedNoCudBillingRecord.nombreyapellidopaciente = value2;
+    if (name === "montosesion") {
+      updatedNoCudBillingRecord.retencion =
+        updatedNoCudBillingRecord.montosesion * 0.35;
+      updatedNoCudBillingRecord.montofinalprofesional =
+        updatedNoCudBillingRecord.montosesion * 0.65;
+    }
+    if (name === "pacienteadeuda" && !value) {
+      updatedNoCudBillingRecord.fechadeuda = null;
+      updatedNoCudBillingRecord.pagomontoadeudado = false;
+      updatedNoCudBillingRecord.fechapagomontoadeudado = null;
+    }
+    if (name === "pagomontoadeudado" && !value)
+      updatedNoCudBillingRecord.fechapagomontoadeudado = null;
+    setNoCudBillingRecord(updatedNoCudBillingRecord);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
     // console.log(updatedBillRecordCud);
@@ -150,7 +163,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
 
   const handleSubmit = (idRecordCud) => {
     setIsLoading(true);
-    updateNoCudBillingRecord(billRecordNoCud, idRecordCud)
+    updateNoCudBillingRecord(noCudBillingRecord, idRecordCud)
       .then((response) => {
         console.log(response);
         setEditModeFields(null);
@@ -239,7 +252,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     cancelTableAction,
     professionalsProps,
     patientsProps,
-    billRecordNoCud,
+    noCudBillingRecord,
     modified,
     setModified,
     initialModifiedState,
@@ -247,7 +260,6 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     isLoading,
     menuFilterProps,
     handleGoBack,
-    prestacion: billRecordNoCud.prestacion,
     cancelAction,
     modifiedFlag,
     removeAccentsAndSpecialChars,

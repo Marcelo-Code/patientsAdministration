@@ -46,7 +46,7 @@ export const NoCudBillingList = ({
   cancelTableAction,
   professionalsProps,
   patientsProps,
-  billRecordNoCud,
+  noCudBillingRecord,
   modified,
   setModified,
   initialModifiedState,
@@ -70,7 +70,10 @@ export const NoCudBillingList = ({
 
   const { trimUrl } = useContext(GeneralContext);
 
-  const documentData = ["documentofactura"];
+  const documentData = [
+    "documentofactura",
+    "documentocomprobantepagoretencion",
+  ];
 
   return (
     <>
@@ -132,7 +135,7 @@ export const NoCudBillingList = ({
                   style={{
                     tableLayout: "fixed",
                     width: "100%",
-                    borderCollapse: "collapse",
+                    // borderCollapse: "collapse",
                   }}
                 >
                   <thead
@@ -145,11 +148,22 @@ export const NoCudBillingList = ({
                     <tr
                       style={{
                         paddingBottom: "10px",
-                        background:
-                          "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 99%, rgba(0, 0, 0, 1)100%)",
+                        background: "white",
+                        //   "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 99%, rgba(0, 0, 0, 1)100%)",
                       }}
                     >
-                      {editMode && <th style={{ width: "120px" }}>Edición</th>}
+                      {editMode && (
+                        <th
+                          style={{
+                            width: "120px",
+                            position: "sticky",
+                            left: 0,
+                            background: "white",
+                          }}
+                        >
+                          Edición
+                        </th>
+                      )}
                       <th>Profesional</th>
                       <th>Prestación</th>
                       <th>Paciente</th>
@@ -165,8 +179,8 @@ export const NoCudBillingList = ({
                       <th>Fecha Deuda</th>
                       <th>Pago Monto Adeudado</th>
                       <th>Fecha Pago</th>
-                      <th>Factura</th>
-                      <th>Comprobante Pago</th>
+                      <th>Factura Familia</th>
+                      <th>Comprobante Retención</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -175,7 +189,13 @@ export const NoCudBillingList = ({
                         <tr key={record.id}>
                           {editModeFields === null && editMode ? (
                             <>
-                              <td>
+                              <td
+                                style={{
+                                  position: "sticky",
+                                  left: 0,
+                                  background: "white",
+                                }}
+                              >
                                 <Link
                                   onClick={() => {
                                     deleteNoCudBillingRecord(
@@ -205,7 +225,14 @@ export const NoCudBillingList = ({
                               </td>
                             </>
                           ) : editModeFields !== record.id && editMode ? (
-                            <td></td>
+                            <td
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                background: "white",
+                                zIndex: 2,
+                              }}
+                            ></td>
                           ) : null}
                           {editModeFields === record.id ? (
                             isLoading ? (
@@ -220,7 +247,14 @@ export const NoCudBillingList = ({
                               </td>
                             ) : (
                               <>
-                                <td>
+                                <td
+                                  style={{
+                                    position: "sticky",
+                                    left: 0,
+                                    background: "white",
+                                    zIndex: 2,
+                                  }}
+                                >
                                   <Link
                                     onClick={() => {
                                       cancelTableAction().then((response) => {
@@ -245,7 +279,7 @@ export const NoCudBillingList = ({
                                   <OptionsMenu
                                     {...professionalsProps}
                                     initialValue={
-                                      billRecordNoCud.nombreyapellidoprofesional
+                                      noCudBillingRecord.nombreyapellidoprofesional
                                     }
                                   />
                                 </td>
@@ -261,7 +295,7 @@ export const NoCudBillingList = ({
                                     id="outlined-basic"
                                     variant="outlined"
                                     name="prestacion"
-                                    value={billRecordNoCud.prestacion}
+                                    value={noCudBillingRecord.prestacion}
                                     onChange={handleChange}
                                     slotProps={{
                                       inputLabel: {
@@ -274,7 +308,7 @@ export const NoCudBillingList = ({
                                   <OptionsMenu
                                     {...patientsProps}
                                     initialValue={
-                                      billRecordNoCud.nombreyapellidopaciente
+                                      noCudBillingRecord.nombreyapellidopaciente
                                     }
                                   />
                                 </td>
@@ -290,7 +324,7 @@ export const NoCudBillingList = ({
                                     id="outlined-basic"
                                     variant="outlined"
                                     name="modopago"
-                                    value={billRecordNoCud.modopago}
+                                    value={noCudBillingRecord.modopago}
                                     onChange={(e) => handleChange(e, record.id)}
                                     slotProps={{
                                       inputLabel: {
@@ -311,7 +345,7 @@ export const NoCudBillingList = ({
                                     id="outlined-basic"
                                     variant="outlined"
                                     name="mediopago"
-                                    value={billRecordNoCud.mediopago}
+                                    value={noCudBillingRecord.mediopago}
                                     onChange={(e) => handleChange(e, record.id)}
                                     slotProps={{
                                       inputLabel: {
@@ -332,7 +366,7 @@ export const NoCudBillingList = ({
                                     id="outlined-basic"
                                     variant="outlined"
                                     name="destinatario"
-                                    value={billRecordNoCud.destinatario}
+                                    value={noCudBillingRecord.destinatario}
                                     onChange={(e) => handleChange(e, record.id)}
                                     slotProps={{
                                       inputLabel: {
@@ -354,7 +388,7 @@ export const NoCudBillingList = ({
                                     id="outlined-basic"
                                     variant="outlined"
                                     name="montosesion"
-                                    value={billRecordNoCud.montosesion}
+                                    value={noCudBillingRecord.montosesion}
                                     onChange={handleChange}
                                     slotProps={{
                                       inputLabel: {
@@ -364,50 +398,22 @@ export const NoCudBillingList = ({
                                   />
                                 </td>
                                 <td>
-                                  <TextField
-                                    style={{
-                                      margin: "10px",
-                                      width: "80%",
-                                      border: modified.retencion
-                                        ? "1px solid red"
-                                        : null,
-                                    }}
-                                    type="number"
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    name="retencion"
-                                    value={billRecordNoCud.retencion}
-                                    onChange={handleChange}
-                                    slotProps={{
-                                      inputLabel: {
-                                        shrink: true,
-                                      },
-                                    }}
-                                  />
+                                  {noCudBillingRecord.montosesion !==
+                                    undefined &&
+                                    new Intl.NumberFormat("es-AR", {
+                                      style: "currency",
+                                      currency: "ARS",
+                                    }).format(noCudBillingRecord.retencion)}
                                 </td>
                                 <td>
-                                  <TextField
-                                    style={{
-                                      margin: "10px",
-                                      width: "80%",
-                                      border: modified.montofinalprofesional
-                                        ? "1px solid red"
-                                        : null,
-                                    }}
-                                    type="number"
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    name="montofinalprofesional"
-                                    value={
-                                      billRecordNoCud.montofinalprofesional
-                                    }
-                                    onChange={handleChange}
-                                    slotProps={{
-                                      inputLabel: {
-                                        shrink: true,
-                                      },
-                                    }}
-                                  />
+                                  {noCudBillingRecord.montosesion !==
+                                    undefined &&
+                                    new Intl.NumberFormat("es-AR", {
+                                      style: "currency",
+                                      currency: "ARS",
+                                    }).format(
+                                      noCudBillingRecord.montofinalprofesional
+                                    )}
                                 </td>
                                 <td>
                                   <LocalizationProvider
@@ -421,7 +427,7 @@ export const NoCudBillingList = ({
                                           : null,
                                       }}
                                       value={dayjs(
-                                        billRecordNoCud.fechadepago,
+                                        noCudBillingRecord.fechadepago,
                                         "YYYY-MM-DD"
                                       )}
                                       onChange={(newDate) => {
@@ -455,7 +461,7 @@ export const NoCudBillingList = ({
                                     id="outlined-basic"
                                     variant="outlined"
                                     name="destinatario"
-                                    value={billRecordNoCud.destinatario}
+                                    value={noCudBillingRecord.destinatario}
                                     onChange={(e) => handleChange(e, record.id)}
                                     slotProps={{
                                       inputLabel: {
@@ -477,7 +483,7 @@ export const NoCudBillingList = ({
                                           : null,
                                       }}
                                       value={
-                                        billRecordNoCud.pacienteadeuda
+                                        noCudBillingRecord.pacienteadeuda
                                           ? "yes"
                                           : "no"
                                       }
@@ -506,108 +512,120 @@ export const NoCudBillingList = ({
                                   </span>
                                 </td>
                                 <td>
-                                  <LocalizationProvider
-                                    dateAdapter={AdapterDayjs}
-                                  >
-                                    <MobileDatePicker
-                                      sx={{
-                                        width: "80%",
-                                        border: modified.fechadeuda
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      value={dayjs(
-                                        billRecordNoCud.fechadeuda,
-                                        "YYYY-MM-DD"
-                                      )}
-                                      onChange={(newDate) => {
-                                        handleChange({
-                                          target: {
-                                            name: "fechadeuda",
-                                            value:
-                                              dayjs(newDate).format(
-                                                "YYYY-MM-DD"
-                                              ),
-                                          },
-                                        });
-                                      }}
-                                      slotProps={{
-                                        textField: {
-                                          inputProps: {
-                                            placeholder:
-                                              billRecordNoCud.fechadeuda
-                                                ? undefined
-                                                : "No hay deuda",
-                                          },
-                                        },
-                                      }}
-                                      renderInput={(params) => (
-                                        <TextField
-                                          {...params}
-                                          helperText={
-                                            !billRecordNoCud.fechadeuda &&
-                                            "No hay deuda"
-                                          }
+                                  {console.log(noCudBillingRecord)}
+                                  {noCudBillingRecord.pacienteadeuda ? (
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDayjs}
+                                    >
+                                      <MobileDatePicker
+                                        sx={{
+                                          width: "80%",
+                                          border: modified.fechadeuda
+                                            ? "1px solid red"
+                                            : null,
+                                        }}
+                                        value={dayjs(
+                                          noCudBillingRecord.fechadeuda,
+                                          "YYYY-MM-DD"
+                                        )}
+                                        onChange={(newDate) => {
+                                          handleChange({
+                                            target: {
+                                              name: "fechadeuda",
+                                              value:
+                                                dayjs(newDate).format(
+                                                  "YYYY-MM-DD"
+                                                ),
+                                            },
+                                          });
+                                        }}
+                                        format="DD/MM/YYYY"
+                                      />
+                                    </LocalizationProvider>
+                                  ) : (
+                                    "Sin fecha"
+                                  )}
+                                </td>
+                                <td>
+                                  <span>
+                                    {noCudBillingRecord.pacienteadeuda ? (
+                                      <RadioGroup
+                                        row
+                                        sx={{
+                                          margin: "10px",
+                                          width: "200px",
+                                          justifyContent: "center",
+                                          border: modified.pagomontoadeudado
+                                            ? "1px solid red"
+                                            : null,
+                                        }}
+                                        value={
+                                          noCudBillingRecord.pagomontoadeudado
+                                            ? "yes"
+                                            : "no"
+                                        }
+                                        name="pagomontoadeudado"
+                                        onChange={(e) => {
+                                          const value =
+                                            e.target.value === "yes";
+                                          handleChange({
+                                            target: {
+                                              name: "pagomontoadeudado",
+                                              value: value,
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        <FormControlLabel
+                                          value="yes"
+                                          control={<Radio />}
+                                          label="Si"
                                         />
-                                      )}
-                                    />
-                                  </LocalizationProvider>
+                                        <FormControlLabel
+                                          value="no"
+                                          control={<Radio />}
+                                          label="No"
+                                        />
+                                      </RadioGroup>
+                                    ) : (
+                                      "No hay deuda"
+                                    )}
+                                  </span>
                                 </td>
                                 <td>
-                                  <TextField
-                                    style={{
-                                      margin: "10px",
-                                      width: "80%",
-                                      border: modified.pagomontoadeudado
-                                        ? "1px solid red"
-                                        : null,
-                                    }}
-                                    type="number"
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    name="pagomontoadeudado"
-                                    value={billRecordNoCud.pagomontoadeudado}
-                                    onChange={handleChange}
-                                    slotProps={{
-                                      inputLabel: {
-                                        shrink: true,
-                                      },
-                                    }}
-                                  />
-                                </td>
-                                <td>
-                                  <LocalizationProvider
-                                    dateAdapter={AdapterDayjs}
-                                  >
-                                    <MobileDatePicker
-                                      sx={{
-                                        width: "80%",
-                                        border: modified.fechapagomontoadeudado
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      value={dayjs(
-                                        billRecordNoCud.fechapagomontoadeudado,
-                                        "YYYY-MM-DD"
-                                      )}
-                                      onChange={(newDate) => {
-                                        handleChange({
-                                          target: {
-                                            name: "fechapagomontoadeudado",
-                                            value:
-                                              dayjs(newDate).format(
-                                                "YYYY-MM-DD"
-                                              ),
-                                          },
-                                        });
-                                      }}
-                                      slotProps={{
-                                        textField: {
-                                          inputFormat: "DD/MM/YYYY",
-                                        },
-                                      }}
-                                    />
-                                  </LocalizationProvider>
+                                  {noCudBillingRecord.pagomontoadeudado ? (
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDayjs}
+                                    >
+                                      <MobileDatePicker
+                                        sx={{
+                                          width: "80%",
+                                          border:
+                                            modified.fechapagomontoadeudado
+                                              ? "1px solid red"
+                                              : null,
+                                        }}
+                                        value={dayjs(
+                                          noCudBillingRecord.fechapagomontoadeudado,
+                                          "YYYY-MM-DD"
+                                        )}
+                                        onChange={(newDate) => {
+                                          handleChange({
+                                            target: {
+                                              name: "fechapagomontoadeudado",
+                                              value:
+                                                dayjs(newDate).format(
+                                                  "YYYY-MM-DD"
+                                                ),
+                                            },
+                                          });
+                                        }}
+                                        format="DD/MM/YYYY"
+                                      />
+                                    </LocalizationProvider>
+                                  ) : (
+                                    "Sin fecha"
+                                  )}
                                 </td>
                                 <td>
                                   <div>
@@ -645,11 +663,11 @@ export const NoCudBillingList = ({
                                     <Link
                                       onClick={() => {
                                         uploadNoCudBillingDocumentToBucket(
-                                          `Asist_${removeAccentsAndSpecialChars(
+                                          `Factura_${removeAccentsAndSpecialChars(
                                             record.nombreyapellidoprofesional
                                           )}_${removeAccentsAndSpecialChars(
                                             record.prestacion
-                                          )}`,
+                                          )}_${record.id}`,
                                           record,
                                           "documentofactura",
                                           setIsLoading
@@ -672,10 +690,10 @@ export const NoCudBillingList = ({
                                 </td>
                                 <td>
                                   <div>
-                                    {record.documentoconmprobantepagoretencion !==
+                                    {record.documentocomprobantepagoretencion !==
                                       "" &&
                                       trimUrl(
-                                        record.documentoconmprobantepagoretencion
+                                        record.documentocomprobantepagoretencion
                                       )}
                                   </div>
                                   <div
@@ -689,7 +707,7 @@ export const NoCudBillingList = ({
                                       onClick={() => {
                                         setIsLoading(true);
                                         DeleteNoCudBillingDocumentFromBucket(
-                                          "documentoconmprobantepagoretencion",
+                                          "documentocomprobantepagoretencion",
                                           record
                                         )
                                           .then((response) => {
@@ -709,13 +727,13 @@ export const NoCudBillingList = ({
                                     <Link
                                       onClick={() => {
                                         uploadNoCudBillingDocumentToBucket(
-                                          `Asist_${removeAccentsAndSpecialChars(
+                                          `Retencion_${removeAccentsAndSpecialChars(
                                             record.nombreyapellidoprofesional
                                           )}_${removeAccentsAndSpecialChars(
                                             record.prestacion
-                                          )}`,
+                                          )}_${record.id}`,
                                           record,
-                                          "documentoconmprobantepagoretencion",
+                                          "documentocomprobantepagoretencion",
                                           setIsLoading
                                         )
                                           .then((response) => {
@@ -777,24 +795,33 @@ export const NoCudBillingList = ({
                               <td>{record.destinatario}</td>
                               <td>{record.pacienteadeuda ? "Si" : "No"}</td>
                               <td>
-                                {new Date(record.fechadeuda).toLocaleDateString(
-                                  "es-AR",
-                                  {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  }
-                                )}
+                                {record.pacienteadeuda
+                                  ? new Date(
+                                      record.fechadeuda
+                                    ).toLocaleDateString("es-AR", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                    })
+                                  : "Sin fecha"}
                               </td>
-                              <td>{record.pagomontoadeudado}</td>
                               <td>
-                                {new Date(
-                                  record.fechapagomontoadeudado
-                                ).toLocaleDateString("es-AR", {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "numeric",
-                                })}
+                                {record.pacienteadeuda
+                                  ? record.pagomontoadeudado
+                                    ? "Si"
+                                    : "No"
+                                  : "No hay deuda"}
+                              </td>
+                              <td>
+                                {record.fechapagomontoadeudado
+                                  ? new Date(
+                                      record.fechapagomontoadeudado
+                                    ).toLocaleDateString("es-AR", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                    })
+                                  : "Sin fecha"}
                               </td>
                               <td>
                                 {record.documentofactura === "" ? (
@@ -816,21 +843,23 @@ export const NoCudBillingList = ({
                                 )}
                               </td>
                               <td>
-                                {record.documentocomprobantepago === "" ? (
-                                  // <div>No hay archivo cargado</div>
+                                {record.documentocomprobantepagoretencion ===
+                                "" ? (
                                   <ClearIcon />
                                 ) : (
                                   <Link
-                                    to={`${record.documentocomprobantepago}`}
+                                    to={`${record.documentocomprobantepagoretencion}`}
                                     onClick={(e) => {
                                       e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
                                       window.open(
-                                        record.documentocomprobantepago,
+                                        record.documentocomprobantepagoretencion,
                                         "_blank"
                                       ); // Abrir la URL en una nueva pestaña
                                     }}
                                   >
-                                    {trimUrl(record.documentocomprobantepago)}
+                                    {trimUrl(
+                                      record.documentocomprobantepagoretencion
+                                    )}
                                   </Link>
                                 )}
                               </td>
@@ -852,7 +881,7 @@ export const NoCudBillingList = ({
                       }}
                     >
                       <td
-                        colSpan={editMode ? 7 : 6}
+                        colSpan={editMode ? 8 : 7}
                         style={{
                           textAlign: "center",
                           fontWeight: "bold",

@@ -327,7 +327,7 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
         pagomontoadeudado,
         fechapagomontoadeudado,
         documentofactura,
-        documentoconmprobantepagoretencion
+        documentocomprobantepagoretencion
     } = req.body;
     try {
         const result = await pool.query(
@@ -349,7 +349,7 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
                                             pagomontoadeudado,
                                             fechapagomontoadeudado,
                                             documentofactura,
-                                            documentoconmprobantepagoretencion
+                                            documentocomprobantepagoretencion
                                         )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING id`,
             [idprofesional,
@@ -370,7 +370,7 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
                 pagomontoadeudado,
                 fechapagomontoadeudado,
                 documentofactura,
-                documentoconmprobantepagoretencion
+                documentocomprobantepagoretencion
             ]
         );
         res.status(201).json(result.rows[0]);
@@ -1151,7 +1151,7 @@ app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
         pagomontoadeudado,
         fechapagomontoadeudado,
         documentofactura,
-        documentoconmprobantepagoretencion
+        documentocomprobantepagoretencion
     } = req.body;
 
     const {
@@ -1179,7 +1179,7 @@ app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
                     pagomontoadeudado = $16,
                     fechapagomontoadeudado = $17,
                     documentofactura = $18,
-                    documentoconmprobantepagoretencion = $19
+                    documentocomprobantepagoretencion = $19
              WHERE id = $20`,
             [
                 idprofesional,
@@ -1200,7 +1200,7 @@ app.put("/updateNoCudBillingRecord/:id", async (req, res) => {
                 pagomontoadeudado,
                 fechapagomontoadeudado,
                 documentofactura,
-                documentoconmprobantepagoretencion,
+                documentocomprobantepagoretencion,
                 id
             ]
         );

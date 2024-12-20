@@ -3,10 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import { Spinner } from "../../../../common/spinner/Spinner";
 import { getProfessionalsRecords } from "../../../../../api/professionals";
-import {
-  getPatientRecord,
-  getPatientsRecords,
-} from "../../../../../api/patients";
+import { getPatientsRecords } from "../../../../../api/patients";
 import { createNoCudBillingRecord } from "../../../../../api/noCudBilling";
 import { CreateNoCudBilling } from "./CreateNoCudBilling";
 import { Footer } from "../../../../layout/footer/Footer";
@@ -55,10 +52,10 @@ export const CreateNoCudBillingContainer = () => {
     destinatario: "",
     pacienteadeuda: false,
     fechadeuda: null,
-    pagomontoadeudado: true,
+    pagomontoadeudado: false,
     fechapagomontoadeudado: null,
     documentofactura: "",
-    documentoconmprobantepagoretencion: "",
+    documentocomprobantepagoretencion: "",
   };
 
   const [billRecordNoCud, setBillRecordNoCud] = useState(
@@ -89,24 +86,25 @@ export const CreateNoCudBillingContainer = () => {
       updatedBillRecordNoCud.montofinalprofesional =
         updatedBillRecordNoCud.montosesion * 0.65;
     }
-    if (name === "pacienteadeuda" && !value)
+    if (name === "pacienteadeuda" && !value) {
       updatedBillRecordNoCud.fechadeuda = null;
+      updatedBillRecordNoCud.pagomontoadeudado = false;
+      updatedBillRecordNoCud.fechapagomontoadeudado = null;
+    }
     if (name === "pagomontoadeudado" && !value)
       updatedBillRecordNoCud.fechapagomontoadeudado = null;
-    console.log(updatedBillRecordNoCud);
     if (value2 && name === "idprofesional") {
       updatedBillRecordNoCud.nombreyapellidoprofesional = value2;
     }
     if (value2 && name === "idpaciente") {
       updatedBillRecordNoCud.nombreyapellidopaciente = value2;
     }
-    console.log(updatedBillRecordNoCud);
     setBillRecordNoCud(updatedBillRecordNoCud);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
     console.log(updatedBillRecordNoCud);
     // console.log(modified);
-    console.log(billRecordNoCud);
+    // console.log(billRecordNoCud);
   };
 
   const handleSubmit = () => {

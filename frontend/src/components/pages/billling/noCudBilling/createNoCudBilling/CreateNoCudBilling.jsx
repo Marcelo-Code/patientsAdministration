@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 import "./createNoCudBilling.css";
 import dayjs from "dayjs";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
+import { CreateNoCudBillingPacienteAdeuda } from "./createNoCudBillingPacienteAdeuda";
 
 export const CreateNoCudBilling = ({
   handleChange,
@@ -257,91 +258,10 @@ export const CreateNoCudBilling = ({
               </RadioGroup>
             </span>
             {billRecordNoCud.pacienteadeuda && (
-              <span style={style}>
-                <CalendarIcon />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    type="date"
-                    sx={{ width: "200px", margin: "10px" }}
-                    label="Fecha Deuda"
-                    name="fechadeuda"
-                    format="DD/MM/YYYY"
-                    onChange={(newDate) => {
-                      handleChange({
-                        target: {
-                          name: "fechadeuda",
-                          value: dayjs(newDate).format("YYYY-MM-DD"),
-                        },
-                      });
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </LocalizationProvider>
-              </span>
-            )}
-            <span
-              style={{
-                ...style,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <span>
-                <MonetizationOnIcon
-                  sx={{ marginRight: "5px", verticalAlign: "middle" }}
-                />
-                Pago Monto Adeudado
-              </span>
-              <RadioGroup
-                row
-                sx={{
-                  margin: "10px",
-                  width: "200px",
-                  justifyContent: "center",
-                }}
-                value={billRecordNoCud.pagomontoadeudado ? "yes" : "no"}
-                name="pagomontoadeudado"
-                onChange={(e) => {
-                  const value = e.target.value === "yes";
-                  handleChange({
-                    target: {
-                      name: "pagomontoadeudado",
-                      value: value,
-                    },
-                  });
-                }}
-              >
-                <FormControlLabel value="yes" control={<Radio />} label="Sí" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
-              </RadioGroup>
-            </span>
-            {billRecordNoCud.pagomontoadeudado && (
-              <span style={style}>
-                <CalendarIcon />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    type="date"
-                    sx={{ width: "200px", margin: "10px" }}
-                    label="Fecha de Pago"
-                    name="fechapagomontoadeudado"
-                    format="DD/MM/YYYY"
-                    onChange={(newDate) => {
-                      handleChange({
-                        target: {
-                          name: "fechapagomontoadeudado",
-                          value: dayjs(newDate).format("YYYY-MM-DD"),
-                        },
-                      });
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </LocalizationProvider>
-              </span>
+              <CreateNoCudBillingPacienteAdeuda
+                handleChange={handleChange}
+                billRecordNoCud={billRecordNoCud}
+              />
             )}
           </Box>
           <div className="buttonGroup">
