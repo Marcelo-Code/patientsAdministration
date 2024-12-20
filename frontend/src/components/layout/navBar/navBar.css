@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "broughton";
+  src: url("../../../../public/broughton.ttf");
+}
 .navBar {
   display: flex;
   justify-content: space-between;
@@ -8,4 +12,10 @@
   top: 0;
   width: 100%;
   height: auto;
+}
+
+.title {
+  font-family: "broughton";
+  font-size: 25px;
+  text-shadow: 0 0 20px black;
 }

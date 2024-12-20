@@ -21,6 +21,7 @@ import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/
 import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
 import { NavBar } from "./components/layout/navBar/NavBar";
 import { useContext } from "react";
+import { ProfessionalDetailContainer } from "./components/pages/professionals/editProfessional/professionalDetail/ProfessionalDetailContainer";
 function App() {
   // const { darkMode } = useContext(GeneralContext);
 
@@ -58,6 +59,10 @@ function App() {
         <Route
           path={"/professionalsList"}
           element={<ProfessionalsListContainer />}
+        />
+        <Route
+          path={"/professionalDetail/:professionalId"}
+          element={<ProfessionalDetailContainer />}
         />
         <Route
           path={"/createProfessional"}

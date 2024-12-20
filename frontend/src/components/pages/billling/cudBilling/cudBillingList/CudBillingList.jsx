@@ -368,7 +368,7 @@ export const CudBillingList = ({
                                               record.nombreyapellidoprofesional
                                             )}_${removeAccentsAndSpecialChars(
                                               record.prestacion
-                                            )}`,
+                                            )}_${record.id}`,
                                             record,
                                             "imgasistenciamensual",
                                             setIsLoading

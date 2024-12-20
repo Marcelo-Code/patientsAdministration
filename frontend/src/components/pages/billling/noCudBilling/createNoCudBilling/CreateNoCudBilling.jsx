@@ -26,7 +26,7 @@ import { Link } from "react-router-dom";
 import "./createNoCudBilling.css";
 import dayjs from "dayjs";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
-import { CreateNoCudBillingPacienteAdeuda } from "./CreateNoCudBillingPacienteAdeudaTemp";
+import { CreateNoCudBillingPacienteAdeuda } from "./CreateNoCudBillingPacienteAdeudaBool";
 
 export const CreateNoCudBilling = ({
   handleChange,

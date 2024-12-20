@@ -17,12 +17,14 @@ export const NavBar = () => {
       }}
     >
       <BurguerMenu />
-      <img
-        src="/elReinoDelReves.png"
-        alt=""
-        style={{ width: "80px", height: "80px" }}
-      />
-      <div>Nombre de la Aplicación</div>
+      <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <img
+          src="/elReinoDelReves.png"
+          alt=""
+          style={{ width: "80px", height: "80px" }}
+        />
+        <div className="title">Cud No Cud</div>
+      </span>
       <SwitchMode onChange={handleDarkModeChange} />
     </div>
   );

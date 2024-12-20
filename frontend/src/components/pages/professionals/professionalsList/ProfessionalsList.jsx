@@ -150,7 +150,7 @@ export const ProfessionalsList = ({
                 </Typography>
               </CardContent>
               <CardActions sx={{ justifyContent: "center" }}>
-                {editMode && (
+                {editMode ? (
                   <>
                     <Link
                       onClick={() =>
@@ -171,6 +171,10 @@ export const ProfessionalsList = ({
                       <EditIcon sx={{ margin: "10px", fontSize: "2em" }} />
                     </Link>
                   </>
+                ) : (
+                  <Link to={`/professionalDetail/${professional.id}`}>
+                    <Button size="small">Ver Detalles</Button>
+                  </Link>
                 )}
               </CardActions>
             </Card>
