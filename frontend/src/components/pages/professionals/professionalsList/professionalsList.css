@@ -1,9 +1,10 @@
 .professionalsContainer {
+  position: relative;
   width: 100vw;
-  margin-top: 180px;
+  margin-top: 250px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 10px;
+  gap: 20px;
 }

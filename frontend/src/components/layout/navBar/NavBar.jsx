@@ -5,10 +5,7 @@ import "./navBar.css";
 import { GeneralContext } from "../../../context/GeneralContext";
 
 export const NavBar = () => {
-  const { darkMode, setDarkMode } = useContext(GeneralContext);
-  const handleDarkModeChange = () => {
-    setDarkMode(!darkMode);
-  };
+  const { darkMode } = useContext(GeneralContext);
   return (
     <div
       className="navBar"
@@ -25,7 +22,6 @@ export const NavBar = () => {
         />
         <div className="title">Cud No Cud</div>
       </span>
-      <SwitchMode onChange={handleDarkModeChange} />
     </div>
   );
 };
