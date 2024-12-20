@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
-import { SwitchMode } from "../../common/switchMode/SwitchMode";
 import "./navBar.css";
 import { GeneralContext } from "../../../context/GeneralContext";
 

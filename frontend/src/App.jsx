@@ -1,9 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import {
-  GeneralContext,
-  GeneralContextProvider,
-} from "./context/GeneralContext";
+
 import { DocumentationContainer } from "./components/pages/documentation/DocumentationContainer";
 import { BillingContainer } from "./components/pages/billling/BillingContainer";
 import { CreateNoCudBillingContainer } from "./components/pages/billling/noCudBilling/createNoCudBilling/CreateNoCudBillingContainer";
@@ -20,8 +17,7 @@ import { MedicalRecordListContainer } from "./components/pages/medicalRecords/me
 import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/createMedicalRecord/CreateMedicalRecordContainer";
 import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
 import { NavBar } from "./components/layout/navBar/NavBar";
-import { useContext } from "react";
-import { ProfessionalDetailContainer } from "./components/pages/professionals/editProfessional/professionalDetail/ProfessionalDetailContainer";
+import { ProfessionalDetailContainer } from "./components/pages/professionals/professionalDetail/ProfessionalDetailContainer";
 function App() {
   // const { darkMode } = useContext(GeneralContext);
 
