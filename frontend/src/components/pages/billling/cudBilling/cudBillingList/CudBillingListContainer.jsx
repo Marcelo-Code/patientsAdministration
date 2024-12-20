@@ -148,6 +148,11 @@ export const CudBillingListContainer = ({ patientId }) => {
       updateCudBillingRecord.medioreclamo = "";
       updateCudBillingRecord.respuestareclamo = "";
     }
+    if ((name === "cobradaenfecha") & value) {
+      updateCudBillingRecord.fechareclamo = null;
+      updateCudBillingRecord.medioreclamo = "";
+      updateCudBillingRecord.respuestareclamo = "";
+    }
     setCudBillingRecord(updatedCudBillingRecord);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);

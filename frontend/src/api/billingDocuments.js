@@ -13,7 +13,7 @@ import {
     supabase
 } from './supabaseClient';
 
-export const uploadFileToBucket = async (fileName, record, name, folderName, setIsloading) => {
+export const uploadCudBillingDocumentToBucket = async (fileName, record, name, setIsloading) => {
     if (record[name] !== "") {
         WarningAlert("Debe eliminarse el documento antes de subir otro")
     } else {
@@ -49,7 +49,7 @@ export const uploadFileToBucket = async (fileName, record, name, folderName, set
 
             // Procesar el archivo seleccionado
             const fileFormat = file.name.split(".").pop();
-            const filePath = `${folderName}/${fileName}.${fileFormat}`;
+            const filePath = `cudBillingDocuments/${fileName}.${fileFormat}`;
 
             console.log("Ruta del archivo:", filePath);
 
@@ -92,7 +92,7 @@ export const uploadFileToBucket = async (fileName, record, name, folderName, set
                 [name]: decodedUrl
             };
 
-            await partialUpdateRecord(updatedRecord, record.id);
+            await partialUpdateCudBillingRecord(updatedRecord, record.id);
             console.log("Registro actualizado correctamente:", updatedRecord);
 
             return Promise.resolve({
@@ -202,8 +202,8 @@ export const uploadNoCudBillingDocumentToBucket = async (fileName, record, name,
 //PATCH: facturación CUD
 //----------------------
 
-export const partialUpdateRecord = async (cudBillingRecord, cudBillingRecordId) => {
-    const response = await axios.patch(`${BACKEND_URL}/partialUpdateRecord/${cudBillingRecordId}`, cudBillingRecord)
+export const partialUpdateCudBillingRecord = async (cudBillingRecord, cudBillingRecordId) => {
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdateCudBillingRecord/${cudBillingRecordId}`, cudBillingRecord)
     try {
         SuccessAlert("Registro modificado!");
         return response.data;
@@ -315,7 +315,7 @@ export const DeleteFileFromBucket = async (name, record, folderName) => {
                     ...record,
                     [name]: ""
                 };
-                await partialUpdateRecord(updatedPatient, record.id)
+                await partialUpdateCudBillingRecord(updatedPatient, record.id)
                     .then((response) => console.log(response))
                     .catch((error) => console.log(error));
             } catch (error) {

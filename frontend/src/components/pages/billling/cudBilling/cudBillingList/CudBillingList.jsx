@@ -28,7 +28,7 @@ import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecord";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
 import {
   DeleteFileFromBucket,
-  uploadFileToBucket,
+  uploadCudBillingDocumentToBucket,
 } from "../../../../../api/billingDocuments";
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import { deleteCudBillingRecord } from "../../../../../api/cudBilling";
@@ -179,10 +179,10 @@ export const CudBillingList = ({
                       <th>Monto Facturado</th>
                       <th>Fecha Presentación O.S.</th>
                       <th>Fecha Aviso Recepción O.S.</th>
+                      <th>Cobrada en Fecha</th>
                       <th>Fecha Reclamo</th>
                       <th>Medio Reclamo</th>
                       <th>Respuesta Reclamo</th>
-                      <th>Cobrada en Fecha</th>
                       <th>Fecha de Cobro</th>
                       <th>Monto Percibido</th>
                       <th>35% Retención</th>
@@ -361,7 +361,7 @@ export const CudBillingList = ({
                                       </Link>
                                       <Link
                                         onClick={() => {
-                                          uploadFileToBucket(
+                                          uploadCudBillingDocumentToBucket(
                                             `Asist_${formatPeriod(
                                               record.periodofacturado
                                             )}_${removeAccentsAndSpecialChars(
@@ -371,7 +371,6 @@ export const CudBillingList = ({
                                             )}`,
                                             record,
                                             "imgasistenciamensual",
-                                            "cudBillingDocuments",
                                             setIsLoading
                                           )
                                             .then((response) => {
@@ -425,11 +424,16 @@ export const CudBillingList = ({
                                       </Link>
                                       <Link
                                         onClick={() => {
-                                          uploadFileToBucket(
-                                            `InformeMensual_${record.nombreyapellidoprofesional}_${record.nrofactura}`,
+                                          uploadCudBillingDocumentToBucket(
+                                            `Inf_Mensual_${formatPeriod(
+                                              record.periodofacturado
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.nombreyapellidoprofesional
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.prestacion
+                                            )}_${record.id}`,
                                             record,
                                             "documentoinformemensual",
-                                            "cudBillingDocuments",
                                             setIsLoading
                                           )
                                             .then((response) => {
@@ -484,11 +488,16 @@ export const CudBillingList = ({
                                       </Link>
                                       <Link
                                         onClick={() => {
-                                          uploadFileToBucket(
-                                            `FacturaMensual${record.nombreyapellidoprofesional}_${record.nrofactura}`,
+                                          uploadCudBillingDocumentToBucket(
+                                            `Factura_Mensual_${formatPeriod(
+                                              record.periodofacturado
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.nombreyapellidoprofesional
+                                            )}_${removeAccentsAndSpecialChars(
+                                              record.prestacion
+                                            )}_${record.id}`,
                                             record,
                                             "documentofacturamensual",
-                                            "cudBillingDocuments",
                                             setIsLoading
                                           )
                                             .then((response) => {
@@ -655,93 +664,6 @@ export const CudBillingList = ({
                                     </LocalizationProvider>
                                   </td>
                                   <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border: modified.fechareclamo
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        value={dayjs(
-                                          cudBillingRecord.fechareclamo,
-                                          "YYYY-MM-DD"
-                                        )}
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "fechareclamo",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-DD"
-                                                ),
-                                            },
-                                          });
-                                        }}
-                                        slotProps={{
-                                          textField: {
-                                            inputFormat: "DD/MM/YYYY",
-                                          },
-                                        }}
-                                        format="DD/MM/YYYY"
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.medioreclamo
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      disabled={!cudBillingRecord.fechareclamo}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="medioreclamo"
-                                      value={
-                                        cudBillingRecord.fechareclamo &&
-                                        cudBillingRecord.medioreclamo
-                                      }
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.respuestareclamo
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      disabled={
-                                        !cudBillingRecord.fechareclamo && true
-                                      }
-                                      value={
-                                        cudBillingRecord.fechareclamo &&
-                                        cudBillingRecord.respuestareclamo
-                                      }
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-
-                                  <span>
                                     <RadioGroup
                                       row
                                       sx={{
@@ -779,7 +701,107 @@ export const CudBillingList = ({
                                         label="No"
                                       />
                                     </RadioGroup>
-                                  </span>
+                                  </td>
+                                  <td>
+                                    {!cudBillingRecord.cobradaenfecha ? (
+                                      <LocalizationProvider
+                                        dateAdapter={AdapterDayjs}
+                                      >
+                                        <MobileDatePicker
+                                          sx={{
+                                            width: "80%",
+                                            border: modified.fechareclamo
+                                              ? "1px solid red"
+                                              : null,
+                                          }}
+                                          value={dayjs(
+                                            cudBillingRecord.fechareclamo,
+                                            "YYYY-MM-DD"
+                                          )}
+                                          onChange={(newDate) => {
+                                            handleChange({
+                                              target: {
+                                                name: "fechareclamo",
+                                                value:
+                                                  dayjs(newDate).format(
+                                                    "YYYY-MM-DD"
+                                                  ),
+                                              },
+                                            });
+                                          }}
+                                          slotProps={{
+                                            textField: {
+                                              inputFormat: "DD/MM/YYYY",
+                                            },
+                                          }}
+                                          format="DD/MM/YYYY"
+                                        />
+                                      </LocalizationProvider>
+                                    ) : (
+                                      "Sin reclamo"
+                                    )}
+                                  </td>
+                                  <td>
+                                    {!cudBillingRecord.cobradaenfecha ? (
+                                      <TextField
+                                        style={{
+                                          margin: "10px",
+                                          width: "80%",
+                                          border: modified.medioreclamo
+                                            ? "1px solid red"
+                                            : null,
+                                        }}
+                                        disabled={
+                                          !cudBillingRecord.fechareclamo
+                                        }
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        name="medioreclamo"
+                                        value={
+                                          cudBillingRecord.fechareclamo &&
+                                          cudBillingRecord.medioreclamo
+                                        }
+                                        onChange={handleChange}
+                                        slotProps={{
+                                          inputLabel: {
+                                            shrink: true,
+                                          },
+                                        }}
+                                      />
+                                    ) : (
+                                      "Sin reclamo"
+                                    )}
+                                  </td>
+                                  <td>
+                                    {!cudBillingRecord.cobradaenfecha ? (
+                                      <TextField
+                                        style={{
+                                          margin: "10px",
+                                          width: "80%",
+                                          border: modified.respuestareclamo
+                                            ? "1px solid red"
+                                            : null,
+                                        }}
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        disabled={
+                                          !cudBillingRecord.fechareclamo && true
+                                        }
+                                        value={
+                                          cudBillingRecord.fechareclamo &&
+                                          cudBillingRecord.respuestareclamo
+                                        }
+                                        onChange={handleChange}
+                                        slotProps={{
+                                          inputLabel: {
+                                            shrink: true,
+                                          },
+                                        }}
+                                      />
+                                    ) : (
+                                      "Sin reclamo"
+                                    )}
+                                  </td>
                                   <td>
                                     <LocalizationProvider
                                       dateAdapter={AdapterDayjs}
@@ -955,6 +977,7 @@ export const CudBillingList = ({
                                     year: "numeric",
                                   })}
                                 </td>
+                                <td>{record.cobradaenfecha ? "Si" : "No"}</td>
                                 <td>
                                   {record.fechareclamo
                                     ? new Date(
@@ -976,7 +999,6 @@ export const CudBillingList = ({
                                     ? record.respuestareclamo
                                     : "Sin reclamo"}
                                 </td>
-                                <td>{record.cobradaenfecha ? "Si" : "No"}</td>
                                 <td>
                                   {record.fechacobro
                                     ? new Date(
