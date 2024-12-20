@@ -30,9 +30,20 @@ export const PatientsList = ({
       <div className="patientsContainer">
         <span
           style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100%",
+            background: "white",
+            zIndex: 3,
             display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
             alignItems: "center",
             gap: "30px",
+            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
+            paddingTop: "10px",
+            paddingBottom: "10px",
           }}
         >
           <Link to="/createPatient">

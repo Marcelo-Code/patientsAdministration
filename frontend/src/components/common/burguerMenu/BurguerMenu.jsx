@@ -27,8 +27,9 @@ export const BurguerMenu = () => {
       <div className="bm-menu-sub-title">Sub Título</div>
       <div className="bm-menu">
         <ul className="bm-item-list">
-          <SwitchMode onChange={handleDarkModeChange} />
-
+          <li>
+            <SwitchMode onChange={handleDarkModeChange} />
+          </li>
           <Link to="" onClick={closeMenu}>
             <li className="bm-item">Pacientes</li>
           </Link>

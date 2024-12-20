@@ -146,7 +146,7 @@ export const CudBillingList = ({
                     style={{
                       position: "sticky",
                       top: 0,
-                      zIndex: "4",
+                      zIndex: "3",
                     }}
                   >
                     <tr

@@ -84,102 +84,119 @@ export const MedicalRecordsList = ({
   };
 
   return (
-    <div
-      style={{
-        marginTop: "180px",
-        width: "100vw",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "20px",
-        fontFamily: "Arial",
-        fontSize: "1.2em",
-        color: "gray",
-      }}
-    >
-      <div>{records.length} registros encontrados</div>
-      <div
+    <div className="medicalRecordsListContainer">
+      <span
         style={{
+          position: "fixed",
+          top: 120,
+          left: 0,
+          width: "100%",
+          background: "white",
+          zIndex: 3,
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          flexDirection: "raw",
-          gap: "10px",
+          alignItems: "center",
+          gap: "30px",
+          boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
+          paddingTop: "10px",
+          paddingBottom: "10px",
+          height: "auto",
         }}
       >
-        <Link
-          to={
-            patientId
-              ? `/createMedicalRecord/${patientId}`
-              : "/createMedicalRecord"
-          }
-        >
-          <Button
-            aria-label="fingerprint"
-            size="small"
-            variant="contained"
-            sx={{
-              width: "170px",
-              height: "30px",
-              position: "relative",
-            }}
-            startIcon={<PlaylistAddIcon />}
-          >
-            Crear Consulta
-          </Button>
-        </Link>
-        <div
-          style={{
-            width: "140px",
-            display: "flex",
-            justifyContent: "right",
-            gap: "10px",
-          }}
-        >
-          <Link onClick={resetFilters}>
-            {isResetEnabled && <AutorenewIcon sx={{ marginTop: "5px" }} />}
-          </Link>
-          <MedicalRecordListFilterDrawer {...filterProps} />
-        </div>
-        <span style={{ display: "flex", gap: "10px" }}>
-          {patientId && (
-            <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-              Informe
-              <Android12Switch
-                checked={reportMode}
-                onChange={handleReportModeChange}
-                sx={{ transform: "scale(1.3)" }}
-              />
-            </div>
-          )}
-          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            Edición
-            <Android12Switch
-              checked={editMode}
-              onChange={handleEditModeChange}
-              sx={{ transform: "scale(1.3)" }}
-            />
-          </div>
-        </span>
-      </div>
-      <Button onClick={handleGoBack} sx={{ width: "80%" }}>
-        Volver
-      </Button>
-      <MedicalRecordListFilter {...filterProps} />
-
-      {reportMode && (
         <div
           style={{
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "raw",
+            gap: "10px",
           }}
         >
-          <Animation component={ExportToWord} props={reportProps} />
-          <Animation component={OptionsMenu} props={professionalsReportProps} />
-          <Animation component={OptionsMenu} props={meetingsReportProps} />
+          <Link
+            to={
+              patientId
+                ? `/createMedicalRecord/${patientId}`
+                : "/createMedicalRecord"
+            }
+          >
+            <Button
+              aria-label="fingerprint"
+              size="small"
+              variant="contained"
+              sx={{
+                width: "170px",
+                height: "30px",
+                position: "relative",
+              }}
+              startIcon={<PlaylistAddIcon />}
+            >
+              Crear Consulta
+            </Button>
+          </Link>
+          <div
+            style={{
+              width: "140px",
+              display: "flex",
+              justifyContent: "right",
+              gap: "10px",
+            }}
+          >
+            <Link onClick={resetFilters}>
+              {isResetEnabled && <AutorenewIcon sx={{ marginTop: "5px" }} />}
+            </Link>
+            <MedicalRecordListFilterDrawer {...filterProps} />
+          </div>
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            {patientId && (
+              <div
+                style={{ display: "flex", gap: "5px", alignItems: "center" }}
+              >
+                Informe
+                <Android12Switch
+                  checked={reportMode}
+                  onChange={handleReportModeChange}
+                  sx={{ transform: "scale(1.3)" }}
+                />
+              </div>
+            )}
+            <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+              Edición
+              <Android12Switch
+                checked={editMode}
+                onChange={handleEditModeChange}
+                sx={{ transform: "scale(1.3)" }}
+              />
+            </div>
+          </div>
+
+          <MedicalRecordListFilter {...filterProps} />
+          {reportMode && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <Animation component={ExportToWord} props={reportProps} />
+              <Animation
+                component={OptionsMenu}
+                props={professionalsReportProps}
+              />
+              <Animation component={OptionsMenu} props={meetingsReportProps} />
+            </div>
+          )}
+          <Button onClick={handleGoBack} sx={{ width: "80%" }}>
+            Volver
+          </Button>
         </div>
-      )}
+      </span>
+      <div>{records.length} registros encontrados</div>
+
       {records.map((record) => {
         return (
           <Card
