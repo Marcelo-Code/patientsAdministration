@@ -1,19 +1,24 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import { Spinner } from "../../../../common/spinner/Spinner";
 
 import { NoCudBillingList } from "./NoCudBillingList";
 import {
   getNoCudBillingRecord,
-  getNoCudBillingRecords,
   updateNoCudBillingRecord,
 } from "../../../../../api/noCudBilling";
-import { getProfessionalsRecords } from "../../../../../api/professionals";
-import { getPatientsRecords } from "../../../../../api/patients";
+import { NavBar } from "../../../../layout/navBar/NavBar";
 import { Footer } from "../../../../layout/footer/Footer";
 
-export const NoCudBillingListContainer = ({ patientId }) => {
+export const NoCudBillingListContainer = ({
+  setNoCudBillingRecords,
+  noCudBillingRecords,
+  patientsRecords,
+  professionalsRecords,
+  updateList,
+  setUpdateNoCudBillingList,
+  filteredNoCudBillingRecords,
+}) => {
   const {
     handleGoBack,
     createList,
@@ -21,10 +26,6 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     cancelTableAction,
     removeAccentsAndSpecialChars,
   } = useContext(GeneralContext);
-  const [noCudBillingRecords, setNoCudBillingRecords] = useState(null);
-  const [filteredNoCudBillingRecords, setFilteredNoCudBillingRecords] =
-    useState(null);
-  const [updateList, setUpdateList] = useState(false);
 
   const [editModeFields, setEditModeFields] = useState(null);
 
@@ -50,8 +51,6 @@ export const NoCudBillingListContainer = ({ patientId }) => {
   };
   const [modified, setModified] = useState(initialModifiedState);
   const [modifiedFlag, setModifiedFlag] = useState(false);
-  const [professionals, setProfessionals] = useState(null);
-  const [patients, setPatients] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const billRecordInitialState = {
@@ -101,40 +100,6 @@ export const NoCudBillingListContainer = ({ patientId }) => {
       });
   };
 
-  useEffect(() => {
-    getNoCudBillingRecords()
-      .then((response) => {
-        let filteredResponse;
-        if (patientId) {
-          filteredResponse = response.filter(
-            (record) => record.idpaciente === parseInt(patientId)
-          );
-        } else {
-          filteredResponse = response;
-        }
-        const sortedResponse = filteredResponse.sort((a, b) => {
-          return a.nombreyapellidoprofesional.localeCompare(
-            b.nombreyapellidoprofesional
-          );
-        });
-        setNoCudBillingRecords(sortedResponse);
-        setFilteredNoCudBillingRecords(sortedResponse);
-      })
-      .catch((error) => console.log(error));
-    getProfessionalsRecords()
-      .then((response) => {
-        setProfessionals(response);
-      })
-      .catch((error) => console.log(error));
-    getPatientsRecords()
-      .then((response) => {
-        setPatients(response);
-      })
-      .catch((error) => console.log(error));
-  }, [updateList, patientId]);
-
-  if (!noCudBillingRecords || !patients || !professionals) return <Spinner />;
-
   const handleChange = (e) => {
     const { name, value, value2 } = e.target;
     const updatedNoCudBillingRecord = { ...noCudBillingRecord, [name]: value };
@@ -167,7 +132,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
       .then((response) => {
         console.log(response);
         setEditModeFields(null);
-        setUpdateList(!updateList);
+        setUpdateNoCudBillingList(!updateList);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -198,7 +163,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
   );
 
   const professionalsList = createList(
-    professionals,
+    professionalsRecords,
     "nombreyapellidoprofesional",
     "id",
     false,
@@ -206,7 +171,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
   );
 
   const patientsList = createList(
-    patients,
+    patientsRecords,
     "nombreyapellidopaciente",
     "id",
     false,
@@ -247,7 +212,7 @@ export const NoCudBillingListContainer = ({ patientId }) => {
     handleChange,
     setEditModeFields,
     editModeFields,
-    setUpdateList,
+    setUpdateNoCudBillingList,
     updateList,
     cancelTableAction,
     professionalsProps,
@@ -267,7 +232,6 @@ export const NoCudBillingListContainer = ({ patientId }) => {
   return (
     <>
       <NoCudBillingList {...props} />;
-      <Footer />
     </>
   );
 };

@@ -1,25 +1,27 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { CudBillingList } from "./CudBillingList";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import { Spinner } from "../../../../common/spinner/Spinner";
 
 import {
   getCudBillingRecord,
-  getCudBillingRecords,
   updateCudBillingRecord,
 } from "../../../../../api/cudBilling";
-import { getProfessionalsRecords } from "../../../../../api/professionals";
-import { getPatientsRecords } from "../../../../../api/patients";
+import { NavBar } from "../../../../layout/navBar/NavBar";
 import { Footer } from "../../../../layout/footer/Footer";
 
-export const CudBillingListContainer = ({ patientId }) => {
+export const CudBillingListContainer = ({
+  filteredCudBillingRecords,
+  professionalsRecords,
+  patientsRecords,
+  setCudBillingRecords,
+  cudBillingRecords,
+  updateList,
+  setUpdateList,
+}) => {
   const { createList, cancelTableAction } = useContext(GeneralContext);
-  const [cudBillingRecords, setCudBillingRecords] = useState(null);
-  const [filteredCudBillingRecords, setFilteredCudBillingRecords] =
-    useState(null);
-  const [updateList, setUpdateList] = useState(false);
+  useState(null);
 
   const [editModeFields, setEditModeFields] = useState(null);
 
@@ -45,8 +47,6 @@ export const CudBillingListContainer = ({ patientId }) => {
   };
   const [modified, setModified] = useState(initialModifiedState);
   const [modifiedFlag, setModifiedFlag] = useState(false);
-  const [professionals, setProfessionals] = useState(null);
-  const [patients, setPatients] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const cudBillingRecordInitialState = {
@@ -95,41 +95,6 @@ export const CudBillingListContainer = ({ patientId }) => {
       });
     // console.log(billRecordCud);
   };
-
-  useEffect(() => {
-    getCudBillingRecords()
-      .then((response) => {
-        let filteredResponse;
-        if (patientId) {
-          filteredResponse = response.filter(
-            (record) => record.idpaciente === parseInt(patientId)
-          );
-          console.log(filteredResponse);
-        } else {
-          filteredResponse = response;
-        }
-        const sortedResponse = filteredResponse.sort((a, b) => {
-          return a.nombreyapellidoprofesional.localeCompare(
-            b.nombreyapellidoprofesional
-          );
-        });
-        setCudBillingRecords(sortedResponse);
-        setFilteredCudBillingRecords(sortedResponse);
-      })
-      .catch((error) => console.log(error));
-    getProfessionalsRecords()
-      .then((response) => {
-        setProfessionals(response);
-      })
-      .catch((error) => console.log(error));
-    getPatientsRecords()
-      .then((response) => {
-        setPatients(response);
-      })
-      .catch((error) => console.log(error));
-  }, [updateList, patientId]);
-
-  if (!cudBillingRecords || !patients || !professionals) return <Spinner />;
 
   // console.log(billingRecords);
 
@@ -195,7 +160,7 @@ export const CudBillingListContainer = ({ patientId }) => {
   );
 
   const professionalsList = createList(
-    professionals,
+    professionalsRecords,
     "nombreyapellidoprofesional",
     "id",
     false,
@@ -203,7 +168,7 @@ export const CudBillingListContainer = ({ patientId }) => {
   );
 
   const patientsList = createList(
-    patients,
+    patientsRecords,
     "nombreyapellidopaciente",
     "id",
     false,
@@ -264,8 +229,7 @@ export const CudBillingListContainer = ({ patientId }) => {
   };
   return (
     <>
-      <CudBillingList {...props} />;
-      <Footer />
+      <CudBillingList {...props} />;{/* <Footer /> */}
     </>
   );
 };

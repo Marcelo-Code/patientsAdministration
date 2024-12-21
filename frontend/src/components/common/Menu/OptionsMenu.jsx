@@ -35,7 +35,11 @@ export const OptionsMenu = ({
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{ color: modified ? "red" : "gray", width: "200px" }}
+        sx={{
+          color: modified ? "red" : "gray",
+          width: "200px",
+          backgroundColor: "white",
+        }}
       >
         {type || initialValue}
       </Button>

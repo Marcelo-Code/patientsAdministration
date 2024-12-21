@@ -3,11 +3,11 @@
   src: url("../../../../public/broughton.ttf");
 }
 .navBar {
-  position: fixed;
+  position: relative;
   top: 0;
   z-index: 4;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
   align-items: center;
   padding: 20px;

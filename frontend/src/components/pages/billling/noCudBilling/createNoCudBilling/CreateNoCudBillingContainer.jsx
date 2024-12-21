@@ -7,6 +7,7 @@ import { getPatientsRecords } from "../../../../../api/patients";
 import { createNoCudBillingRecord } from "../../../../../api/noCudBilling";
 import { CreateNoCudBilling } from "./CreateNoCudBilling";
 import { Footer } from "../../../../layout/footer/Footer";
+import { NavBar } from "../../../../layout/navBar/NavBar";
 
 export const CreateNoCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
@@ -164,6 +165,7 @@ export const CreateNoCudBillingContainer = () => {
 
   return (
     <>
+      <NavBar />
       <CreateNoCudBilling {...props} />;
       <Footer />
     </>

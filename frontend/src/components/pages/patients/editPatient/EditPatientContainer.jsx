@@ -9,6 +9,7 @@ import {
 } from "../../../../api/patients";
 import { EditPatient } from "./EditPatient";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
@@ -135,6 +136,7 @@ export const EditPatientContainer = () => {
 
   return (
     <>
+      <NavBar />
       <EditPatient {...props} />;
       <Footer />
     </>

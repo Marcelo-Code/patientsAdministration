@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { getPatientRecord } from "../../../../api/patients";
 import { Footer } from "../../../layout/footer/Footer";
 import { getProfessionalsRecords } from "../../../../api/professionals";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const CreateMedicalRecordContainer = () => {
   const [medicalRecords, setMedicalRecords] = useState(null);
@@ -148,6 +149,7 @@ export const CreateMedicalRecordContainer = () => {
 
   return (
     <>
+      <NavBar />
       <CreateMedicalRecord {...props} />;
       <Footer />
     </>

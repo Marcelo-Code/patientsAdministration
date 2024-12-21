@@ -7,6 +7,7 @@ import { Spinner } from "../../common/spinner/Spinner";
 import { Documentation } from "./Documentation";
 import { getPatientRecord } from "../../../api/patients";
 import { Footer } from "../../layout/footer/Footer";
+import { NavBar } from "../../layout/navBar/NavBar";
 
 export const DocumentationContainer = () => {
   const [patient, setPatient] = useState(null);
@@ -68,6 +69,7 @@ export const DocumentationContainer = () => {
 
   return (
     <>
+      <NavBar />
       <Documentation {...props} />;
       <Footer />
     </>

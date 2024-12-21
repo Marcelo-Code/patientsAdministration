@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { createPatientRecord } from "../../../../api/patients";
 import { CreatePatient } from "./CreatePatient";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const CreatePatientContainer = () => {
   const { cancelAction, goBackAction, isLoading, setIsLoading } =
@@ -80,6 +81,7 @@ export const CreatePatientContainer = () => {
   };
   return (
     <>
+      <NavBar />
       <CreatePatient {...props} />;
       <Footer />
     </>

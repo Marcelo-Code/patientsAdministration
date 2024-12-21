@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
 import "./navBar.css";
 import { GeneralContext } from "../../../context/GeneralContext";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import { Badge } from "@mui/material";
 
 export const NavBar = () => {
   const { darkMode } = useContext(GeneralContext);
@@ -13,7 +15,7 @@ export const NavBar = () => {
       }}
     >
       <BurguerMenu />
-      <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <span style={{ display: "flex", alignItems: "center" }}>
         <img
           src="/elReinoDelReves.png"
           alt=""
@@ -21,6 +23,9 @@ export const NavBar = () => {
         />
         <div className="title">Cud No Cud</div>
       </span>
+      <Badge badgeContent={4} color="primary">
+        <NotificationsActiveIcon color="action" />
+      </Badge>
     </div>
   );
 };

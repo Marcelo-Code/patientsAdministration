@@ -12,58 +12,83 @@ function a11yProps(index) {
   };
 }
 
-export const Billing = ({ handleGoBack, patientId }) => {
+export const Billing = ({
+  handleGoBack,
+  setNoCudBillingRecords,
+  noCudBillingRecords,
+  patientsRecords,
+  professionalsRecords,
+  updateList,
+  setUpdateList,
+  filteredNoCudBillingRecords,
+  filteredCudBillingRecords,
+  cudBillingRecords,
+}) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const cudBillingListContainerProps = {
-    patientId,
+    filteredCudBillingRecords,
+    professionalsRecords,
+    patientsRecords,
+    cudBillingRecords,
+    updateList,
+    setUpdateList,
   };
 
   const noCudBillingListContainerProps = {
-    patientId,
+    setNoCudBillingRecords,
+    noCudBillingRecords,
+    patientsRecords,
+    professionalsRecords,
+    updateList,
+    setUpdateList,
+    filteredNoCudBillingRecords,
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        marginTop: "80px",
-        position: "absolute",
-        top: "80px",
+    <div
+      style={{
+        position: "relative",
+        top: "20px",
+        width: "100vw ",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Contenedor de pestañas */}
-      <Button onClick={handleGoBack}>Volver</Button>
-      <Box
-        sx={{
-          width: "100%",
-          borderBottom: 1,
-          borderColor: "divider",
-        }}
-      >
-        <Tabs
-          value={value}
-          onChange={handleTabChange}
-          aria-label="basic tabs example"
-          sx={{}}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Button onClick={handleGoBack}>Volver</Button>
+      </div>
+      <Box sx={{}}>
+        {/* Contenedor de pestañas */}
+        <Box
+          sx={{
+            width: "100%",
+            borderBottom: 1,
+            borderColor: "divider",
+          }}
         >
-          <Tab label="Cud" {...a11yProps(0)} />
-          <Tab label="No Cud" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
+          <Tabs
+            value={value}
+            onChange={handleTabChange}
+            aria-label="basic tabs example"
+            sx={{}}
+          >
+            <Tab label="Cud" {...a11yProps(0)} />
+            <Tab label="No Cud" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
 
-      <CustomTabPanel value={value} index={0}>
-        <CudBillingListContainer {...cudBillingListContainerProps} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <NoCudBillingListContainer {...noCudBillingListContainerProps} />
-      </CustomTabPanel>
-    </Box>
+        <CustomTabPanel value={value} index={0}>
+          <CudBillingListContainer {...cudBillingListContainerProps} />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <NoCudBillingListContainer {...noCudBillingListContainerProps} />
+        </CustomTabPanel>
+      </Box>
+    </div>
   );
 };
 

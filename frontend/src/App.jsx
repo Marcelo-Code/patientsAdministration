@@ -18,14 +18,25 @@ import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/
 import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
 import { NavBar } from "./components/layout/navBar/NavBar";
 import { ProfessionalDetailContainer } from "./components/pages/professionals/professionalDetail/ProfessionalDetailContainer";
+import { relativeTime } from "dayjs/locale/es";
 function App() {
   // const { darkMode } = useContext(GeneralContext);
 
   return (
     // <BrowserRouter>
     // <div className={darkMode ? "darkMode" : "lightMode"}>
-    <div>
-      <NavBar />
+    <div
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("../public/assets/wallpaper.jpg")`,
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        // position: "fixed",
+        top: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: -1,
+      }}
+    >
       <Routes>
         <Route path="/" element={<PatientsListContainer />} />
         <Route

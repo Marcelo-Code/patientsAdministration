@@ -7,7 +7,6 @@ import { OptionsMenu } from "../../../common/Menu/OptionsMenu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import { Link } from "react-router-dom";
 
 export function MedicalRecordListFilterDrawer({
   sortUpDateMode,
@@ -197,9 +196,6 @@ export function MedicalRecordListFilterDrawer({
           {list("top")}
         </SwipeableDrawer>
       </React.Fragment>
-      {/* <Link onClick={toggleDrawer("top", true)}>
-        <TuneOutlinedIcon />
-      </Link> */}
       <Button
         aria-label="fingerprint"
         size="small"

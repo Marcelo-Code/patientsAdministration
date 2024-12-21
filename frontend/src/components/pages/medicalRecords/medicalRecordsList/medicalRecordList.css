@@ -10,8 +10,8 @@
 }
 
 .medicalRecordsListContainer {
-  /* position: relative; */
-  margin-top: 350px;
+  position: relative;
+  top: 0;
   width: 100vw;
   display: flex;
   flex-direction: column;

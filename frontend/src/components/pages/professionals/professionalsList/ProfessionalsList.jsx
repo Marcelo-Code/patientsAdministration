@@ -30,8 +30,8 @@ export const ProfessionalsList = ({
       <div className="professionalsContainer">
         <span
           style={{
-            position: "fixed",
-            top: 120,
+            position: "sticky",
+            top: 0,
             left: 0,
             width: "100%",
             background: "white",

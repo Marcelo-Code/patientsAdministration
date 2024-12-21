@@ -58,7 +58,7 @@ export const CreateMedicalRecord = ({
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            sx={{ width: "150px" }}
+            sx={{ width: "150px", backgroundColor: "white" }}
             name="fechaConsulta"
             onChange={(newDate) =>
               handleChange({

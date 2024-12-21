@@ -6,6 +6,7 @@ import { Spinner } from "../../../common/spinner/Spinner";
 import { age } from "../../../common/age";
 import { getPatientRecord } from "../../../../api/patients";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const PatientsDetailContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
@@ -66,6 +67,7 @@ export const PatientsDetailContainer = () => {
 
   return (
     <>
+      <NavBar />
       <PatientsDetail {...props} />
       <Footer />
     </>

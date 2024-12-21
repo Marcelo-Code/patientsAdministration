@@ -8,6 +8,7 @@ import { meetings } from "../../../common/Menu/meetings";
 import { getMedicalRecords } from "../../../../api/medicalRecords";
 import { getPatientRecord } from "../../../../api/patients";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const MedicalRecordListContainer = () => {
   const [patientFilter, setPatientFilter] = useState("Filtrar Paciente");
@@ -361,6 +362,7 @@ export const MedicalRecordListContainer = () => {
 
   return (
     <>
+      <NavBar />
       <MedicalRecordsList {...props} />;
       <Footer />
     </>

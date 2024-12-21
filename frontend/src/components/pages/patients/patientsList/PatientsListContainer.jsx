@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { getPatientsRecords } from "../../../../api/patients";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const PatientsListContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
@@ -33,6 +34,7 @@ export const PatientsListContainer = () => {
 
   return (
     <>
+      <NavBar />
       <PatientsList {...props} />;
       <Footer />
     </>

@@ -5,6 +5,7 @@ import { GeneralContext } from "../../../../context/GeneralContext";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { MedicalRecordDetail } from "./MedicalRecordDetail";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBar } from "../../../layout/navBar/NavBar";
 
 export const MedicalRecordDetailContainer = () => {
   const { medicalRecordId } = useParams();
@@ -33,6 +34,7 @@ export const MedicalRecordDetailContainer = () => {
 
   return (
     <>
+      <NavBar />
       <MedicalRecordDetail {...medicalRecordDetailProps} />
       <Footer />
     </>

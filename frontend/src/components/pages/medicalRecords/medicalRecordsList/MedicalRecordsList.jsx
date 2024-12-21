@@ -87,17 +87,16 @@ export const MedicalRecordsList = ({
     <div className="medicalRecordsListContainer">
       <span
         style={{
-          position: "fixed",
-          top: 120,
+          position: "sticky",
+          top: 0,
           left: 0,
           width: "100%",
           background: "white",
           zIndex: 3,
           display: "flex",
-          flexWrap: "wrap",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          gap: "30px",
           boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
           paddingTop: "10px",
           paddingBottom: "10px",
@@ -106,11 +105,12 @@ export const MedicalRecordsList = ({
       >
         <div
           style={{
+            width: "100%",
             display: "flex",
+            flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "raw",
             gap: "10px",
           }}
         >
@@ -126,30 +126,35 @@ export const MedicalRecordsList = ({
               size="small"
               variant="contained"
               sx={{
-                width: "170px",
+                width: "auto",
                 height: "30px",
                 position: "relative",
               }}
               startIcon={<PlaylistAddIcon />}
             >
-              Crear Consulta
+              Consulta
             </Button>
           </Link>
           <div
             style={{
-              width: "140px",
+              width: "125px",
               display: "flex",
               justifyContent: "right",
-              gap: "10px",
+              gap: "5px",
+              alignItems: "center",
             }}
           >
             <Link onClick={resetFilters}>
-              {isResetEnabled && <AutorenewIcon sx={{ marginTop: "5px" }} />}
+              {isResetEnabled && (
+                <AutorenewIcon sx={{ verticalAlign: "middle" }} />
+              )}
             </Link>
             <MedicalRecordListFilterDrawer {...filterProps} />
           </div>
 
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "10px" }}
+          >
             {patientId && (
               <div
                 style={{ display: "flex", gap: "5px", alignItems: "center" }}
@@ -172,7 +177,6 @@ export const MedicalRecordsList = ({
             </div>
           </div>
 
-          <MedicalRecordListFilter {...filterProps} />
           {reportMode && (
             <div
               style={{
@@ -190,11 +194,13 @@ export const MedicalRecordsList = ({
               <Animation component={OptionsMenu} props={meetingsReportProps} />
             </div>
           )}
-          <Button onClick={handleGoBack} sx={{ width: "80%" }}>
-            Volver
-          </Button>
         </div>
+        <Button onClick={handleGoBack} sx={{ width: "80%" }}>
+          Volver
+        </Button>
       </span>
+      <MedicalRecordListFilter {...filterProps} />
+
       <div>{records.length} registros encontrados</div>
 
       {records.map((record) => {

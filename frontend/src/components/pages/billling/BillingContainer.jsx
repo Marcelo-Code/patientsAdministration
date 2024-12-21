@@ -1,16 +1,112 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Billing } from "./Billing";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
+import { getNoCudBillingRecords } from "../../../api/noCudBilling";
+import { getProfessionalsRecords } from "../../../api/professionals";
+import { getPatientsRecords } from "../../../api/patients";
+import { Spinner } from "../../common/spinner/Spinner";
+import { getCudBillingRecords } from "../../../api/cudBilling";
+import { Footer } from "../../layout/footer/Footer";
+import { NavBar } from "../../layout/navBar/NavBar";
 
 export const BillingContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
+  const [noCudBillingRecords, setNoCudBillingRecords] = useState(null);
+  const [cudBillingRecords, setCudBillingRecords] = useState(null);
+  const [filteredNoCudBillingRecords, setFilteredNoCudBillingRecords] =
+    useState(null);
+  const [filteredCudBillingRecords, setFilteredCudBillingRecords] =
+    useState(null);
+  const [professionalsRecords, setProfessionalsRecords] = useState(null);
+  const [patientsRecords, setPatientsRecords] = useState(null);
+  const [updateList, setUpdateList] = useState(false);
+
   const { patientId = null } = useParams();
+
+  useEffect(() => {
+    getNoCudBillingRecords()
+      .then((response) => {
+        let filteredResponse;
+        if (patientId) {
+          filteredResponse = response.filter(
+            (record) => record.idpaciente === parseInt(patientId)
+          );
+        } else {
+          filteredResponse = response;
+        }
+        const sortedResponse = filteredResponse.sort((a, b) => {
+          return a.nombreyapellidoprofesional.localeCompare(
+            b.nombreyapellidoprofesional
+          );
+        });
+        setNoCudBillingRecords(sortedResponse);
+        setFilteredNoCudBillingRecords(sortedResponse);
+      })
+      .catch((error) => console.log(error));
+    getCudBillingRecords()
+      .then((response) => {
+        let filteredResponse;
+        if (patientId) {
+          filteredResponse = response.filter(
+            (record) => record.idpaciente === parseInt(patientId)
+          );
+          console.log(filteredResponse);
+        } else {
+          filteredResponse = response;
+        }
+        const sortedResponse = filteredResponse.sort((a, b) => {
+          return a.nombreyapellidoprofesional.localeCompare(
+            b.nombreyapellidoprofesional
+          );
+        });
+        setCudBillingRecords(sortedResponse);
+        setFilteredCudBillingRecords(sortedResponse);
+      })
+      .catch((error) => console.log(error));
+    getProfessionalsRecords()
+      .then((response) => {
+        setProfessionalsRecords(response);
+      })
+      .catch((error) => console.log(error));
+    getPatientsRecords()
+      .then((response) => {
+        setPatientsRecords(response);
+      })
+      .catch((error) => console.log(error));
+  }, [updateList, patientId]);
+
+  if (
+    !noCudBillingRecords ||
+    !cudBillingRecords ||
+    !patientsRecords ||
+    !professionalsRecords
+  )
+    return <Spinner />;
 
   const props = {
     handleGoBack,
-    patientId,
+    patientsRecords,
+    professionalsRecords,
+    updateList,
+    setUpdateList,
+    //No Cud
+    //------
+    setNoCudBillingRecords,
+    noCudBillingRecords,
+    filteredNoCudBillingRecords,
+    //---------------
+    //Cud
+    setCudBillingRecords,
+    cudBillingRecords,
+    filteredCudBillingRecords,
   };
 
-  return <Billing {...props} />;
+  return (
+    <>
+      <NavBar />
+      <Billing {...props} />
+      <Footer />
+    </>
+  );
 };

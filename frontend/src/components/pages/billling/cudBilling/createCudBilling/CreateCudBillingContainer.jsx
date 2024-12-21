@@ -9,6 +9,7 @@ import {
 import { createCudBillingRecord } from "../../../../../api/cudBilling";
 import { CreateCudBilling } from "./CreateCudBilling";
 import { Footer } from "../../../../layout/footer/Footer";
+import { NavBar } from "../../../../layout/navBar/NavBar";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
@@ -170,6 +171,7 @@ export const CreateCudBillingContainer = () => {
 
   return (
     <>
+      <NavBar />
       <CreateCudBilling {...props} />
       <Footer />
     </>
