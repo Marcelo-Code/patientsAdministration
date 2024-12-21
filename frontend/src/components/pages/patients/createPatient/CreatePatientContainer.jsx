@@ -53,14 +53,19 @@ export const CreatePatientContainer = () => {
 
   //Función para llamar a la función POST
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     const today = dayjs().format("YYYY-MM-DD");
     const updatedPatient = { ...patient, fechaUltimaActualizacion: today };
     setIsLoading(true);
-    e.preventDefault();
     createPatientRecord(updatedPatient)
-      .then(((response) => console.log(response), setIsLoading(false)))
-      .catch((error) => console.log(error.message));
+      .then((response) => {
+        console.log(response);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   };
 
   const props = {
