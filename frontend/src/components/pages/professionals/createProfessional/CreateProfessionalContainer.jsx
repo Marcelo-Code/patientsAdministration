@@ -35,17 +35,23 @@ export const CreateProfessionalContainer = () => {
 
   //Función para llamar a la función POST
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     const today = dayjs().format("YYYY-MM-DD");
     const updatedProfessional = {
       ...professional,
       fechaUltimaActualizacion: today,
     };
     setIsLoading(true);
-    e.preventDefault();
+    // e.preventDefault();
     createProfessionalRecord(updatedProfessional)
-      .then(((response) => console.log(response), setIsLoading(false)))
-      .catch((error) => console.log(error.message));
+      .then((response) => {
+        console.log(response);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   };
 
   const props = {
