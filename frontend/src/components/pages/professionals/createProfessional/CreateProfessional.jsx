@@ -129,6 +129,7 @@ export const CreateProfessional = ({
                 </Button>
               </Link>
               <LoadingButton
+                disabled={isLoading}
                 loading={isLoading}
                 onClick={handleSubmit}
                 size="small"
