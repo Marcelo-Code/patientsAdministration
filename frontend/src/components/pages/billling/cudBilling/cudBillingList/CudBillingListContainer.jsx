@@ -229,7 +229,7 @@ export const CudBillingListContainer = ({
   };
   return (
     <>
-      <CudBillingList {...props} />;{/* <Footer /> */}
+      <CudBillingList {...props} />
     </>
   );
 };

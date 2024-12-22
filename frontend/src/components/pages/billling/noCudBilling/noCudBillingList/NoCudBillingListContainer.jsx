@@ -231,7 +231,7 @@ export const NoCudBillingListContainer = ({
   };
   return (
     <>
-      <NoCudBillingList {...props} />;
+      <NoCudBillingList {...props} />
     </>
   );
 };
