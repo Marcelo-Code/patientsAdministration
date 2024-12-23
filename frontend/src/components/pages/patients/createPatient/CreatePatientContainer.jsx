@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { createPatientRecord } from "../../../../api/patients";
 import { CreatePatient } from "./CreatePatient";
 import { Footer } from "../../../layout/footer/Footer";
-import { NavBar } from "../../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const CreatePatientContainer = () => {
   const { cancelAction, goBackAction, isLoading, setIsLoading } =
@@ -36,6 +36,16 @@ export const CreatePatientContainer = () => {
     fechaVencimientoCud: null,
     fechaInicioTto: null,
     fechaUltimaActualizacion: null,
+    imgDniFrentePaciente: "",
+    imgDniDorsoPaciente: "",
+    imgDniFrenteTitularOS: "",
+    imgDniDorsoTitularOS: "",
+    imgCarnetOSPaciente: "",
+    imgCarnetOSTitular: "",
+    imgConstanciaAlumnoRegular: "",
+    imgLibretaSanitaria: "",
+    imgCud: "",
+    imgCertificadoEventual: "",
   };
 
   const [patient, setPatient] = useState(initialState);
@@ -81,7 +91,7 @@ export const CreatePatientContainer = () => {
   };
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <CreatePatient {...props} />;
       <Footer />
     </>

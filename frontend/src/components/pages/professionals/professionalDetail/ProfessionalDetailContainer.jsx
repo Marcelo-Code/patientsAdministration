@@ -6,8 +6,8 @@ import { useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { useEffect } from "react";
 import { getProfessionalRecord } from "../../../../api/professionals";
-import { NavBar } from "../../../layout/navBar/NavBar";
 import { Footer } from "../../../layout/footer/Footer";
+import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const ProfessionalDetailContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
@@ -28,7 +28,7 @@ export const ProfessionalDetailContainer = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <ProfessionalDetail {...professionalDetailProps} />;
       <Footer />
     </>

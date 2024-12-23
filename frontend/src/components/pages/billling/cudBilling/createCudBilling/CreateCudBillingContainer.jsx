@@ -9,7 +9,7 @@ import {
 import { createCudBillingRecord } from "../../../../../api/cudBilling";
 import { CreateCudBilling } from "./CreateCudBilling";
 import { Footer } from "../../../../layout/footer/Footer";
-import { NavBar } from "../../../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../../../layout/navBar/NavBarContainer";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
@@ -171,7 +171,7 @@ export const CreateCudBillingContainer = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <CreateCudBilling {...props} />
       <Footer />
     </>

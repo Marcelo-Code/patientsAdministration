@@ -33,27 +33,35 @@ export const Documentation = ({
           style={{
             fontFamily: "Arial",
             fontSize: "1.2em",
-            color: "gray",
-          }}
-        >
-          Edición
-          <Android12Switch
-            checked={editMode}
-            onChange={handleEditModeChange}
-            sx={{ transform: "scale(1.3)" }}
-          />
-        </div>
-        <h2
-          style={{
-            textAlign: "center",
+            position: "sticky",
+            top: 0,
             width: "100%",
-            margin: "10px",
-            paddingBottom: "10px",
-            borderBottom: "2px solid black",
+            backgroundColor: "white",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            zIndex: 2,
+            boxShadow: "0 0 10px black",
           }}
         >
-          Documentación: {patient.nombreyapellidopaciente}
-        </h2>
+          <span style={{ color: "gray", padding: "10px" }}>
+            Edición
+            <Android12Switch
+              checked={editMode}
+              onChange={handleEditModeChange}
+              sx={{ transform: "scale(1.3)" }}
+            />
+          </span>
+          <h2
+            style={{
+              textAlign: "center",
+              width: "100%",
+              margin: "10px",
+            }}
+          >
+            Documentación: {patient.nombreyapellidopaciente}
+          </h2>
+        </div>
         <DocumentCard {...propsDocumentCard} />
         <Button
           sx={{ margin: "20px auto", width: "80%" }}

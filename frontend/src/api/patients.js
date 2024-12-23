@@ -113,7 +113,7 @@ export const updatePatientRecord = async (patientRecord, patientRecordId) => {
 //---------------
 
 export const partialUpdatePatientRecord = async (patientRecord, patientRecordId) => {
-    const response = await axios.patch(`${BACKEND_URL}/partialUpdatePatient/${patientRecordId}`, patientRecord)
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdatePatientRecord/${patientRecordId}`, patientRecord)
     try {
         SuccessAlert("¡Paciente modificado!");
         return response.data;

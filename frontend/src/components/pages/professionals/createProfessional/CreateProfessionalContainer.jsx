@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { CreateProfessional } from "./CreateProfessional";
 import { createProfessionalRecord } from "../../../../api/professionals";
 import { Footer } from "../../../layout/footer/Footer";
-import { NavBar } from "../../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const CreateProfessionalContainer = () => {
   const { cancelAction, goBackAction, isLoading, setIsLoading } =
@@ -65,7 +65,7 @@ export const CreateProfessionalContainer = () => {
   };
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <CreateProfessional {...props} />;
       <Footer />
     </>

@@ -8,7 +8,7 @@ import { getPatientsRecords } from "../../../api/patients";
 import { Spinner } from "../../common/spinner/Spinner";
 import { getCudBillingRecords } from "../../../api/cudBilling";
 import { Footer } from "../../layout/footer/Footer";
-import { NavBar } from "../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../layout/navBar/NavBarContainer";
 
 export const BillingContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
@@ -104,7 +104,7 @@ export const BillingContainer = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <Billing {...props} />
       <Footer />
     </>

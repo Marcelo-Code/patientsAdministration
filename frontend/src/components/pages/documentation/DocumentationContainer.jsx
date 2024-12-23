@@ -7,7 +7,7 @@ import { Spinner } from "../../common/spinner/Spinner";
 import { Documentation } from "./Documentation";
 import { getPatientRecord } from "../../../api/patients";
 import { Footer } from "../../layout/footer/Footer";
-import { NavBar } from "../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../layout/navBar/NavBarContainer";
 
 export const DocumentationContainer = () => {
   const [patient, setPatient] = useState(null);
@@ -17,23 +17,24 @@ export const DocumentationContainer = () => {
   const { patientId } = useParams();
 
   const initialStateUploadDocumentation = {
-    imgDniFrente: false,
-    imgDniDorso: false,
-    carnetObraSocial: false,
-    libretaSanitaria: false,
-    cAlumnoRegular: false,
-    rpYHcMedico: false,
-    autorizacionOS: false,
-    informesPrevios: false,
-    cud: false,
+    imgdnifrentepaciente: false,
+    imgdnidorsopaciente: false,
+    imgdnifrentetitularos: false,
+    imgdnidorsotitularos: false,
+    imgcarnetospaciente: false,
+    imgcarnetostitular: false,
+    imgconstanciaalumnoregular: false,
+    imgcud: false,
+    imgcertificadoeventual: false,
   };
+
   const [uploadDocumentation, setUploadDocumentation] = useState(
     initialStateUploadDocumentation
   );
 
   const handleEditModeChange = () => {
     setEditMode(!editMode);
-    editMode && setUploadDocumentation(initialStateUploadDocumentation);
+    // editMode && setUploadDocumentation(initialStateUploadDocumentation);
   };
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export const DocumentationContainer = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <Documentation {...props} />;
       <Footer />
     </>

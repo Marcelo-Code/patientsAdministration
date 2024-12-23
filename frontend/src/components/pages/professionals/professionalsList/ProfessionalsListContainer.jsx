@@ -3,7 +3,7 @@ import { ProfessionalsList } from "./ProfessionalsList";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { getProfessionalsRecords } from "../../../../api/professionals";
 import { Footer } from "../../../layout/footer/Footer";
-import { NavBar } from "../../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const ProfessionalsListContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
@@ -31,7 +31,7 @@ export const ProfessionalsListContainer = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <ProfessionalsList {...props} />
       <Footer />
     </>

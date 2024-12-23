@@ -34,12 +34,10 @@ export function Alerts() {
     >
       <div
         style={{
-          margin: "20px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "20px",
           height: "100vh",
+          backgroundColor: "#373a47",
+          padding: 0,
+          color: "white",
         }}
       >
         Acá van las alertas

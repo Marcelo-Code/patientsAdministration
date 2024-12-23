@@ -98,8 +98,6 @@ export const uploadImages = async (file, name, patient) => {
         // Define la ruta en el bucket
         const fileName = `products/${name}_${patient.dnipaciente}_${patient.nombreyapellidopaciente}.jpg`;
 
-        console.log(fileName);
-
         // Sube el archivo a Supabase
         await supabase.storage
             .from(bucketName)
@@ -116,6 +114,7 @@ export const uploadImages = async (file, name, patient) => {
             .getPublicUrl(fileName);
 
 
+
         // Ejecuta la función de actualizar paciente
         if (publicData.publicUrl) {
 
@@ -125,6 +124,7 @@ export const uploadImages = async (file, name, patient) => {
                 ...patient,
                 [name]: decodedUrl
             };
+            console.log(updatedPatient);
             await partialUpdatePatientRecord(updatedPatient, patient.id);
         }
     } catch (error) {

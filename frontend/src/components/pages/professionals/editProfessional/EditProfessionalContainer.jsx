@@ -10,7 +10,7 @@ import {
   updateProfessionalRecord,
 } from "../../../../api/professionals.js";
 import { Footer } from "../../../layout/footer/Footer.jsx";
-import { NavBar } from "../../../layout/navBar/NavBar.jsx";
+import { NavBarContainer } from "../../../layout/navBar/NavBarContainer.jsx";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();
@@ -83,7 +83,7 @@ export const EditProfessionalContainer = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <EditProfessional {...props} />
       <Footer />
     </>

@@ -20,7 +20,10 @@ export const NavBar = () => {
           alt=""
           style={{ width: "80px", height: "80px" }}
         />
-        <div className="title">Cud No Cud</div>
+        <div className="title">
+          <span>Gestión</span>
+          <span>Cud No Cud</span>
+        </div>
       </span>
       <Alerts />
     </div>

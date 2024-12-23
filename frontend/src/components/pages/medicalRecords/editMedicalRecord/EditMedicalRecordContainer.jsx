@@ -13,7 +13,7 @@ import {
   getProfessionalsRecords,
 } from "../../../../api/professionals";
 import { Footer } from "../../../layout/footer/Footer";
-import { NavBar } from "../../../layout/navBar/NavBar";
+import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const EditMedicalRecordContainer = () => {
   const { medicalRecordId } = useParams();
@@ -115,7 +115,7 @@ export const EditMedicalRecordContainer = () => {
   };
   return (
     <>
-      <NavBar />
+      <NavBarContainer />
       <EditMedicalRecord {...props} />;
       <Footer />
     </>
