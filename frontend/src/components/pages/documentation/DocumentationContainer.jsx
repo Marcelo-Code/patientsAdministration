@@ -15,6 +15,7 @@ export const DocumentationContainer = () => {
   const [updateList, setUpdateList] = useState(false);
   const { handleGoBack } = useContext(GeneralContext);
   const { patientId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const initialStateUploadDocumentation = {
     imgdnifrentepaciente: false,
@@ -34,7 +35,7 @@ export const DocumentationContainer = () => {
 
   const handleEditModeChange = () => {
     setEditMode(!editMode);
-    // editMode && setUploadDocumentation(initialStateUploadDocumentation);
+    editMode && setUploadDocumentation(initialStateUploadDocumentation);
   };
 
   useEffect(() => {
@@ -66,6 +67,8 @@ export const DocumentationContainer = () => {
     initialStateUploadDocumentation,
     handleEditModeChange,
     handleGoBack,
+    isLoading,
+    setIsLoading,
   };
 
   return (

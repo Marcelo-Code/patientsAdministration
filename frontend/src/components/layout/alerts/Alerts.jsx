@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import "./alerts.css";
 
-export function Alerts() {
+export function Alerts({ patientsExpirationCudRecords }) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -27,21 +29,45 @@ export function Alerts() {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
+        height: "100%",
+        backgroundColor: "#373a47",
+        color: "white",
+      }}
       role="presentation"
       onClick={(e) => e.stopPropagation()} // Evita que el click cierre el Drawer
       onKeyDown={(e) => e.stopPropagation()} // Evita el cierre al presionar teclas
     >
-      <div
+      <h3
         style={{
-          height: "100vh",
-          backgroundColor: "#373a47",
-          padding: 0,
-          color: "white",
+          textAlign: "center",
+          padding: "30px",
+          borderBottom: "1px solid white",
+          marginBottom: "20px",
         }}
       >
-        Acá van las alertas
-      </div>
+        Documentos a expirar
+      </h3>
+      <h3 style={{ textAlign: "center" }}>CUD</h3>
+      {patientsExpirationCudRecords.length === 0 ? (
+        <h2 style={{ textAlign: "center" }}>No hay vencimientos</h2>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Paciente</th>
+              <th>Días</th>
+            </tr>
+          </thead>
+          {patientsExpirationCudRecords.map((record, index) => (
+            <tr key={index}>
+              <td>{record.nombreyapellidopaciente}</td>
+              <td>{record.diasexpiracion}</td>
+            </tr>
+          ))}
+        </table>
+      )}
     </Box>
   );
 
@@ -61,7 +87,10 @@ export function Alerts() {
       </React.Fragment>
 
       <Link onClick={toggleDrawer("right", true)}>
-        <Badge badgeContent={4} color="primary">
+        <Badge
+          badgeContent={patientsExpirationCudRecords.length}
+          color="primary"
+        >
           <NotificationsActiveIcon color="action" />
         </Badge>
       </Link>

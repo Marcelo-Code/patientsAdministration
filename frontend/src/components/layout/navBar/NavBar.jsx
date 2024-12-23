@@ -1,11 +1,15 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
 import "./navBar.css";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { Alerts } from "../alerts/Alerts";
 
-export const NavBar = () => {
+export const NavBar = ({ patientsExpirationCudRecords }) => {
   const { darkMode } = useContext(GeneralContext);
+  const altertsProps = {
+    patientsExpirationCudRecords,
+  };
   return (
     <div
       className="navBar"
@@ -25,7 +29,7 @@ export const NavBar = () => {
           <span>Cud No Cud</span>
         </div>
       </span>
-      <Alerts />
+      <Alerts {...altertsProps} />
     </div>
   );
 };

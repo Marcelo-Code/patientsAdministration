@@ -3,6 +3,7 @@ import { NavBar } from "./NavBar";
 import { getPatientsRecords } from "../../../api/patients";
 import { getProfessionalsRecords } from "../../../api/professionals";
 import { Spinner } from "../../common/spinner/Spinner";
+import dayjs from "dayjs";
 
 export const NavBarContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
@@ -22,7 +23,27 @@ export const NavBarContainer = () => {
 
   if (!patientsRecords || !professionalsRecords) return <Spinner />;
 
-  // console.log(patientsRecords);
+  const filteredPatientsRecords = patientsRecords.filter(
+    (record) => record.cud
+  );
 
-  return <NavBar />;
+  const patientsExpirationCudRecords = filteredPatientsRecords
+    .map((record) => {
+      const currentDate = dayjs();
+      const expirationDate = dayjs(record.fechavencimientocud);
+      const daysOfDifference = expirationDate.diff(currentDate, "day");
+      return {
+        nombreyapellidopaciente: record.nombreyapellidopaciente,
+        diasexpiracion: daysOfDifference,
+      };
+    })
+    .filter((record) => record.diasexpiracion < 30);
+
+  console.log(patientsExpirationCudRecords);
+
+  const navBarProps = {
+    patientsExpirationCudRecords,
+  };
+
+  return <NavBar {...navBarProps} />;
 };

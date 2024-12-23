@@ -18,6 +18,8 @@ export const DocumentCard = ({
   setUpdateList,
   setUploadDocumentation,
   initialStateUploadDocumentation,
+  isLoading,
+  setIsLoading,
 }) => {
   return (
     <>
@@ -38,15 +40,30 @@ export const DocumentCard = ({
           >
             <h3 style={{ margin: "20px" }}>{document.title}</h3>
             {uploadDocumentation[document.name] ? (
-              <UploadContainer
-                name={document.name}
-                patient={patient}
-                setUpdateList={setUpdateList}
-                setUploadDocumentation={setUploadDocumentation}
-                initialStateUploadDocumentation={
-                  initialStateUploadDocumentation
-                }
-              />
+              isLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CircularProgress size={30} />
+                </div>
+              ) : (
+                <UploadContainer
+                  name={document.name}
+                  patient={patient}
+                  setUpdateList={setUpdateList}
+                  setUploadDocumentation={setUploadDocumentation}
+                  initialStateUploadDocumentation={
+                    initialStateUploadDocumentation
+                  }
+                  setIsLoading={setIsLoading}
+                />
+              )
             ) : patient[document.name] === "" ? (
               <Skeleton
                 variant="text"

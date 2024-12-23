@@ -15,6 +15,8 @@ export const Documentation = ({
   initialStateUploadDocumentation,
   handleEditModeChange,
   handleGoBack,
+  isLoading,
+  setIsLoading,
 }) => {
   const propsDocumentCard = {
     patient,
@@ -25,6 +27,8 @@ export const Documentation = ({
     setUpdateList,
     setUploadDocumentation,
     initialStateUploadDocumentation,
+    isLoading,
+    setIsLoading,
   };
   return (
     <>
@@ -42,6 +46,7 @@ export const Documentation = ({
             alignItems: "center",
             zIndex: 2,
             boxShadow: "0 0 10px black",
+            padding: "10px",
           }}
         >
           <span style={{ color: "gray", padding: "10px" }}>
@@ -52,23 +57,19 @@ export const Documentation = ({
               sx={{ transform: "scale(1.3)" }}
             />
           </span>
-          <h2
-            style={{
-              textAlign: "center",
-              width: "100%",
-              margin: "10px",
-            }}
-          >
-            Documentación: {patient.nombreyapellidopaciente}
-          </h2>
+          <Button sx={{ width: "80%" }} onClick={handleGoBack}>
+            Volver
+          </Button>
         </div>
-        <DocumentCard {...propsDocumentCard} />
-        <Button
-          sx={{ margin: "20px auto", width: "80%" }}
-          onClick={handleGoBack}
+        <h2
+          style={{
+            textAlign: "center",
+            width: "100%",
+          }}
         >
-          Volver
-        </Button>
+          Documentación: {patient.nombreyapellidopaciente}
+        </h2>
+        <DocumentCard {...propsDocumentCard} />
       </div>
     </>
   );

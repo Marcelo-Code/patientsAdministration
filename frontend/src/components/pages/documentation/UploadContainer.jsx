@@ -10,11 +10,14 @@ export const UploadContainer = ({
   setUpdateList,
   setUploadDocumentation,
   initialStateUploadDocumentation,
+  setIsLoading,
 }) => {
   // Función para manejar la carga del archivo
   const onDrop = async (acceptedFiles) => {
     // Toma el primer archivo seleccionado
     const file = acceptedFiles[0];
+
+    setIsLoading(true);
 
     // Llama a la función lógica para subir la imagen
     uploadImages(file, name, patient)
@@ -22,8 +25,12 @@ export const UploadContainer = ({
         console.log(response);
         setUpdateList((prevState) => !prevState);
         setUploadDocumentation(initialStateUploadDocumentation);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   };
 
   // Usamos el hook de react-dropzone para manejar la selección de archivos
