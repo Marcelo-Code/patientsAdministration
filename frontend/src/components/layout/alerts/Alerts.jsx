@@ -56,8 +56,12 @@ export function Alerts({ patientsExpirationCudRecords }) {
         <table>
           <thead>
             <tr>
-              <th>Paciente</th>
-              <th>Días</th>
+              <th>
+                <h3>Paciente</h3>
+              </th>
+              <th>
+                <h3>Días</h3>
+              </th>
             </tr>
           </thead>
           {patientsExpirationCudRecords.map((record, index) => (
