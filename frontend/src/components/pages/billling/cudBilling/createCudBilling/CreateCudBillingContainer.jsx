@@ -61,6 +61,9 @@ export const CreateCudBillingContainer = () => {
     montopercibido: 0,
     retencion: 0,
     montofinalprofesional: 0,
+    imgasistenciamensual: "",
+    documentoinformemensual: "",
+    documentofacturamensual: "",
   };
   const [cudBillingRecord, setCudBillingRecord] = useState(
     cudBillingRecordInitialState

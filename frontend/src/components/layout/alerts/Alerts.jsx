@@ -53,24 +53,37 @@ export function Alerts({ patientsExpirationCudRecords }) {
       {patientsExpirationCudRecords.length === 0 ? (
         <h2 style={{ textAlign: "center" }}>No hay vencimientos</h2>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <h3>Paciente</h3>
-              </th>
-              <th>
-                <h3>Días</h3>
-              </th>
-            </tr>
-          </thead>
+        <div>
+          <span
+            style={{
+              display: "grid",
+              gridTemplateColumns: "200px 100px",
+              paddingLeft: "10px",
+            }}
+          >
+            <span>
+              <h3 style={{ textAlign: "center" }}>Paciente</h3>
+            </span>
+            <span>
+              <h3 style={{ textAlign: "left" }}>Días</h3>
+            </span>
+          </span>
           {patientsExpirationCudRecords.map((record, index) => (
-            <tr key={index}>
-              <td>{record.nombreyapellidopaciente}</td>
-              <td>{record.diasexpiracion}</td>
-            </tr>
+            <div
+              key={index}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "200px 20px",
+                paddingLeft: "10px",
+              }}
+            >
+              <span>{record.nombreyapellidopaciente}</span>
+              <span style={{ textAlign: "right" }}>
+                {record.diasexpiracion}
+              </span>
+            </div>
           ))}
-        </table>
+        </div>
       )}
     </Box>
   );
