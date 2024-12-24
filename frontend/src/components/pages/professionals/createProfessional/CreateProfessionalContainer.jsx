@@ -17,6 +17,22 @@ export const CreateProfessionalContainer = () => {
     especialidadProfesional: "",
     matriculaProfesional: "",
     cuitProfesional: "",
+    dniProfesional: "",
+    direccionProfesional: "",
+    ciudadProfesional: "",
+    telefonoProfesional: "",
+    emailProfesional: "",
+    fechaVencimientoRnpProfesional: null,
+    documentoConstanciaMatriculaProfesional: "",
+    documentoCertificadoRnpProfesional: "",
+    documentoTituloFrenteProfesional: "",
+    documentoTituloDorsoProfesional: "",
+    documentoCvProfesional: "",
+    documentoConstanciaCuitProfesional: "",
+    documentoConstanciaCbuProfesional: "",
+    documentoDniFrenteProfesional: "",
+    documentoDniDorsoProfesional: "",
+    documentoSeguroProfesional: "",
     fechaUltimaActualizacion: null,
   };
 
@@ -32,6 +48,7 @@ export const CreateProfessionalContainer = () => {
     const { value, name } = e.target;
     setProfessional({ ...professional, [name]: value });
     if (!modifiedFlag) setModifiedFlag(true);
+    console.log(professional);
   };
 
   //Función para llamar a la función POST

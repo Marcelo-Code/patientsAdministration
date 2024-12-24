@@ -19,9 +19,26 @@ export const NavBarContainer = () => {
         setProfessionalsRecords(response);
       })
       .catch((error) => console.log(error));
+    getProfessionalsRecords()
+      .then((response) => {
+        setProfessionalsRecords(response);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   if (!patientsRecords || !professionalsRecords) return <Spinner />;
+
+  const professionalsExpirationRnpRecords = professionalsRecords
+    .map((record) => {
+      const currentDate = dayjs();
+      const expirationDate = dayjs(record.fechavencimientornpprofesional);
+      const daysOfDifference = expirationDate.diff(currentDate, "day");
+      return {
+        nombreyapellidoprofesional: record.nombreyapellidoprofesional,
+        diasexpiracionrnp: daysOfDifference,
+      };
+    })
+    .filter((record) => record.diasexpiracionrnp < 30);
 
   const filteredPatientsRecords = patientsRecords.filter(
     (record) => record.cud
@@ -34,15 +51,16 @@ export const NavBarContainer = () => {
       const daysOfDifference = expirationDate.diff(currentDate, "day");
       return {
         nombreyapellidopaciente: record.nombreyapellidopaciente,
-        diasexpiracion: daysOfDifference,
+        diasexpiracioncud: daysOfDifference,
       };
     })
-    .filter((record) => record.diasexpiracion < 30);
+    .filter((record) => record.diasexpiracioncud < 30);
 
-  console.log(patientsExpirationCudRecords);
+  console.log(professionalsExpirationRnpRecords);
 
   const navBarProps = {
     patientsExpirationCudRecords,
+    professionalsExpirationRnpRecords,
   };
 
   return <NavBar {...navBarProps} />;

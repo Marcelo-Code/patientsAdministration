@@ -18,6 +18,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import MedicationIcon from "@mui/icons-material/Medication";
+import MailIcon from "@mui/icons-material/Mail";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import LoadingButton from "@mui/lab/LoadingButton";
 

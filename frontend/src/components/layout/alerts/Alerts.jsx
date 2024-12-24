@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import "./alerts.css";
 
-export function Alerts({ patientsExpirationCudRecords }) {
+export function Alerts({
+  patientsExpirationCudRecords,
+  professionalsExpirationRnpRecords,
+}) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -79,7 +82,43 @@ export function Alerts({ patientsExpirationCudRecords }) {
             >
               <span>{record.nombreyapellidopaciente}</span>
               <span style={{ textAlign: "right" }}>
-                {record.diasexpiracion}
+                {record.diasexpiracioncud}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+      <h3 style={{ textAlign: "center" }}>RNP</h3>
+      {professionalsExpirationRnpRecords.length === 0 ? (
+        <h2 style={{ textAlign: "center" }}>No hay vencimientos</h2>
+      ) : (
+        <div>
+          <span
+            style={{
+              display: "grid",
+              gridTemplateColumns: "200px 100px",
+              paddingLeft: "10px",
+            }}
+          >
+            <span>
+              <h3 style={{ textAlign: "center" }}>Profesional</h3>
+            </span>
+            <span>
+              <h3 style={{ textAlign: "left" }}>Días</h3>
+            </span>
+          </span>
+          {professionalsExpirationRnpRecords.map((record, index) => (
+            <div
+              key={index}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "200px 20px",
+                paddingLeft: "10px",
+              }}
+            >
+              <span>{record.nombreyapellidoprofesional}</span>
+              <span style={{ textAlign: "right" }}>
+                {record.diasexpiracionrnp}
               </span>
             </div>
           ))}
@@ -105,7 +144,10 @@ export function Alerts({ patientsExpirationCudRecords }) {
 
       <Link onClick={toggleDrawer("right", true)}>
         <Badge
-          badgeContent={patientsExpirationCudRecords.length}
+          badgeContent={
+            patientsExpirationCudRecords.length +
+            professionalsExpirationRnpRecords.length
+          }
           color="primary"
         >
           <NotificationsActiveIcon color="action" />

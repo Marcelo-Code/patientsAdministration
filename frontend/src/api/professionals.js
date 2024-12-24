@@ -39,6 +39,7 @@ export const getProfessionalRecord = async (professionalId) => {
 
 export const createProfessionalRecord = async (newProfessional) => {
     console.log("Creando profesional...")
+    console.log(newProfessional);
     try {
         const response = await axios.post(`${BACKEND_URL}/createProfessionalRecord`, newProfessional);
         console.log("Profesional creado: ", response.data)

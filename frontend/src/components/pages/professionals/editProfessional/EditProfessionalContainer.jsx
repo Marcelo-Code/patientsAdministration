@@ -25,10 +25,16 @@ export const EditProfessionalContainer = () => {
   //hooks para detectar los cambios
 
   const initialModifiedState = {
-    nombreyapallidoprofesional: false,
+    nombreyapellidoprofesional: false,
     especialidadprofesional: false,
     matriculaprofesional: false,
     cuitprofesional: false,
+    dniprofesional: false,
+    direccionprofesional: false,
+    ciudadprofesional: false,
+    telefonoprofesional: false,
+    emailprofesional: false,
+    fechavencimientornpprofesional: false,
   };
   const [modified, setModified] = useState(initialModifiedState);
   const [modifiedFlag, setModifiedFlag] = useState(false);
@@ -40,6 +46,7 @@ export const EditProfessionalContainer = () => {
     setProfessionalRecord({ ...professionalRecord, [name]: value });
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
+    console.log(professionalRecord);
   };
 
   useEffect(() => {
@@ -64,7 +71,10 @@ export const EditProfessionalContainer = () => {
         console.log(response);
         setIsLoading(false);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   };
 
   const props = {
@@ -72,6 +82,13 @@ export const EditProfessionalContainer = () => {
     especialidadprofesional: professionalRecord.especialidadprofesional,
     matriculaprofesional: professionalRecord.matriculaprofesional,
     cuitprofesional: professionalRecord.cuitprofesional,
+    dniprofesional: professionalRecord.dniprofesional,
+    direccionprofesional: professionalRecord.direccionprofesional,
+    ciudadprofesional: professionalRecord.ciudadprofesional,
+    telefonoprofesional: professionalRecord.telefonoprofesional,
+    emailprofesional: professionalRecord.emailprofesional,
+    fechavencimientornpprofesional:
+      professionalRecord.fechavencimientornpprofesional,
     goBackAction,
     handleChange,
     handleSubmit,

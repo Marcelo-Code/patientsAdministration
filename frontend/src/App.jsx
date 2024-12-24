@@ -16,15 +16,10 @@ import { EditMedicalRecordContainer } from "./components/pages/medicalRecords/ed
 import { MedicalRecordListContainer } from "./components/pages/medicalRecords/medicalRecordsList/MedicalRecordListContainer";
 import { CreateMedicalRecordContainer } from "./components/pages/medicalRecords/createMedicalRecord/CreateMedicalRecordContainer";
 import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/medicalRecordDetail/MedicalRecordDetailContainer";
-import { NavBar } from "./components/layout/navBar/NavBar";
 import { ProfessionalDetailContainer } from "./components/pages/professionals/professionalDetail/ProfessionalDetailContainer";
-import { relativeTime } from "dayjs/locale/es";
+import { ProfessionalDocumentationContainer } from "./components/pages/professionals/professionalDocumentation/professionalDocumentationContainer";
 function App() {
-  // const { darkMode } = useContext(GeneralContext);
-
   return (
-    // <BrowserRouter>
-    // <div className={darkMode ? "darkMode" : "lightMode"}>
     <div
       style={{
         backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("../public/assets/wallpaper.jpg")`,
@@ -43,6 +38,11 @@ function App() {
           path="/documentation/:patientId"
           element={<DocumentationContainer />}
         />
+        <Route
+          path="/professionalDocumentation/:professionalId"
+          element={<ProfessionalDocumentationContainer />}
+        />
+
         <Route
           path={"/patientsDetail/:patientId"}
           element={<PatientsDetailContainer />}
@@ -111,7 +111,6 @@ function App() {
         />
       </Routes>
     </div>
-    // </BrowserRouter>
   );
 }
 

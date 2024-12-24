@@ -5,10 +5,14 @@ import "./navBar.css";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { Alerts } from "../alerts/Alerts";
 
-export const NavBar = ({ patientsExpirationCudRecords }) => {
+export const NavBar = ({
+  patientsExpirationCudRecords,
+  professionalsExpirationRnpRecords,
+}) => {
   const { darkMode } = useContext(GeneralContext);
   const altertsProps = {
     patientsExpirationCudRecords,
+    professionalsExpirationRnpRecords,
   };
   return (
     <div

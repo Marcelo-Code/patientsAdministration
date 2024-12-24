@@ -57,21 +57,10 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
         }}
       >
         <CardContent>
-          <Typography
-            sx={{
-              textAlign: "left",
-              paddingBottom: "10px",
-            }}
-            gutterBottom
-            variant="h6"
-            component="div"
-          >
-            {professionalRecord.nombreyapellidoprofesional}
-          </Typography>
           <Typography gutterBottom variant="h7" component="div">
             <div>
               <PhoneInTalkIcon sx={{ ...lineStyle, verticalAlign: "middle" }} />
-              Teléfono
+              {professionalRecord.telefonoprofesional}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
               <span>
@@ -82,7 +71,7 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
                     verticalAlign: "middle",
                   }}
                 />
-                email
+                {professionalRecord.emailprofesional}
               </span>
             </div>
           </Typography>
@@ -138,6 +127,40 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
             </span>
           </Typography>
           <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <ImportContactsIcon sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> DNI: </b>
+              {professionalRecord.dniprofesional}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <HouseIcon sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> Dirección: </b>
+              {professionalRecord.direccionprofesional}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <LocationCityIcon sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> Ciudad: </b>
+              {professionalRecord.ciudadprofesional}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
+            <CalendarMonthIcon sx={lineStyle} />
+            <span>
+              <b style={lineStyle}> Fecha Venc. RNP: </b>
+              {new Date(
+                professionalRecord.fechavencimientornpprofesional
+              ).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </span>
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div" sx={dataStyle}>
             <CalendarMonthIcon variant="h7" sx={lineStyle} />
             <span>
               <b style={lineStyle}> Ultima Actualización: </b>
@@ -164,6 +187,7 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
           }}
         >
           <Link
+            to={`/professionalDocumentation/${professionalRecord.id}`}
             style={{
               width: "100%",
               justifyContent: "center",
