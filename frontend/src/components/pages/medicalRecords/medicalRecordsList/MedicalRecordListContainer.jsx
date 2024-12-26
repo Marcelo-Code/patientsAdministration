@@ -19,7 +19,7 @@ export const MedicalRecordListContainer = () => {
   const [resetKey, setResetKey] = useState(0);
   const [isResetEnabled, setIsResetEnabled] = useState(false);
 
-  const { patientId = null } = useParams();
+  const { patientId = null, professionalId = null } = useParams();
 
   const { sortRecords, createList, handleGoBack } = useContext(GeneralContext);
   const [records, setRecords] = useState(null);
@@ -124,10 +124,11 @@ export const MedicalRecordListContainer = () => {
   };
 
   useEffect(() => {
+    let filteredRecords;
     getMedicalRecords()
       .then((response) => {
         if (patientId) {
-          const filteredRecords = response.filter(
+          filteredRecords = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
           );
           setRecords(filteredRecords);
@@ -135,13 +136,19 @@ export const MedicalRecordListContainer = () => {
           getPatientRecord(patientId)
             .then((response) => setPatient(response))
             .catch((error) => console.log(error));
-        } else {
+        } else if (professionalId) {
+          filteredRecords = response.filter(
+            (record) => record.idprofesional === parseInt(professionalId)
+          );
+          setRecords(filteredRecords);
+        }
+        {
           setRecords(response);
           setListRecords(response);
         }
       })
       .catch((error) => console.log(error));
-  }, [updateFlag, patientId]);
+  }, [updateFlag, patientId, professionalId]);
 
   useEffect(() => {
     if (listRecords) {

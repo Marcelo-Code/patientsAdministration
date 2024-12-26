@@ -9,6 +9,7 @@ import { Spinner } from "../../common/spinner/Spinner";
 import { getCudBillingRecords } from "../../../api/cudBilling";
 import { Footer } from "../../layout/footer/Footer";
 import { NavBarContainer } from "../../layout/navBar/NavBarContainer";
+import { parseSelectedSections } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 
 export const BillingContainer = () => {
   const { handleGoBack } = useContext(GeneralContext);
@@ -22,7 +23,9 @@ export const BillingContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [updateList, setUpdateList] = useState(false);
 
-  const { patientId = null } = useParams();
+  const { patientId = null, professionalId = null } = useParams();
+
+  if (professionalId) console.log("id profesional " + professionalId);
 
   useEffect(() => {
     getNoCudBillingRecords()
@@ -31,6 +34,11 @@ export const BillingContainer = () => {
         if (patientId) {
           filteredResponse = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
+          );
+        }
+        if (professionalId) {
+          filteredResponse = response.filter(
+            (record) => record.idprofesional === parseInt(professionalId)
           );
         } else {
           filteredResponse = response;
@@ -51,7 +59,11 @@ export const BillingContainer = () => {
           filteredResponse = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
           );
-          console.log(filteredResponse);
+        }
+        if (professionalId) {
+          filteredResponse = response.filter(
+            (record) => record.idprofesional === parseInt(professionalId)
+          );
         } else {
           filteredResponse = response;
         }

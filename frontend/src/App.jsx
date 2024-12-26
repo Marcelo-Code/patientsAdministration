@@ -60,6 +60,10 @@ function App() {
           element={<BillingContainer />}
         />
         <Route
+          path={"/professionalBilling/:professionalId"}
+          element={<BillingContainer />}
+        />
+        <Route
           path={"/editMedicalRecord/:medicalRecordId"}
           element={<EditMedicalRecordContainer />}
         />
@@ -85,6 +89,11 @@ function App() {
           path={"/medicalRecordsList/:patientId"}
           element={<MedicalRecordListContainer />}
         />
+        <Route
+          path={"/professionalMedicalRecordsList/:professionalId"}
+          element={<MedicalRecordListContainer />}
+        />
+
         <Route
           path={"/createMedicalRecord"}
           element={<CreateMedicalRecordContainer />}

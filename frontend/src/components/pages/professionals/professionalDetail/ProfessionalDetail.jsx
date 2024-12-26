@@ -204,6 +204,7 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
             </Button>
           </Link>
           <Link
+            to={`/professionalBilling/${professionalRecord.id}`}
             style={{
               width: "100%",
               justifyContent: "center",
@@ -225,8 +226,9 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
               margin: "0 auto",
             }}
           >
-            {/* <Link to={`/medicalHistory/${id}`}> */}
-            <Link>
+            <Link
+              to={`/professionalMedicalRecordsList/${professionalRecord.id}`}
+            >
               <Button
                 size="small"
                 sx={buttonStyle}
