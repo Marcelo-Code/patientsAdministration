@@ -56,7 +56,7 @@ export const NavBarContainer = () => {
     })
     .filter((record) => record.diasexpiracioncud < 30);
 
-  console.log(professionalsExpirationRnpRecords);
+  // console.log(professionalsExpirationRnpRecords);
 
   const navBarProps = {
     patientsExpirationCudRecords,

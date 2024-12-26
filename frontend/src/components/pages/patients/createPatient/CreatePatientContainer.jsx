@@ -15,11 +15,16 @@ export const CreatePatientContainer = () => {
   const initialState = {
     nombreYApellidoPaciente: "",
     obraSocialPaciente: "",
+    telefonoObraSocial: "",
+    email1ObraSocial: "",
+    email2ObraSocial: "",
+    email3ObraSocial: "",
+    nombreYApellidoReferenteObrasocial: "",
     nroAfiliadoPaciente: "",
     dniPaciente: "",
-    direccionPaciente: "",
     fechaNacimientoPaciente: null,
     diagnosticoPrevio: "",
+    direccionPaciente: "",
     ciudadPaciente: "",
     nombreYApellidoResponsable: "",
     telefonoResponsable: "",
@@ -58,7 +63,12 @@ export const CreatePatientContainer = () => {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    setPatient({ ...patient, [name]: value });
+    if (name == "CUD" && !value) {
+      patient.fechaVencimientoCUD = null;
+    }
+    const updatePatient = { ...patient, [name]: value };
+    console.log(updatePatient);
+    setPatient(updatePatient);
     if (!modifiedFlag) setModifiedFlag(true);
   };
 

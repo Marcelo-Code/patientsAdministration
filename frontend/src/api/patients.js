@@ -64,7 +64,6 @@ export const deletePatientRecord = async (patientRecordId, patientName) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este paciente?", `Vas a eliminar a ${patientName}`, "Eliminar", "Cancelar");
         if (result.isConfirmed) {
-
             getPatientRecord(patientRecordId)
                 .then((response) => {
                     documentData.map((document) => {

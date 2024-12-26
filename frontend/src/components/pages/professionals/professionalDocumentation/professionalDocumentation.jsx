@@ -1,8 +1,13 @@
-import { Button, Card, CardActions } from "@mui/material";
+import { Button, Card, CardActions, CircularProgress } from "@mui/material";
 import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ClearIcon from "@mui/icons-material/Clear";
 import { Link } from "react-router-dom";
+import {
+  DeleteProfessionalDocumentFromBucket,
+  uploadProfessionalDocumentToBucket,
+} from "../../../../api/professionalsDocuments";
 
 /* eslint-disable react/prop-types */
 export const ProfessionalDocumentation = ({
@@ -11,6 +16,11 @@ export const ProfessionalDocumentation = ({
   documentData,
   handleEditModeChange,
   editMode,
+  isLoading,
+  setIsLoading,
+  updateList,
+  setUpdateList,
+  trimUrl,
 }) => {
   return (
     <div className="documentCardContainer">
@@ -43,6 +53,10 @@ export const ProfessionalDocumentation = ({
         </Button>
       </div>
 
+      {isLoading && (
+        <CircularProgress sx={{ position: "fixed", top: "50%", left: "50%" }} />
+      )}
+
       <div
         style={{
           display: "flex",
@@ -54,10 +68,9 @@ export const ProfessionalDocumentation = ({
         {documentData.map((document, index) => (
           <Card
             sx={{
-              width: "200px",
-              height: "150px",
+              width: "300px",
+              height: "auto",
               textAlign: "center",
-              // fontSize: "1.2em",
               color: "text.secondary",
               display: "flex",
               flexDirection: "column",
@@ -65,17 +78,75 @@ export const ProfessionalDocumentation = ({
             }}
             key={index}
           >
-            <h3>{document.title}</h3>
+            <h3 style={{ margin: "20px" }}>{document.title}</h3>
+            <div
+              style={{
+                padding: "20px",
+                wordWrap: "break-word", // Permite que las palabras largas hagan wrap.
+                overflowWrap: "break-word", // Funciona como respaldo para algunos navegadores.
+                whiteSpace: "normal", // Permite que el texto se ajuste al ancho del contenedor
+              }}
+            >
+              {professionalRecord[document.name] === "" ? (
+                <ClearIcon />
+              ) : (
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(professionalRecord[document.name], "_blank");
+                  }}
+                >
+                  {trimUrl(professionalRecord[document.name])}
+                </Link>
+              )}
+            </div>
 
             <CardActions
               sx={{ justifyContent: "center", alignItems: "center" }}
             >
               {editMode && (
                 <div>
-                  <Link>
+                  <Link
+                    onClick={() => {
+                      setIsLoading(true);
+                      DeleteProfessionalDocumentFromBucket(
+                        document.name,
+                        professionalRecord,
+                        "professionalsDocuments"
+                      )
+                        .then((response) => {
+                          console.log(response);
+                          setUpdateList(!updateList);
+                          setIsLoading(false);
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          setIsLoading(false);
+                        });
+                    }}
+                  >
                     <DeleteIcon sx={{ fontSize: "2em", margin: "10px" }} />
                   </Link>
-                  <Link>
+                  <Link
+                    onClick={() => {
+                      setIsLoading(true);
+                      uploadProfessionalDocumentToBucket(
+                        `${document.name}_${professionalRecord.dniprofesional}_${professionalRecord.nombreyapellidoprofesional}`,
+                        professionalRecord,
+                        document.name,
+                        setIsLoading
+                      )
+                        .then((response) => {
+                          console.log(response);
+                          setUpdateList(!updateList);
+                          setIsLoading(false);
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          setIsLoading(false);
+                        });
+                    }}
+                  >
                     <UploadIcon sx={{ fontSize: "2em", margin: "10px" }} />
                   </Link>
                 </div>

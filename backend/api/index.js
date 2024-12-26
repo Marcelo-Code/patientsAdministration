@@ -388,74 +388,74 @@ app.post("/createNoCudBillingRecord", async (req, res) => {
 
 app.post("/createProfessionalRecord", async (req, res) => {
     const {
-        nombreYApellidoProfesional,
-        especialidadProfesional,
-        matriculaProfesional,
-        cuitProfesional,
-        dniProfesional,
-        direccionProfesional,
-        ciudadProfesional,
-        telefonoProfesional,
-        emailProfesional,
-        fechaVencimientoRnpProfesional,
-        documentoConstanciaMatriculaProfesional,
-        documentoCertificadoRnpProfesional,
-        documentoTituloFrenteProfesional,
-        documentoTituloDorsoProfesional,
-        documentoCvProfesional,
-        documentoConstanciaCuitProfesional,
-        documentoConstanciaCbuProfesional,
-        documentoDniFrenteProfesional,
-        documentoDniDorsoProfesional,
-        documentoSeguroProfesional,
-        fechaUltimaActualizacion
+        nombreyapellidoprofesional,
+        especialidadprofesional,
+        matriculaprofesional,
+        cuitprofesional,
+        dniprofesional,
+        direccionprofesional,
+        ciudadprofesional,
+        telefonoprofesional,
+        emailprofesional,
+        fechavencimientornpprofesional,
+        documentoconstanciamatriculaprofesional,
+        documentocertificadornpprofesional,
+        documentotitulofrenteprofesional,
+        documentotitulodorsoprofesional,
+        documentocvprofesional,
+        documentoconstanciaafipprofesional,
+        documentoconstanciacbuprofesional,
+        documentodnifrenteprofesional,
+        documentodnidorsoprofesional,
+        documentoseguroprofesional,
+        fechaultimaactualizacion
     } = req.body;
     try {
         const result = await pool.query(
-            `INSERT INTO profesionales (nombreYApellidoProfesional,
-                                    especialidadProfesional,
-                                    matriculaProfesional,
-                                    cuitProfesional,
-                                    dniProfesional,
-                                    direccionProfesional,
-                                    ciudadProfesional,
-                                    telefonoProfesional,
-                                    emailProfesional,
-                                    fechaVencimientoRnpProfesional,
-                                    documentoConstanciaMatriculaProfesional,
-                                    documentoCertificadoRnpProfesional,
-                                    documentoTituloFrenteProfesional,
-                                    documentoTituloDorsoProfesional,
-                                    documentoCvProfesional,
-                                    documentoConstanciaCuitProfesional,
-                                    documentoConstanciaCbuProfesional,
-                                    documentoDniFrenteProfesional,
-                                    documentoDniDorsoProfesional,
-                                    documentoSeguroProfesional,
-                                    fechaUltimaActualizacion
+            `INSERT INTO profesionales (nombreyapellidoprofesional,
+                                    especialidadprofesional,
+                                    matriculaprofesional,
+                                    cuitprofesional,
+                                    dniprofesional,
+                                    direccionprofesional,
+                                    ciudadprofesional,
+                                    telefonoprofesional,
+                                    emailprofesional,
+                                    fechavencimientornpprofesional,
+                                    documentoconstanciamatriculaprofesional,
+                                    documentocertificadornpprofesional,
+                                    documentotitulofrenteprofesional,
+                                    documentotitulodorsoprofesional,
+                                    documentocvprofesional,
+                                    documentoconstanciaafipprofesional,
+                                    documentoconstanciacbuprofesional,
+                                    documentodnifrenteprofesional,
+                                    documentodnidorsoprofesional,
+                                    documentoseguroprofesional,
+                                    fechaultimaactualizacion
                                     )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) RETURNING id`,
-            [nombreYApellidoProfesional,
-                especialidadProfesional,
-                matriculaProfesional,
-                cuitProfesional,
-                dniProfesional,
-                direccionProfesional,
-                ciudadProfesional,
-                telefonoProfesional,
-                emailProfesional,
-                fechaVencimientoRnpProfesional,
-                documentoConstanciaMatriculaProfesional,
-                documentoCertificadoRnpProfesional,
-                documentoTituloFrenteProfesional,
-                documentoTituloDorsoProfesional,
-                documentoCvProfesional,
-                documentoConstanciaCuitProfesional,
-                documentoConstanciaCbuProfesional,
-                documentoDniFrenteProfesional,
-                documentoDniDorsoProfesional,
-                documentoSeguroProfesional,
-                fechaUltimaActualizacion
+            [nombreyapellidoprofesional,
+                especialidadprofesional,
+                matriculaprofesional,
+                cuitprofesional,
+                dniprofesional,
+                direccionprofesional,
+                ciudadprofesional,
+                telefonoprofesional,
+                emailprofesional,
+                fechavencimientornpprofesional,
+                documentoconstanciamatriculaprofesional,
+                documentocertificadornpprofesional,
+                documentotitulofrenteprofesional,
+                documentotitulodorsoprofesional,
+                documentocvprofesional,
+                documentoconstanciaafipprofesional,
+                documentoconstanciacbuprofesional,
+                documentodnifrenteprofesional,
+                documentodnidorsoprofesional,
+                documentoseguroprofesional,
+                fechaultimaactualizacion
             ]
         );
         res.status(201).json(result.rows[0]);
@@ -1039,7 +1039,7 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
         documentotitulofrenteprofesional,
         documentotitulodorsoprofesional,
         documentocvprofesional,
-        documentoconstanciacuitprofesional,
+        documentoconstanciaafipprofesional,
         documentoconstanciacbuprofesional,
         documentodnifrenteprofesional,
         documentodnidorsoprofesional,
@@ -1069,7 +1069,7 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
                     documentotitulofrenteprofesional = $13,
                     documentotitulodorsoprofesional = $14,
                     documentocvprofesional = $15,
-                    documentoconstanciacuitprofesional = $16,
+                    documentoconstanciaafipprofesional = $16,
                     documentoconstanciacbuprofesional = $17,
                     documentodnifrenteprofesional = $18,
                     documentodnidorsoprofesional = $19,
@@ -1092,7 +1092,7 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
                 documentotitulofrenteprofesional,
                 documentotitulodorsoprofesional,
                 documentocvprofesional,
-                documentoconstanciacuitprofesional,
+                documentoconstanciaafipprofesional,
                 documentoconstanciacbuprofesional,
                 documentodnifrenteprofesional,
                 documentodnidorsoprofesional,
@@ -1419,6 +1419,58 @@ app.patch("/partialUpdatePatientRecord/:id", async (req, res) => {
         console.log("Error al actualizar paciente: ", error);
         res.status(500).json({
             error: "Error al actualizar paciente: ",
+            details: error.message,
+        });
+    }
+});
+
+//PATCH: profesional
+//------------------
+
+app.patch("/partialUpdateProfessionalRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+    const fieldsToUpdate = req.body;
+
+    try {
+        // Validar si el paciente existe
+        const {
+            rows
+        } = await pool.query("SELECT * FROM profesionales WHERE id = $1", [id]);
+        if (rows.length === 0) {
+            return res.status(404).json({
+                error: "Profesional no encontrado: "
+            });
+        }
+
+        // Construir dinámicamente la consulta para actualizar solo los campos enviados
+        const keys = Object.keys(fieldsToUpdate);
+        const values = Object.values(fieldsToUpdate);
+
+        const setQuery = keys
+            .map((key, index) => `${key} = $${index + 1}`)
+            .join(", ");
+
+        // Ejecutar la consulta dinámica
+        const result = await pool.query(
+            `UPDATE profesionales SET ${setQuery} WHERE id = $${keys.length + 1}`,
+            [...values, id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                error: "Profesional no encontrado: "
+            });
+        }
+
+        res.status(200).json({
+            message: "Profesional actualizado correctamente: "
+        });
+    } catch (error) {
+        console.log("Error al actualizar profesional: ", error);
+        res.status(500).json({
+            error: "Error al actualizar profesional: ",
             details: error.message,
         });
     }

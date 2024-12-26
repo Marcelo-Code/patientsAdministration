@@ -10,7 +10,7 @@ import { documentData } from "./DocumentData";
 
 export const ProfessionalDocumentationContainer = () => {
   const { professionalId } = useParams();
-  const { handleGoBack } = useContext(GeneralContext);
+  const { handleGoBack, trimUrl } = useContext(GeneralContext);
   const [professionalRecord, setProfessionalRecord] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [updateList, setUpdateList] = useState(false);
@@ -23,7 +23,7 @@ export const ProfessionalDocumentationContainer = () => {
     documentoTituloFrenteProfesional: false,
     documentoTituloDorsoProfesional: false,
     documentoCvProfesional: false,
-    documentoConstanciaCuitProfesional: false,
+    documentoConstanciaAfipProfesional: false,
     documentoConstanciaCbuProfesional: false,
     documentoDniFrenteProfesional: false,
     documentoDniDorsoProfesional: false,
@@ -46,7 +46,7 @@ export const ProfessionalDocumentationContainer = () => {
         setProfessionalRecord(response);
       })
       .catch((error) => console.log(error));
-  }, [professionalId]);
+  }, [professionalId, updateList]);
 
   if (!professionalRecord) return <Spinner />;
 
@@ -58,6 +58,11 @@ export const ProfessionalDocumentationContainer = () => {
     documentData,
     handleEditModeChange,
     editMode,
+    isLoading,
+    setIsLoading,
+    updateList,
+    setUpdateList,
+    trimUrl,
   };
 
   return (

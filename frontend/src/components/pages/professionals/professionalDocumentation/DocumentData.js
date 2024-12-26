@@ -1,41 +1,41 @@
 export const documentData = [{
-        "name": "documentoConstanciaMatriculaProfesional",
+        "name": "documentoconstanciamatriculaprofesional",
         "title": "Constancia Matrícula",
     },
     {
-        "name": "documentoCertificadoRnpProfesional",
+        "name": "documentocertificadornpprofesional",
         "title": "Certificado RNP"
     },
     {
-        "name": "documentoTituloFrenteProfesional",
+        "name": "documentotitulofrenteprofesional",
         "title": "Título Frente"
     },
     {
-        "name": "documentoTituloDorsoProfesional",
+        "name": "documentotitulodorsoprofesional",
         "title": "Título Dorso"
     },
     {
-        "name": "documentoCvProfesional",
+        "name": "documentocvprofesional",
         "title": "Curriculum Vitae"
     },
     {
-        "name": "documentoConstanciaCuitProfesional",
+        "name": "documentoconstanciaafipprofesional",
         "title": "Constancia CUIT"
     },
     {
-        "name": "documentoConstanciaCbuProfesional",
+        "name": "documentoconstanciacbuprofesional",
         "title": "Constancia CBU"
     },
     {
-        "name": "documentoDniFrenteProfesional",
+        "name": "documentodnifrenteprofesional",
         "title": "DNI Frente"
     },
     {
-        "name": "documentoDniDorsoProfesional",
+        "name": "documentodnidorsoprofesional",
         "title": "DNI Dorso"
     },
     {
-        "name": "documentoSeguroProfesional",
+        "name": "documentoseguroprofesional",
         "title": "Seguro Mala Praxis"
     },
 ];

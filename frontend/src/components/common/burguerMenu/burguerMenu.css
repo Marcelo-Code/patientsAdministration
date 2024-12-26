@@ -102,8 +102,12 @@
 /* Added by me */
 .bm-menu-title {
   pointer-events: none;
-  font-size: 1.4em;
+  font-size: 1.2em;
   text-align: center;
+  font-family: "broughton";
+  text-shadow: 0 0 20px black;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Added by me */
@@ -120,4 +124,10 @@
   text-shadow: 0 0 20px black;
   display: flex;
   flex-direction: column;
+}
+
+.title div:hover {
+  pointer-events: none;
+  color: inherit; /* Mantén el color sin cambios */
+  text-decoration: none; /* Evita subrayados u otros efectos */
 }

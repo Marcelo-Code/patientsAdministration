@@ -78,7 +78,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="Nombre y Apellido"
                 variant="outlined"
-                name="nombreYApellidoProfesional"
+                name="nombreyapellidoprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -93,7 +93,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="Especialidad"
                 variant="outlined"
-                name="especialidadProfesional"
+                name="especialidadprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -108,7 +108,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="Matrícula"
                 variant="outlined"
-                name="matriculaProfesional"
+                name="matriculaprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -123,7 +123,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="CUIT"
                 variant="outlined"
-                name="cuitProfesional"
+                name="cuitprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -138,7 +138,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="DNI"
                 variant="outlined"
-                name="dniProfesional"
+                name="dniprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -153,7 +153,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="Dirección"
                 variant="outlined"
-                name="direccionProfesional"
+                name="direccionprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -168,7 +168,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="Ciudad"
                 variant="outlined"
-                name="ciudadProfesional"
+                name="ciudadprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -183,12 +183,12 @@ export const CreateProfessional = ({
                     backgroundColor: "white",
                   }}
                   label="Fecha Venc. RNP"
-                  name="fechaVencimientoRnpProfesional"
+                  name="fechavencimientornpprofesional"
                   format="DD/MM/YYYY"
                   onChange={(newDate) => {
                     handleChange({
                       target: {
-                        name: "fechaVencimientoRnpProfesional",
+                        name: "fechavencimientornpprofesional",
                         value: dayjs(newDate).format("YYYY-MM-DD"),
                       },
                     });
@@ -210,7 +210,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="Teléfono"
                 variant="outlined"
-                name="telefonoProfesional"
+                name="telefonoprofesional"
                 onChange={handleChange}
               />
             </span>
@@ -225,7 +225,7 @@ export const CreateProfessional = ({
                 id="outlined-basic"
                 label="e-mail"
                 variant="outlined"
-                name="emailProfesional"
+                name="emailprofesional"
                 onChange={handleChange}
               />
             </span>

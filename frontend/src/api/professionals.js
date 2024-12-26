@@ -10,6 +10,12 @@ import {
     ErrorAlert,
     SuccessAlert
 } from "../components/common/alerts/alerts";
+import {
+    documentData
+} from "../components/pages/professionals/professionalDocumentation/DocumentData";
+import {
+    borrarImagen
+} from "./Images";
 
 export const getProfessionalsRecords = async () => {
     try {
@@ -61,6 +67,16 @@ export const deleteProfessionalRecord = async (professionalId, professionalName)
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este profesional?", `Vas a eliminar a ${professionalName}`, "Eliminar", "Cancelar");
         if (result.isConfirmed) {
+            getProfessionalRecord(professionalId)
+                .then((response) => {
+                    documentData.map((document) => {
+                        if (response[document.name] !== "")
+                            borrarImagen(response[document.name])
+                            .then((response) => console.log(response))
+                            .catch((error) => console.log(error))
+                    })
+                })
+                .catch((error) => console.log(error))
             const response = await axios.delete(`${BACKEND_URL}/deleteProfessionalRecord/${professionalId}`);
             SuccessAlert("¡Profesional eliminado!");
             return (response.data);
@@ -84,6 +100,21 @@ export const updateProfessionalRecord = async (professional, profesionalId) => {
             window.history.back();
             return (response.data);
         }
+    } catch (error) {
+        ErrorAlert("¡Error al modificar profesional!");
+        console.log("Error al modificar profesional: ", error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+//PATCH: profesional
+//------------------
+
+export const partialUpdateProfessionalRecord = async (professionalRecord, professionalRecordId) => {
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdateProfessionalRecord/${professionalRecordId}`, professionalRecord)
+    try {
+        SuccessAlert("¡Profesional modificado!");
+        return response.data;
     } catch (error) {
         ErrorAlert("¡Error al modificar profesional!");
         console.log("Error al modificar profesional: ", error.response ? error.response.data : error.message);

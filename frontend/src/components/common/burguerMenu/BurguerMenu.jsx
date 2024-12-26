@@ -25,8 +25,8 @@ export const BurguerMenu = () => {
     >
       {/* <h2 className="bm-menu-title">Título</h2>
       <div className="bm-menu-sub-title">Sub Título</div> */}
-      <div className="title">
-        <div style={{ width: "120px", margin: "0 auto", textAlign: "center" }}>
+      <div className="bm-menu-title">
+        <div>
           <div>Gestión</div>
           <div>Cud No Cud</div>
         </div>

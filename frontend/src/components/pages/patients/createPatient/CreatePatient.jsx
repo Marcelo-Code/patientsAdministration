@@ -40,6 +40,7 @@ export const CreatePatient = ({
   modifiedFlag,
   cancelAction,
   goBackAction,
+  patient,
 }) => {
   const style = {
     display: "flex",
@@ -55,7 +56,7 @@ export const CreatePatient = ({
         width: "100vw",
         justifyContent: "center",
         position: "relative",
-        top: "90px",
+        top: 0,
       }}
     >
       <form>
@@ -84,7 +85,11 @@ export const CreatePatient = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nombre y Apellido Paciente"
                 variant="outlined"
@@ -95,7 +100,11 @@ export const CreatePatient = ({
             <span style={style}>
               <CardMembershipIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Obra Social"
                 variant="outlined"
@@ -104,9 +113,88 @@ export const CreatePatient = ({
               />
             </span>
             <span style={style}>
+              <WhatsAppIcon />
+              <TextField
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
+                id="outlined-basic"
+                label="Teléfono Obra Social"
+                variant="outlined"
+                name="telefonoObraSocial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MailIcon />
+              <TextField
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
+                id="outlined-basic"
+                label="e-mail 1 Obra Social"
+                variant="outlined"
+                name="email1ObraSocial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MailIcon />
+              <TextField
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
+                id="outlined-basic"
+                label="e-mail 2 Obra Social"
+                variant="outlined"
+                name="email2ObraSocial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MailIcon />
+              <TextField
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
+                id="outlined-basic"
+                label="e-mail 3 Obra Social"
+                variant="outlined"
+                name="email3ObraSocial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <PersonIcon />
+              <TextField
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
+                id="outlined-basic"
+                label="Referente Obra Social"
+                variant="outlined"
+                name="nombreYApellidoReferenteObrasocial"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
               <CardMembershipIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nro Afiliado"
                 variant="outlined"
@@ -117,7 +205,11 @@ export const CreatePatient = ({
             <span style={style}>
               <ImportContactsIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="DNI"
                 variant="outlined"
@@ -130,7 +222,11 @@ export const CreatePatient = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
-                  sx={{ width: "200px", margin: "10px" }}
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
+                  }}
                   label="Fecha Nacimiento"
                   name="fechaNacimientoPaciente"
                   format="DD/MM/YYYY"
@@ -151,7 +247,11 @@ export const CreatePatient = ({
             <span style={style}>
               <MedicationIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Diagnóstico Previo"
                 variant="outlined"
@@ -162,7 +262,11 @@ export const CreatePatient = ({
             <span style={style}>
               <HouseIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Dirección"
                 variant="outlined"
@@ -173,7 +277,11 @@ export const CreatePatient = ({
             <span style={style}>
               <LocationCityIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Ciudad"
                 variant="outlined"
@@ -184,7 +292,11 @@ export const CreatePatient = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nombre y Apellido Responsable"
                 variant="outlined"
@@ -195,7 +307,11 @@ export const CreatePatient = ({
             <span style={style}>
               <WhatsAppIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Teléfono Responsable"
                 variant="outlined"
@@ -206,7 +322,11 @@ export const CreatePatient = ({
             <span style={style}>
               <SchoolIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Escuela"
                 variant="outlined"
@@ -217,7 +337,11 @@ export const CreatePatient = ({
             <span style={style}>
               <SchoolIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Dirección Escuela"
                 variant="outlined"
@@ -228,7 +352,11 @@ export const CreatePatient = ({
             <span style={style}>
               <WhatsAppIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Teléfono Escuela"
                 variant="outlined"
@@ -239,7 +367,11 @@ export const CreatePatient = ({
             <span style={style}>
               <SchoolIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Año/Grado/Sala"
                 variant="outlined"
@@ -250,7 +382,11 @@ export const CreatePatient = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nombre Docente Referente"
                 variant="outlined"
@@ -261,7 +397,11 @@ export const CreatePatient = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nombre Directivo Escuela"
                 variant="outlined"
@@ -272,7 +412,11 @@ export const CreatePatient = ({
             <span style={style}>
               <SchoolIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Escuela Especial"
                 variant="outlined"
@@ -283,7 +427,11 @@ export const CreatePatient = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nombre Docente Ref. Esc. Esp."
                 variant="outlined"
@@ -294,7 +442,11 @@ export const CreatePatient = ({
             <span style={style}>
               <WhatsAppIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Tel. Ref. Escuela Esp."
                 variant="outlined"
@@ -324,35 +476,45 @@ export const CreatePatient = ({
                 <FormControlLabel value="no" control={<Radio />} label="No" />
               </RadioGroup>
             </span>
+            {patient.CUD && (
+              <span style={style}>
+                <CalendarIcon />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    type="date"
+                    sx={{
+                      width: "200px",
+                      margin: "10px",
+                      backgroundColor: "white",
+                    }}
+                    label="Fecha vto. CUD"
+                    name="fechaVencimientoCud"
+                    format="DD/MM/YYYY"
+                    onChange={(newDate) => {
+                      handleChange({
+                        target: {
+                          name: "fechaVencimientoCud",
+                          value: dayjs(newDate).format("YYYY-MM-DD"),
+                        },
+                      });
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </LocalizationProvider>
+              </span>
+            )}
             <span style={style}>
               <CalendarIcon />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
-                  sx={{ width: "200px", margin: "10px" }}
-                  label="Fecha vto. CUD"
-                  name="fechaVencimientoCud"
-                  format="DD/MM/YYYY"
-                  onChange={(newDate) => {
-                    handleChange({
-                      target: {
-                        name: "fechaVencimientoCud",
-                        value: dayjs(newDate).format("YYYY-MM-DD"),
-                      },
-                    });
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
                   }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </LocalizationProvider>
-            </span>
-            <span style={style}>
-              <CalendarIcon />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  type="date"
-                  sx={{ width: "200px", margin: "10px" }}
                   label="Fecha inicio Tto."
                   name="fechaInicioTto"
                   format="DD/MM/YYYY"
