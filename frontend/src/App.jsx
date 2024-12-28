@@ -23,11 +23,10 @@ import { Footer } from "./components/layout/footer/Footer";
 function App() {
   return (
     <>
-      <NavBarContainer />
       <div
         style={{
           backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("/assets/wallpaper.jpg")`,
-          backgroundSize: "cover",
+          backgroundSize: "center",
           backgroundAttachment: "fixed",
           // position: "fixed",
           top: 0,
@@ -36,6 +35,7 @@ function App() {
           zIndex: -1,
         }}
       >
+        <NavBarContainer />
         <Routes>
           <Route path="/" element={<PatientsListContainer />} />
           <Route
@@ -123,8 +123,8 @@ function App() {
             element={<MedicalRecordDetailContainer />}
           />
         </Routes>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
