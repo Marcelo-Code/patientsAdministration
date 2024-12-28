@@ -27,6 +27,7 @@ function App() {
         style={{
           backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("/assets/wallpaper.jpg")`,
           backgroundSize: "center",
+          backgroundRepeat: "repeat",
           backgroundAttachment: "fixed",
           // position: "fixed",
           top: 0,
