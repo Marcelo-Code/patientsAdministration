@@ -2,11 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProfessionalRecord } from "../../../../api/professionals";
 import { Spinner } from "../../../common/spinner/Spinner";
-import { ProfessionalDocumentation } from "./ProfessionalDocumentation";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { documentData } from "./DocumentData";
+import { ProfessionalDocumentation } from "./ProfessionalDocumentationtemp";
 
 export const ProfessionalDocumentationContainer = () => {
   const { professionalId } = useParams();
