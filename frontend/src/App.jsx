@@ -26,7 +26,7 @@ function App() {
       <NavBarContainer />
       <div
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("../public/assets/wallpaper.jpg")`,
+          backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("/assets/wallpaper.jpg")`,
           backgroundSize: "cover",
           backgroundAttachment: "fixed",
           // position: "fixed",

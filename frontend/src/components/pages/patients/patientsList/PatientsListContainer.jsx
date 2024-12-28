@@ -3,8 +3,6 @@ import "./patientsList.css";
 import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { getPatientsRecords } from "../../../../api/patients";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 import { GeneralContext } from "../../../../context/GeneralContext";
 
 export const PatientsListContainer = () => {
