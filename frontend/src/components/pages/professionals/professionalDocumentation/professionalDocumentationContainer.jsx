@@ -4,7 +4,7 @@ import { getProfessionalRecord } from "../../../../api/professionals";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { documentData } from "./DocumentData";
-import { ProfessionalDocumentation } from "./ProfessionalDocumentationtemp";
+import { ProfessionalDocumentation } from "./ProfessionalDocumentationA";
 
 export const ProfessionalDocumentationContainer = () => {
   const { professionalId } = useParams();
