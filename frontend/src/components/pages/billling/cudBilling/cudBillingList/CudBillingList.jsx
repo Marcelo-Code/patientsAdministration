@@ -80,7 +80,7 @@ export const CudBillingList = ({
   ];
 
   return (
-    <>
+    <div>
       <div
         style={{
           display: "flex",
@@ -1100,6 +1100,6 @@ export const CudBillingList = ({
           </CardContent>
         </Card>
       )}
-    </>
+    </div>
   );
 };

@@ -9,17 +9,18 @@ import { Footer } from "../../../layout/footer/Footer";
 import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const PatientsDetailContainer = () => {
-  const { handleGoBack } = useContext(GeneralContext);
+  const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
 
   const [patientRecord, setPatientRecord] = useState(null);
 
   const { patientId } = useParams();
 
   useEffect(() => {
+    setPageIsLoading(true);
     getPatientRecord(patientId)
       .then((response) => setPatientRecord(response))
       .catch((error) => console.log(error));
-  }, [patientId]);
+  }, [patientId, setPageIsLoading]);
 
   if (!patientRecord) return <Spinner />;
 
@@ -63,13 +64,12 @@ export const PatientsDetailContainer = () => {
     fechainiciotto: patientRecord.fechainiciotto,
     fechaultimaactualizacion: patientRecord.fechaultimaactualizacion,
     handleGoBack,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <PatientsDetail {...props} />
-      <Footer />
     </>
   );
 };

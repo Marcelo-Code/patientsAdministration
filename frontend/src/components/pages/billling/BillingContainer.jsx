@@ -12,7 +12,7 @@ import { NavBarContainer } from "../../layout/navBar/NavBarContainer";
 import { parseSelectedSections } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 
 export const BillingContainer = () => {
-  const { handleGoBack } = useContext(GeneralContext);
+  const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
   const [noCudBillingRecords, setNoCudBillingRecords] = useState(null);
   const [cudBillingRecords, setCudBillingRecords] = useState(null);
   const [filteredNoCudBillingRecords, setFilteredNoCudBillingRecords] =
@@ -28,6 +28,7 @@ export const BillingContainer = () => {
   if (professionalId) console.log("id profesional " + professionalId);
 
   useEffect(() => {
+    setPageIsLoading(true);
     getNoCudBillingRecords()
       .then((response) => {
         let filteredResponse;
@@ -86,7 +87,7 @@ export const BillingContainer = () => {
         setPatientsRecords(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList, patientId]);
+  }, [updateList, patientId, professionalId, setPageIsLoading]);
 
   if (
     !noCudBillingRecords ||
@@ -112,13 +113,12 @@ export const BillingContainer = () => {
     setCudBillingRecords,
     cudBillingRecords,
     filteredCudBillingRecords,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <Billing {...props} />
-      <Footer />
     </>
   );
 };

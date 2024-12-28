@@ -4,15 +4,14 @@ import { getMedicalRecords } from "../../../../api/medicalRecords";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { MedicalRecordDetail } from "./MedicalRecordDetail";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const MedicalRecordDetailContainer = () => {
   const { medicalRecordId } = useParams();
-  const { handleGoBack } = useContext(GeneralContext);
+  const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
   const [medicalDetailRecord, setMedicalDetailRecord] = useState(null);
 
   useEffect(() => {
+    setPageIsLoading(true);
     getMedicalRecords(medicalRecordId)
       .then((response) => {
         console.log(response);
@@ -23,20 +22,19 @@ export const MedicalRecordDetailContainer = () => {
         console.log(medicalRecord);
       })
       .catch((error) => console.log(error));
-  }, [medicalRecordId]);
+  }, [medicalRecordId, setPageIsLoading, setMedicalDetailRecord]);
 
   if (!medicalDetailRecord) return <Spinner />;
 
   const medicalRecordDetailProps = {
     handleGoBack,
     medicalDetailRecord,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <MedicalRecordDetail {...medicalRecordDetailProps} />
-      <Footer />
     </>
   );
 };

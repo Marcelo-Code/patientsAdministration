@@ -57,6 +57,7 @@ export const MedicalRecordsList = ({
   isChecked,
   handleCheckboxChange,
   patientId,
+  setPageIsLoading,
 }) => {
   const filterProps = {
     filterMode,
@@ -82,6 +83,8 @@ export const MedicalRecordsList = ({
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   };
+
+  setPageIsLoading(false);
 
   return (
     <div className="medicalRecordsListContainer">

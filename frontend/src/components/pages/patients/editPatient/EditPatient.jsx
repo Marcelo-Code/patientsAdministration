@@ -76,34 +76,133 @@ export const EditPatient = (props) => {
     modified,
     modifiedFlag,
     cancelAction,
+    setPageIsLoading,
   } = props;
 
+  setPageIsLoading(false);
   return (
-    <div className="patientDetail">
-      <Card
-        sx={{
+    <div
+      style={{
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        paddingBottom: "100px",
+      }}
+    >
+      <div
+        style={{
           minWidth: "320px",
           width: "60%",
           color: "text.secondary",
+          margin: "20px",
         }}
       >
-        <CardContent>
-          {/* Obra Social Paciente */}
+        {/* Obra Social Paciente */}
 
+        <span style={style}>
+          <CardMembershipIcon
+            style={{ color: modified.obrasocialpaciente ? "red" : "" }}
+          />
+          <TextField
+            sx={{
+              // margin: "10px",
+              width: "200px",
+              backgroundColor: "white",
+            }}
+            id="outlined-basic"
+            label="Obra Social"
+            variant="outlined"
+            name="obrasocialpaciente"
+            value={obrasocialpaciente}
+            onChange={handleChange}
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
+            }}
+          />
+        </span>
+
+        {/* Teléfono Obra Social */}
+
+        <span style={style}>
+          <PhoneInTalkIcon
+            style={{ color: modified.telefonoobrasocial ? "red" : "" }}
+          />
+          <TextField
+            sx={{
+              margin: "10px",
+              width: "200px",
+              backgroundColor: "white",
+            }}
+            id="outlined-basic"
+            label="Teléfono Obra Social"
+            variant="outlined"
+            name="telefonoobrasocial"
+            value={telefonoobrasocial}
+            onChange={handleChange}
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
+            }}
+          />
+        </span>
+
+        {/* Nombre y Apellido Paciente */}
+
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            with: "300px",
+          }}
+        >
+          <PersonIcon
+            style={{ color: modified.nombreyapellidopaciente ? "red" : "" }}
+          />
+          <TextField
+            style={{ margin: "10px", width: "200px", backgroundColor: "white" }}
+            id="outlined-basic"
+            label="Nombre y Apellido Paciente"
+            variant="outlined"
+            name="nombreyapellidopaciente"
+            value={nombreyapellidopaciente}
+            onChange={handleChange}
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
+            }}
+          />
+        </span>
+
+        {/* emails Obra Social */}
+
+        <div
+          style={{
+            borderBottom: "1px solid black",
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
           <span style={style}>
-            <CardMembershipIcon
-              style={{ color: modified.obrasocialpaciente ? "red" : "" }}
+            <MailIcon
+              style={{ color: modified.email1obrasocial ? "red" : "" }}
             />
             <TextField
               sx={{
                 margin: "30px 10px 10px 10px",
                 width: "200px",
+                backgroundColor: "white",
               }}
               id="outlined-basic"
-              label="Obra Social"
+              label="email 1 Obra Social"
               variant="outlined"
-              name="obrasocialpaciente"
-              value={obrasocialpaciente}
+              name="email1obrasocial"
+              value={email1obrasocial}
               onChange={handleChange}
               slotProps={{
                 inputLabel: {
@@ -113,22 +212,21 @@ export const EditPatient = (props) => {
             />
           </span>
 
-          {/* Teléfono Obra Social */}
-
           <span style={style}>
-            <PhoneInTalkIcon
-              style={{ color: modified.telefonoobrasocial ? "red" : "" }}
+            <MailIcon
+              style={{ color: modified.email2obrasocial ? "red" : "" }}
             />
             <TextField
               sx={{
-                margin: "10px",
+                margin: "30px 10px 10px 10px",
                 width: "200px",
+                backgroundColor: "white",
               }}
               id="outlined-basic"
-              label="Teléfono Obra Social"
+              label="email 2 Obra Social"
               variant="outlined"
-              name="telefonoobrasocial"
-              value={telefonoobrasocial}
+              name="email2obrasocial"
+              value={email2obrasocial}
               onChange={handleChange}
               slotProps={{
                 inputLabel: {
@@ -138,26 +236,21 @@ export const EditPatient = (props) => {
             />
           </span>
 
-          {/* Nombre y Apellido Paciente */}
-
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              with: "300px",
-            }}
-          >
-            <PersonIcon
-              style={{ color: modified.nombreyapellidopaciente ? "red" : "" }}
+          <span style={style}>
+            <MailIcon
+              style={{ color: modified.email3obrasocial ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              sx={{
+                margin: "30px 10px 10px 10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
-              label="Nombre y Apellido Paciente"
+              label="email 3 Obra Social"
               variant="outlined"
-              name="nombreyapellidopaciente"
-              value={nombreyapellidopaciente}
+              name="email3obrasocial"
+              value={email3obrasocial}
               onChange={handleChange}
               slotProps={{
                 inputLabel: {
@@ -166,87 +259,7 @@ export const EditPatient = (props) => {
               }}
             />
           </span>
-
-          {/* emails Obra Social */}
-
-          <div
-            style={{
-              borderBottom: "1px solid black",
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <span style={style}>
-              <MailIcon
-                style={{ color: modified.email1obrasocial ? "red" : "" }}
-              />
-              <TextField
-                sx={{
-                  margin: "30px 10px 10px 10px",
-                  width: "200px",
-                }}
-                id="outlined-basic"
-                label="email 1 Obra Social"
-                variant="outlined"
-                name="email1obrasocial"
-                value={email1obrasocial}
-                onChange={handleChange}
-                slotProps={{
-                  inputLabel: {
-                    shrink: true,
-                  },
-                }}
-              />
-            </span>
-
-            <span style={style}>
-              <MailIcon
-                style={{ color: modified.email2obrasocial ? "red" : "" }}
-              />
-              <TextField
-                sx={{
-                  margin: "30px 10px 10px 10px",
-                  width: "200px",
-                }}
-                id="outlined-basic"
-                label="email 2 Obra Social"
-                variant="outlined"
-                name="email2obrasocial"
-                value={email2obrasocial}
-                onChange={handleChange}
-                slotProps={{
-                  inputLabel: {
-                    shrink: true,
-                  },
-                }}
-              />
-            </span>
-
-            <span style={style}>
-              <MailIcon
-                style={{ color: modified.email3obrasocial ? "red" : "" }}
-              />
-              <TextField
-                sx={{
-                  margin: "30px 10px 10px 10px",
-                  width: "200px",
-                }}
-                id="outlined-basic"
-                label="email 3 Obra Social"
-                variant="outlined"
-                name="email3obrasocial"
-                value={email3obrasocial}
-                onChange={handleChange}
-                slotProps={{
-                  inputLabel: {
-                    shrink: true,
-                  },
-                }}
-              />
-            </span>
-          </div>
-        </CardContent>
+        </div>
         <CardContent
           sx={{
             display: "grid",
@@ -263,7 +276,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.nroafiliadopaciente ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Nro Afiliado"
               variant="outlined"
@@ -287,7 +304,11 @@ export const EditPatient = (props) => {
               }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Referente Obra Social"
               variant="outlined"
@@ -309,7 +330,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.dnipaciente ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="DNI"
               variant="outlined"
@@ -332,7 +357,11 @@ export const EditPatient = (props) => {
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                sx={{ width: "200px", margin: "10px" }}
+                sx={{
+                  width: "200px",
+                  margin: "10px",
+                  backgroundColor: "white",
+                }}
                 label="Fecha Nacimiento"
                 name="fechanacimientopaciente"
                 format="DD/MM/YYYY"
@@ -364,7 +393,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.direccionpaciente ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Dirección"
               variant="outlined"
@@ -386,7 +419,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.telefonoresponsable ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Teléfono Responsable"
               variant="outlined"
@@ -408,7 +445,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.ciudadpaciente ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Ciudad"
               variant="outlined"
@@ -432,7 +473,11 @@ export const EditPatient = (props) => {
               }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Nombre y Apellido Responsable"
               variant="outlined"
@@ -452,7 +497,11 @@ export const EditPatient = (props) => {
           <span style={style}>
             <SchoolIcon style={{ color: modified.escuela ? "red" : "" }} />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Escuela"
               variant="outlined"
@@ -474,7 +523,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.direccionescuela ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Dirección Escuela"
               variant="outlined"
@@ -496,7 +549,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.telefonoescuela ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Teléfono Escuela"
               variant="outlined"
@@ -518,7 +575,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.aniogradosala ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Año/Grado/Sala"
               variant="outlined"
@@ -544,7 +605,11 @@ export const EditPatient = (props) => {
               }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Nombre y Apellido Doc. Ref."
               variant="outlined"
@@ -568,7 +633,11 @@ export const EditPatient = (props) => {
               }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Nombre Directivo Escuela"
               variant="outlined"
@@ -590,7 +659,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.escuelaespecial ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Escuela Especial"
               variant="outlined"
@@ -616,7 +689,11 @@ export const EditPatient = (props) => {
               }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Nom. y Ap. Doc. Ref. Esc. Esp."
               variant="outlined"
@@ -642,7 +719,11 @@ export const EditPatient = (props) => {
               }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Tel. Ref. Escuela Esp."
               variant="outlined"
@@ -666,7 +747,11 @@ export const EditPatient = (props) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 type="date"
-                sx={{ width: "200px", margin: "10px" }}
+                sx={{
+                  width: "200px",
+                  margin: "10px",
+                  backgroundColor: "white",
+                }}
                 label="Fecha inicio Tto."
                 name="fechainiciotto"
                 value={dayjs(fechainiciotto)}
@@ -727,7 +812,11 @@ export const EditPatient = (props) => {
                 <DatePicker
                   type="date"
                   label="Fecha vto. CUD"
-                  sx={{ width: "200px", margin: "10px" }}
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
+                  }}
                   name="fechavencimientocud"
                   value={dayjs(fechavencimientocud)}
                   format="DD/MM/YYYY"
@@ -759,7 +848,11 @@ export const EditPatient = (props) => {
               style={{ color: modified.diagnosticoprevio ? "red" : "" }}
             />
             <TextField
-              style={{ margin: "10px", width: "200px" }}
+              style={{
+                margin: "10px",
+                width: "200px",
+                backgroundColor: "white",
+              }}
               id="outlined-basic"
               label="Diagnóstico Previo"
               variant="outlined"
@@ -778,7 +871,7 @@ export const EditPatient = (props) => {
         {/* Buttons */}
 
         <CardActions
-          sx={{
+          style={{
             justifyContent: "center",
             width: "100%",
             gap: "10px",
@@ -836,7 +929,7 @@ export const EditPatient = (props) => {
             Volver
           </Button>
         </CardActions>
-      </Card>
+      </div>
     </div>
   );
 };

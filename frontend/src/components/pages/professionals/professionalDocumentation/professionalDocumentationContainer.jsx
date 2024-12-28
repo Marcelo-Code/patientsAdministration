@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProfessionalRecord } from "../../../../api/professionals";
 import { Spinner } from "../../../common/spinner/Spinner";
-import { ProfessionalDocumentation } from "./professionalDocumentation";
+import { ProfessionalDocumentation } from "./ProfessionalDocumentation";
 import { Footer } from "../../../layout/footer/Footer";
 import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 import { GeneralContext } from "../../../../context/GeneralContext";
@@ -10,7 +10,8 @@ import { documentData } from "./DocumentData";
 
 export const ProfessionalDocumentationContainer = () => {
   const { professionalId } = useParams();
-  const { handleGoBack, trimUrl } = useContext(GeneralContext);
+  const { handleGoBack, trimUrl, setPageIsLoading } =
+    useContext(GeneralContext);
   const [professionalRecord, setProfessionalRecord] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [updateList, setUpdateList] = useState(false);
@@ -41,12 +42,13 @@ export const ProfessionalDocumentationContainer = () => {
   };
 
   useEffect(() => {
+    setPageIsLoading(true);
     getProfessionalRecord(professionalId)
       .then((response) => {
         setProfessionalRecord(response);
       })
       .catch((error) => console.log(error));
-  }, [professionalId, updateList]);
+  }, [professionalId, updateList, setPageIsLoading]);
 
   if (!professionalRecord) return <Spinner />;
 
@@ -63,13 +65,12 @@ export const ProfessionalDocumentationContainer = () => {
     updateList,
     setUpdateList,
     trimUrl,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <ProfessionalDocumentation {...professionalDocumentationProps} />
-      <Footer />
     </>
   );
 };

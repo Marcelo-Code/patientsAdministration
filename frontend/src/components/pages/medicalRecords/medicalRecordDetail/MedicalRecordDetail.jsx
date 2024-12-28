@@ -2,15 +2,21 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { format } from "date-fns";
 
-export const MedicalRecordDetail = ({ handleGoBack, medicalDetailRecord }) => {
+export const MedicalRecordDetail = ({
+  handleGoBack,
+  medicalDetailRecord,
+  setPageIsLoading,
+}) => {
+  setPageIsLoading(false);
   return (
     <div
       style={{
-        marginTop: "180px",
+        padding: "20px",
         width: "100vw",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        paddingBottom: "100px",
       }}
     >
       <Card sx={{ width: "80%", height: "auto", minHeight: "300px" }}>

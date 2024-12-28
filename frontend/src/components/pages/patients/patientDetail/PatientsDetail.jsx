@@ -59,6 +59,7 @@ export const PatientsDetail = (props) => {
     fechainiciotto,
     fechaultimaactualizacion,
     handleGoBack,
+    setPageIsLoading,
   } = props;
 
   const buttonStyle = {
@@ -81,6 +82,8 @@ export const PatientsDetail = (props) => {
     marginRight: "5px",
   };
 
+  setPageIsLoading(false);
+
   return (
     <div className="patientDetail">
       <Card
@@ -88,6 +91,7 @@ export const PatientsDetail = (props) => {
           minWidth: "320px",
           width: "60%",
           color: "text.secondary",
+          margin: "20px",
         }}
       >
         <CardContent>

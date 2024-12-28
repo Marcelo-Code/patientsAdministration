@@ -10,7 +10,8 @@ import { Footer } from "../../../../layout/footer/Footer";
 import { NavBarContainer } from "../../../../layout/navBar/NavBarContainer";
 
 export const CreateNoCudBillingContainer = () => {
-  const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
+  const { goBackAction, createList, cancelAction, setPageIsLoading } =
+    useContext(GeneralContext);
   const [professionals, setProfessionals] = useState(null);
   const [patients, setPatients] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +65,7 @@ export const CreateNoCudBillingContainer = () => {
   );
 
   useEffect(() => {
+    setPageIsLoading(true);
     getProfessionalsRecords()
       .then((response) => {
         setProfessionals(response);
@@ -74,7 +76,7 @@ export const CreateNoCudBillingContainer = () => {
         setPatients(response);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [setPageIsLoading]);
 
   if (!professionals || !patients) return <Spinner />;
 
@@ -161,13 +163,12 @@ export const CreateNoCudBillingContainer = () => {
     patientsProps,
     modifiedFlag,
     billRecordNoCud,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
-      <CreateNoCudBilling {...props} />;
-      <Footer />
+      <CreateNoCudBilling {...props} />
     </>
   );
 };

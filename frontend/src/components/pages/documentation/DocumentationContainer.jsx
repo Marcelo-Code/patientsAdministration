@@ -13,7 +13,7 @@ export const DocumentationContainer = () => {
   const [patient, setPatient] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [updateList, setUpdateList] = useState(false);
-  const { handleGoBack } = useContext(GeneralContext);
+  const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
   const { patientId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,13 +39,14 @@ export const DocumentationContainer = () => {
   };
 
   useEffect(() => {
+    setPageIsLoading(true);
     getPatientRecord(patientId)
       .then((response) => {
         setPatient(response);
         // console.log(response);
       })
       .catch((error) => console.log(error));
-  }, [patientId, updateList]);
+  }, [patientId, updateList, setPageIsLoading]);
 
   const handleClick = (name) => {
     setUploadDocumentation((prevState) => ({
@@ -69,13 +70,12 @@ export const DocumentationContainer = () => {
     handleGoBack,
     isLoading,
     setIsLoading,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <Documentation {...props} />;
-      <Footer />
     </>
   );
 };

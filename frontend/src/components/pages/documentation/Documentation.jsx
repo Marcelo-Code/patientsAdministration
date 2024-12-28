@@ -17,6 +17,7 @@ export const Documentation = ({
   handleGoBack,
   isLoading,
   setIsLoading,
+  setPageIsLoading,
 }) => {
   const propsDocumentCard = {
     patient,
@@ -30,6 +31,7 @@ export const Documentation = ({
     isLoading,
     setIsLoading,
   };
+  setPageIsLoading(false);
   return (
     <>
       <div className="documentCardContainer">

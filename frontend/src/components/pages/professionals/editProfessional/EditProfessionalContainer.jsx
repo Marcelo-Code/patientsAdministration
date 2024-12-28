@@ -14,8 +14,13 @@ import { NavBarContainer } from "../../../layout/navBar/NavBarContainer.jsx";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();
-  const { goBackAction, cancelAction, isLoading, setIsLoading } =
-    useContext(GeneralContext);
+  const {
+    goBackAction,
+    cancelAction,
+    isLoading,
+    setIsLoading,
+    setPageIsLoading,
+  } = useContext(GeneralContext);
 
   //hook para guardar los datos que se recuperan de la DB:
   //* Profesional
@@ -50,12 +55,13 @@ export const EditProfessionalContainer = () => {
   };
 
   useEffect(() => {
-    getProfessionalRecord(professionalId)
-      .then((response) => {
-        setProfessionalRecord(response);
-      })
-      .catch((error) => console.log(error));
-  }, [professionalId]);
+    setPageIsLoading(true),
+      getProfessionalRecord(professionalId)
+        .then((response) => {
+          setProfessionalRecord(response);
+        })
+        .catch((error) => console.log(error));
+  }, [professionalId, setPageIsLoading]);
 
   if (!professionalRecord) return <Spinner />;
 
@@ -96,13 +102,12 @@ export const EditProfessionalContainer = () => {
     modified,
     modifiedFlag,
     cancelAction,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <EditProfessional {...props} />
-      <Footer />
     </>
   );
 };

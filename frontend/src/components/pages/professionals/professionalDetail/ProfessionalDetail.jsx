@@ -23,10 +23,14 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import MailIcon from "@mui/icons-material/Mail";
 
-// import "./patientDetail.css";
+import "./professionalDetail.css";
 import { Link } from "react-router-dom";
 
-export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
+export const ProfessionalDetail = ({
+  professionalRecord,
+  handleGoBack,
+  setPageIsLoading,
+}) => {
   const buttonStyle = {
     marginTop: "10px",
     height: "2.5em",
@@ -47,13 +51,16 @@ export const ProfessionalDetail = ({ professionalRecord, handleGoBack }) => {
     marginRight: "5px",
   };
 
+  setPageIsLoading(false);
+
   return (
-    <div className="patientDetail">
+    <div className="professionalDetailContainer">
       <Card
         sx={{
           minWidth: "320px",
           width: "60%",
           color: "text.secondary",
+          margin: "20px",
         }}
       >
         <CardContent>

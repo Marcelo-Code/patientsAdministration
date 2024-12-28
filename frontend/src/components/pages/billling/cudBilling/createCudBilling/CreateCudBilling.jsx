@@ -41,6 +41,7 @@ export const CreateCudBilling = ({
   modifiedFlag,
   cobradaenfecha,
   cudBillingRecord,
+  setPageIsLoading,
 }) => {
   const style = {
     display: "flex",
@@ -49,6 +50,8 @@ export const CreateCudBilling = ({
     with: "300px",
   };
 
+  setPageIsLoading(false);
+
   return (
     <div
       style={{
@@ -56,7 +59,7 @@ export const CreateCudBilling = ({
         width: "100vw",
         justifyContent: "center",
         position: "relative",
-        top: "90px",
+        paddingBottom: "100px",
       }}
     >
       <form>
@@ -64,8 +67,7 @@ export const CreateCudBilling = ({
           <h2
             style={{
               textAlign: "center",
-              width: "100%",
-              margin: "80px 0px 10px 0px",
+              margin: "10px",
               paddingBottom: "10px",
               borderBottom: "2px solid black",
             }}
@@ -89,7 +91,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <MedicationIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Prestación"
                 variant="outlined"
@@ -104,7 +110,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <CardMembershipIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 disabled={true}
                 label="Obra Social Paciente"
@@ -121,7 +131,11 @@ export const CreateCudBilling = ({
                 <DatePicker
                   type="date"
                   views={["year", "month"]}
-                  sx={{ width: "200px", margin: "10px" }}
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
+                  }}
                   label="Período Facturado"
                   name="periodofacturado"
                   format="MM/YYYY"
@@ -142,7 +156,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <ReceiptIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Nro Factura"
                 variant="outlined"
@@ -153,7 +171,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Monto Facturado"
                 variant="outlined"
@@ -166,7 +188,11 @@ export const CreateCudBilling = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
-                  sx={{ width: "200px", margin: "10px" }}
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
+                  }}
                   label="Presentación O.S."
                   name="fechapresentacionos"
                   format="DD/MM/YYYY"
@@ -189,7 +215,11 @@ export const CreateCudBilling = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
-                  sx={{ width: "200px", margin: "10px" }}
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
+                  }}
                   label="Recepción O.S."
                   name="fecharecepcionos"
                   format="DD/MM/YYYY"
@@ -252,7 +282,11 @@ export const CreateCudBilling = ({
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       type="date"
-                      sx={{ width: "200px", margin: "10px" }}
+                      sx={{
+                        width: "200px",
+                        margin: "10px",
+                        backgroundColor: "white",
+                      }}
                       label="Fecha Reclamo"
                       name="fechareclamo"
                       format="DD/MM/YYYY"
@@ -273,7 +307,11 @@ export const CreateCudBilling = ({
                 <span style={style}>
                   <ErrorIcon />
                   <TextField
-                    style={{ margin: "10px", width: "200px" }}
+                    style={{
+                      margin: "10px",
+                      width: "200px",
+                      backgroundColor: "white",
+                    }}
                     id="outlined-basic"
                     label="Medio Reclamo"
                     variant="outlined"
@@ -284,7 +322,11 @@ export const CreateCudBilling = ({
                 <span style={style}>
                   <ErrorIcon />
                   <TextField
-                    style={{ margin: "10px", width: "200px" }}
+                    style={{
+                      margin: "10px",
+                      width: "200px",
+                      backgroundColor: "white",
+                    }}
                     id="outlined-basic"
                     label="Respuesta Reclamo"
                     variant="outlined"
@@ -299,18 +341,22 @@ export const CreateCudBilling = ({
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     type="date"
-                    sx={{ width: "200px", margin: "10px" }}
+                    sx={{
+                      width: "200px",
+                      margin: "10px",
+                      backgroundColor: "white",
+                    }}
                     label="Fecha Cobro"
-                    // name="fechareclamo"
+                    name="fechacobro"
                     format="DD/MM/YYYY"
-                    // onChange={(newDate) => {
-                    //   handleChange({
-                    //     target: {
-                    //       name: "fechareclamo",
-                    //       value: dayjs(newDate).format("YYYY-MM-DD"),
-                    //     },
-                    //   });
-                    // }}
+                    onChange={(newDate) => {
+                      handleChange({
+                        target: {
+                          name: "fechacobro",
+                          value: dayjs(newDate).format("YYYY-MM-DD"),
+                        },
+                      });
+                    }}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -322,7 +368,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 type="number"
                 label="Monto Percibido"
@@ -334,7 +384,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 disabled={true}
                 value={
@@ -351,7 +405,11 @@ export const CreateCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 disabled={true}
                 value={

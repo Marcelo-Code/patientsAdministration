@@ -12,7 +12,8 @@ import { Footer } from "../../../../layout/footer/Footer";
 import { NavBarContainer } from "../../../../layout/navBar/NavBarContainer";
 
 export const CreateCudBillingContainer = () => {
-  const { goBackAction, createList, cancelAction } = useContext(GeneralContext);
+  const { goBackAction, createList, cancelAction, setPageIsLoading } =
+    useContext(GeneralContext);
   const [professionals, setProfessionals] = useState(null);
   const [patients, setPatients] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,6 +71,7 @@ export const CreateCudBillingContainer = () => {
   );
 
   useEffect(() => {
+    setPageIsLoading(true);
     getProfessionalsRecords()
       .then((response) => {
         setProfessionals(response);
@@ -80,7 +82,7 @@ export const CreateCudBillingContainer = () => {
         setPatients(response);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [setPageIsLoading]);
 
   if (!professionals || !patients) return <Spinner />;
 
@@ -170,13 +172,12 @@ export const CreateCudBillingContainer = () => {
     cudBillingRecord,
 
     modified,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <CreateCudBilling {...props} />
-      <Footer />
     </>
   );
 };

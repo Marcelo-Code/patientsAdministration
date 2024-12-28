@@ -82,9 +82,7 @@ export const CreateProfessionalContainer = () => {
   };
   return (
     <>
-      <NavBarContainer />
-      <CreateProfessional {...props} />;
-      <Footer />
+      <CreateProfessional {...props} />
     </>
   );
 };

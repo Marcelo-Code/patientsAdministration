@@ -28,7 +28,7 @@ export const BurguerMenu = () => {
       <div className="bm-menu-title">
         <div>
           <div>Gestión</div>
-          <div>Cud No Cud</div>
+          <div>Cudnocud</div>
         </div>
       </div>
       <div className="bm-menu">

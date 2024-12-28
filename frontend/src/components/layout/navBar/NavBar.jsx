@@ -9,7 +9,7 @@ export const NavBar = ({
   patientsExpirationCudRecords,
   professionalsExpirationRnpRecords,
 }) => {
-  const { darkMode } = useContext(GeneralContext);
+  const { darkMode, pageIsLoading } = useContext(GeneralContext);
   const altertsProps = {
     patientsExpirationCudRecords,
     professionalsExpirationRnpRecords,
@@ -19,19 +19,31 @@ export const NavBar = ({
       className="navBar"
       style={{
         backgroundColor: darkMode ? "rgba(1, 37, 37, 0.48)" : "aqua",
+        position: pageIsLoading ? "absolute" : "relative",
+        display: "flex",
+        justifyContent: "space-around",
+        flexWrap: "wrap",
+        alignItems: "center",
       }}
     >
       <BurguerMenu />
-      <span style={{ display: "flex", alignItems: "center" }}>
-        <img
-          src="/elReinoDelReves.png"
-          alt=""
-          style={{ width: "80px", height: "80px" }}
-        />
-        <div className="title">
-          <span>Gestión</span>
-          <span>Cud No Cud</span>
-        </div>
+      <span
+        style={{
+          // position: pageIsLoading ? "absolute" : "relative",
+          // position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          width: "200px",
+        }}
+      >
+        <span>
+          <img
+            src="/elReinoDelReves.png"
+            alt=""
+            style={{ width: "80px", height: "80px" }}
+          />
+        </span>
+        <span className="title">Gestión Cudnocud</span>
       </span>
       <Alerts {...altertsProps} />
     </div>

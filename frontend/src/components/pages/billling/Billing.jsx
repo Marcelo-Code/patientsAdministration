@@ -23,6 +23,7 @@ export const Billing = ({
   filteredNoCudBillingRecords,
   filteredCudBillingRecords,
   cudBillingRecords,
+  setPageIsLoading,
 }) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
@@ -48,6 +49,8 @@ export const Billing = ({
     filteredNoCudBillingRecords,
   };
 
+  setPageIsLoading(false);
+
   return (
     <div
       style={{
@@ -56,6 +59,7 @@ export const Billing = ({
         width: "100vw ",
         display: "flex",
         flexDirection: "column",
+        paddingBottom: "100px",
       }}
     >
       <div style={{ display: "flex", justifyContent: "center" }}>

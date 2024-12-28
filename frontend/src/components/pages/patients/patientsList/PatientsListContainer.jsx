@@ -1,12 +1,14 @@
 import { PatientsList } from "./PatientsList";
 import "./patientsList.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { getPatientsRecords } from "../../../../api/patients";
 import { Footer } from "../../../layout/footer/Footer";
 import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
+import { GeneralContext } from "../../../../context/GeneralContext";
 
 export const PatientsListContainer = () => {
+  const { setPageIsLoading } = useContext(GeneralContext);
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -15,12 +17,13 @@ export const PatientsListContainer = () => {
   };
 
   useEffect(() => {
+    setPageIsLoading(true);
     getPatientsRecords()
       .then((response) => {
         setPatientsRecords(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList]);
+  }, [updateList, setPageIsLoading]);
 
   if (!patientsRecords) return <Spinner />;
 
@@ -30,13 +33,12 @@ export const PatientsListContainer = () => {
     updateList,
     setUpdateList,
     handleEditModeChange,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
-      <PatientsList {...props} />;
-      <Footer />
+      <PatientsList {...props} />
     </>
   );
 };

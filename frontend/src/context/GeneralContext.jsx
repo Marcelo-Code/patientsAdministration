@@ -16,6 +16,8 @@ export const GeneralContextProvider = ({ children }) => {
 
   const [darkMode, setDarkMode] = useState(false);
 
+  const [pageIsLoading, setPageIsLoading] = useState(false);
+
   const reloadPage = () => {
     window.location.reload();
   };
@@ -191,6 +193,8 @@ export const GeneralContextProvider = ({ children }) => {
     removeAccentsAndSpecialChars,
     darkMode,
     setDarkMode,
+    pageIsLoading,
+    setPageIsLoading,
   };
 
   return (

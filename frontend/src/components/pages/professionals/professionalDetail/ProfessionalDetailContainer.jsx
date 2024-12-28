@@ -10,27 +10,30 @@ import { Footer } from "../../../layout/footer/Footer";
 import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const ProfessionalDetailContainer = () => {
-  const { handleGoBack } = useContext(GeneralContext);
+  const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
   const [professionalRecord, setProfessionalRecord] = useState(null);
   const { professionalId } = useParams();
 
   useEffect(() => {
+    setPageIsLoading(true);
     getProfessionalRecord(professionalId)
       .then((response) => setProfessionalRecord(response))
       .catch((error) => console.log(error));
-  }, [professionalId]);
+  }, [professionalId, setPageIsLoading]);
 
   if (!professionalRecord) return <Spinner />;
 
   console.log(professionalRecord);
 
-  const professionalDetailProps = { handleGoBack, professionalRecord };
+  const professionalDetailProps = {
+    handleGoBack,
+    professionalRecord,
+    setPageIsLoading,
+  };
 
   return (
     <>
-      <NavBarContainer />
-      <ProfessionalDetail {...professionalDetailProps} />;
-      <Footer />
+      <ProfessionalDetail {...professionalDetailProps} />{" "}
     </>
   );
 };

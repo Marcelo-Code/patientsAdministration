@@ -38,6 +38,7 @@ export const CreateNoCudBilling = ({
   patientsProps,
   modifiedFlag,
   billRecordNoCud,
+  setPageIsLoading,
 }) => {
   const style = {
     display: "flex",
@@ -46,6 +47,8 @@ export const CreateNoCudBilling = ({
     with: "300px",
   };
 
+  setPageIsLoading(false);
+
   return (
     <div
       style={{
@@ -53,7 +56,6 @@ export const CreateNoCudBilling = ({
         width: "100vw",
         justifyContent: "center",
         position: "relative",
-        top: "90px",
       }}
     >
       <form>
@@ -61,8 +63,8 @@ export const CreateNoCudBilling = ({
           <h2
             style={{
               textAlign: "center",
-              width: "100%",
-              margin: "80px 0px 10px 0px",
+              // width: "100%",
+              margin: "10px",
               paddingBottom: "10px",
               borderBottom: "2px solid black",
             }}
@@ -86,7 +88,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <MedicationIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Prestación"
                 variant="outlined"
@@ -101,7 +107,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Modo Pago"
                 variant="outlined"
@@ -113,7 +123,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Medio de Pago"
                 variant="outlined"
@@ -125,7 +139,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Destinatario Pago"
                 variant="outlined"
@@ -137,7 +155,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 type="number"
                 label="Monto Sesión"
@@ -149,7 +171,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 type="number"
                 disabled={true}
@@ -167,7 +193,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <MonetizationOnIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 type="number"
                 disabled={true}
@@ -190,7 +220,11 @@ export const CreateNoCudBilling = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
-                  sx={{ width: "200px", margin: "10px" }}
+                  sx={{
+                    width: "200px",
+                    margin: "10px",
+                    backgroundColor: "white",
+                  }}
                   label="Fecha de Pago"
                   name="fechadepago"
                   format="DD/MM/YYYY"
@@ -211,7 +245,11 @@ export const CreateNoCudBilling = ({
             <span style={style}>
               <PersonIcon />
               <TextField
-                style={{ margin: "10px", width: "200px" }}
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
                 id="outlined-basic"
                 label="Destinatario Pago"
                 variant="outlined"

@@ -25,6 +25,7 @@ export const EditMedicalRecord = ({
   modifiedFlag,
   cancelAction,
   isLoading,
+  setPageIsLoading,
 }) => {
   //Props para el menú de tipo de consulta
   const arrayMeetings = meetings;
@@ -50,11 +51,13 @@ export const EditMedicalRecord = ({
     modified: modified.idprofesional,
   };
 
+  setPageIsLoading(false);
+
   return (
     <div className="medicalHistoryContainer">
       <span
         style={{
-          marginTop: "180px",
+          padding: "10px",
           width: "80%",
           minWidth: "280px",
           display: "flex",
@@ -66,7 +69,9 @@ export const EditMedicalRecord = ({
           alignItems: "center",
         }}
       >
-        <h2 style={{ marginRight: "10px" }}>Editar Report: </h2>
+        <h2 style={{ marginRight: "10px", textAlign: "center" }}>
+          Editar Report:{" "}
+        </h2>
         <h2> {patient.nombreyapellidopaciente}</h2>
       </span>
       <div
@@ -80,12 +85,12 @@ export const EditMedicalRecord = ({
           gap: "10px",
           borderBottom: "2px solid black",
           marginBottom: "10px",
-          paddingBottom: "10px",
+          padding: "10px",
         }}
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            sx={{ width: "150px" }}
+            sx={{ width: "150px", backgroundColor: "white" }}
             name="fechaConsulta"
             value={dayjs(medicalRecord.fechaconsulta)}
             format="DD-MM-YYYY"

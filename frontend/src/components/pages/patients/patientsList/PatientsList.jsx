@@ -24,7 +24,9 @@ export const PatientsList = ({
   updateList,
   setUpdateList,
   handleEditModeChange,
+  setPageIsLoading,
 }) => {
+  setPageIsLoading(false);
   return (
     <>
       <div className="patientsContainer">

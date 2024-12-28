@@ -8,6 +8,7 @@ import {
   DeleteProfessionalDocumentFromBucket,
   uploadProfessionalDocumentToBucket,
 } from "../../../../api/professionalsDocuments";
+import "./professionalDocumentation.css";
 
 /* eslint-disable react/prop-types */
 export const ProfessionalDocumentation = ({
@@ -21,9 +22,11 @@ export const ProfessionalDocumentation = ({
   updateList,
   setUpdateList,
   trimUrl,
+  setPageIsLoading,
 }) => {
+  setPageIsLoading(false);
   return (
-    <div className="documentCardContainer">
+    <div className="professionalDocumentationContainer">
       <div
         style={{
           fontFamily: "Arial",

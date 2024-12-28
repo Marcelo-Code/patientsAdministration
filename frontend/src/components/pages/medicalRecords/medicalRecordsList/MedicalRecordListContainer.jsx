@@ -7,8 +7,6 @@ import { format } from "date-fns";
 import { meetings } from "../../../common/Menu/meetings";
 import { getMedicalRecords } from "../../../../api/medicalRecords";
 import { getPatientRecord } from "../../../../api/patients";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const MedicalRecordListContainer = () => {
   const [patientFilter, setPatientFilter] = useState("Filtrar Paciente");
@@ -21,7 +19,8 @@ export const MedicalRecordListContainer = () => {
 
   const { patientId = null, professionalId = null } = useParams();
 
-  const { sortRecords, createList, handleGoBack } = useContext(GeneralContext);
+  const { sortRecords, createList, handleGoBack, setPageIsLoading } =
+    useContext(GeneralContext);
   const [records, setRecords] = useState(null);
   const [listRecords, setListRecords] = useState(null);
   const [filters, setFilters] = useState({});
@@ -124,6 +123,7 @@ export const MedicalRecordListContainer = () => {
   };
 
   useEffect(() => {
+    setPageIsLoading(true);
     let filteredRecords;
     getMedicalRecords()
       .then((response) => {
@@ -148,7 +148,7 @@ export const MedicalRecordListContainer = () => {
         }
       })
       .catch((error) => console.log(error));
-  }, [updateFlag, patientId, professionalId]);
+  }, [updateFlag, patientId, professionalId, setPageIsLoading]);
 
   useEffect(() => {
     if (listRecords) {
@@ -365,13 +365,12 @@ export const MedicalRecordListContainer = () => {
     isChecked,
     handleCheckboxChange,
     patientId,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
-      <MedicalRecordsList {...props} />;
-      <Footer />
+      <MedicalRecordsList {...props} />
     </>
   );
 };

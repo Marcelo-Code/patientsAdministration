@@ -24,7 +24,9 @@ export const CreateMedicalRecord = ({
   handleSubmit,
   modified,
   patientId,
+  setPageIsLoading,
 }) => {
+  setPageIsLoading(false);
   return (
     <div className="medicalRecordContainer">
       <span
@@ -35,7 +37,7 @@ export const CreateMedicalRecord = ({
           flexWrap: "wrap",
           justifyContent: "center",
           borderBottom: "2px solid black",
-          marginBottom: "10px",
+          margin: "10px",
           paddingBottom: "10px",
           alignItems: "center",
         }}

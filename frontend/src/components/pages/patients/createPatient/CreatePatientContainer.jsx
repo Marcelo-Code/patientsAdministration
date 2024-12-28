@@ -101,9 +101,7 @@ export const CreatePatientContainer = () => {
   };
   return (
     <>
-      <NavBarContainer />
-      <CreatePatient {...props} />;
-      <Footer />
+      <CreatePatient {...props} />
     </>
   );
 };

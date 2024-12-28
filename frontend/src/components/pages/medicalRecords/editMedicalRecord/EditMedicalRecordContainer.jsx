@@ -17,8 +17,14 @@ import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const EditMedicalRecordContainer = () => {
   const { medicalRecordId } = useParams();
-  const { handleGoBack, goBackAction, cancelAction, isLoading, setIsLoading } =
-    useContext(GeneralContext);
+  const {
+    handleGoBack,
+    goBackAction,
+    cancelAction,
+    isLoading,
+    setIsLoading,
+    setPageIsLoading,
+  } = useContext(GeneralContext);
 
   //hooks para guardar los datos que se recuperan de la DB:
   //* Paciente de la consulta
@@ -63,6 +69,7 @@ export const EditMedicalRecordContainer = () => {
   };
 
   useEffect(() => {
+    setPageIsLoading(true);
     const getObjects = async () => {
       try {
         const response = await getMedicalRecord(medicalRecordId);
@@ -82,7 +89,7 @@ export const EditMedicalRecordContainer = () => {
       }
     };
     getObjects();
-  }, [medicalRecordId]);
+  }, [medicalRecordId, setPageIsLoading]);
 
   if (!medicalRecord || !patient || !professional || !arrayProfessionals)
     return <Spinner />;
@@ -112,12 +119,11 @@ export const EditMedicalRecordContainer = () => {
     modifiedFlag,
     cancelAction,
     isLoading,
+    setPageIsLoading,
   };
   return (
     <>
-      <NavBarContainer />
-      <EditMedicalRecord {...props} />;
-      <Footer />
+      <EditMedicalRecord {...props} />
     </>
   );
 };

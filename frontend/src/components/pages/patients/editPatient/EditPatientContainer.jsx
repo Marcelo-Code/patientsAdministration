@@ -9,11 +9,11 @@ import {
 } from "../../../../api/patients";
 import { EditPatient } from "./EditPatient";
 import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
-  const { goBackAction, cancelAction } = useContext(GeneralContext);
+  const { goBackAction, cancelAction, setPageIsLoading } =
+    useContext(GeneralContext);
   const [isLoading, setIsLoading] = useState(false);
 
   //hook para guardar los datos que se recuperan de la DB:
@@ -66,12 +66,13 @@ export const EditPatientContainer = () => {
   };
 
   useEffect(() => {
-    getPatientRecord(patientId)
-      .then((response) => {
-        setPatientRecord(response);
-      })
-      .catch((error) => console.log(error));
-  }, [patientId]);
+    setPageIsLoading(true),
+      getPatientRecord(patientId)
+        .then((response) => {
+          setPatientRecord(response);
+        })
+        .catch((error) => console.log(error));
+  }, [patientId, setPageIsLoading]);
 
   if (!patientRecord) return <Spinner />;
 
@@ -132,13 +133,12 @@ export const EditPatientContainer = () => {
     modified,
     modifiedFlag,
     cancelAction,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
-      <EditPatient {...props} />;
-      <Footer />
+      <EditPatient {...props} />
     </>
   );
 };

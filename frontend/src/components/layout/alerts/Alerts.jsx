@@ -8,8 +8,8 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import "./alerts.css";
 
 export function Alerts({
-  patientsExpirationCudRecords,
-  professionalsExpirationRnpRecords,
+  patientsExpirationCudRecords = [],
+  professionalsExpirationRnpRecords = [],
 }) {
   const [state, setState] = React.useState({
     top: false,

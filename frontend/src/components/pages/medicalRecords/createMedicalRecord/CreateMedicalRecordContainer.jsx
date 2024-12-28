@@ -38,9 +38,11 @@ export const CreateMedicalRecordContainer = () => {
     descripcion: "",
   };
   const [medicalRecord, setMedicalRecord] = useState(initialState);
-  const { createList, goBackAction, cancelAction } = useContext(GeneralContext);
+  const { createList, goBackAction, cancelAction, setPageIsLoading } =
+    useContext(GeneralContext);
 
   useEffect(() => {
+    setPageIsLoading(true);
     getMedicalRecords()
       .then((response) => {
         setMedicalRecords(response);
@@ -54,7 +56,7 @@ export const CreateMedicalRecordContainer = () => {
     getProfessionalsRecords()
       .then((response) => setProfessionalsRecords(response))
       .catch((error) => console.log(error));
-  }, [patientId]);
+  }, [patientId, setPageIsLoading]);
 
   if (!medicalRecords || !professionalsRecords) return <Spinner />;
 
@@ -145,13 +147,12 @@ export const CreateMedicalRecordContainer = () => {
     modified,
     modifiedFlag,
     patientId,
+    setPageIsLoading,
   };
 
   return (
     <>
-      <NavBarContainer />
       <CreateMedicalRecord {...props} />;
-      <Footer />
     </>
   );
 };

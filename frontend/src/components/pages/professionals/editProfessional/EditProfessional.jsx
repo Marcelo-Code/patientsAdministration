@@ -53,15 +53,18 @@ export const EditProfessional = (props) => {
     modified,
     modifiedFlag,
     cancelAction,
+    setPageIsLoading,
   } = props;
+
+  setPageIsLoading(false);
 
   return (
     <div
       style={{
-        marginTop: "30px",
         width: "100vw",
         display: "flex",
         justifyContent: "center",
+        paddingBottom: "100px",
       }}
     >
       <FormGroup
@@ -69,6 +72,7 @@ export const EditProfessional = (props) => {
           minWidth: "320px",
           width: "60%",
           color: "text.secondary",
+          margin: "20px",
         }}
       >
         <Box

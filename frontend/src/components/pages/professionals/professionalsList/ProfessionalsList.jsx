@@ -24,7 +24,9 @@ export const ProfessionalsList = ({
   updateList,
   setUpdateList,
   handleChange,
+  setPageIsLoading,
 }) => {
+  setPageIsLoading(false);
   return (
     <>
       <div className="professionalsContainer">

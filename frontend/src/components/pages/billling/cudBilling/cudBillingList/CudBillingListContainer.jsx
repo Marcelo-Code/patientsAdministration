@@ -8,8 +8,6 @@ import {
   getCudBillingRecord,
   updateCudBillingRecord,
 } from "../../../../../api/cudBilling";
-import { NavBar } from "../../../../layout/navBar/NavBar";
-import { Footer } from "../../../../layout/footer/Footer";
 
 export const CudBillingListContainer = ({
   filteredCudBillingRecords,

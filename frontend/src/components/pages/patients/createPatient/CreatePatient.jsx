@@ -56,7 +56,7 @@ export const CreatePatient = ({
         width: "100vw",
         justifyContent: "center",
         position: "relative",
-        top: 0,
+        paddingBottom: "100px",
       }}
     >
       <form>
@@ -65,7 +65,7 @@ export const CreatePatient = ({
             style={{
               textAlign: "center",
               width: "100%",
-              margin: "80px 0px 10px 0px",
+              margin: "10px",
               paddingBottom: "10px",
               borderBottom: "2px solid black",
             }}
