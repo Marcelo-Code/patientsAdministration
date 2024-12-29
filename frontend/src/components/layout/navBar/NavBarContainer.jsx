@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { NavBar } from "./NavBar";
 import { getPatientsRecords } from "../../../api/patients";
 import { getProfessionalsRecords } from "../../../api/professionals";
-import { Spinner } from "../../common/spinner/Spinner";
 import dayjs from "dayjs";
 
 export const NavBarContainer = () => {
@@ -26,9 +25,9 @@ export const NavBarContainer = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  if (!patientsRecords || !professionalsRecords) return <Spinner />;
+  // if (!patientsRecords || !professionalsRecords) return <Spinner />;
 
-  const professionalsExpirationRnpRecords = professionalsRecords
+  const professionalsExpirationRnpRecords = (professionalsRecords || [])
     .map((record) => {
       const currentDate = dayjs();
       const expirationDate = dayjs(record.fechavencimientornpprofesional);
@@ -40,7 +39,7 @@ export const NavBarContainer = () => {
     })
     .filter((record) => record.diasexpiracionrnp < 30);
 
-  const filteredPatientsRecords = patientsRecords.filter(
+  const filteredPatientsRecords = (patientsRecords || []).filter(
     (record) => record.cud
   );
 

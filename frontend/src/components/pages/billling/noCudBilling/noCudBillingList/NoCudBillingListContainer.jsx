@@ -7,8 +7,6 @@ import {
   getNoCudBillingRecord,
   updateNoCudBillingRecord,
 } from "../../../../../api/noCudBilling";
-import { NavBar } from "../../../../layout/navBar/NavBar";
-import { Footer } from "../../../../layout/footer/Footer";
 
 export const NoCudBillingListContainer = ({
   setNoCudBillingRecords,

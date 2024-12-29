@@ -29,8 +29,6 @@ export const NavBar = ({
       <BurguerMenu />
       <span
         style={{
-          // position: pageIsLoading ? "absolute" : "relative",
-          // position: "absolute",
           display: "flex",
           alignItems: "center",
           width: "200px",
