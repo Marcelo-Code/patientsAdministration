@@ -23,109 +23,108 @@ import { Footer } from "./components/layout/footer/Footer";
 function App() {
   return (
     <>
-      <div
+      {/* <div
         style={{
           backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("/assets/wallpaper.jpg")`,
           backgroundSize: "center",
           backgroundRepeat: "repeat",
           backgroundAttachment: "fixed",
-          // position: "fixed",
           top: 0,
           width: "100%",
           height: "100%",
           zIndex: -1,
         }}
-      >
-        <NavBarContainer />
-        <Routes>
-          <Route path="/" element={<PatientsListContainer />} />
-          <Route
-            path="/documentation/:patientId"
-            element={<DocumentationContainer />}
-          />
-          <Route
-            path="/professionalDocumentation/:professionalId"
-            element={<ProfessionalDocumentationContainer />}
-          />
+      > */}
+      <NavBarContainer />
+      <Routes>
+        <Route path="/" element={<PatientsListContainer />} />
+        <Route
+          path="/documentation/:patientId"
+          element={<DocumentationContainer />}
+        />
+        <Route
+          path="/professionalDocumentation/:professionalId"
+          element={<ProfessionalDocumentationContainer />}
+        />
 
-          <Route
-            path={"/patientsDetail/:patientId"}
-            element={<PatientsDetailContainer />}
-          />
-          <Route
-            path={"/editPatient/:patientId"}
-            element={<EditPatientContainer />}
-          />
-          <Route
-            path={"/editProfessional/:professionalId"}
-            element={<EditProfessionalContainer />}
-          />
-          <Route
-            path={"/billingPatient/:patientId"}
-            element={<BillingContainer />}
-          />
-          <Route
-            path={"/professionalBilling/:professionalId"}
-            element={<BillingContainer />}
-          />
-          <Route
-            path={"/editMedicalRecord/:medicalRecordId"}
-            element={<EditMedicalRecordContainer />}
-          />
-          <Route
-            path={"/professionalsList"}
-            element={<ProfessionalsListContainer />}
-          />
-          <Route
-            path={"/professionalDetail/:professionalId"}
-            element={<ProfessionalDetailContainer />}
-          />
-          <Route
-            path={"/createProfessional"}
-            element={<CreateProfessionalContainer />}
-          />
-          <Route path={"/createPatient"} element={<CreatePatientContainer />} />
-          <Route path={"/billing"} element={<BillingContainer />} />
-          <Route
-            path={"/medicalRecordsList"}
-            element={<MedicalRecordListContainer />}
-          />
-          <Route
-            path={"/medicalRecordsList/:patientId"}
-            element={<MedicalRecordListContainer />}
-          />
-          <Route
-            path={"/professionalMedicalRecordsList/:professionalId"}
-            element={<MedicalRecordListContainer />}
-          />
+        <Route
+          path={"/patientsDetail/:patientId"}
+          element={<PatientsDetailContainer />}
+        />
+        <Route
+          path={"/editPatient/:patientId"}
+          element={<EditPatientContainer />}
+        />
+        <Route
+          path={"/editProfessional/:professionalId"}
+          element={<EditProfessionalContainer />}
+        />
+        <Route
+          path={"/billingPatient/:patientId"}
+          element={<BillingContainer />}
+        />
+        <Route
+          path={"/professionalBilling/:professionalId"}
+          element={<BillingContainer />}
+        />
+        <Route
+          path={"/editMedicalRecord/:medicalRecordId"}
+          element={<EditMedicalRecordContainer />}
+        />
+        <Route
+          path={"/professionalsList"}
+          element={<ProfessionalsListContainer />}
+        />
+        <Route
+          path={"/professionalDetail/:professionalId"}
+          element={<ProfessionalDetailContainer />}
+        />
+        <Route
+          path={"/createProfessional"}
+          element={<CreateProfessionalContainer />}
+        />
+        <Route path={"/createPatient"} element={<CreatePatientContainer />} />
+        <Route path={"/billing"} element={<BillingContainer />} />
+        <Route
+          path={"/medicalRecordsList"}
+          element={<MedicalRecordListContainer />}
+        />
+        <Route
+          path={"/medicalRecordsList/:patientId"}
+          element={<MedicalRecordListContainer />}
+        />
+        <Route
+          path={"/professionalMedicalRecordsList/:professionalId"}
+          element={<MedicalRecordListContainer />}
+        />
 
-          <Route
-            path={"/createMedicalRecord"}
-            element={<CreateMedicalRecordContainer />}
-          />
-          <Route
-            path={"/createMedicalRecord/:patientId"}
-            element={<CreateMedicalRecordContainer />}
-          />
-          <Route
-            path={"/createMedicalRecord"}
-            element={<CreateMedicalRecordContainer />}
-          />
-          <Route
-            path={"/createCudBilling"}
-            element={<CreateCudBillingContainer />}
-          />
-          <Route
-            path={"/createNoCudBilling"}
-            element={<CreateNoCudBillingContainer />}
-          />
-          <Route
-            path={"/medicalRecordDetail/:medicalRecordId"}
-            element={<MedicalRecordDetailContainer />}
-          />
-        </Routes>
-        <Footer />
-      </div>
+        <Route
+          path={"/createMedicalRecord"}
+          element={<CreateMedicalRecordContainer />}
+        />
+        <Route
+          path={"/createMedicalRecord/:patientId"}
+          element={<CreateMedicalRecordContainer />}
+        />
+        <Route
+          path={"/createMedicalRecord"}
+          element={<CreateMedicalRecordContainer />}
+        />
+        <Route
+          path={"/createCudBilling"}
+          element={<CreateCudBillingContainer />}
+        />
+        <Route
+          path={"/createNoCudBilling"}
+          element={<CreateNoCudBillingContainer />}
+        />
+        <Route
+          path={"/medicalRecordDetail/:medicalRecordId"}
+          element={<MedicalRecordDetailContainer />}
+        />
+      </Routes>
+      <Footer />
+      {/* </div> */}
     </>
   );
 }
