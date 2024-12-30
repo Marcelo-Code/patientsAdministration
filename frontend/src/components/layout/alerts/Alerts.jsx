@@ -65,7 +65,7 @@ export function Alerts({
             }}
           >
             <span>
-              <h3 style={{ textAlign: "center" }}>Paciente</h3>
+              <h3 style={{ textAlign: "left" }}>Paciente</h3>
             </span>
             <span>
               <h3 style={{ textAlign: "left" }}>Días</h3>
@@ -88,7 +88,7 @@ export function Alerts({
           ))}
         </div>
       )}
-      <h3 style={{ textAlign: "center" }}>RNP</h3>
+      <h3 style={{ textAlign: "center", marginTop: "30px" }}>RNP</h3>
       {professionalsExpirationRnpRecords.length === 0 ? (
         <h2 style={{ textAlign: "center" }}>No hay vencimientos</h2>
       ) : (
@@ -101,7 +101,7 @@ export function Alerts({
             }}
           >
             <span>
-              <h3 style={{ textAlign: "center" }}>Profesional</h3>
+              <h3 style={{ textAlign: "left" }}>Profesional</h3>
             </span>
             <span>
               <h3 style={{ textAlign: "left" }}>Días</h3>
