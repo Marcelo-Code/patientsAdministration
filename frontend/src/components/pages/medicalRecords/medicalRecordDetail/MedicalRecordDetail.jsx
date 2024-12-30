@@ -65,7 +65,7 @@ export const MedicalRecordDetail = ({
           <Typography
             sx={{
               marginTop: "10px",
-              height: "100px",
+              height: "auto",
               textOverflow: "ellipsis",
               overflow: "hidden",
               fontFamily: "Arial",
