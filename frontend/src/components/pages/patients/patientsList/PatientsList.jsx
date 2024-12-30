@@ -25,6 +25,8 @@ export const PatientsList = ({
   setUpdateList,
   handleEditModeChange,
   setPageIsLoading,
+  updateAlertsList,
+  setUpdateAlertsList,
 }) => {
   setPageIsLoading(false);
   return (
@@ -143,6 +145,7 @@ export const PatientsList = ({
                           .then((response) => {
                             console.log(response);
                             setUpdateList(!updateList);
+                            setUpdateAlertsList(!updateAlertsList);
                           })
                           .catch((error) => console.log(error))
                       }

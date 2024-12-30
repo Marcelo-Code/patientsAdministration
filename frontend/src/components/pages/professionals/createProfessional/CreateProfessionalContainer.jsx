@@ -3,12 +3,16 @@ import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { CreateProfessional } from "./CreateProfessional";
 import { createProfessionalRecord } from "../../../../api/professionals";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const CreateProfessionalContainer = () => {
-  const { cancelAction, goBackAction, isLoading, setIsLoading } =
-    useContext(GeneralContext);
+  const {
+    cancelAction,
+    goBackAction,
+    isLoading,
+    setIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
+  } = useContext(GeneralContext);
 
   //hook para guardar los datos del nuevo profesional
 
@@ -65,6 +69,7 @@ export const CreateProfessionalContainer = () => {
       .then((response) => {
         console.log(response);
         setIsLoading(false);
+        setUpdateAlertsList(!updateAlertsList);
       })
       .catch((error) => {
         console.log(error.message);

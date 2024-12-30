@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { GeneralContext } from "../../../context/GeneralContext";
+import "./footer.css";
 
 export const Footer = () => {
   const { darkMode, pageIsLoading } = useContext(GeneralContext);
@@ -10,23 +11,39 @@ export const Footer = () => {
         position: pageIsLoading ? "absolute" : "relative",
         bottom: "0",
         width: "100vw",
-        height: "200px",
+        height: "300px",
         textAlign: "center",
-        paddingTop: "60px",
+        marginTop: "100px",
       }}
     >
-      Footer
-      <div
-        style={{
-          backgroundColor: "rgba(0,0,0,0.3)",
-          position: "absolute",
-          bottom: "0",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        😊😊
+      <div style={{ textAlign: "center" }}>
+        <div className="title">Gestión Cudnocud</div>
+        <div>
+          <b>E-mail para recepción CVs:</b> equiporeinodelreves@gmail.com
+        </div>
+        <div>
+          <b>E-mail para administración:</b> elreinodelreves.admi@gmail.com
+        </div>
+        <div>
+          <b>
+            E-mail para coordinación clínica -informes institucionales e
+            interinstitucionales-:
+          </b>{" "}
+          coordinacionclinica.reinodreves@gmail.com
+        </div>
+        <div>
+          <b>E-mail inscripción a espacios de-formación:</b>{" "}
+          inscripcioneselreinodelreves@gmail.com
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <b>Teléfono administración:</b> 3416529113
+        </div>
+        <div>
+          <b>Horarios de atención administración:</b> martes, jueves y viernes 9
+          hs a 14 hs
+        </div>
       </div>
+      <div className="name">Marcelo Feltes Dos Mil Veinticinco</div>
     </div>
   );
 };

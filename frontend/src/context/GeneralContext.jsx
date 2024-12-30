@@ -18,6 +18,8 @@ export const GeneralContextProvider = ({ children }) => {
 
   const [pageIsLoading, setPageIsLoading] = useState(false);
 
+  const [updateAlertsList, setUpdateAlertsList] = useState(false);
+
   const reloadPage = () => {
     window.location.reload();
   };
@@ -195,6 +197,8 @@ export const GeneralContextProvider = ({ children }) => {
     setDarkMode,
     pageIsLoading,
     setPageIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
   };
 
   return (

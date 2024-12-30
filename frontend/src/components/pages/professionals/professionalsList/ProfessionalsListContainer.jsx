@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { ProfessionalsList } from "./ProfessionalsList";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { getProfessionalsRecords } from "../../../../api/professionals";
-import { Footer } from "../../../layout/footer/Footer";
 import { GeneralContext } from "../../../../context/GeneralContext";
 
 export const ProfessionalsListContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const { setPageIsLoading } = useContext(GeneralContext);
+  const { setPageIsLoading, updateAlertsList, setUpdateAlertsList } =
+    useContext(GeneralContext);
   const handleChange = (e) => {
     setEditMode(e.target.checked);
   };
@@ -30,6 +30,8 @@ export const ProfessionalsListContainer = () => {
     setUpdateList,
     handleChange,
     setPageIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
   };
 
   return (

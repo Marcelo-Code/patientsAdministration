@@ -16,14 +16,18 @@ export const NavBar = ({
   };
   return (
     <div
-      className="navBar"
       style={{
         backgroundColor: darkMode ? "rgba(1, 37, 37, 0.48)" : "aqua",
         position: pageIsLoading ? "absolute" : "relative",
+        top: 0,
         display: "flex",
         justifyContent: "space-around",
         flexWrap: "wrap",
         alignItems: "center",
+        zIndex: 4,
+        padding: "20px",
+        width: "100vw",
+        height: "auto",
       }}
     >
       <BurguerMenu />

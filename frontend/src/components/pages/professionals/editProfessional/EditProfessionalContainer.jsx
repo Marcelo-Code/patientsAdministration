@@ -9,8 +9,6 @@ import {
   getProfessionalRecord,
   updateProfessionalRecord,
 } from "../../../../api/professionals.js";
-import { Footer } from "../../../layout/footer/Footer.jsx";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer.jsx";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();
@@ -20,6 +18,8 @@ export const EditProfessionalContainer = () => {
     isLoading,
     setIsLoading,
     setPageIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
   } = useContext(GeneralContext);
 
   //hook para guardar los datos que se recuperan de la DB:
@@ -76,6 +76,7 @@ export const EditProfessionalContainer = () => {
       .then((response) => {
         console.log(response);
         setIsLoading(false);
+        setUpdateAlertsList(!updateAlertsList);
       })
       .catch((error) => {
         console.log(error.message);

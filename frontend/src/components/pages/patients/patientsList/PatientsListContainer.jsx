@@ -6,7 +6,8 @@ import { getPatientsRecords } from "../../../../api/patients";
 import { GeneralContext } from "../../../../context/GeneralContext";
 
 export const PatientsListContainer = () => {
-  const { setPageIsLoading } = useContext(GeneralContext);
+  const { setPageIsLoading, updateAlertsList, setUpdateAlertsList } =
+    useContext(GeneralContext);
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -32,6 +33,8 @@ export const PatientsListContainer = () => {
     setUpdateList,
     handleEditModeChange,
     setPageIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
   };
 
   return (

@@ -3,12 +3,16 @@ import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { createPatientRecord } from "../../../../api/patients";
 import { CreatePatient } from "./CreatePatient";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const CreatePatientContainer = () => {
-  const { cancelAction, goBackAction, isLoading, setIsLoading } =
-    useContext(GeneralContext);
+  const {
+    cancelAction,
+    goBackAction,
+    isLoading,
+    setIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
+  } = useContext(GeneralContext);
 
   //hook para guardar los datos del nuevo paciente
 
@@ -82,6 +86,7 @@ export const CreatePatientContainer = () => {
       .then((response) => {
         console.log(response);
         setIsLoading(false);
+        setUpdateAlertsList(!updateAlertsList);
       })
       .catch((error) => {
         console.log(error.message);

@@ -23,18 +23,6 @@ import { Footer } from "./components/layout/footer/Footer";
 function App() {
   return (
     <>
-      {/* <div
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.2)), url("/assets/wallpaper.jpg")`,
-          backgroundSize: "center",
-          backgroundRepeat: "repeat",
-          backgroundAttachment: "fixed",
-          top: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: -1,
-        }}
-      > */}
       <NavBarContainer />
       <Routes>
         <Route path="/" element={<PatientsListContainer />} />
@@ -124,7 +112,6 @@ function App() {
         />
       </Routes>
       <Footer />
-      {/* </div> */}
     </>
   );
 }

@@ -137,6 +137,7 @@ export function Alerts({
           onOpen={toggleDrawer("right", true)}
           disableScrollLock={true}
           transitionDuration={{ enter: 500, exit: 500 }}
+          PaperProps={{ style: { overflowX: "hidden" } }}
         >
           {list("right")}
         </SwipeableDrawer>

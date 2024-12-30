@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavBar } from "./NavBar";
 import { getPatientsRecords } from "../../../api/patients";
 import { getProfessionalsRecords } from "../../../api/professionals";
 import dayjs from "dayjs";
+import { GeneralContext } from "../../../context/GeneralContext";
 
 export const NavBarContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
+  const { updateAlertsList } = useContext(GeneralContext);
   useEffect(() => {
     getPatientsRecords()
       .then((response) => {
@@ -18,12 +20,7 @@ export const NavBarContainer = () => {
         setProfessionalsRecords(response);
       })
       .catch((error) => console.log(error));
-    getProfessionalsRecords()
-      .then((response) => {
-        setProfessionalsRecords(response);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  }, [updateAlertsList]);
 
   // if (!patientsRecords || !professionalsRecords) return <Spinner />;
 

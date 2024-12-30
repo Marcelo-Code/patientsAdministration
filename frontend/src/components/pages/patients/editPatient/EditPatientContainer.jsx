@@ -8,12 +8,16 @@ import {
   updatePatientRecord,
 } from "../../../../api/patients";
 import { EditPatient } from "./EditPatient";
-import { Footer } from "../../../layout/footer/Footer";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
-  const { goBackAction, cancelAction, setPageIsLoading } =
-    useContext(GeneralContext);
+  const {
+    goBackAction,
+    cancelAction,
+    setPageIsLoading,
+    updateAlertsList,
+    setUpdateAlertsList,
+  } = useContext(GeneralContext);
   const [isLoading, setIsLoading] = useState(false);
 
   //hook para guardar los datos que se recuperan de la DB:
@@ -89,6 +93,7 @@ export const EditPatientContainer = () => {
       .then((response) => {
         console.log(response);
         setIsLoading(false);
+        setUpdateAlertsList(!updateAlertsList);
       })
       .catch((error) => console.log(error.message));
   };

@@ -25,6 +25,8 @@ export const ProfessionalsList = ({
   setUpdateList,
   handleChange,
   setPageIsLoading,
+  updateAlertsList,
+  setUpdateAlertsList,
 }) => {
   setPageIsLoading(false);
   return (
@@ -173,6 +175,7 @@ export const ProfessionalsList = ({
                           .then((response) => {
                             console.log(response);
                             setUpdateList(!updateList);
+                            setUpdateAlertsList(!updateAlertsList);
                           })
                           .catch((error) => console.log(error))
                       }
