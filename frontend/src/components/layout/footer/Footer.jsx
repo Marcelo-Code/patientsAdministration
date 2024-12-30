@@ -16,7 +16,7 @@ export const Footer = () => {
         marginTop: "100px",
       }}
     >
-      <div className="title">Gestión Cudnocud</div>
+      <div className="footerTitle">Gestión Cudnocud</div>
       <div>
         <b>E-mail para recepción CVs:</b> equiporeinodelreves@gmail.com
       </div>
@@ -41,7 +41,7 @@ export const Footer = () => {
         <b>Horarios de atención administración:</b> martes, jueves y viernes 9
         hs a 14 hs
       </div>
-      <div className="name">Marcelo Feltes Dos Mil Veinticinco</div>
+      <div className="nameDeveloper">Marcelo Feltes Dos Mil Veinticinco</div>
     </div>
   );
 };
