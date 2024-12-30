@@ -149,7 +149,7 @@ export const ExportToWord = ({
 
       const patientData = [
         {
-          label: "Nombre y Apellido: ",
+          label: "Nombre y Apellido Pcte.: ",
           value: patient.nombreyapellidopaciente,
         },
         {
@@ -178,7 +178,7 @@ export const ExportToWord = ({
         { label: "Matrícula: ", value: reportTitle.matriculaprofesional },
         { label: "CUIT: ", value: reportTitle.cuitprofesional },
         {
-          label: "Período de Abordaje: ",
+          label: "Período Abarcado: ",
           value: reportTitle.periodoabordaje,
         },
       ];
