@@ -5,8 +5,9 @@ export const Spinner = () => {
     <div
       style={{
         position: "fixed",
-        top: "40%",
-        left: "50%",
+        top: "30%",
+        left: "48%",
+        zIndex: 3,
       }}
     >
       <CircularProgress size={60} />

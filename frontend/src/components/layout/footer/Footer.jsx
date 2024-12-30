@@ -9,11 +9,11 @@ export const Footer = () => {
       style={{
         backgroundColor: darkMode ? "rgba(1, 37, 37, 0.48)" : "aqua",
         position: pageIsLoading ? "absolute" : "relative",
-        bottom: "0",
+        bottom: "0px",
         width: "100vw",
         height: "auto",
         textAlign: "center",
-        marginTop: "100px",
+        marginTop: "150px",
       }}
     >
       <div className="footerTitle">Gestión Cudnocud</div>
