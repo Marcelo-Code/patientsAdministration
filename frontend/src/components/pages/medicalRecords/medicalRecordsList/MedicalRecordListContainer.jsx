@@ -131,6 +131,7 @@ export const MedicalRecordListContainer = () => {
           filteredRecords = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
           );
+          console.log(filteredRecords);
           setRecords(filteredRecords);
           setListRecords(filteredRecords);
           getPatientRecord(patientId)
@@ -141,8 +142,8 @@ export const MedicalRecordListContainer = () => {
             (record) => record.idprofesional === parseInt(professionalId)
           );
           setRecords(filteredRecords);
-        }
-        {
+          setListRecords(filteredRecords);
+        } else {
           setRecords(response);
           setListRecords(response);
         }
@@ -174,7 +175,7 @@ export const MedicalRecordListContainer = () => {
         true
       );
 
-      console.log(newFilteredRecords);
+      // console.log(newFilteredRecords);
 
       const dateFilteredList = createList(
         newFilteredRecords,
