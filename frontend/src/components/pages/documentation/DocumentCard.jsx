@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, CardActions, CircularProgress, Skeleton } from "@mui/material";
+import { Card, CardActions, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,6 +8,7 @@ import { DocumentImage } from "./DocumentImage";
 import { DeleteImage, downloadImage } from "../../../api/Images";
 import { UploadContainer } from "./UploadContainer";
 import { WarningAlert } from "../../common/alerts/alerts";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export const DocumentCard = ({
   patient,
@@ -65,13 +66,17 @@ export const DocumentCard = ({
                 />
               )
             ) : patient[document.name] === "" ? (
-              <Skeleton
-                variant="text"
-                sx={{
+              <div
+                style={{
                   width: "290px",
                   height: "140px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              />
+              >
+                <ClearIcon />
+              </div>
             ) : !patient[document.name] ? (
               <CircularProgress size={30} />
             ) : (
