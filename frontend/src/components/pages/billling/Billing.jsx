@@ -52,8 +52,6 @@ export const Billing = ({
     filteredNoCudBillingRecords,
   };
 
-  console.log(name);
-
   setPageIsLoading(false);
 
   return (
