@@ -24,6 +24,9 @@ export const Billing = ({
   filteredCudBillingRecords,
   cudBillingRecords,
   setPageIsLoading,
+  patientId,
+  professionalId,
+  name,
 }) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
@@ -49,6 +52,8 @@ export const Billing = ({
     filteredNoCudBillingRecords,
   };
 
+  console.log(name);
+
   setPageIsLoading(false);
 
   return (
@@ -65,6 +70,14 @@ export const Billing = ({
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Button onClick={handleGoBack}>Volver</Button>
       </div>
+      <h2 style={{ textAlign: "center" }}>
+        Facturación
+        {patientId
+          ? ` paciente ${name.nombreyapellidopaciente}`
+          : professionalId
+          ? ` profesional ${name.nombreyapellidoprofesional}`
+          : " general"}
+      </h2>
       <Box sx={{}}>
         {/* Contenedor de pestañas */}
         <Box

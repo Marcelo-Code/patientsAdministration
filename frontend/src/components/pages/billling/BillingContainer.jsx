@@ -3,13 +3,13 @@ import { Billing } from "./Billing";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
 import { getNoCudBillingRecords } from "../../../api/noCudBilling";
-import { getProfessionalsRecords } from "../../../api/professionals";
-import { getPatientsRecords } from "../../../api/patients";
+import {
+  getProfessionalRecord,
+  getProfessionalsRecords,
+} from "../../../api/professionals";
+import { getPatientRecord, getPatientsRecords } from "../../../api/patients";
 import { Spinner } from "../../common/spinner/Spinner";
 import { getCudBillingRecords } from "../../../api/cudBilling";
-import { Footer } from "../../layout/footer/Footer";
-import { NavBarContainer } from "../../layout/navBar/NavBarContainer";
-import { parseSelectedSections } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 
 export const BillingContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
@@ -22,10 +22,9 @@ export const BillingContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [updateList, setUpdateList] = useState(false);
+  const [name, setName] = useState(null);
 
   const { patientId = null, professionalId = null } = useParams();
-
-  if (professionalId) console.log("id profesional " + professionalId);
 
   useEffect(() => {
     setPageIsLoading(true);
@@ -33,11 +32,16 @@ export const BillingContainer = () => {
       .then((response) => {
         let filteredResponse;
         if (patientId) {
+          getPatientRecord(patientId)
+            .then((response) => setName(response))
+            .catch((error) => console.log(error));
           filteredResponse = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
           );
-        }
-        if (professionalId) {
+        } else if (professionalId) {
+          getProfessionalRecord(professionalId)
+            .then((response) => setName(response))
+            .catch((error) => console.log(error));
           filteredResponse = response.filter(
             (record) => record.idprofesional === parseInt(professionalId)
           );
@@ -60,8 +64,7 @@ export const BillingContainer = () => {
           filteredResponse = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
           );
-        }
-        if (professionalId) {
+        } else if (professionalId) {
           filteredResponse = response.filter(
             (record) => record.idprofesional === parseInt(professionalId)
           );
@@ -93,7 +96,7 @@ export const BillingContainer = () => {
     !noCudBillingRecords ||
     !cudBillingRecords ||
     !patientsRecords ||
-    !professionalsRecords
+    (!name && (!professionalId || !patientId))
   )
     return <Spinner />;
 
@@ -114,6 +117,9 @@ export const BillingContainer = () => {
     cudBillingRecords,
     filteredCudBillingRecords,
     setPageIsLoading,
+    patientId,
+    professionalId,
+    name,
   };
 
   return (
