@@ -96,7 +96,7 @@ export const BillingContainer = () => {
     !noCudBillingRecords ||
     !cudBillingRecords ||
     !patientsRecords ||
-    (!name && (!professionalId || !patientId))
+    (!name && (professionalId || patientId))
   )
     return <Spinner />;
 
