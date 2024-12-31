@@ -28,7 +28,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             type="date"
-            sx={{ width: "200px", margin: "10px" }}
+            sx={{ width: "200px", margin: "10px", backgroundColor: "white" }}
             label="Fecha Deuda"
             name="fechadeuda"
             format="DD/MM/YYYY"
@@ -89,7 +89,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               type="date"
-              sx={{ width: "200px", margin: "10px" }}
+              sx={{ width: "200px", margin: "10px", backgroundColor: "white" }}
               label="Fecha de Pago"
               name="fechapagomontoadeudado"
               format="DD/MM/YYYY"
