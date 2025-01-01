@@ -533,6 +533,7 @@ export const CudBillingList = ({
                                           cudBillingRecord.periodofacturado
                                         )}
                                         views={["year", "month"]}
+                                        maxDate={dayjs()}
                                         inputFormat="MM/YYYY"
                                         onChange={(newDate) => {
                                           handleChange({
