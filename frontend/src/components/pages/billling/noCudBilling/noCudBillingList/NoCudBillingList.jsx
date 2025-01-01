@@ -441,6 +441,7 @@ export const NoCudBillingList = ({
                                           },
                                         });
                                       }}
+                                      maxDate={dayjs()}
                                       slotProps={{
                                         textField: {
                                           inputFormat: "DD/MM/YYYY",
@@ -539,6 +540,7 @@ export const NoCudBillingList = ({
                                             },
                                           });
                                         }}
+                                        maxDate={dayjs()}
                                         format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
@@ -620,6 +622,7 @@ export const NoCudBillingList = ({
                                             },
                                           });
                                         }}
+                                        maxDate={dayjs()}
                                         format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>

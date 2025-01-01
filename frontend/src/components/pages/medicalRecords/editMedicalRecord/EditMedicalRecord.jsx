@@ -93,6 +93,7 @@ export const EditMedicalRecord = ({
             sx={{ width: "150px", backgroundColor: "white" }}
             name="fechaConsulta"
             value={dayjs(medicalRecord.fechaconsulta)}
+            maxDate={dayjs()}
             format="DD-MM-YYYY"
             onChange={(newDate) => {
               handleChange({

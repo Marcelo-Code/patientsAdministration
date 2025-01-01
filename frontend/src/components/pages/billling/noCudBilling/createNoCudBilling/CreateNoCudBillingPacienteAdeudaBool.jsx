@@ -31,6 +31,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
             sx={{ width: "200px", margin: "10px", backgroundColor: "white" }}
             label="Fecha Deuda"
             name="fechadeuda"
+            maxDate={dayjs()}
             format="DD/MM/YYYY"
             onChange={(newDate) => {
               handleChange({
@@ -92,6 +93,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
               sx={{ width: "200px", margin: "10px", backgroundColor: "white" }}
               label="Fecha de Pago"
               name="fechapagomontoadeudado"
+              maxDate={dayjs()}
               format="DD/MM/YYYY"
               onChange={(newDate) => {
                 handleChange({

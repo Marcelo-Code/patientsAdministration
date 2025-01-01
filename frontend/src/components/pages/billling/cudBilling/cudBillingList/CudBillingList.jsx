@@ -624,6 +624,7 @@ export const CudBillingList = ({
                                             inputFormat: "DD/MM/YYYY",
                                           },
                                         }}
+                                        maxDate={dayjs()}
                                         format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
@@ -659,6 +660,7 @@ export const CudBillingList = ({
                                             inputFormat: "DD/MM/YYYY",
                                           },
                                         }}
+                                        maxDate={dayjs()}
                                         format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
@@ -734,6 +736,7 @@ export const CudBillingList = ({
                                               inputFormat: "DD/MM/YYYY",
                                             },
                                           }}
+                                          maxDate={dayjs()}
                                           format="DD/MM/YYYY"
                                         />
                                       </LocalizationProvider>
@@ -833,6 +836,7 @@ export const CudBillingList = ({
                                             inputFormat: "DD/MM/YYYY",
                                           },
                                         }}
+                                        maxDate={dayjs()}
                                         format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>

@@ -227,6 +227,7 @@ export const CreateNoCudBilling = ({
                   }}
                   label="Fecha de Pago"
                   name="fechadepago"
+                  maxDate={dayjs()}
                   format="DD/MM/YYYY"
                   onChange={(newDate) => {
                     handleChange({

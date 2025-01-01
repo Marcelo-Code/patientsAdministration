@@ -195,6 +195,7 @@ export const CreateCudBilling = ({
                   }}
                   label="Presentación O.S."
                   name="fechapresentacionos"
+                  maxDate={dayjs()}
                   format="DD/MM/YYYY"
                   onChange={(newDate) => {
                     handleChange({
@@ -222,6 +223,7 @@ export const CreateCudBilling = ({
                   }}
                   label="Recepción O.S."
                   name="fecharecepcionos"
+                  maxDate={dayjs()}
                   format="DD/MM/YYYY"
                   onChange={(newDate) => {
                     handleChange({
@@ -289,6 +291,7 @@ export const CreateCudBilling = ({
                       }}
                       label="Fecha Reclamo"
                       name="fechareclamo"
+                      maxDate={dayjs()}
                       format="DD/MM/YYYY"
                       onChange={(newDate) => {
                         handleChange({
@@ -348,6 +351,7 @@ export const CreateCudBilling = ({
                     }}
                     label="Fecha Cobro"
                     name="fechacobro"
+                    maxDate={dayjs()}
                     format="DD/MM/YYYY"
                     onChange={(newDate) => {
                       handleChange({

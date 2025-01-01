@@ -70,6 +70,7 @@ export const CreateMedicalRecord = ({
                 },
               })
             }
+            maxDate={dayjs()}
             format="DD/MM/YYYY"
             label="Fecha"
             slots={{
