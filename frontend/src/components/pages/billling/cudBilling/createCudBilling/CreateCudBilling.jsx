@@ -138,6 +138,7 @@ export const CreateCudBilling = ({
                   }}
                   label="Período Facturado"
                   name="periodofacturado"
+                  maxDate={dayjs()}
                   format="MM/YYYY"
                   onChange={(newDate) => {
                     handleChange({
