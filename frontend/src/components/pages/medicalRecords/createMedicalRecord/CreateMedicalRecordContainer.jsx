@@ -1,24 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { CreateMedicalRecord } from "./CreateMedicalRecord";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { meetings } from "../../../common/Menu/meetings";
-import {
-  createMedicalRecord,
-  getMedicalRecords,
-} from "../../../../api/medicalRecords";
+import { createMedicalRecord } from "../../../../api/medicalRecords";
 import { useParams } from "react-router-dom";
-import { getPatientRecord } from "../../../../api/patients";
-import { Footer } from "../../../layout/footer/Footer";
+import { getPatientsRecords } from "../../../../api/patients";
 import { getProfessionalsRecords } from "../../../../api/professionals";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const CreateMedicalRecordContainer = () => {
-  const [medicalRecords, setMedicalRecords] = useState(null);
-  const [professionalsRecords, setProfessionalsRecords] = useState(null);
+  const [patientsRecords, setPatientsRecords] = useState([]);
+  const [professionalsRecords, setProfessionalsRecords] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { patientId = null } = useParams();
+  const { patientId = null, professionalId = null } = useParams();
 
   const initialModifiedState = {
     idprofesional: false,
@@ -29,6 +25,7 @@ export const CreateMedicalRecordContainer = () => {
   const [modified, setModified] = useState(initialModifiedState);
   const [modifiedFlag, setModifiedFlag] = useState(false);
   const [patientRecord, setPatientRecord] = useState(null);
+  const [professionalRecord, setProfessionalRecord] = useState(null);
 
   const initialState = {
     idpaciente: "",
@@ -43,22 +40,32 @@ export const CreateMedicalRecordContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
-    getMedicalRecords()
+    getPatientsRecords()
       .then((response) => {
-        setMedicalRecords(response);
+        setPatientsRecords(response);
         if (patientId) {
-          getPatientRecord(patientId)
-            .then((response) => setPatientRecord(response))
-            .catch((error) => console.log(error));
+          const foundPatientRecord = response.find(
+            (record) => record.id === parseInt(patientId)
+          );
+          setPatientRecord(foundPatientRecord);
+          console.log(foundPatientRecord);
         }
       })
       .catch((error) => console.log(error));
     getProfessionalsRecords()
-      .then((response) => setProfessionalsRecords(response))
+      .then((response) => {
+        setProfessionalsRecords(response);
+        if (professionalId) {
+          const foundProfessionalRecord = response.find(
+            (record) => record.id === parseInt(professionalId)
+          );
+          setProfessionalRecord(foundProfessionalRecord);
+        }
+      })
       .catch((error) => console.log(error));
-  }, [patientId, setPageIsLoading]);
+  }, [patientId, professionalId, setPageIsLoading]);
 
-  if (!medicalRecords || !professionalsRecords) return <Spinner />;
+  if (!patientsRecords || !professionalsRecords) return <Spinner />;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,7 +101,7 @@ export const CreateMedicalRecordContainer = () => {
   };
 
   const patientsList = createList(
-    medicalRecords,
+    patientsRecords,
     "nombreyapellidopaciente",
     "idpaciente",
     false
@@ -117,13 +124,14 @@ export const CreateMedicalRecordContainer = () => {
       ? patientRecord.nombreyapellidopaciente
       : "Selecc. Paciente",
   };
-  // console.log(patientsList, professionalList, meetingsList);
 
   const professionalsProps = {
     handleChange: handleChange,
     name: "idprofesional",
     array: professionalList,
-    initialValue: "Selecc. Profesional",
+    initialValue: professionalRecord
+      ? professionalRecord.nombreyapellidoprofesional
+      : "Selecc. Profesional",
   };
 
   const meetingsProps = {
@@ -132,8 +140,6 @@ export const CreateMedicalRecordContainer = () => {
     array: meetingsList,
     initialValue: "Selecc. Reunión",
   };
-
-  // console.log(professionalList);
 
   const props = {
     goBackAction,
@@ -147,6 +153,7 @@ export const CreateMedicalRecordContainer = () => {
     modified,
     modifiedFlag,
     patientId,
+    professionalId,
     setPageIsLoading,
   };
 

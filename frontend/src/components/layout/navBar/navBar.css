@@ -1,6 +1,6 @@
 @font-face {
   font-family: "broughton";
-  src: url("../../../../public/broughton.ttf");
+  src: url("/broughton.ttf");
 }
 
 .title {

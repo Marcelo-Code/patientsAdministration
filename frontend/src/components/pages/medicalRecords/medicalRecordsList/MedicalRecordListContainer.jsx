@@ -366,6 +366,7 @@ export const MedicalRecordListContainer = () => {
     isChecked,
     handleCheckboxChange,
     patientId,
+    professionalId,
     setPageIsLoading,
   };
 

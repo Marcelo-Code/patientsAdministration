@@ -24,8 +24,11 @@ export const CreateMedicalRecord = ({
   handleSubmit,
   modified,
   patientId,
+  professionalId,
   setPageIsLoading,
 }) => {
+  console.log("profesional" + professionalId);
+  console.log("paciente" + patientId);
   setPageIsLoading(false);
   return (
     <div className="medicalRecordContainer">
@@ -85,7 +88,7 @@ export const CreateMedicalRecord = ({
         <span style={{ pointerEvents: patientId && "none" }}>
           <OptionsMenu {...patientsProps} />
         </span>
-        <span>
+        <span style={{ pointerEvents: professionalId && "none" }}>
           <OptionsMenu {...professionalsProps} />
         </span>
         <span>

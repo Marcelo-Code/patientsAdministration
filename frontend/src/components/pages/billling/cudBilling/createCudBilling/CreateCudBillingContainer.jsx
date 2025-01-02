@@ -8,8 +8,6 @@ import {
 } from "../../../../../api/patients";
 import { createCudBillingRecord } from "../../../../../api/cudBilling";
 import { CreateCudBilling } from "./CreateCudBilling";
-import { Footer } from "../../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../../layout/navBar/NavBarContainer";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =

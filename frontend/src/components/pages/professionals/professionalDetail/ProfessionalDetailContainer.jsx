@@ -6,8 +6,6 @@ import { useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { useEffect } from "react";
 import { getProfessionalRecord } from "../../../../api/professionals";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const ProfessionalDetailContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
@@ -23,7 +21,7 @@ export const ProfessionalDetailContainer = () => {
 
   if (!professionalRecord) return <Spinner />;
 
-  console.log(professionalRecord);
+  // console.log(professionalRecord);
 
   const professionalDetailProps = {
     handleGoBack,

@@ -57,6 +57,7 @@ export const MedicalRecordsList = ({
   isChecked,
   handleCheckboxChange,
   patientId,
+  professionalId,
   setPageIsLoading,
 }) => {
   const filterProps = {
@@ -85,6 +86,20 @@ export const MedicalRecordsList = ({
   };
 
   setPageIsLoading(false);
+
+  let url;
+
+  console.log(professionalId);
+
+  if (patientId) {
+    url = `/createMedicalRecordPatient/${patientId}`;
+  } else if (professionalId) {
+    url = `/createMedicalRecordProfessional/${professionalId}`;
+  } else {
+    url = `/createMedicalRecord`;
+  }
+
+  console.log(url);
 
   return (
     <div className="medicalRecordsListContainer">
@@ -117,13 +132,7 @@ export const MedicalRecordsList = ({
             gap: "10px",
           }}
         >
-          <Link
-            to={
-              patientId
-                ? `/createMedicalRecord/${patientId}`
-                : "/createMedicalRecord"
-            }
-          >
+          <Link to={url}>
             <Button
               aria-label="fingerprint"
               size="small"

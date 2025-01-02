@@ -91,7 +91,11 @@ function App() {
           element={<CreateMedicalRecordContainer />}
         />
         <Route
-          path={"/createMedicalRecord/:patientId"}
+          path={"/createMedicalRecordPatient/:patientId"}
+          element={<CreateMedicalRecordContainer />}
+        />
+        <Route
+          path={"/createMedicalRecordProfessional/:professionalId"}
           element={<CreateMedicalRecordContainer />}
         />
         <Route
