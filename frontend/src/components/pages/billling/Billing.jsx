@@ -40,6 +40,8 @@ export const Billing = ({
     cudBillingRecords,
     updateList,
     setUpdateList,
+    patientId,
+    professionalId,
   };
 
   const noCudBillingListContainerProps = {
@@ -50,6 +52,8 @@ export const Billing = ({
     updateList,
     setUpdateList,
     filteredNoCudBillingRecords,
+    patientId,
+    professionalId,
   };
 
   setPageIsLoading(false);

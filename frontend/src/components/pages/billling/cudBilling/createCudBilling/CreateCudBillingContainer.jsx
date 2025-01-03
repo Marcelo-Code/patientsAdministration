@@ -6,15 +6,22 @@ import {
   getPatientRecord,
   getPatientsRecords,
 } from "../../../../../api/patients";
-import { createCudBillingRecord } from "../../../../../api/cudBilling";
+import {
+  createCudBillingRecord,
+  updateCudBillingRecord,
+} from "../../../../../api/cudBilling";
 import { CreateCudBilling } from "./CreateCudBilling";
+import { useParams } from "react-router-dom";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =
     useContext(GeneralContext);
-  const [professionals, setProfessionals] = useState(null);
-  const [patients, setPatients] = useState(null);
+  const [professionalsRecords, setProfessionalsRecords] = useState(null);
+  const [patientsRecords, setPatientsRecords] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [professionalRecord, setProfessionalRecord] = useState(null);
+  const [patientRecord, setPatientRecord] = useState(null);
+  const { professionalId = null, patientId = null } = useParams();
 
   const initialModifiedState = {
     idprofesional: false,
@@ -72,17 +79,31 @@ export const CreateCudBillingContainer = () => {
     setPageIsLoading(true);
     getProfessionalsRecords()
       .then((response) => {
-        setProfessionals(response);
+        setProfessionalsRecords(response);
+        if (professionalId) {
+          const foundProfessionalRecord = response.find(
+            (record) => record.id === parseInt(professionalId)
+          );
+          setProfessionalRecord(foundProfessionalRecord);
+          console.log(foundProfessionalRecord);
+        }
       })
       .catch((error) => console.log(error));
     getPatientsRecords()
       .then((response) => {
-        setPatients(response);
+        setPatientsRecords(response);
+        if (patientId) {
+          const foundPatientRecord = response.find(
+            (record) => record.id === parseInt(patientId)
+          );
+          setPatientRecord(foundPatientRecord);
+          console.log(foundPatientRecord);
+        }
       })
       .catch((error) => console.log(error));
-  }, [setPageIsLoading]);
+  }, [setPageIsLoading, patientId, professionalId]);
 
-  if (!professionals || !patients) return <Spinner />;
+  if (!professionalsRecords || !patientsRecords) return <Spinner />;
 
   const handleChange = async (e) => {
     const { name, value, value2 } = e.target;
@@ -97,6 +118,29 @@ export const CreateCudBillingContainer = () => {
     if (value2 && name === "idprofesional") {
       updatedCudBillingRecord.nombreyapellidoprofesional = value2;
     }
+
+    if (
+      professionalId &&
+      !updatedCudBillingRecord.idprofesional &&
+      !updateCudBillingRecord.nombreyapellidoprofesional
+    ) {
+      updatedCudBillingRecord.idprofesional = professionalRecord.id;
+      updatedCudBillingRecord.nombreyapellidoprofesional =
+        professionalRecord.nombreyapellidoprofesional;
+    }
+
+    if (
+      patientId &&
+      !updatedCudBillingRecord.idpaciente &&
+      !updatedCudBillingRecord.nombreyapellidopaciente
+    ) {
+      updatedCudBillingRecord.idpaciente = patientRecord.id;
+      updatedCudBillingRecord.nombreyapellidopaciente =
+        patientRecord.nombreyapellidopaciente;
+      updatedCudBillingRecord.obrasocialpaciente =
+        patientRecord.obrasocialpaciente;
+    }
+
     if (value2 && name === "idpaciente") {
       updatedCudBillingRecord.nombreyapellidopaciente = value2;
       try {
@@ -128,7 +172,7 @@ export const CreateCudBillingContainer = () => {
   };
 
   const professionalList = createList(
-    professionals,
+    professionalsRecords,
     "nombreyapellidoprofesional",
     "id",
     false,
@@ -136,7 +180,7 @@ export const CreateCudBillingContainer = () => {
   );
 
   const patientsList = createList(
-    patients,
+    patientsRecords,
     "nombreyapellidopaciente",
     "id",
     false,
@@ -147,17 +191,21 @@ export const CreateCudBillingContainer = () => {
     handleChange: handleChange,
     name: "idprofesional",
     array: professionalList,
-    initialValue: "Selecc. Profesional",
+    initialValue: professionalId
+      ? professionalRecord.nombreyapellidoprofesional
+      : "Selecc. Profesional",
   };
 
   const patientsProps = {
     handleChange: handleChange,
     name: "idpaciente",
     array: patientsList,
-    initialValue: "Selecc. Paciente",
+    initialValue: patientId
+      ? patientRecord.nombreyapellidopaciente
+      : "Selecc. Paciente",
   };
 
-  const props = {
+  const createCudBillingProps = {
     handleChange,
     handleSubmit,
     isLoading,
@@ -168,14 +216,17 @@ export const CreateCudBillingContainer = () => {
     modifiedFlag,
     cobradaenfecha: cudBillingRecord.cobradaenfecha,
     cudBillingRecord,
-
     modified,
     setPageIsLoading,
+    professionalId,
+    patientId,
+    professionalRecord,
+    patientRecord,
   };
 
   return (
     <>
-      <CreateCudBilling {...props} />
+      <CreateCudBilling {...createCudBillingProps} />
     </>
   );
 };

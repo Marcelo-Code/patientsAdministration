@@ -24,7 +24,6 @@ import {
   DatePicker,
   LocalizationProvider,
 } from "@mui/x-date-pickers";
-import { Link } from "react-router-dom";
 
 import "./createCudBilling.css";
 import dayjs from "dayjs";
@@ -42,6 +41,10 @@ export const CreateCudBilling = ({
   cobradaenfecha,
   cudBillingRecord,
   setPageIsLoading,
+  professionalId,
+  patientId,
+  professionalRecord,
+  patientRecord,
 }) => {
   const style = {
     display: "flex",
@@ -64,7 +67,7 @@ export const CreateCudBilling = ({
     >
       <form>
         <FormGroup>
-          <h2
+          <div
             style={{
               textAlign: "center",
               margin: "10px",
@@ -72,8 +75,22 @@ export const CreateCudBilling = ({
               borderBottom: "2px solid black",
             }}
           >
-            Generar nueva facturación CUD
-          </h2>
+            {patientId && (
+              <h2>
+                Generar nueva facturación CUD: paciente{" "}
+                {patientRecord.nombreyapellidopaciente}
+              </h2>
+            )}
+            {professionalId && (
+              <h2>
+                Generar nueva facturación CUD: profesional{" "}
+                {professionalRecord.nombreyapellidoprofesional}
+              </h2>
+            )}
+            {!professionalId && !patientId && (
+              <h2>Generar nueva facturación CUD:</h2>
+            )}
+          </div>
           <Box
             sx={{
               display: "grid",
@@ -84,7 +101,7 @@ export const CreateCudBilling = ({
               },
             }}
           >
-            <span style={style}>
+            <span style={{ ...style, pointerEvents: professionalId && "none" }}>
               <PersonIcon />
               <OptionsMenu {...professionalsProps} />
             </span>
@@ -103,7 +120,7 @@ export const CreateCudBilling = ({
                 onChange={handleChange}
               />
             </span>
-            <span style={style}>
+            <span style={{ ...style, pointerEvents: patientId && "none" }}>
               <PersonIcon />
               <OptionsMenu {...patientsProps} />
             </span>
@@ -120,7 +137,6 @@ export const CreateCudBilling = ({
                 label="Obra Social Paciente"
                 variant="outlined"
                 name="obrasocialpaciente"
-                // value={"jajaja"}
                 value={cudBillingRecord.obrasocialpaciente}
                 onChange={handleChange}
               />

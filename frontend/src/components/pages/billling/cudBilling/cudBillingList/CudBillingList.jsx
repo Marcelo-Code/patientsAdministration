@@ -55,7 +55,8 @@ export const CudBillingList = ({
   setIsLoading,
   isLoading,
   menuFilterProps,
-  patientId = null,
+  patientId,
+  professionalId,
 }) => {
   const totalProfesional = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montofinalprofesional);
@@ -79,6 +80,12 @@ export const CudBillingList = ({
     "documentoinformemensual",
   ];
 
+  let createCudBillingUrl;
+  if (patientId) createCudBillingUrl = `/createCudBilling/patient/${patientId}`;
+  else if (professionalId)
+    createCudBillingUrl = `/createCudBilling/professional/${professionalId}`;
+  else createCudBillingUrl = "/createCudBilling";
+
   return (
     <div>
       <div
@@ -90,7 +97,7 @@ export const CudBillingList = ({
           padding: "20px",
         }}
       >
-        <Link to={"/createCudBilling"}>
+        <Link to={createCudBillingUrl}>
           <Button
             variant={"contained"}
             size={"small"}

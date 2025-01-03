@@ -7,16 +7,18 @@ import {
 } from "../../../../api/medicalRecords";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
-import { getPatientRecord } from "../../../../api/patients";
+import { getPatientRecord, getPatientsRecords } from "../../../../api/patients";
 import {
   getProfessionalRecord,
   getProfessionalsRecords,
 } from "../../../../api/professionals";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
 
 export const EditMedicalRecordContainer = () => {
-  const { medicalRecordId } = useParams();
+  const {
+    medicalRecordId,
+    patientId = null,
+    professionalId = null,
+  } = useParams();
   const {
     handleGoBack,
     goBackAction,
@@ -42,9 +44,10 @@ export const EditMedicalRecordContainer = () => {
 
   const [medicalRecord, setMedicalRecord] = useState(initialRecordState);
 
-  const [patient, setPatient] = useState(null);
-  const [professional, setProfessional] = useState(null);
-  const [arrayProfessionals, setArrayProfessionals] = useState(null);
+  const [patientRecord, setPatientRecord] = useState(null);
+  const [professionalRecord, setProfessionalRecord] = useState(null);
+  const [professionalsRecords, setProfessionalsRecords] = useState([]);
+  const [patientsRecords, setPatientRecords] = useState([]);
 
   //hooks para detectar los cambios
 
@@ -68,30 +71,43 @@ export const EditMedicalRecordContainer = () => {
     console.log(updatedMedicalRecord);
   };
 
+  console.log(medicalRecordId);
+
   useEffect(() => {
     setPageIsLoading(true);
-    const getObjects = async () => {
-      try {
-        const response = await getMedicalRecord(medicalRecordId);
+    getMedicalRecord(medicalRecordId)
+      .then((response) => {
+        console.log(response);
         setMedicalRecord(response);
-        if (response) {
-          const responsePatient = await getPatientRecord(response.idpaciente);
-          setPatient(responsePatient);
-          const responseProfessional = await getProfessionalRecord(
-            response.idprofesional
-          );
-          setProfessional(responseProfessional);
-          const responseArrayProfessionals = await getProfessionalsRecords();
-          setArrayProfessionals(responseArrayProfessionals);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getObjects();
+        getPatientRecord(response.idpaciente)
+          .then((response) => setPatientRecord(response))
+          .catch((error) => console.log(error));
+
+        //Obtengo el profesional de la consulta
+        getProfessionalRecord(response.idprofesional)
+          .then((response) => setProfessionalRecord(response))
+          .catch((error) => console.log(error));
+
+        //Obtengo el array de profesionales
+        getProfessionalsRecords()
+          .then((response) => setProfessionalsRecords(response))
+          .catch((error) => console.log(error));
+
+        //Obtengo el array de pacientes
+        getPatientsRecords()
+          .then((response) => setPatientRecords(response))
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
   }, [medicalRecordId, setPageIsLoading]);
 
-  if (!medicalRecord || !patient || !professional || !arrayProfessionals)
+  if (
+    !medicalRecord ||
+    !patientRecord ||
+    !professionalRecord ||
+    !professionalsRecords ||
+    !patientsRecords
+  )
     return <Spinner />;
 
   //Función para llamar a la función PUT
@@ -112,14 +128,17 @@ export const EditMedicalRecordContainer = () => {
     goBackAction,
     handleSubmit,
     medicalRecord,
-    patient,
-    professional,
-    arrayProfessionals,
+    patientRecord,
+    professionalRecord,
+    professionalsRecords,
+    patientsRecords,
     modified,
     modifiedFlag,
     cancelAction,
     isLoading,
     setPageIsLoading,
+    professionalId,
+    patientId,
   };
   return (
     <>

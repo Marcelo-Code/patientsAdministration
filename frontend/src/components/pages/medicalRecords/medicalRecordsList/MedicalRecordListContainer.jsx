@@ -336,6 +336,30 @@ export const MedicalRecordListContainer = () => {
     modified: false,
   };
 
+  //Crea la url del componente
+
+  let createMedicalRecordUrl;
+
+  if (patientId) {
+    createMedicalRecordUrl = `/createMedicalRecord/patient/${patientId}`;
+  } else if (professionalId) {
+    createMedicalRecordUrl = `/createMedicalRecord/professional/${professionalId}`;
+  } else {
+    createMedicalRecordUrl = `/createMedicalRecord`;
+  }
+
+  //Crea la url del componente
+
+  let editMedicalRecordUrl;
+
+  if (patientId) {
+    editMedicalRecordUrl = `/editMedicalRecord/patient/${patientId}`;
+  } else if (professionalId) {
+    editMedicalRecordUrl = `/editMedicalRecord/professional/${professionalId}`;
+  } else {
+    editMedicalRecordUrl = `/editMedicalRecord`;
+  }
+
   const props = {
     records,
     setRecords,
@@ -368,6 +392,8 @@ export const MedicalRecordListContainer = () => {
     patientId,
     professionalId,
     setPageIsLoading,
+    createMedicalRecordUrl,
+    editMedicalRecordUrl,
   };
 
   return (

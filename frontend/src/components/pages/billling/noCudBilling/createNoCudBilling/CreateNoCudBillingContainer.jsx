@@ -6,15 +6,17 @@ import { getProfessionalsRecords } from "../../../../../api/professionals";
 import { getPatientsRecords } from "../../../../../api/patients";
 import { createNoCudBillingRecord } from "../../../../../api/noCudBilling";
 import { CreateNoCudBilling } from "./CreateNoCudBilling";
-import { Footer } from "../../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../../layout/navBar/NavBarContainer";
+import { useParams } from "react-router-dom";
 
 export const CreateNoCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =
     useContext(GeneralContext);
-  const [professionals, setProfessionals] = useState(null);
-  const [patients, setPatients] = useState(null);
+  const [professionalsRecords, setProfessionalsRecords] = useState(null);
+  const [patientsRecords, setPatientsRecords] = useState(null);
+  const [patientRecord, setPatientRecord] = useState(null);
+  const [professionalRecord, setProfessionalRecord] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { professionalId = null, patientId = null } = useParams();
 
   const initialModifiedState = {
     idprofesional: false,
@@ -68,44 +70,80 @@ export const CreateNoCudBillingContainer = () => {
     setPageIsLoading(true);
     getProfessionalsRecords()
       .then((response) => {
-        setProfessionals(response);
+        setProfessionalsRecords(response);
+        if (professionalId) {
+          const foundProfessionalRecord = response.find(
+            (record) => record.id === parseInt(professionalId)
+          );
+          setProfessionalRecord(foundProfessionalRecord);
+          console.log(foundProfessionalRecord);
+        }
       })
       .catch((error) => console.log(error));
     getPatientsRecords()
       .then((response) => {
-        setPatients(response);
+        setPatientsRecords(response);
+        if (patientId) {
+          const foundPatientRecord = response.find(
+            (record) => record.id === parseInt(patientId)
+          );
+          setPatientRecord(foundPatientRecord);
+          console.log(foundPatientRecord);
+        }
       })
       .catch((error) => console.log(error));
-  }, [setPageIsLoading]);
+  }, [setPageIsLoading, professionalId, patientId]);
 
-  if (!professionals || !patients) return <Spinner />;
+  if (!professionalsRecords || !patientsRecords) return <Spinner />;
 
   const handleChange = async (e) => {
     const { name, value, value2 } = e.target;
-    const updatedBillRecordNoCud = { ...billRecordNoCud, [name]: value };
+    const updatedNoCudBillRecord = { ...billRecordNoCud, [name]: value };
     if (name === "montosesion") {
-      updatedBillRecordNoCud.retencion =
-        updatedBillRecordNoCud.montosesion * 0.35;
-      updatedBillRecordNoCud.montofinalprofesional =
-        updatedBillRecordNoCud.montosesion * 0.65;
+      updatedNoCudBillRecord.retencion =
+        updatedNoCudBillRecord.montosesion * 0.35;
+      updatedNoCudBillRecord.montofinalprofesional =
+        updatedNoCudBillRecord.montosesion * 0.65;
     }
     if (name === "pacienteadeuda" && !value) {
-      updatedBillRecordNoCud.fechadeuda = null;
-      updatedBillRecordNoCud.pagomontoadeudado = false;
-      updatedBillRecordNoCud.fechapagomontoadeudado = null;
+      updatedNoCudBillRecord.fechadeuda = null;
+      updatedNoCudBillRecord.pagomontoadeudado = false;
+      updatedNoCudBillRecord.fechapagomontoadeudado = null;
     }
     if (name === "pagomontoadeudado" && !value)
-      updatedBillRecordNoCud.fechapagomontoadeudado = null;
+      updatedNoCudBillRecord.fechapagomontoadeudado = null;
     if (value2 && name === "idprofesional") {
-      updatedBillRecordNoCud.nombreyapellidoprofesional = value2;
+      updatedNoCudBillRecord.nombreyapellidoprofesional = value2;
     }
     if (value2 && name === "idpaciente") {
-      updatedBillRecordNoCud.nombreyapellidopaciente = value2;
+      updatedNoCudBillRecord.nombreyapellidopaciente = value2;
     }
-    setBillRecordNoCud(updatedBillRecordNoCud);
+    if (
+      professionalId &&
+      !updatedNoCudBillRecord.idprofesional &&
+      !updatedNoCudBillRecord.nombreyapellidoprofesional
+    ) {
+      updatedNoCudBillRecord.idprofesional = professionalRecord.id;
+      updatedNoCudBillRecord.nombreyapellidoprofesional =
+        professionalRecord.nombreyapellidoprofesional;
+    }
+
+    if (
+      patientId &&
+      !updatedNoCudBillRecord.idpaciente &&
+      !updatedNoCudBillRecord.nombreyapellidopaciente
+    ) {
+      updatedNoCudBillRecord.idpaciente = patientRecord.id;
+      updatedNoCudBillRecord.nombreyapellidopaciente =
+        patientRecord.nombreyapellidopaciente;
+      updatedNoCudBillRecord.obrasocialpaciente =
+        patientRecord.obrasocialpaciente;
+    }
+
+    setBillRecordNoCud(updatedNoCudBillRecord);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
-    console.log(updatedBillRecordNoCud);
+    console.log(updatedNoCudBillRecord);
     // console.log(modified);
     // console.log(billRecordNoCud);
   };
@@ -124,7 +162,7 @@ export const CreateNoCudBillingContainer = () => {
   };
 
   const professionalList = createList(
-    professionals,
+    professionalsRecords,
     "nombreyapellidoprofesional",
     "id",
     false,
@@ -132,7 +170,7 @@ export const CreateNoCudBillingContainer = () => {
   );
 
   const patientsList = createList(
-    patients,
+    patientsRecords,
     "nombreyapellidopaciente",
     "id",
     false,
@@ -143,14 +181,18 @@ export const CreateNoCudBillingContainer = () => {
     handleChange: handleChange,
     name: "idprofesional",
     array: professionalList,
-    initialValue: "Selecc. Profesional",
+    initialValue: professionalId
+      ? professionalRecord.nombreyapellidoprofesional
+      : "Selecc. Profesional",
   };
 
   const patientsProps = {
     handleChange: handleChange,
     name: "idpaciente",
     array: patientsList,
-    initialValue: "Selecc. Paciente",
+    initialValue: patientId
+      ? patientRecord.nombreyapellidopaciente
+      : "Selecc. Paciente",
   };
 
   const props = {
@@ -164,6 +206,10 @@ export const CreateNoCudBillingContainer = () => {
     modifiedFlag,
     billRecordNoCud,
     setPageIsLoading,
+    professionalId,
+    patientId,
+    professionalRecord,
+    patientRecord,
   };
 
   return (

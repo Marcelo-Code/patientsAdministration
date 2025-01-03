@@ -39,6 +39,10 @@ export const CreateNoCudBilling = ({
   modifiedFlag,
   billRecordNoCud,
   setPageIsLoading,
+  professionalId,
+  patientId,
+  professionalRecord,
+  patientRecord,
 }) => {
   const style = {
     display: "flex",
@@ -60,7 +64,7 @@ export const CreateNoCudBilling = ({
     >
       <form>
         <FormGroup>
-          <h2
+          <div
             style={{
               textAlign: "center",
               // width: "100%",
@@ -69,8 +73,22 @@ export const CreateNoCudBilling = ({
               borderBottom: "2px solid black",
             }}
           >
-            Generar nueva facturación no CUD
-          </h2>
+            {patientId && (
+              <h2>
+                Generar nueva facturación no CUD: paciente{" "}
+                {patientRecord.nombreyapellidopaciente}
+              </h2>
+            )}
+            {professionalId && (
+              <h2>
+                Generar nueva facturación no CUD: profesional{" "}
+                {professionalRecord.nombreyapellidoprofesional}
+              </h2>
+            )}
+            {!professionalId && !patientId && (
+              <h2>Generar nueva facturación no CUD:</h2>
+            )}
+          </div>
           <Box
             sx={{
               display: "grid",
@@ -81,7 +99,7 @@ export const CreateNoCudBilling = ({
               },
             }}
           >
-            <span style={style}>
+            <span style={{ ...style, pointerEvents: professionalId && "none" }}>
               <PersonIcon />
               <OptionsMenu {...professionalsProps} />
             </span>
@@ -100,7 +118,7 @@ export const CreateNoCudBilling = ({
                 onChange={handleChange}
               />
             </span>
-            <span style={style}>
+            <span style={{ ...style, pointerEvents: patientId && "none" }}>
               <PersonIcon />
               <OptionsMenu {...patientsProps} />
             </span>

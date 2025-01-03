@@ -59,6 +59,8 @@ export const MedicalRecordsList = ({
   patientId,
   professionalId,
   setPageIsLoading,
+  createMedicalRecordUrl,
+  editMedicalRecordUrl,
 }) => {
   const filterProps = {
     filterMode,
@@ -86,20 +88,6 @@ export const MedicalRecordsList = ({
   };
 
   setPageIsLoading(false);
-
-  let url;
-
-  console.log(professionalId);
-
-  if (patientId) {
-    url = `/createMedicalRecordPatient/${patientId}`;
-  } else if (professionalId) {
-    url = `/createMedicalRecordProfessional/${professionalId}`;
-  } else {
-    url = `/createMedicalRecord`;
-  }
-
-  console.log(url);
 
   return (
     <div className="medicalRecordsListContainer">
@@ -132,7 +120,7 @@ export const MedicalRecordsList = ({
             gap: "10px",
           }}
         >
-          <Link to={url}>
+          <Link to={createMedicalRecordUrl}>
             <Button
               aria-label="fingerprint"
               size="small"
@@ -315,7 +303,9 @@ export const MedicalRecordsList = ({
                   >
                     <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
                   </Link>
-                  <Link to={`/editMedicalRecord/${record.id}`}>
+                  <Link
+                    to={`/editMedicalRecord/${record.id}/${professionalId}/${patientId}`}
+                  >
                     <EditIcon sx={{ margin: "10px", fontSize: "2em" }} />
                   </Link>
                 </>

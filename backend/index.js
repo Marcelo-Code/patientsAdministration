@@ -4,6 +4,9 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import pg from "pg";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
 
 //Aisnación de variables de entorno
 
@@ -17,6 +20,7 @@ const DB_PORT = process.env.DB_PORT
 const DB_DATABASE = process.env.DB_DATABASE
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
+const JWT_SECRET = process.env.JWT_SECRET
 
 console.log(PORT);
 
@@ -42,6 +46,60 @@ app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
 });
 
+// POST: Login
+//------------------
+
+app.post('/login', async (req, res) => {
+    const {
+        username,
+        password
+    } = req.body;
+
+    // Verifica si el usuario existe en la base de datos
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+
+        if (result.rows.length === 0) {
+            return res.status(400).json({
+                message: 'Usuario no encontrado'
+            });
+        }
+
+        const userData = result.rows[0];
+
+        // Verifica que la contraseña sea correcta
+        const passwordMatch = await bcrypt.compare(password, userData.password);
+
+        if (!passwordMatch) {
+            return res.status(400).json({
+                message: 'Contraseña incorrecta'
+            });
+        }
+
+        // Si el login es exitoso, genera un JWT
+        const token = jwt.sign({
+                id: userData.id,
+                user: userData.user,
+                role: userData.role
+            },
+            JWT_SECRET, // Clave secreta para firmar el token
+            {
+                expiresIn: '1h'
+            } // El token expirará en 1 hora
+        );
+
+        // Devuelve el token
+        res.json({
+            token
+        });
+    } catch (error) {
+        console.error('Error al procesar el login:', error);
+        res.status(500).json({
+            message: 'Error del servidor',
+            error: error.stack
+        });
+    }
+});
 
 // POST: Paciente
 //---------------

@@ -17,6 +17,8 @@ export const CudBillingListContainer = ({
   cudBillingRecords,
   updateList,
   setUpdateList,
+  patientId,
+  professionalId,
 }) => {
   const { createList, cancelTableAction } = useContext(GeneralContext);
   useState(null);
@@ -198,7 +200,7 @@ export const CudBillingListContainer = ({
     date: true,
   };
 
-  const props = {
+  const cudBillingListProps = {
     cudBillingRecords,
     editMode,
     handleEditModeChange,
@@ -219,15 +221,12 @@ export const CudBillingListContainer = ({
     setIsLoading,
     isLoading,
     menuFilterProps,
-
-    // prestacion: cudBillingRecord.prestacion,
-    // cancelAction,
-    // modifiedFlag,
-    // handleGoBack,
+    patientId,
+    professionalId,
   };
   return (
     <>
-      <CudBillingList {...props} />
+      <CudBillingList {...cudBillingListProps} />
     </>
   );
 };

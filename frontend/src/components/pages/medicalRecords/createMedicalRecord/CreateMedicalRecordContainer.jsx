@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { CreateMedicalRecord } from "./CreateMedicalRecord";
 import { Spinner } from "../../../common/spinner/Spinner";

@@ -14,8 +14,11 @@ export const NoCudBillingListContainer = ({
   patientsRecords,
   professionalsRecords,
   updateList,
+  setUpdateList,
   setUpdateNoCudBillingList,
   filteredNoCudBillingRecords,
+  patientId,
+  professionalId,
 }) => {
   const {
     handleGoBack,
@@ -201,7 +204,7 @@ export const NoCudBillingListContainer = ({
     date: true,
   };
 
-  const props = {
+  const noCudBillingListProps = {
     noCudBillingRecords,
     editMode,
     handleEditModeChange,
@@ -212,6 +215,7 @@ export const NoCudBillingListContainer = ({
     editModeFields,
     setUpdateNoCudBillingList,
     updateList,
+    setUpdateList,
     cancelTableAction,
     professionalsProps,
     patientsProps,
@@ -226,10 +230,12 @@ export const NoCudBillingListContainer = ({
     cancelAction,
     modifiedFlag,
     removeAccentsAndSpecialChars,
+    patientId,
+    professionalId,
   };
   return (
     <>
-      <NoCudBillingList {...props} />
+      <NoCudBillingList {...noCudBillingListProps} />
     </>
   );
 };

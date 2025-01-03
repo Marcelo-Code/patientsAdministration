@@ -1,4 +1,4 @@
-import { Button, TextareaAutosize } from "@mui/material";
+import { Button, TextareaAutosize, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -18,14 +18,17 @@ export const EditMedicalRecord = ({
   goBackAction,
   handleSubmit,
   medicalRecord,
-  patient,
-  professional,
-  arrayProfessionals,
+  patientRecord,
+  professionalRecord,
+  professionalsRecords,
+  patientsRecords,
   modified,
   modifiedFlag,
   cancelAction,
   isLoading,
   setPageIsLoading,
+  professionalId,
+  patientId,
 }) => {
   //Props para el menú de tipo de consulta
   const arrayMeetings = meetings;
@@ -38,17 +41,33 @@ export const EditMedicalRecord = ({
   };
 
   //Props para el menú de profesionales
-  const array = arrayProfessionals.map((element) => ({
+  const professionalsArray = professionalsRecords.map((element) => ({
     id: element.id,
     value: element.id,
     name: element.nombreyapellidoprofesional,
   }));
+
+  //Props para el menú de pacientes
+  const patientsArray = patientsRecords.map((element) => ({
+    id: element.id,
+    value: element.id,
+    name: element.nombreyapellidopaciente,
+  }));
+
   const propsProfessionals = {
     name: "idprofesional",
-    array: array,
+    array: professionalsArray,
     handleChange,
-    initialValue: professional.nombreyapellidoprofesional,
+    initialValue: professionalRecord.nombreyapellidoprofesional,
     modified: modified.idprofesional,
+  };
+
+  const propsPatients = {
+    name: "idpaciente",
+    array: patientsArray,
+    handleChange,
+    initialValue: patientRecord.nombreyapellidopaciente,
+    modified: modified.idpaciente,
   };
 
   setPageIsLoading(false);
@@ -69,10 +88,29 @@ export const EditMedicalRecord = ({
           alignItems: "center",
         }}
       >
-        <h2 style={{ marginRight: "10px", textAlign: "center" }}>
-          Editar Report:{" "}
-        </h2>
-        <h2> {patient.nombreyapellidopaciente}</h2>
+        {patientId !== "null" && professionalId === "null" && (
+          <>
+            <h2 style={{ marginRight: "10px", textAlign: "center" }}>
+              Editar Report Paciente:{" "}
+            </h2>
+            <h2> {patientRecord.nombreyapellidopaciente}</h2>
+          </>
+        )}
+        {professionalId !== "null" && patientId === "null" && (
+          <>
+            <h2 style={{ marginRight: "10px", textAlign: "center" }}>
+              Editar Report Profesional:{" "}
+            </h2>
+            <h2> {professionalRecord.nombreyapellidoprofesional}</h2>
+          </>
+        )}
+        {professionalId === "null" && patientId === "null" && (
+          <>
+            <h2 style={{ marginRight: "10px", textAlign: "center" }}>
+              Editar Report:
+            </h2>
+          </>
+        )}
       </span>
       <div
         style={{
@@ -105,17 +143,38 @@ export const EditMedicalRecord = ({
             }}
             label="Fecha"
             slots={{
-              openPickerIcon: () => (
-                <CalendarMonthIcon
-                  sx={{ color: modified.fechaconsulta ? "red" : "gray" }}
-                />
-              ),
+              textField: TextField,
+              openPickerIcon: CalendarMonthIcon,
+            }}
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                InputProps: {
+                  endAdornment: (
+                    <CalendarMonthIcon
+                      sx={{
+                        color: modified.fechaconsulta ? "red" : "gray",
+                        cursor: "pointer",
+                      }}
+                    />
+                  ),
+                },
+              },
             }}
           />
         </LocalizationProvider>
-        <span>
-          <OptionsMenu {...propsProfessionals} />
-        </span>
+
+        {patientId && professionalId === "null" && (
+          <span>
+            <OptionsMenu {...propsProfessionals} />
+          </span>
+        )}
+        {professionalId && patientId === "null" && (
+          <span>
+            <OptionsMenu {...propsPatients} />
+          </span>
+        )}
+
         <span>
           <OptionsMenu {...propsMeetings} />
         </span>

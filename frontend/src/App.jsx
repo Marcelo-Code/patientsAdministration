@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 
 import { DocumentationContainer } from "./components/pages/documentation/DocumentationContainer";
@@ -20,10 +20,13 @@ import { ProfessionalDetailContainer } from "./components/pages/professionals/pr
 import { ProfessionalDocumentationContainer } from "./components/pages/professionals/professionalDocumentation/professionalDocumentationContainer";
 import { NavBarContainer } from "./components/layout/navBar/NavBarContainer";
 import { Footer } from "./components/layout/footer/Footer";
+import { LoginContainer } from "./login/LoginContainer";
 function App() {
+  const location = useLocation();
+  const isLoginScreen = location.pathname === "/login";
   return (
     <>
-      <NavBarContainer />
+      {!isLoginScreen && <NavBarContainer />}
       <Routes>
         <Route path="/" element={<PatientsListContainer />} />
         <Route
@@ -56,7 +59,9 @@ function App() {
           element={<BillingContainer />}
         />
         <Route
-          path={"/editMedicalRecord/:medicalRecordId"}
+          path={
+            "/editMedicalRecord/:medicalRecordId/:professionalId/:patientId"
+          }
           element={<EditMedicalRecordContainer />}
         />
         <Route
@@ -91,16 +96,24 @@ function App() {
           element={<CreateMedicalRecordContainer />}
         />
         <Route
-          path={"/createMedicalRecordPatient/:patientId"}
+          path={"/createMedicalRecord/patient/:patientId"}
           element={<CreateMedicalRecordContainer />}
         />
         <Route
-          path={"/createMedicalRecordProfessional/:professionalId"}
+          path={"/createMedicalRecord/professional/:professionalId"}
           element={<CreateMedicalRecordContainer />}
         />
         <Route
           path={"/createMedicalRecord"}
           element={<CreateMedicalRecordContainer />}
+        />
+        <Route
+          path={"/createCudBilling/patient/:patientId"}
+          element={<CreateCudBillingContainer />}
+        />
+        <Route
+          path={"/createCudBilling/professional/:professionalId"}
+          element={<CreateCudBillingContainer />}
         />
         <Route
           path={"/createCudBilling"}
@@ -111,11 +124,21 @@ function App() {
           element={<CreateNoCudBillingContainer />}
         />
         <Route
+          path={"/createNoCudBilling/patient/:patientId"}
+          element={<CreateNoCudBillingContainer />}
+        />
+        <Route
+          path={"/createNoCudBilling/professional/:professionalId"}
+          element={<CreateNoCudBillingContainer />}
+        />
+        <Route
           path={"/medicalRecordDetail/:medicalRecordId"}
           element={<MedicalRecordDetailContainer />}
         />
+
+        <Route path="/login" element={<LoginContainer />} />
       </Routes>
-      <Footer />
+      {!isLoginScreen && <Footer />}
     </>
   );
 }

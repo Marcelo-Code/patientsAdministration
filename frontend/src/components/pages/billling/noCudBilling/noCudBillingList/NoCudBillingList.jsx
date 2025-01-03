@@ -54,6 +54,8 @@ export const NoCudBillingList = ({
   isLoading,
   menuFilterProps,
   removeAccentsAndSpecialChars,
+  patientId,
+  professionalId,
 }) => {
   const totalMontoSesion = noCudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montosesion);
@@ -75,6 +77,13 @@ export const NoCudBillingList = ({
     "documentocomprobantepagoretencion",
   ];
 
+  let createNoCudBillingUrl;
+  if (patientId)
+    createNoCudBillingUrl = `/createNoCudBilling/patient/${patientId}`;
+  else if (professionalId)
+    createNoCudBillingUrl = `/createNoCudBilling/professional/${professionalId}`;
+  else createNoCudBillingUrl = "/createNoCudBilling";
+
   return (
     <>
       <div
@@ -86,7 +95,7 @@ export const NoCudBillingList = ({
           padding: "20px",
         }}
       >
-        <Link to={"/createNoCudBilling"}>
+        <Link to={createNoCudBillingUrl}>
           <Button
             variant={"contained"}
             size={"small"}

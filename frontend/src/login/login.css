@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "broughton";
+  src: url("/broughton.ttf");
+}
+
+.title {
+  font-family: "broughton";
+  font-size: 30px;
+  text-shadow: 0 0 20px black;
+  width: 100px;
+  margin: auto;
+  text-align: center;
+  color: white;
+}
