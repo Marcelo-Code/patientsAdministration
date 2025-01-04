@@ -21,9 +21,9 @@ import { ProfessionalDocumentationContainer } from "./components/pages/professio
 import { NavBarContainer } from "./components/layout/navBar/NavBarContainer";
 import { Footer } from "./components/layout/footer/Footer";
 import { LoginContainer } from "./login/LoginContainer";
-import { CreateUserContainer } from "./components/pages/users/createUser/createUserContainer";
 import { UsersListContainer } from "./components/pages/users/usersList/UsersListContainer";
 import { ProtectedRoute } from "./components/pages/protectedRoute/ProtectedRoute";
+import { CreateUserContainer } from "./components/pages/users/createUser/createUserContainer";
 function App() {
   const location = useLocation();
   const isLoginScreen = location.pathname === "/login";
