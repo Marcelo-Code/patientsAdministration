@@ -151,7 +151,11 @@ export function Alerts({
           }
           color="primary"
         >
-          <NotificationsActiveIcon color="action" />
+          <NotificationsActiveIcon
+            sx={{
+              color: "white",
+            }}
+          />
         </Badge>
       </Link>
     </div>

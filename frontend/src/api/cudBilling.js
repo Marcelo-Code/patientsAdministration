@@ -85,6 +85,9 @@ export const deleteCudBillingRecord = async (billingRecordId, documentData) => {
     }
 }
 
+//POST: facturación CUD
+//---------------------
+
 export const createCudBillingRecord = async function name(newCudBillingRecord) {
     console.log("Creando registro...")
     try {

@@ -1,13 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
-import "./navBar.css";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { Alerts } from "../alerts/Alerts";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Link } from "react-router-dom";
+import "./navBar.css";
 
 export const NavBar = ({
   patientsExpirationCudRecords,
   professionalsExpirationRnpRecords,
+  handleLogout,
 }) => {
   const { darkMode, pageIsLoading } = useContext(GeneralContext);
   const altertsProps = {
@@ -28,6 +31,7 @@ export const NavBar = ({
         padding: "20px",
         width: "100vw",
         height: "auto",
+        gap: "10px,",
       }}
     >
       <BurguerMenu />
@@ -45,9 +49,14 @@ export const NavBar = ({
             style={{ width: "80px", height: "80px" }}
           />
         </span>
-        <span className="title">Gestión Cudnocud</span>
+        <span className="navBarTitle">Gestión Cudnocud</span>
       </span>
       <Alerts {...altertsProps} />
+      <span style={{ padding: "10px" }}>
+        <Link onClick={handleLogout}>
+          <LogoutIcon sx={{ color: "white" }} />
+        </Link>
+      </span>
     </div>
   );
 };

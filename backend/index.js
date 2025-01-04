@@ -46,18 +46,57 @@ app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
 });
 
+//POST: usuario
+//-------------
+
+app.post('/createUser', async (req, res) => {
+    const {
+        usuario,
+        nombreyapellidousuario,
+        dni,
+        password,
+        email,
+        rol,
+        fechacreacion
+    } = req.body;
+
+    try {
+        // Cifrar la contraseña antes de almacenarla
+        const salt = await bcrypt.genSalt(12);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Insertar el nuevo usuario en la base de datos
+        const result = await pool.query(
+            `INSERT INTO usuarios (usuario, nombreyapellidousuario, dni, password, email, rol, fechacreacion) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+            [usuario, nombreyapellidousuario, dni, hashedPassword, email, rol, fechacreacion]
+        );
+
+        res.status(201).json({
+            message: "Usuario creado con éxito",
+            user: result.rows[0]
+        });
+    } catch (error) {
+        console.error("Error al crear usuario:", error);
+        res.status(500).json({
+            message: "Error del servidor",
+            error: error.message
+        });
+    }
+});
+
 // POST: Login
 //------------------
 
 app.post('/login', async (req, res) => {
     const {
-        username,
+        usuario,
         password
     } = req.body;
 
     // Verifica si el usuario existe en la base de datos
     try {
-        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        const result = await pool.query('SELECT * FROM usuarios WHERE usuario = $1', [usuario]);
 
         if (result.rows.length === 0) {
             return res.status(400).json({
@@ -79,8 +118,8 @@ app.post('/login', async (req, res) => {
         // Si el login es exitoso, genera un JWT
         const token = jwt.sign({
                 id: userData.id,
-                user: userData.user,
-                role: userData.role
+                user: userData.usuario,
+                role: userData.rol
             },
             JWT_SECRET, // Clave secreta para firmar el token
             {
@@ -97,6 +136,125 @@ app.post('/login', async (req, res) => {
         res.status(500).json({
             message: 'Error del servidor',
             error: error.stack
+        });
+    }
+});
+
+//GET: Usuarios
+//-------------
+
+app.get('/getUsersRecords', async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM usuarios");
+        res.json(result.rows);
+    } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+        res.status(500).json({
+            message: "Error del servidor",
+            error: error.message
+        });
+    }
+});
+
+// GET: paciente
+//--------------
+
+app.get("/getUserRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        const result = await pool.query("SELECT * FROM usuarios WHERE id = $1", [id]);
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error al obtener usuario: ", error);
+        res.status(500).json({
+            error: "Error al obtener usuario: ",
+            details: error.message
+        });
+    }
+});
+
+//PUT: usuario
+//------------
+
+app.put("/updateUserRecord/:id", async (req, res) => {
+    const {
+        usuario,
+        nombreyapellidousuario,
+        dni,
+        password,
+        email,
+        rol,
+        fechacreacion,
+    } = req.body;
+
+    const {
+        id
+    } = req.params;
+
+    try {
+        const result = await pool.query(
+            `UPDATE usuarios
+             SET usuario = $1,
+                nombreyapellidousuario = $2,
+                dni = $3,
+                password = $4,
+                email = $5,
+                rol = $6,
+                fechacreacion = $7
+                WHERE id = $8`, [
+                usuario,
+                nombreyapellidousuario,
+                dni,
+                password,
+                email,
+                rol,
+                fechacreacion,
+                id
+            ]
+        );
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                error: "Usuario no encontrado: "
+            });
+        }
+        res.status(200).json({
+            message: "Usuario actualizado correctamente: "
+        });
+    } catch (error) {
+        console.log("Error al actualizar usuario: ", error);
+        res.status(500).json({
+            error: "Error al actualizar usuario: ",
+            details: error.message
+        });
+    }
+});
+
+//DELETE: usuario
+//----------------
+
+app.delete("/deleteUserRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        const result = await pool.query("DELETE FROM usuarios WHERE id = $1 RETURNING *", [id]);
+        if (result.rowCount > 0) {
+            res.status(200).json({
+                message: "Usuario eliminado exitosamente: ",
+                deletedPatient: result.rows[0]
+            });
+        } else {
+            res.status(404).json({
+                message: "Usuario no encontrado: "
+            });
+        }
+    } catch (error) {
+        console.log("Error al eliminar usuario: ", error);
+        res.status(500).json({
+            error: "Error al eliminar usuario: ",
+            details: error.message
         });
     }
 });
@@ -1112,28 +1270,28 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
     try {
         const result = await pool.query(
             `UPDATE profesionales
-             SET nombreyapellidoprofesional = $1,
-                    especialidadprofesional = $2,
-                    matriculaprofesional = $3,
-                    cuitprofesional = $4,
-                    dniprofesional = $5,
-                    direccionprofesional = $6,
-                    ciudadprofesional = $7,
-                    telefonoprofesional = $8,
-                    emailprofesional = $9,
-                    fechavencimientornpprofesional = $10,
-                    documentoconstanciamatriculaprofesional = $11,
-                    documentocertificadornpprofesional = $12,
-                    documentotitulofrenteprofesional = $13,
-                    documentotitulodorsoprofesional = $14,
-                    documentocvprofesional = $15,
-                    documentoconstanciaafipprofesional = $16,
-                    documentoconstanciacbuprofesional = $17,
-                    documentodnifrenteprofesional = $18,
-                    documentodnidorsoprofesional = $19,
-                    documentoseguroprofesional = $20,
-                    fechaultimaactualizacion = $21
-             WHERE id = $22`,
+                SET nombreyapellidoprofesional = $1,
+                        especialidadprofesional = $2,
+                        matriculaprofesional = $3,
+                        cuitprofesional = $4,
+                        dniprofesional = $5,
+                        direccionprofesional = $6,
+                        ciudadprofesional = $7,
+                        telefonoprofesional = $8,
+                        emailprofesional = $9,
+                        fechavencimientornpprofesional = $10,
+                        documentoconstanciamatriculaprofesional = $11,
+                        documentocertificadornpprofesional = $12,
+                        documentotitulofrenteprofesional = $13,
+                        documentotitulodorsoprofesional = $14,
+                        documentocvprofesional = $15,
+                        documentoconstanciaafipprofesional = $16,
+                        documentoconstanciacbuprofesional = $17,
+                        documentodnifrenteprofesional = $18,
+                        documentodnidorsoprofesional = $19,
+                        documentoseguroprofesional = $20,
+                        fechaultimaactualizacion = $21
+                WHERE id = $22`,
             [
                 nombreyapellidoprofesional,
                 especialidadprofesional,

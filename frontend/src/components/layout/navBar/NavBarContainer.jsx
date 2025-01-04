@@ -4,11 +4,15 @@ import { getPatientsRecords } from "../../../api/patients";
 import { getProfessionalsRecords } from "../../../api/professionals";
 import dayjs from "dayjs";
 import { GeneralContext } from "../../../context/GeneralContext";
+import { useNavigate } from "react-router-dom";
+import { ConfirmAlert } from "../../common/alerts/alerts";
 
 export const NavBarContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const { updateAlertsList } = useContext(GeneralContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
     getPatientsRecords()
       .then((response) => {
@@ -54,9 +58,27 @@ export const NavBarContainer = () => {
 
   // console.log(professionalsExpirationRnpRecords);
 
+  const handleLogout = async () => {
+    try {
+      const result = await ConfirmAlert(
+        "¿Estás seguro de cerrar sesión?",
+        "",
+        "Aceptar",
+        "Cancelar"
+      );
+      if (result.isConfirmed) {
+        localStorage.removeItem("token"); // Borra el token
+        navigate("/login");
+      } // Redirige al login
+    } catch (error) {
+      console.log("Error al cerrar sesión: ", error);
+    }
+  };
+
   const navBarProps = {
     patientsExpirationCudRecords,
     professionalsExpirationRnpRecords,
+    handleLogout,
   };
 
   return <NavBar {...navBarProps} />;

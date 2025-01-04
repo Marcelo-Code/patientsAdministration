@@ -3,10 +3,11 @@ import {
     BACKEND_URL
 } from "./config"
 
-export const login = async (username, password) => {
+export const login = async (usuario, password) => {
+    console.log(usuario + password)
     try {
         const response = await axios.post(`${BACKEND_URL}/login`, {
-            username,
+            usuario,
             password
         });
 

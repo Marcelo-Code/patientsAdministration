@@ -20,7 +20,7 @@ export const Login = ({
   setUserName,
   password,
   setPassword,
-  handleLogin,
+  navigate,
 }) => {
   return (
     <div style={{ width: "100vw", display: "flex", justifyContent: "center" }}>
@@ -63,7 +63,10 @@ export const Login = ({
             variant="contained"
             onClick={() => {
               login(userName, password)
-                .then((response) => console.log(response))
+                .then((response) => {
+                  console.log(response);
+                  navigate("/");
+                })
                 .catch((error) => console.log(error));
             }}
           >

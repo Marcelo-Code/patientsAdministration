@@ -3,7 +3,8 @@
   src: url("/broughton.ttf");
 }
 
-.title {
+.navBarTitle {
+  color: white;
   font-family: "broughton";
   font-size: 20px;
   text-shadow: 0 0 20px black;
