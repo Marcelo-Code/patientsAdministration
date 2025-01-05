@@ -41,10 +41,17 @@ export const UsersListContainer = () => {
   const [userRecord, setUserRecord] = useState(userRecordInitialState);
 
   useEffect(() => {
+    setPageIsLoading(true);
     getUsersRecords()
-      .then((response) => setUsersRecords(response))
-      .catch((error) => console.log(error));
-  }, [updateList]);
+      .then((response) => {
+        setUsersRecords(response);
+        setPageIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setPageIsLoading(false);
+      });
+  }, [updateList, setPageIsLoading]);
 
   if (!usersRecords) return <Spinner />;
 
