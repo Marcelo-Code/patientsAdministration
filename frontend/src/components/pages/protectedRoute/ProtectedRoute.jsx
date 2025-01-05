@@ -1,6 +1,13 @@
+import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { TokenContext } from "../../../context/TokenContext";
 
 export const ProtectedRoute = () => {
-  const token = localStorage.getItem("token");
-  return token ? <Outlet /> : <Navigate to={"/login"} />;
+  const { isAuthenticated } = useContext(TokenContext); // Usar el contexto
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  return <Outlet />;
 };

@@ -123,7 +123,7 @@ app.post('/login', async (req, res) => {
             },
             JWT_SECRET, // Clave secreta para firmar el token
             {
-                expiresIn: '1h'
+                expiresIn: '1m'
             } // El token expirará en 1 hora
         );
 

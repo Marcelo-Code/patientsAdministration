@@ -24,11 +24,12 @@ import { LoginContainer } from "./login/LoginContainer";
 import { UsersListContainer } from "./components/pages/users/usersList/UsersListContainer";
 import { ProtectedRoute } from "./components/pages/protectedRoute/ProtectedRoute";
 import { CreateUserContainer } from "./components/pages/users/createUser/CreateUserContainerTemp.jsx";
+import { TokenContextProvider } from "./context/TokenContext.jsx";
 function App() {
   const location = useLocation();
   const isLoginScreen = location.pathname === "/login";
   return (
-    <>
+    <TokenContextProvider>
       {!isLoginScreen && <NavBarContainer />}
       <Routes>
         <Route path="/login" element={<LoginContainer />} />
@@ -145,7 +146,7 @@ function App() {
         </Route>
       </Routes>
       {!isLoginScreen && <Footer />}
-    </>
+    </TokenContextProvider>
   );
 }
 

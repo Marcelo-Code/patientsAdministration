@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -24,6 +23,10 @@ export const Login = ({
   navigate,
   isLoading,
   setIsLoading,
+  updateToken,
+  setUpdateToken,
+  isAuthenticated,
+  probeToken,
 }) => {
   return (
     <div style={{ width: "100vw", display: "flex", justifyContent: "center" }}>
@@ -70,8 +73,17 @@ export const Login = ({
               login(userName, password)
                 .then((response) => {
                   console.log(response);
-                  navigate("/");
-                  setIsLoading(false);
+                  if (response) {
+                    probeToken()
+                      .then((response) => {
+                        if (response) navigate("/");
+                        setIsLoading(false);
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        setIsLoading(false);
+                      });
+                  }
                 })
                 .catch((error) => {
                   console.log(error);
