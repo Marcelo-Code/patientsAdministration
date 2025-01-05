@@ -12,6 +12,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./login.css";
 import { login } from "../api/login";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export const Login = ({
   showPassword,
@@ -21,6 +22,8 @@ export const Login = ({
   password,
   setPassword,
   navigate,
+  isLoading,
+  setIsLoading,
 }) => {
   return (
     <div style={{ width: "100vw", display: "flex", justifyContent: "center" }}>
@@ -58,20 +61,27 @@ export const Login = ({
           />
         </CardContent>
         <CardActions sx={{ justifyContent: "center" }}>
-          <Button
+          <LoadingButton
             sx={{ marginTop: "20px", width: "100%" }}
             variant="contained"
+            loading={isLoading}
             onClick={() => {
+              setIsLoading(true);
               login(userName, password)
                 .then((response) => {
                   console.log(response);
                   navigate("/");
+                  setIsLoading(false);
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                  console.log(error);
+                  setIsLoading(false);
+                });
             }}
+            size="small"
           >
             Iniciar Sesión
-          </Button>
+          </LoadingButton>
         </CardActions>
       </Card>
     </div>

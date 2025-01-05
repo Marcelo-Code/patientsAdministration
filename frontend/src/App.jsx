@@ -23,7 +23,7 @@ import { Footer } from "./components/layout/footer/Footer";
 import { LoginContainer } from "./login/LoginContainer";
 import { UsersListContainer } from "./components/pages/users/usersList/UsersListContainer";
 import { ProtectedRoute } from "./components/pages/protectedRoute/ProtectedRoute";
-import { CreateUserContainer } from "./components/pages/users/createUser/CreateUserContainerTemp";
+import { CreateUserContainer } from "./components/pages/users/createUser/CreateUserContainerTemp.jsx";
 function App() {
   const location = useLocation();
   const isLoginScreen = location.pathname === "/login";
