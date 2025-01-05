@@ -45,11 +45,9 @@ export const UsersListContainer = () => {
     getUsersRecords()
       .then((response) => {
         setUsersRecords(response);
-        setPageIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setPageIsLoading(false);
       });
   }, [updateList, setPageIsLoading]);
 
