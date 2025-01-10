@@ -23,6 +23,7 @@ export const CreateUser = ({
   goBackAction,
   professionalsProps,
   usersTypeProps,
+  passwordMatch,
 }) => {
   const style = {
     display: "flex",
@@ -152,27 +153,33 @@ export const CreateUser = ({
                   backgroundColor: "white",
                 }}
                 id="outlined-basic"
+                type="password"
                 label="password"
                 variant="outlined"
                 name="password"
                 onChange={handleChange}
+                value={userRecord.password}
               />
             </span>
-            <span style={style}>
-              <KeyIcon />
-              <TextField
-                style={{
-                  margin: "10px",
-                  width: "200px",
-                  backgroundColor: "white",
-                }}
-                id="outlined-basic"
-                label="repetir password"
-                variant="outlined"
-                name="passwordrepeat"
-                onChange={handleChange}
-              />
-            </span>
+            {userRecord.password !== "" && (
+              <span style={style}>
+                {passwordMatch ? <span>✔️</span> : <span>❌</span>}
+                <TextField
+                  style={{
+                    margin: "10px",
+                    width: "200px",
+                    backgroundColor: "white",
+                  }}
+                  id="outlined-basic"
+                  type="password"
+                  label="repetir password"
+                  variant="outlined"
+                  name="passwordrepeat"
+                  value={userRecord.passwordrepeat}
+                  onChange={handleChange}
+                />
+              </span>
+            )}
           </Box>
           <div className="buttonGroup">
             <div

@@ -4,11 +4,13 @@ import dayjs from "dayjs";
 
 import { Spinner } from "../../../common/spinner/Spinner";
 import { usersTypeRecords } from "../usersType";
-import { createUser } from "../../../../api/usuarios/users";
 import {
   getProfessionalRecord,
   getProfessionalsRecords,
 } from "../../../../api/profesionales/professionals";
+import { createUser } from "../../../../api/usuarios/users";
+import { CreateUser } from "./CreateUserTemp";
+import { WarningAlert } from "../../../common/alerts/alerts";
 
 export const CreateUserContainer = () => {
   const { cancelAction, goBackAction, isLoading, setIsLoading, createList } =
@@ -30,6 +32,7 @@ export const CreateUserContainer = () => {
 
   const [userRecord, setUserRecord] = useState(initialState);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
+  const [passwordMatch, setPasswordMatch] = useState(false);
 
   //hooks para detectar los cambios
 
@@ -57,6 +60,9 @@ export const CreateUserContainer = () => {
           .catch((error) => console.log(error));
       }
       console.log(updatedUserRecord);
+      if (updatedUserRecord.password === updatedUserRecord.passwordrepeat)
+        setPasswordMatch(true);
+      else setPasswordMatch(false);
       return updatedUserRecord;
     });
   };
@@ -64,20 +70,24 @@ export const CreateUserContainer = () => {
   //Función para llamar a la función POST
 
   const handleSubmit = () => {
-    const today = dayjs().format("YYYY-MM-DD");
-    const updateUserRecord = { ...userRecord, fechacreacion: today };
-    setIsLoading(true);
-    console.log(updateUserRecord);
-    createUser(updateUserRecord)
-      .then((response) => {
-        console.log(response);
-        setIsLoading(false);
-        goBackAction();
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setIsLoading(false);
-      });
+    if (passwordMatch) {
+      const today = dayjs().format("YYYY-MM-DD");
+      const updateUserRecord = { ...userRecord, fechacreacion: today };
+      setIsLoading(true);
+      console.log(updateUserRecord);
+      createUser(updateUserRecord)
+        .then((response) => {
+          console.log(response);
+          setIsLoading(false);
+          goBackAction();
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setIsLoading(false);
+        });
+    } else {
+      WarningAlert("verificar password");
+    }
   };
 
   useEffect(() => {
@@ -121,6 +131,7 @@ export const CreateUserContainer = () => {
     goBackAction,
     professionalsProps,
     usersTypeProps,
+    passwordMatch,
   };
   return (
     <>
