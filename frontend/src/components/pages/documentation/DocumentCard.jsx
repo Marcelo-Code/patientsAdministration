@@ -5,10 +5,10 @@ import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
 import { DocumentImage } from "./DocumentImage";
-import { DeleteImage, downloadImage } from "../../../api/Images";
 import { UploadContainer } from "./UploadContainer";
 import { WarningAlert } from "../../common/alerts/alerts";
 import ClearIcon from "@mui/icons-material/Clear";
+import { DeleteImage, downloadImage } from "../../../api/pacientes/patients";
 
 export const DocumentCard = ({
   patient,

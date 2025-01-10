@@ -4,11 +4,13 @@ import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Link } from "react-router-dom";
+
+import "./professionalDocumentation.css";
 import {
   DeleteProfessionalDocumentFromBucket,
   uploadProfessionalDocumentToBucket,
-} from "../../../../api/professionalsDocuments";
-import "./professionalDocumentation.css";
+} from "../../../../api/profesionales/professionals";
+import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
 export const ProfessionalDocumentation = ({
@@ -24,7 +26,9 @@ export const ProfessionalDocumentation = ({
   trimUrl,
   setPageIsLoading,
 }) => {
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
   return (
     <div className="professionalDocumentationContainer">
       <div

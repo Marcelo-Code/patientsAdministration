@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import { Spinner } from "../../../../common/spinner/Spinner";
-import { getProfessionalsRecords } from "../../../../../api/professionals";
-import { getPatientsRecords } from "../../../../../api/patients";
-import { createNoCudBillingRecord } from "../../../../../api/noCudBilling";
 import { CreateNoCudBilling } from "./CreateNoCudBilling";
 import { useParams } from "react-router-dom";
+import { getProfessionalsRecords } from "../../../../../api/profesionales/professionals";
+import { getPatientsRecords } from "../../../../../api/pacientes/patients";
+import { createNoCudBillingRecord } from "../../../../../api/facturacionNoCud/noCudBilling";
 
 export const CreateNoCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =

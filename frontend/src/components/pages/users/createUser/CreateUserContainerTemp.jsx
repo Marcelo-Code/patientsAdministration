@@ -1,26 +1,35 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
-import { createUser } from "../../../../api/users";
-import { CreateUser } from "./CreateUserTemp";
+
+import { Spinner } from "../../../common/spinner/Spinner";
+import { usersTypeRecords } from "../usersType";
+import { createUser } from "../../../../api/usuarios/users";
+import {
+  getProfessionalRecord,
+  getProfessionalsRecords,
+} from "../../../../api/profesionales/professionals";
 
 export const CreateUserContainer = () => {
-  const { cancelAction, goBackAction, isLoading, setIsLoading } =
+  const { cancelAction, goBackAction, isLoading, setIsLoading, createList } =
     useContext(GeneralContext);
 
   //hook para guardar los datos del nuevo paciente
 
   const initialState = {
-    usuario: "",
+    perfil: "",
     nombreyapellidousuario: "",
+    idprofesional: "",
+    usuario: "",
     dni: "",
-    password: "",
     email: "",
-    rol: "",
+    password: "",
+    passwordrepeat: "",
     fechacreacion: "",
   };
 
   const [userRecord, setUserRecord] = useState(initialState);
+  const [professionalsRecords, setProfessionalsRecords] = useState(null);
 
   //hooks para detectar los cambios
 
@@ -30,10 +39,26 @@ export const CreateUserContainer = () => {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    const updateUserRecord = { ...userRecord, [name]: value };
-    console.log(updateUserRecord);
-    setUserRecord(updateUserRecord);
-    if (!modifiedFlag) setModifiedFlag(true);
+
+    setUserRecord((prevState) => {
+      const updatedUserRecord = { ...prevState, [name]: value };
+
+      // Si el usuario es "admin", se borra el idprofesional
+      if (name === "perfil" && value === "admin") {
+        updatedUserRecord.idprofesional = "";
+      }
+      if (name === "idprofesional") {
+        getProfessionalRecord(value)
+          .then(
+            (response) =>
+              (updatedUserRecord.nombreyapellidousuario =
+                response.nombreyapellidoprofesional)
+          )
+          .catch((error) => console.log(error));
+      }
+      console.log(updatedUserRecord);
+      return updatedUserRecord;
+    });
   };
 
   //Función para llamar a la función POST
@@ -55,6 +80,37 @@ export const CreateUserContainer = () => {
       });
   };
 
+  useEffect(() => {
+    getProfessionalsRecords()
+      .then((response) => setProfessionalsRecords(response))
+      .catch((error) => console.log(error));
+  }, []);
+
+  if (!professionalsRecords) return <Spinner />;
+
+  const professionalsList = createList(
+    professionalsRecords,
+    "nombreyapellidoprofesional",
+    "id",
+    false
+  );
+
+  const usersTypeList = createList(usersTypeRecords, "name", "name", false);
+
+  const professionalsProps = {
+    handleChange: handleChange,
+    name: "idprofesional",
+    array: professionalsList,
+    initialValue: "Selecc. Profesional",
+  };
+
+  const usersTypeProps = {
+    handleChange: handleChange,
+    name: "perfil",
+    array: usersTypeList,
+    initialValue: "Selecc. Perfil",
+  };
+
   const createUserProps = {
     handleChange,
     userRecord,
@@ -63,6 +119,8 @@ export const CreateUserContainer = () => {
     modifiedFlag,
     cancelAction,
     goBackAction,
+    professionalsProps,
+    usersTypeProps,
   };
   return (
     <>

@@ -26,13 +26,14 @@ import { useContext } from "react";
 import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
 import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecord";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
+import { GeneralContext } from "../../../../../context/GeneralContext";
 import {
+  deleteCudBillingRecord,
   DeleteFileFromBucket,
   uploadCudBillingDocumentToBucket,
-} from "../../../../../api/billingDocuments";
-import { GeneralContext } from "../../../../../context/GeneralContext";
-import { deleteCudBillingRecord } from "../../../../../api/cudBilling";
+} from "../../../../../api/facturacionCud/cudBilling";
 // import "./cudBillingList.css";
+import CudBillingListShowTable from "./CudBillingListShowTable";
 
 export const CudBillingList = ({
   cudBillingRecords,
@@ -146,7 +147,7 @@ export const CudBillingList = ({
                   style={{
                     tableLayout: "fixed",
                     width: "100%",
-                    // borderCollapse: "collapse",
+                    borderCollapse: "collapse",
                   }}
                 >
                   <thead
@@ -199,639 +200,534 @@ export const CudBillingList = ({
                   <tbody>
                     {cudBillingRecords.map((record) => {
                       return (
-                        <>
-                          <tr key={record.id}>
-                            {editModeFields === null && editMode ? (
+                        <tr key={record.id}>
+                          {editModeFields === null && editMode ? (
+                            <>
+                              <td
+                                style={{
+                                  position: "sticky",
+                                  left: 0,
+                                  background: "white",
+                                }}
+                              >
+                                <Link
+                                  onClick={() => {
+                                    deleteCudBillingRecord(
+                                      record.id,
+                                      documentData
+                                    )
+                                      .then((reponse) => {
+                                        console.log(reponse);
+                                        setUpdateList(!updateList);
+                                      })
+                                      .catch((error) => console.log(error));
+                                  }}
+                                >
+                                  <DeleteIcon
+                                    sx={{ margin: "10px", fontSize: "2em" }}
+                                  />
+                                </Link>
+                                <Link
+                                  onClick={() => {
+                                    handleEditModeField(record.id);
+                                  }}
+                                >
+                                  <EditIcon
+                                    sx={{ margin: "10px", fontSize: "2em" }}
+                                  />
+                                </Link>
+                              </td>
+                            </>
+                          ) : editModeFields !== record.id && editMode ? (
+                            <td
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                background: "white",
+                                zIndex: 2,
+                              }}
+                            ></td>
+                          ) : null}
+                          {editModeFields === record.id ? (
+                            isLoading ? (
+                              <td>
+                                <CircularProgress
+                                  size={20}
+                                  sx={{
+                                    position: "relative",
+                                    left: "10%",
+                                  }}
+                                />
+                              </td>
+                            ) : (
                               <>
                                 <td
                                   style={{
                                     position: "sticky",
                                     left: 0,
                                     background: "white",
+                                    zIndex: 2,
                                   }}
                                 >
                                   <Link
                                     onClick={() => {
-                                      deleteCudBillingRecord(
-                                        record.id,
-                                        documentData
-                                      )
-                                        .then((reponse) => {
-                                          console.log(reponse);
-                                          setUpdateList(!updateList);
-                                        })
-                                        .catch((error) => console.log(error));
+                                      cancelTableAction().then((response) => {
+                                        if (response) {
+                                          setEditModeFields(null);
+                                          setModified(initialModifiedState);
+                                        }
+                                      });
                                     }}
                                   >
-                                    <DeleteIcon
+                                    <CancelIcon
                                       sx={{ margin: "10px", fontSize: "2em" }}
                                     />
                                   </Link>
-                                  <Link
-                                    onClick={() => {
-                                      handleEditModeField(record.id);
-                                    }}
-                                  >
-                                    <EditIcon
+                                  <Link onClick={() => handleSubmit(record.id)}>
+                                    <SaveIcon
                                       sx={{ margin: "10px", fontSize: "2em" }}
                                     />
                                   </Link>
                                 </td>
-                              </>
-                            ) : editModeFields !== record.id && editMode ? (
-                              <td
-                                style={{
-                                  position: "sticky",
-                                  left: 0,
-                                  background: "white",
-                                  zIndex: 2,
-                                }}
-                              ></td>
-                            ) : null}
-                            {editModeFields === record.id ? (
-                              isLoading ? (
                                 <td>
-                                  <CircularProgress
-                                    size={20}
+                                  <OptionsMenu
+                                    {...professionalsProps}
+                                    initialValue={
+                                      cudBillingRecord.nombreyapellidoprofesional
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
                                     sx={{
-                                      position: "relative",
-                                      left: "10%",
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.prestacion
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="prestacion"
+                                    value={cudBillingRecord.prestacion}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
                                     }}
                                   />
                                 </td>
-                              ) : (
-                                <>
-                                  <td
+                                <td
+                                  style={{
+                                    pointerEvents: patientId && "none",
+                                  }}
+                                >
+                                  <OptionsMenu
+                                    {...patientsProps}
+                                    initialValue={
+                                      cudBillingRecord.nombreyapellidopaciente
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <div>
+                                    {record.imgasistenciamensual !== "" &&
+                                      trimUrl(record.imgasistenciamensual)}
+                                  </div>
+                                  <div
                                     style={{
-                                      position: "sticky",
-                                      left: 0,
-                                      background: "white",
-                                      zIndex: 2,
+                                      marginTop: "10px",
+                                      display: "flex",
+                                      justifyContent: "space-evenly",
                                     }}
                                   >
                                     <Link
                                       onClick={() => {
-                                        cancelTableAction().then((response) => {
-                                          if (response) {
+                                        setIsLoading(true);
+                                        DeleteFileFromBucket(
+                                          "imgasistenciamensual",
+                                          record,
+                                          "cudBillingDocuments"
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
                                             setEditModeFields(null);
-                                            setModified(initialModifiedState);
-                                          }
-                                        });
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
                                       }}
                                     >
-                                      <CancelIcon
-                                        sx={{ margin: "10px", fontSize: "2em" }}
-                                      />
+                                      <DeleteIcon />
                                     </Link>
                                     <Link
-                                      onClick={() => handleSubmit(record.id)}
+                                      onClick={() => {
+                                        uploadCudBillingDocumentToBucket(
+                                          `Asist_${formatPeriod(
+                                            record.periodofacturado
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.nombreyapellidoprofesional
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.prestacion
+                                          )}_${record.id}`,
+                                          record,
+                                          "imgasistenciamensual",
+                                          setIsLoading
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
                                     >
-                                      <SaveIcon
-                                        sx={{ margin: "10px", fontSize: "2em" }}
-                                      />
+                                      <UploadIcon />
                                     </Link>
-                                  </td>
-                                  <td>
-                                    <OptionsMenu
-                                      {...professionalsProps}
-                                      initialValue={
-                                        cudBillingRecord.nombreyapellidoprofesional
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      sx={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.prestacion
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="prestacion"
-                                      value={cudBillingRecord.prestacion}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td
+                                  </div>
+                                  {/* {record.imgasistenciamensual} */}
+                                </td>
+                                <td>
+                                  {record.documentoinformemensual !== "" &&
+                                    trimUrl(record.documentoinformemensual)}
+                                  <div
                                     style={{
-                                      pointerEvents: patientId && "none",
+                                      display: "flex",
+                                      justifyContent: "space-evenly",
+                                      marginTop: "10px",
                                     }}
                                   >
-                                    <OptionsMenu
-                                      {...patientsProps}
-                                      initialValue={
-                                        cudBillingRecord.nombreyapellidopaciente
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <div>
-                                      {record.imgasistenciamensual !== "" &&
-                                        trimUrl(record.imgasistenciamensual)}
-                                    </div>
-                                    <div
-                                      style={{
-                                        marginTop: "10px",
-                                        display: "flex",
-                                        justifyContent: "space-evenly",
-                                      }}
-                                    >
-                                      <Link
-                                        onClick={() => {
-                                          setIsLoading(true);
-                                          DeleteFileFromBucket(
-                                            "imgasistenciamensual",
-                                            record,
-                                            "cudBillingDocuments"
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <DeleteIcon />
-                                      </Link>
-                                      <Link
-                                        onClick={() => {
-                                          uploadCudBillingDocumentToBucket(
-                                            `Asist_${formatPeriod(
-                                              record.periodofacturado
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.nombreyapellidoprofesional
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.prestacion
-                                            )}_${record.id}`,
-                                            record,
-                                            "imgasistenciamensual",
-                                            setIsLoading
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <UploadIcon />
-                                      </Link>
-                                    </div>
-                                    {/* {record.imgasistenciamensual} */}
-                                  </td>
-                                  <td>
-                                    {record.documentoinformemensual !== "" &&
-                                      trimUrl(record.documentoinformemensual)}
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-evenly",
-                                        marginTop: "10px",
-                                      }}
-                                    >
-                                      <Link
-                                        onClick={() => {
-                                          setIsLoading(true);
-                                          DeleteFileFromBucket(
-                                            "documentoinformemensual",
-                                            record,
-                                            "cudBillingDocuments"
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <DeleteIcon />
-                                      </Link>
-                                      <Link
-                                        onClick={() => {
-                                          uploadCudBillingDocumentToBucket(
-                                            `Inf_Mensual_${formatPeriod(
-                                              record.periodofacturado
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.nombreyapellidoprofesional
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.prestacion
-                                            )}_${record.id}`,
-                                            record,
-                                            "documentoinformemensual",
-                                            setIsLoading
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <UploadIcon />
-                                      </Link>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div>
-                                      {record.documentofacturamensual !== "" &&
-                                        trimUrl(record.documentofacturamensual)}
-                                    </div>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-evenly",
-                                        marginTop: "10px",
-                                      }}
-                                    >
-                                      <Link
-                                        onClick={() => {
-                                          setIsLoading(true);
-                                          DeleteFileFromBucket(
-                                            "documentofacturamensual",
-                                            record,
-                                            "cudBillingDocuments"
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <DeleteIcon />
-                                      </Link>
-                                      <Link
-                                        onClick={() => {
-                                          uploadCudBillingDocumentToBucket(
-                                            `Factura_Mensual_${formatPeriod(
-                                              record.periodofacturado
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.nombreyapellidoprofesional
-                                            )}_${removeAccentsAndSpecialChars(
-                                              record.prestacion
-                                            )}_${record.id}`,
-                                            record,
-                                            "documentofacturamensual",
-                                            setIsLoading
-                                          )
-                                            .then((response) => {
-                                              console.log(response);
-                                              setUpdateList(!updateList);
-                                              setEditModeFields(null);
-                                              setIsLoading(false);
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                              setIsLoading(false);
-                                            });
-                                        }}
-                                      >
-                                        <UploadIcon />
-                                      </Link>
-                                    </div>
-                                    {/* {record.documentofacturamensual} */}
-                                  </td>
-                                  <td>{cudBillingRecord.obrasocialpaciente}</td>
-                                  <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border: modified.periodofacturado
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        defaultValue={dayjs(
-                                          cudBillingRecord.periodofacturado
-                                        )}
-                                        views={["year", "month"]}
-                                        maxDate={dayjs()}
-                                        inputFormat="MM/YYYY"
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "periodofacturado",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-01"
-                                                ),
-                                            },
+                                    <Link
+                                      onClick={() => {
+                                        setIsLoading(true);
+                                        DeleteFileFromBucket(
+                                          "documentoinformemensual",
+                                          record,
+                                          "cudBillingDocuments"
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
                                           });
-                                        }}
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <TextField
+                                      }}
+                                    >
+                                      <DeleteIcon />
+                                    </Link>
+                                    <Link
+                                      onClick={() => {
+                                        uploadCudBillingDocumentToBucket(
+                                          `Inf_Mensual_${formatPeriod(
+                                            record.periodofacturado
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.nombreyapellidoprofesional
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.prestacion
+                                          )}_${record.id}`,
+                                          record,
+                                          "documentoinformemensual",
+                                          setIsLoading
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
+                                    >
+                                      <UploadIcon />
+                                    </Link>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div>
+                                    {record.documentofacturamensual !== "" &&
+                                      trimUrl(record.documentofacturamensual)}
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-evenly",
+                                      marginTop: "10px",
+                                    }}
+                                  >
+                                    <Link
+                                      onClick={() => {
+                                        setIsLoading(true);
+                                        DeleteFileFromBucket(
+                                          "documentofacturamensual",
+                                          record,
+                                          "cudBillingDocuments"
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
+                                    >
+                                      <DeleteIcon />
+                                    </Link>
+                                    <Link
+                                      onClick={() => {
+                                        uploadCudBillingDocumentToBucket(
+                                          `Factura_Mensual_${formatPeriod(
+                                            record.periodofacturado
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.nombreyapellidoprofesional
+                                          )}_${removeAccentsAndSpecialChars(
+                                            record.prestacion
+                                          )}_${record.id}`,
+                                          record,
+                                          "documentofacturamensual",
+                                          setIsLoading
+                                        )
+                                          .then((response) => {
+                                            console.log(response);
+                                            setUpdateList(!updateList);
+                                            setEditModeFields(null);
+                                            setIsLoading(false);
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                            setIsLoading(false);
+                                          });
+                                      }}
+                                    >
+                                      <UploadIcon />
+                                    </Link>
+                                  </div>
+                                  {/* {record.documentofacturamensual} */}
+                                </td>
+                                <td>{cudBillingRecord.obrasocialpaciente}</td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
                                       sx={{
-                                        margin: "10px",
                                         width: "80%",
-                                        border: modified.nrofactura
+                                        border: modified.periodofacturado
                                           ? "1px solid red"
                                           : null,
                                       }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="nrofactura"
-                                      value={cudBillingRecord.nrofactura}
-                                      onChange={(e) =>
-                                        handleChange(e, record.id)
-                                      }
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modified.montofacturado
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      type="number"
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="montofacturado"
-                                      value={cudBillingRecord.montofacturado}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border: modified.fechapresentacionos
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        value={dayjs(
-                                          cudBillingRecord.fechapresentacionos,
-                                          "YYYY-MM-DD"
-                                        )}
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "fechapresentacionos",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-DD"
-                                                ),
-                                            },
-                                          });
-                                        }}
-                                        slotProps={{
-                                          textField: {
-                                            inputFormat: "DD/MM/YYYY",
-                                          },
-                                        }}
-                                        maxDate={dayjs()}
-                                        format="DD/MM/YYYY"
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDayjs}
-                                    >
-                                      <MobileDatePicker
-                                        sx={{
-                                          width: "80%",
-                                          border: modified.fecharecepcionos
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        value={dayjs(
-                                          cudBillingRecord.fecharecepcionos,
-                                          "YYYY-MM-DD"
-                                        )}
-                                        onChange={(newDate) => {
-                                          handleChange({
-                                            target: {
-                                              name: "fecharecepcionos",
-                                              value:
-                                                dayjs(newDate).format(
-                                                  "YYYY-MM-DD"
-                                                ),
-                                            },
-                                          });
-                                        }}
-                                        slotProps={{
-                                          textField: {
-                                            inputFormat: "DD/MM/YYYY",
-                                          },
-                                        }}
-                                        maxDate={dayjs()}
-                                        format="DD/MM/YYYY"
-                                      />
-                                    </LocalizationProvider>
-                                  </td>
-                                  <td>
-                                    <RadioGroup
-                                      row
-                                      sx={{
-                                        margin: "10px",
-                                        width: "200px",
-                                        justifyContent: "center",
-                                        border: modified.cobradaenfecha
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      value={
-                                        cudBillingRecord.cobradaenfecha
-                                          ? "yes"
-                                          : "no"
-                                      }
-                                      name="cobradaenfecha"
-                                      onChange={(e) => {
-                                        const value = e.target.value === "yes";
+                                      defaultValue={dayjs(
+                                        cudBillingRecord.periodofacturado
+                                      )}
+                                      views={["year", "month"]}
+                                      maxDate={dayjs()}
+                                      inputFormat="MM/YYYY"
+                                      onChange={(newDate) => {
                                         handleChange({
                                           target: {
-                                            name: "cobradaenfecha",
-                                            value: value,
+                                            name: "periodofacturado",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-01"
+                                              ),
                                           },
                                         });
                                       }}
-                                    >
-                                      <FormControlLabel
-                                        value="yes"
-                                        control={<Radio />}
-                                        label="Si"
-                                      />
-                                      <FormControlLabel
-                                        value="no"
-                                        control={<Radio />}
-                                        label="No"
-                                      />
-                                    </RadioGroup>
-                                  </td>
-                                  <td>
-                                    {!cudBillingRecord.cobradaenfecha ? (
-                                      <LocalizationProvider
-                                        dateAdapter={AdapterDayjs}
-                                      >
-                                        <MobileDatePicker
-                                          sx={{
-                                            width: "80%",
-                                            border: modified.fechareclamo
-                                              ? "1px solid red"
-                                              : null,
-                                          }}
-                                          value={dayjs(
-                                            cudBillingRecord.fechareclamo,
-                                            "YYYY-MM-DD"
-                                          )}
-                                          onChange={(newDate) => {
-                                            handleChange({
-                                              target: {
-                                                name: "fechareclamo",
-                                                value:
-                                                  dayjs(newDate).format(
-                                                    "YYYY-MM-DD"
-                                                  ),
-                                              },
-                                            });
-                                          }}
-                                          slotProps={{
-                                            textField: {
-                                              inputFormat: "DD/MM/YYYY",
-                                            },
-                                          }}
-                                          maxDate={dayjs()}
-                                          format="DD/MM/YYYY"
-                                        />
-                                      </LocalizationProvider>
-                                    ) : (
-                                      "Sin reclamo"
-                                    )}
-                                  </td>
-                                  <td>
-                                    {!cudBillingRecord.cobradaenfecha ? (
-                                      <TextField
-                                        style={{
-                                          margin: "10px",
-                                          width: "80%",
-                                          border: modified.medioreclamo
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        disabled={
-                                          !cudBillingRecord.fechareclamo
-                                        }
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        name="medioreclamo"
-                                        value={
-                                          cudBillingRecord.fechareclamo &&
-                                          cudBillingRecord.medioreclamo
-                                        }
-                                        onChange={handleChange}
-                                        slotProps={{
-                                          inputLabel: {
-                                            shrink: true,
+                                    />
+                                  </LocalizationProvider>
+                                </td>
+                                <td>
+                                  <TextField
+                                    sx={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.nrofactura
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="nrofactura"
+                                    value={cudBillingRecord.nrofactura}
+                                    onChange={(e) => handleChange(e, record.id)}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <TextField
+                                    style={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.montofacturado
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    type="number"
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    name="montofacturado"
+                                    value={cudBillingRecord.montofacturado}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
+                                      sx={{
+                                        width: "80%",
+                                        border: modified.fechapresentacionos
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={dayjs(
+                                        cudBillingRecord.fechapresentacionos,
+                                        "YYYY-MM-DD"
+                                      )}
+                                      onChange={(newDate) => {
+                                        handleChange({
+                                          target: {
+                                            name: "fechapresentacionos",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-DD"
+                                              ),
                                           },
-                                        }}
-                                      />
-                                    ) : (
-                                      "Sin reclamo"
-                                    )}
-                                  </td>
-                                  <td>
-                                    {!cudBillingRecord.cobradaenfecha ? (
-                                      <TextField
-                                        style={{
-                                          margin: "10px",
-                                          width: "80%",
-                                          border: modified.respuestareclamo
-                                            ? "1px solid red"
-                                            : null,
-                                        }}
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        disabled={
-                                          !cudBillingRecord.fechareclamo && true
-                                        }
-                                        value={
-                                          cudBillingRecord.fechareclamo &&
-                                          cudBillingRecord.respuestareclamo
-                                        }
-                                        onChange={handleChange}
-                                        slotProps={{
-                                          inputLabel: {
-                                            shrink: true,
+                                        });
+                                      }}
+                                      slotProps={{
+                                        textField: {
+                                          inputFormat: "DD/MM/YYYY",
+                                        },
+                                      }}
+                                      maxDate={dayjs()}
+                                      format="DD/MM/YYYY"
+                                    />
+                                  </LocalizationProvider>
+                                </td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
+                                      sx={{
+                                        width: "80%",
+                                        border: modified.fecharecepcionos
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={dayjs(
+                                        cudBillingRecord.fecharecepcionos,
+                                        "YYYY-MM-DD"
+                                      )}
+                                      onChange={(newDate) => {
+                                        handleChange({
+                                          target: {
+                                            name: "fecharecepcionos",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-DD"
+                                              ),
                                           },
-                                        }}
-                                      />
-                                    ) : (
-                                      "Sin reclamo"
-                                    )}
-                                  </td>
-                                  <td>
+                                        });
+                                      }}
+                                      slotProps={{
+                                        textField: {
+                                          inputFormat: "DD/MM/YYYY",
+                                        },
+                                      }}
+                                      maxDate={dayjs()}
+                                      format="DD/MM/YYYY"
+                                    />
+                                  </LocalizationProvider>
+                                </td>
+                                <td>
+                                  <RadioGroup
+                                    row
+                                    sx={{
+                                      margin: "10px",
+                                      width: "200px",
+                                      justifyContent: "center",
+                                      border: modified.cobradaenfecha
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    value={
+                                      cudBillingRecord.cobradaenfecha
+                                        ? "yes"
+                                        : "no"
+                                    }
+                                    name="cobradaenfecha"
+                                    onChange={(e) => {
+                                      const value = e.target.value === "yes";
+                                      handleChange({
+                                        target: {
+                                          name: "cobradaenfecha",
+                                          value: value,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    <FormControlLabel
+                                      value="yes"
+                                      control={<Radio />}
+                                      label="Si"
+                                    />
+                                    <FormControlLabel
+                                      value="no"
+                                      control={<Radio />}
+                                      label="No"
+                                    />
+                                  </RadioGroup>
+                                </td>
+                                <td>
+                                  {!cudBillingRecord.cobradaenfecha ? (
                                     <LocalizationProvider
                                       dateAdapter={AdapterDayjs}
                                     >
                                       <MobileDatePicker
                                         sx={{
                                           width: "80%",
-                                          border: modified.fechacobro
+                                          border: modified.fechareclamo
                                             ? "1px solid red"
                                             : null,
                                         }}
                                         value={dayjs(
-                                          cudBillingRecord.fechacobro,
+                                          cudBillingRecord.fechareclamo,
                                           "YYYY-MM-DD"
                                         )}
                                         onChange={(newDate) => {
                                           handleChange({
                                             target: {
-                                              name: "fechacobro",
+                                              name: "fechareclamo",
                                               value:
                                                 dayjs(newDate).format(
                                                   "YYYY-MM-DD"
@@ -848,21 +744,28 @@ export const CudBillingList = ({
                                         format="DD/MM/YYYY"
                                       />
                                     </LocalizationProvider>
-                                  </td>
-                                  <td>
+                                  ) : (
+                                    "Sin reclamo"
+                                  )}
+                                </td>
+                                <td>
+                                  {!cudBillingRecord.cobradaenfecha ? (
                                     <TextField
                                       style={{
                                         margin: "10px",
                                         width: "80%",
-                                        border: modified.montopercibido
+                                        border: modified.medioreclamo
                                           ? "1px solid red"
                                           : null,
                                       }}
+                                      disabled={!cudBillingRecord.fechareclamo}
                                       id="outlined-basic"
                                       variant="outlined"
-                                      type="number"
-                                      name="montopercibido"
-                                      value={cudBillingRecord.montopercibido}
+                                      name="medioreclamo"
+                                      value={
+                                        cudBillingRecord.fechareclamo &&
+                                        cudBillingRecord.medioreclamo
+                                      }
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -870,183 +773,126 @@ export const CudBillingList = ({
                                         },
                                       }}
                                     />
-                                  </td>
-                                  <td onChange={handleChange}>
-                                    {cudBillingRecord.montopercibido !==
-                                      undefined &&
-                                      new Intl.NumberFormat("es-AR", {
-                                        style: "currency",
-                                        currency: "ARS",
-                                      }).format(cudBillingRecord.retencion)}
-                                  </td>
-                                  <td onChange={handleChange}>
-                                    {cudBillingRecord.montopercibido !==
-                                      undefined &&
-                                      new Intl.NumberFormat("es-AR", {
-                                        style: "currency",
-                                        currency: "ARS",
-                                      }).format(
-                                        cudBillingRecord.montofinalprofesional
+                                  ) : (
+                                    "Sin reclamo"
+                                  )}
+                                </td>
+                                <td>
+                                  {!cudBillingRecord.cobradaenfecha ? (
+                                    <TextField
+                                      style={{
+                                        margin: "10px",
+                                        width: "80%",
+                                        border: modified.respuestareclamo
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      id="outlined-basic"
+                                      variant="outlined"
+                                      disabled={
+                                        !cudBillingRecord.fechareclamo && true
+                                      }
+                                      value={
+                                        cudBillingRecord.fechareclamo &&
+                                        cudBillingRecord.respuestareclamo
+                                      }
+                                      onChange={handleChange}
+                                      slotProps={{
+                                        inputLabel: {
+                                          shrink: true,
+                                        },
+                                      }}
+                                    />
+                                  ) : (
+                                    "Sin reclamo"
+                                  )}
+                                </td>
+                                <td>
+                                  <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
+                                  >
+                                    <MobileDatePicker
+                                      sx={{
+                                        width: "80%",
+                                        border: modified.fechacobro
+                                          ? "1px solid red"
+                                          : null,
+                                      }}
+                                      value={dayjs(
+                                        cudBillingRecord.fechacobro,
+                                        "YYYY-MM-DD"
                                       )}
-                                  </td>
-                                </>
-                              )
-                            ) : (
-                              <>
-                                <td>{record.nombreyapellidoprofesional}</td>
-                                <td>{record.prestacion}</td>
-                                <td>{record.nombreyapellidopaciente}</td>
-                                <td>
-                                  {record.imgasistenciamensual === "" ? (
-                                    // <div>No hay archivo cargado</div>
-                                    <ClearIcon />
-                                  ) : (
-                                    <Link
-                                      to={`${record.imgasistenciamensual}`}
-                                      onClick={(e) => {
-                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
-                                        window.open(
-                                          record.imgasistenciamensual,
-                                          "_blank"
-                                        ); // Abrir la URL en una nueva pestaña
+                                      onChange={(newDate) => {
+                                        handleChange({
+                                          target: {
+                                            name: "fechacobro",
+                                            value:
+                                              dayjs(newDate).format(
+                                                "YYYY-MM-DD"
+                                              ),
+                                          },
+                                        });
                                       }}
-                                    >
-                                      {trimUrl(record.imgasistenciamensual)}
-                                    </Link>
-                                  )}
-                                </td>
-                                <td>
-                                  {record.documentoinformemensual === "" ? (
-                                    <ClearIcon />
-                                  ) : (
-                                    // <div>No hay archivo cargado</div>
-                                    <Link
-                                      to={`${record.documentoinformemensual}`}
-                                      onClick={(e) => {
-                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
-                                        window.open(
-                                          record.documentoinformemensual,
-                                          "_blank"
-                                        ); // Abrir la URL en una nueva pestaña
+                                      slotProps={{
+                                        textField: {
+                                          inputFormat: "DD/MM/YYYY",
+                                        },
                                       }}
-                                    >
-                                      {trimUrl(record.documentoinformemensual)}
-                                    </Link>
-                                  )}
+                                      maxDate={dayjs()}
+                                      format="DD/MM/YYYY"
+                                    />
+                                  </LocalizationProvider>
                                 </td>
                                 <td>
-                                  {record.documentofacturamensual === "" ? (
-                                    <ClearIcon />
-                                  ) : (
-                                    // <div>No hay archivo cargado</div>
-                                    <Link
-                                      to={`${record.documentofacturamensual}`}
-                                      onClick={(e) => {
-                                        e.preventDefault(); // Prevenir comportamiento predeterminado del enlace
-                                        window.open(
-                                          record.documentofacturamensual,
-                                          "_blank"
-                                        ); // Abrir la URL en una nueva pestaña
-                                      }}
-                                    >
-                                      {trimUrl(record.documentofacturamensual)}
-                                    </Link>
-                                  )}
-                                  {/* {record.documentofacturamensual} */}
+                                  <TextField
+                                    style={{
+                                      margin: "10px",
+                                      width: "80%",
+                                      border: modified.montopercibido
+                                        ? "1px solid red"
+                                        : null,
+                                    }}
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    type="number"
+                                    name="montopercibido"
+                                    value={cudBillingRecord.montopercibido}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                      inputLabel: {
+                                        shrink: true,
+                                      },
+                                    }}
+                                  />
                                 </td>
-                                <td>{record.obrasocialpaciente}</td>
-                                <td>
-                                  {new Intl.DateTimeFormat("es-AR", {
-                                    month: "long",
-                                    year: "numeric",
-                                  })
-                                    .format(new Date(record.periodofacturado))
-                                    .replace(" de ", " ")}
-                                </td>
-                                <td>{record.nrofactura}</td>
-                                <td>
-                                  {record.montopercibido !== undefined &&
+                                <td onChange={handleChange}>
+                                  {cudBillingRecord.montopercibido !==
+                                    undefined &&
                                     new Intl.NumberFormat("es-AR", {
                                       style: "currency",
                                       currency: "ARS",
-                                    }).format(record.montofacturado)}
+                                    }).format(cudBillingRecord.retencion)}
                                 </td>
-                                <td>
-                                  {new Date(
-                                    record.fechapresentacionos
-                                  ).toLocaleDateString("es-AR", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  })}
-                                </td>
-                                <td>
-                                  {new Date(
-                                    record.fecharecepcionos
-                                  ).toLocaleDateString("es-AR", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  })}
-                                </td>
-                                <td>{record.cobradaenfecha ? "Si" : "No"}</td>
-                                <td>
-                                  {record.fechareclamo
-                                    ? new Date(
-                                        record.fechareclamo
-                                      ).toLocaleDateString("es-AR", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                      })
-                                    : "Sin reclamo"}
-                                </td>
-                                <td>
-                                  {record.fechareclamo
-                                    ? record.medioreclamo
-                                    : "Sin reclamo"}
-                                </td>
-                                <td>
-                                  {record.fechareclamo
-                                    ? record.respuestareclamo
-                                    : "Sin reclamo"}
-                                </td>
-                                <td>
-                                  {record.fechacobro
-                                    ? new Date(
-                                        record.fechacobro
-                                      ).toLocaleDateString("es-AR", {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                      })
-                                    : "Sin fecha"}
-                                </td>
-                                <td>
-                                  {record.montopercibido !== undefined &&
+                                <td onChange={handleChange}>
+                                  {cudBillingRecord.montopercibido !==
+                                    undefined &&
                                     new Intl.NumberFormat("es-AR", {
                                       style: "currency",
                                       currency: "ARS",
-                                    }).format(record.montopercibido)}
-                                </td>
-                                <td>
-                                  {record.montopercibido !== undefined &&
-                                    new Intl.NumberFormat("es-AR", {
-                                      style: "currency",
-                                      currency: "ARS",
-                                    }).format(record.retencion)}
-                                </td>
-                                <td>
-                                  {record.montopercibido !== undefined &&
-                                    new Intl.NumberFormat("es-AR", {
-                                      style: "currency",
-                                      currency: "ARS",
-                                    }).format(record.montofinalprofesional)}
+                                    }).format(
+                                      cudBillingRecord.montofinalprofesional
+                                    )}
                                 </td>
                               </>
-                            )}
-                          </tr>
-                        </>
+                            )
+                          ) : (
+                            //muestra la lista de facturación
+                            <CudBillingListShowTable
+                              record={record}
+                              trimUrl={trimUrl}
+                            />
+                          )}
+                        </tr>
                       );
                     })}
                   </tbody>

@@ -3,11 +3,10 @@ import { useContext, useState } from "react";
 
 import { CudBillingList } from "./CudBillingList";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-
 import {
   getCudBillingRecord,
   updateCudBillingRecord,
-} from "../../../../../api/cudBilling";
+} from "../../../../../api/facturacionCud/cudBilling";
 
 export const CudBillingListContainer = ({
   filteredCudBillingRecords,
@@ -110,13 +109,13 @@ export const CudBillingListContainer = ({
       updatedCudBillingRecord.montofinalprofesional = value * 0.65;
     }
     if (name === "fechareclamo" && !value) {
-      updateCudBillingRecord.medioreclamo = "";
-      updateCudBillingRecord.respuestareclamo = "";
+      updatedCudBillingRecord.medioreclamo = "";
+      updatedCudBillingRecord.respuestareclamo = "";
     }
     if ((name === "cobradaenfecha") & value) {
-      updateCudBillingRecord.fechareclamo = null;
-      updateCudBillingRecord.medioreclamo = "";
-      updateCudBillingRecord.respuestareclamo = "";
+      updatedCudBillingRecord.fechareclamo = null;
+      updatedCudBillingRecord.medioreclamo = "";
+      updatedCudBillingRecord.respuestareclamo = "";
     }
     setCudBillingRecord(updatedCudBillingRecord);
     setModified({ ...modified, [name]: true });

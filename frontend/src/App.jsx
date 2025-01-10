@@ -19,19 +19,26 @@ import { MedicalRecordDetailContainer } from "./components/pages/medicalRecords/
 import { ProfessionalDetailContainer } from "./components/pages/professionals/professionalDetail/ProfessionalDetailContainer";
 import { ProfessionalDocumentationContainer } from "./components/pages/professionals/professionalDocumentation/professionalDocumentationContainer";
 import { NavBarContainer } from "./components/layout/navBar/NavBarContainer";
-import { Footer } from "./components/layout/footer/Footer";
-import { LoginContainer } from "./login/LoginContainer";
 import { UsersListContainer } from "./components/pages/users/usersList/UsersListContainer";
 import { ProtectedRoute } from "./components/pages/protectedRoute/ProtectedRoute";
 import { CreateUserContainer } from "./components/pages/users/createUser/CreateUserContainerTemp.jsx";
 import { TokenContextProvider } from "./context/TokenContext.jsx";
+import { PasswordResetRequestContainer } from "./components/pages/passwordResetRequest/PasswordResetRequestContainer.jsx";
+import { LoginContainer } from "./components/pages/login/LoginContainer.jsx";
+import { Footer } from "./components/layout/footer/Footer.jsx";
 function App() {
   const location = useLocation();
   const isLoginScreen = location.pathname === "/login";
+  const isPasswordResetRequestScreen =
+    location.pathname === "/passwordResetRequest";
   return (
     <TokenContextProvider>
-      {!isLoginScreen && <NavBarContainer />}
+      {!isLoginScreen && !isPasswordResetRequestScreen && <NavBarContainer />}
       <Routes>
+        <Route
+          path="/passwordResetRequest"
+          element={<PasswordResetRequestContainer />}
+        />
         <Route path="/login" element={<LoginContainer />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<PatientsListContainer />} />
@@ -145,7 +152,7 @@ function App() {
           <Route path={"/usersList"} element={<UsersListContainer />} />
         </Route>
       </Routes>
-      {!isLoginScreen && <Footer />}
+      {!isLoginScreen && !isPasswordResetRequestScreen && <Footer />}
     </TokenContextProvider>
   );
 }

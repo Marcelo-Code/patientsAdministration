@@ -21,6 +21,9 @@ export function MedicalRecordListFilterDrawer({
   datesFilterProps,
   patientsFilterProps,
   professionalFilterProps,
+  keyPatientsFilterProps,
+  keyDatesFilterProps,
+  keyProfessionalFilterProps,
 }) {
   const [state, setState] = React.useState({
     top: false,
@@ -153,7 +156,6 @@ export function MedicalRecordListFilterDrawer({
                   )
             }
             variant="contained"
-            sortUpProfessionalNameMode
             startIcon={
               sortUpProfessionalNameMode ? (
                 <KeyboardArrowUpIcon />
@@ -174,9 +176,12 @@ export function MedicalRecordListFilterDrawer({
             flexWrap: "wrap",
           }}
         >
-          <OptionsMenu {...datesFilterProps} />
-          <OptionsMenu {...patientsFilterProps} />
-          <OptionsMenu {...professionalFilterProps} />
+          <OptionsMenu key={keyDatesFilterProps} {...datesFilterProps} />
+          <OptionsMenu key={keyPatientsFilterProps} {...patientsFilterProps} />
+          <OptionsMenu
+            key={keyProfessionalFilterProps}
+            {...professionalFilterProps}
+          />
         </div>
       </div>
     </Box>

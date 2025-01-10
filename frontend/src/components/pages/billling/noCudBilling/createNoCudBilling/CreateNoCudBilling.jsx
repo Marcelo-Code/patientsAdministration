@@ -27,6 +27,7 @@ import "./createNoCudBilling.css";
 import dayjs from "dayjs";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
 import { CreateNoCudBillingPacienteAdeuda } from "./CreateNoCudBillingPacienteAdeudaBool";
+import { useEffect } from "react";
 
 export const CreateNoCudBilling = ({
   handleChange,
@@ -51,7 +52,9 @@ export const CreateNoCudBilling = ({
     with: "300px",
   };
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div

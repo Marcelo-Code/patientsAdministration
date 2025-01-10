@@ -6,7 +6,7 @@ import { NoCudBillingList } from "./NoCudBillingList";
 import {
   getNoCudBillingRecord,
   updateNoCudBillingRecord,
-} from "../../../../../api/noCudBilling";
+} from "../../../../../api/facturacionNoCud/noCudBilling";
 
 export const NoCudBillingListContainer = ({
   setNoCudBillingRecords,

@@ -11,6 +11,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import "./createMedicalRecord.css";
 import { OptionsMenu } from "../../../common/Menu/OptionsMenu";
+import { useEffect } from "react";
 
 export const CreateMedicalRecord = ({
   goBackAction,
@@ -29,7 +30,11 @@ export const CreateMedicalRecord = ({
 }) => {
   console.log("profesional" + professionalId);
   console.log("paciente" + patientId);
-  setPageIsLoading(false);
+
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
+
   return (
     <div className="medicalRecordContainer">
       <span

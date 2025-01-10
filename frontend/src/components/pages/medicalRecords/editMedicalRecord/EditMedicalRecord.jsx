@@ -11,6 +11,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import "./editMedicalRecord.css";
+import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
 export const EditMedicalRecord = ({
@@ -70,7 +71,9 @@ export const EditMedicalRecord = ({
     modified: modified.idpaciente,
   };
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div className="medicalHistoryContainer">

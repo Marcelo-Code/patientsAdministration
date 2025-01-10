@@ -11,14 +11,18 @@ import BuildIcon from "@mui/icons-material/Build";
 import { Link } from "react-router-dom";
 
 import "./createUser.css";
+import { OptionsMenu } from "../../../common/Menu/OptionsMenu";
 
 export const CreateUser = ({
   handleChange,
+  userRecord,
   handleSubmit,
   isLoading,
   modifiedFlag,
   cancelAction,
   goBackAction,
+  professionalsProps,
+  usersTypeProps,
 }) => {
   const style = {
     display: "flex",
@@ -61,20 +65,38 @@ export const CreateUser = ({
             }}
           >
             <span style={style}>
-              <PersonIcon />
-              <TextField
-                style={{
-                  margin: "10px",
-                  width: "200px",
-                  backgroundColor: "white",
-                }}
-                id="outlined-basic"
-                label="Nombre y Apellido Usuario"
-                variant="outlined"
-                name="nombreyapellidousuario"
-                onChange={handleChange}
-              />
+              <BuildIcon />
+              <OptionsMenu {...usersTypeProps} />
             </span>
+
+            {/* Si perfil profesional que muestre las opciones */}
+
+            {userRecord.perfil === "profesional" && (
+              <span style={style}>
+                <PersonIcon />
+                <OptionsMenu {...professionalsProps} />
+              </span>
+            )}
+
+            {/* Si es perfil admin que permita ingresar nombre y apellido */}
+
+            {userRecord.perfil === "admin" && (
+              <span style={style}>
+                <PersonIcon />
+                <TextField
+                  style={{
+                    margin: "10px",
+                    width: "200px",
+                    backgroundColor: "white",
+                  }}
+                  id="outlined-basic"
+                  label="Nombre y Apellido Usuario"
+                  variant="outlined"
+                  name="nombreyapellidousuario"
+                  onChange={handleChange}
+                />
+              </span>
+            )}
             <span style={style}>
               <PersonIcon />
               <TextField
@@ -90,21 +112,7 @@ export const CreateUser = ({
                 onChange={handleChange}
               />
             </span>
-            <span style={style}>
-              <BuildIcon />
-              <TextField
-                style={{
-                  margin: "10px",
-                  width: "200px",
-                  backgroundColor: "white",
-                }}
-                id="outlined-basic"
-                label="Rol"
-                variant="outlined"
-                name="rol"
-                onChange={handleChange}
-              />
-            </span>
+
             <span style={style}>
               <CardMembershipIcon />
               <TextField
@@ -117,6 +125,21 @@ export const CreateUser = ({
                 label="dni"
                 variant="outlined"
                 name="dni"
+                onChange={handleChange}
+              />
+            </span>
+            <span style={style}>
+              <MailIcon />
+              <TextField
+                style={{
+                  margin: "10px",
+                  width: "200px",
+                  backgroundColor: "white",
+                }}
+                id="outlined-basic"
+                label="e-mail"
+                variant="outlined"
+                name="email"
                 onChange={handleChange}
               />
             </span>
@@ -135,9 +158,8 @@ export const CreateUser = ({
                 onChange={handleChange}
               />
             </span>
-
             <span style={style}>
-              <MailIcon />
+              <KeyIcon />
               <TextField
                 style={{
                   margin: "10px",
@@ -145,9 +167,9 @@ export const CreateUser = ({
                   backgroundColor: "white",
                 }}
                 id="outlined-basic"
-                label="e-mail"
+                label="repetir password"
                 variant="outlined"
-                name="email"
+                name="passwordrepeat"
                 onChange={handleChange}
               />
             </span>

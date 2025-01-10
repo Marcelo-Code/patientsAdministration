@@ -2,8 +2,8 @@ import { PatientsList } from "./PatientsList";
 import "./patientsList.css";
 import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../common/spinner/Spinner";
-import { getPatientsRecords } from "../../../../api/patients";
 import { GeneralContext } from "../../../../context/GeneralContext";
+import { getPatientsRecords } from "../../../../api/pacientes/patients";
 
 export const PatientsListContainer = () => {
   const { setPageIsLoading, updateAlertsList, setUpdateAlertsList } =
@@ -15,6 +15,11 @@ export const PatientsListContainer = () => {
     setEditMode(e.target.checked);
   };
 
+  //Importa el usuario desde localStorage
+  const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+
+  console.log(userRolRecord);
+
   useEffect(() => {
     setPageIsLoading(true);
     getPatientsRecords()
@@ -24,7 +29,7 @@ export const PatientsListContainer = () => {
       .catch((error) => console.log(error));
   }, [updateList, setPageIsLoading]);
 
-  if (!patientsRecords) return <Spinner />;
+  if (!patientsRecords || !userRolRecord) return <Spinner />;
 
   const props = {
     editMode,
@@ -35,6 +40,7 @@ export const PatientsListContainer = () => {
     setPageIsLoading,
     updateAlertsList,
     setUpdateAlertsList,
+    userRolRecord,
   };
 
   return (

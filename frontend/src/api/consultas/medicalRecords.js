@@ -3,14 +3,12 @@ import {
     ConfirmAlert,
     ErrorAlert,
     SuccessAlert
-} from "../components/common/alerts/alerts";
+} from "../../components/common/alerts/alerts";
 import {
     BACKEND_URL
-} from "./config";
+} from "../config";
 
-//POST: consultas médicas
-//-----------------------
-
+//POST: crear consulta
 export const createMedicalRecord = async (newMedicalRecord) => {
     console.log("Creando consulta...")
     try {
@@ -25,9 +23,7 @@ export const createMedicalRecord = async (newMedicalRecord) => {
     }
 }
 
-//GET: consultas médicas por id de paciente
-//-----------------------------------------
-
+//GET: consulta médicas por id de paciente
 export const getMedicalHistoryRecord = async (patientRecordId) => {
     try {
         const response = await axios.get(`${BACKEND_URL}/getMedicalHistoryRecord/${patientRecordId}`)
@@ -37,9 +33,7 @@ export const getMedicalHistoryRecord = async (patientRecordId) => {
     }
 }
 
-//GET: consulta médica por id de paciente
-//---------------------------------------
-
+//GET: consulta médica por id
 export const getMedicalRecord = async (medicalRecordId) => {
     try {
         const response = await axios.get(`${BACKEND_URL}/getMedicalRecord/${medicalRecordId}`)
@@ -50,9 +44,7 @@ export const getMedicalRecord = async (medicalRecordId) => {
     }
 }
 
-//GET: consultas médicas
-//----------------------
-
+//GET: lista de consultas
 export const getMedicalRecords = async () => {
     try {
         const response = await axios.get(`${BACKEND_URL}/getMedicalRecords`)
@@ -63,11 +55,7 @@ export const getMedicalRecords = async () => {
     }
 }
 
-
-
-//DELETE: consulta
-//----------------
-
+//DELETE: eliminar consulta
 export const deleteMedicalRecord = async (medicalRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar esta consulta?", "", "Eliminar", "Cancelar");
@@ -84,9 +72,7 @@ export const deleteMedicalRecord = async (medicalRecordId) => {
     }
 }
 
-//PUT: consulta
-//-------------
-
+//PUT: update consulta
 export const updateMedicalRecord = async (medicalRecord, medicalRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar esta consulta?", "", "Modificar", "Cancelar");

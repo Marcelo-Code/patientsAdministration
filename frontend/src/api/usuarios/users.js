@@ -3,14 +3,12 @@ import {
     ConfirmAlert,
     ErrorAlert,
     SuccessAlert
-} from "../components/common/alerts/alerts"
+} from "../../components/common/alerts/alerts"
 import {
     BACKEND_URL
-} from "./config"
+} from "../config"
 
-//POST: usuario
-//-------------
-
+//POST: crear usuario
 export const createUser = async (newUser) => {
     try {
         const response = await axios.post(`${BACKEND_URL}/createUser`, newUser);
@@ -23,9 +21,7 @@ export const createUser = async (newUser) => {
     }
 }
 
-//GET: usuarios
-//-------------
-
+//GET: lista de usuarios
 export const getUsersRecords = async () => {
     try {
         const response = await axios.get(`${BACKEND_URL}/getUsersRecords`)
@@ -36,9 +32,7 @@ export const getUsersRecords = async () => {
     }
 }
 
-//GET: usuario
-//-------------
-
+//GET: usuario por id
 export const getUserRecord = async (userRecordId) => {
     try {
         const response = await axios.get(`${BACKEND_URL}/getUserRecord/${userRecordId}`)
@@ -49,9 +43,7 @@ export const getUserRecord = async (userRecordId) => {
     }
 }
 
-//PUT: usuario
-//-------------
-
+//PUT: update usuario
 export const updateUserRecord = async (userRecord, userRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar este usuario?", "", "Modificar", "Cancelar")
@@ -68,9 +60,7 @@ export const updateUserRecord = async (userRecord, userRecordId) => {
     }
 }
 
-//DELETE: usuario
-//----------------
-
+//DELETE: eliminar usuario
 export const deleteUserRecord = async (userRecordId, userName) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este usuario?", `Vas a eliminar a ${userName}`, "Eliminar", "Cancelar");
@@ -85,3 +75,13 @@ export const deleteUserRecord = async (userRecordId, userName) => {
         throw error;
     }
 };
+
+//Recuperar contraseña
+export const recoverPassword = async (email) => {
+    try {
+        const response = await axios.post(`${BACKEND_URL}/recoverPassword`, email);
+        return (response.data);
+    } catch (error) {
+        console.log("Error: ", error.message)
+    }
+}

@@ -2,7 +2,7 @@
 // UploadImages.jsx
 
 import { useDropzone } from "react-dropzone";
-import { uploadImages } from "../../../api/Images";
+import { uploadImages } from "../../../api/pacientes/patients";
 
 export const UploadContainer = ({
   name,

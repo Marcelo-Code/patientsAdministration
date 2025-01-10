@@ -32,6 +32,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 dayjs.locale("es");
 import "./editPatient.css";
+import { useEffect } from "react";
 
 export const EditPatient = (props) => {
   const style = {
@@ -78,7 +79,10 @@ export const EditPatient = (props) => {
     setPageIsLoading,
   } = props;
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
+
   return (
     <div
       style={{

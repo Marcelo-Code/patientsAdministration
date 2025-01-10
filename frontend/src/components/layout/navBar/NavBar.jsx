@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { Alerts } from "../alerts/Alerts";
@@ -17,6 +17,16 @@ export const NavBar = ({
     patientsExpirationCudRecords,
     professionalsExpirationRnpRecords,
   };
+
+  // const [userRolRecord, setUserRolRecord] = useState(null);
+  const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+
+  console.log(userRolRecord);
+
+  const burguerMenuProps = {
+    userRolRecord,
+  };
+
   return (
     <div
       style={{
@@ -34,7 +44,7 @@ export const NavBar = ({
         gap: "10px,",
       }}
     >
-      <BurguerMenu />
+      <BurguerMenu {...burguerMenuProps} />
       <span
         style={{
           display: "flex",

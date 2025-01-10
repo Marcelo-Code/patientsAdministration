@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useEffect } from "react";
 dayjs.locale("es");
 
 export const EditProfessional = (props) => {
@@ -47,7 +48,9 @@ export const EditProfessional = (props) => {
     setPageIsLoading,
   } = props;
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div

@@ -14,7 +14,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
 import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
-import { deleteUserRecord } from "../../../../api/users";
+import { deleteUserRecord } from "../../../../api/usuarios/users";
+import { useEffect } from "react";
 
 export const UsersList = ({
   handleGoBack,
@@ -36,7 +37,10 @@ export const UsersList = ({
   initialModifiedState,
   userRecord,
 }) => {
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
+
   return (
     <div
       style={{
@@ -433,9 +437,15 @@ export const UsersList = ({
                               )
                             ) : (
                               <>
-                                <td>{record.usuario}</td>
-                                <td>{record.nombreyapellidousuario}</td>
-                                <td>{record.dni}</td>
+                                <td style={{ padding: "20px" }}>
+                                  {record.usuario}
+                                </td>
+                                <td style={{ padding: "20px" }}>
+                                  {record.nombreyapellidousuario}
+                                </td>
+                                <td style={{ padding: "20px" }}>
+                                  {record.dni}
+                                </td>
                                 {/* <td>{record.password}</td> */}
                                 <td>{record.email}</td>
                                 <td>{record.rol}</td>

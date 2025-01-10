@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { ProfessionalsList } from "./ProfessionalsList";
 import { Spinner } from "../../../common/spinner/Spinner";
-import { getProfessionalsRecords } from "../../../../api/professionals";
 import { GeneralContext } from "../../../../context/GeneralContext";
+import { TokenContext } from "../../../../context/TokenContext";
+import { getProfessionalsRecords } from "../../../../api/profesionales/professionals";
 
 export const ProfessionalsListContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
@@ -14,14 +15,29 @@ export const ProfessionalsListContainer = () => {
     setEditMode(e.target.checked);
   };
 
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState();
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
+
+  console.log(userRolRecord);
+
   useEffect(() => {
     setPageIsLoading(true);
     getProfessionalsRecords()
-      .then((response) => setProfessionalsRecords(response))
+      .then((response) => {
+        setProfessionalsRecords(response);
+      })
       .catch((error) => console.log(error));
   }, [updateList, setPageIsLoading]);
 
-  if (!professionalsRecords) return <Spinner />;
+  if (!professionalsRecords || !userRolRecord) return <Spinner />;
+
+  console.log(userRolRecord.user);
+
+  console.log(professionalsRecords);
 
   const props = {
     professionalsRecords,
@@ -32,6 +48,7 @@ export const ProfessionalsListContainer = () => {
     setPageIsLoading,
     updateAlertsList,
     setUpdateAlertsList,
+    userRolRecord,
   };
 
   return (

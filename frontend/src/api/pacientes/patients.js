@@ -1,18 +1,115 @@
+import axios from 'axios';
 import {
-    supabase,
+    BACKEND_URL,
     bucketName,
-    publicBucketUrl
-} from "./supabaseClient";
+    publicBucketUrl,
+    supabase
+} from '../config';
 import {
-    ConfirmAlert
-} from "../components/common/alerts/alerts";
-import {
-    partialUpdatePatientRecord
-} from "./patients";
+    ConfirmAlert,
+    ErrorAlert,
+    SuccessAlert
+} from '../../components/common/alerts/alerts';
 
+//POST: crear paciente
+export const createPatientRecord = async (newPatientRecord) => {
+    console.log("Creando paciente...")
+    try {
+        const response = await axios.post(`${BACKEND_URL}/createPatientRecord`, newPatientRecord);
+        console.log("Paciente creado: ", response.data)
+        SuccessAlert(`Paciente ${newPatientRecord.nombreYApellidoPaciente} creado`);
+        window.history.back();
+        return response;
+    } catch (error) {
+        ErrorAlert("¡Error al crear paciente!")
+        console.log("Error al crear paciente: ", error.message)
+    }
+}
 
-//DELETE: Imagenes
-//----------------
+//GET: lista de pacientes
+export const getPatientsRecords = async () => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/getPatientsRecords`)
+        return (response.data);
+    } catch (error) {
+        ErrorAlert("¡Error al buscar pacientes!");
+        console.log("Error al buscar pacientes: ", error.message);
+    }
+}
+
+//GET: paciente por id
+export const getPatientRecord = async (patientRecordId) => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/getPatientRecord/${patientRecordId}`)
+        return (response.data);
+    } catch (error) {
+        ErrorAlert("¡Error al buscar paciente!");
+        console.log("Error al buscar paciente: ", error.message);
+    }
+}
+
+//DELETE: eliminar paciente
+export const deletePatientRecord = async (patientRecordId, patientName) => {
+    try {
+        const result = await ConfirmAlert("¿Estás seguro de eliminar este paciente?", `Vas a eliminar a ${patientName}`, "Eliminar", "Cancelar");
+        if (result.isConfirmed) {
+            getPatientRecord(patientRecordId)
+                .then((response) => {
+                    documentData.map((document) => {
+                        console.log(response[document.name]);
+                        if (response[document.name] !== "")
+                            borrarImagen(response[document.name])
+                            .then((response) => console.log(response))
+                            .catch((error) => console.log(error))
+                    });
+                })
+                .catch((error) => console.log(error))
+
+            const response = await axios.delete(`${BACKEND_URL}/deletePatientRecord/${patientRecordId}`);
+
+            SuccessAlert(`Acabas de eliminar a ${patientName}`)
+            return response.data;
+        }
+    } catch (error) {
+        ErrorAlert("¡Error al eliminar paciente!");
+        console.log("Error al eliminar paciente: ", error.message);
+        throw error;
+    }
+};
+
+//PUT: update paciente
+export const updatePatientRecord = async (patientRecord, patientRecordId) => {
+    try {
+        const result = await ConfirmAlert("¿Estás seguro de modificar este paciente?", "", "Modificar", "Cancelar")
+        if (result.isConfirmed) {
+            const response = await axios.put(`${BACKEND_URL}/updatePatientRecord/${patientRecordId}`, patientRecord);
+            SuccessAlert("¡Paciente modificado!")
+            window.history.back();
+            return response.data;
+        }
+    } catch (error) {
+        ErrorAlert("¡Error al modificar paciente!");
+        console.log("Error al modificar paciente: ", error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+//PATCH: update paciente
+export const partialUpdatePatientRecord = async (patientRecord, patientRecordId) => {
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdatePatientRecord/${patientRecordId}`, patientRecord)
+    try {
+        SuccessAlert("¡Paciente modificado!");
+        return response.data;
+    } catch (error) {
+        ErrorAlert("¡Error al modificar paciente!");
+        console.log("Error al modificar paciente: ", error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+//********** DOCUMENTACIÓN EN BUCKET **********
+
+//DELETE: eliminar imagenes en paciente
 export const DeleteImage = async (name, patient) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar esta imagen?", "", "Eliminar", "Cancelar");
@@ -54,6 +151,7 @@ export const DeleteImage = async (name, patient) => {
     }
 };
 
+//DELETE: eliminar imagenes de bucket en paciente
 export const borrarImagen = async (publicUrl) => {
     // URL pública de ejemplo
 
@@ -88,12 +186,8 @@ export const borrarImagen = async (publicUrl) => {
     }
 };
 
-
-//PUT: Imagenes
-//-------------
-
+//PUT: upload imagenes a bucket
 export const uploadImages = async (file, name, patient) => {
-
     try {
         // Define la ruta en el bucket
         const fileName = `products/${name}_${patient.dnipaciente}_${patient.nombreyapellidopaciente}.jpg`;
@@ -132,10 +226,7 @@ export const uploadImages = async (file, name, patient) => {
     }
 };
 
-
 //DownLoad: imagenes
-//------------------
-
 export const downloadImage = (publicUrl) => {
     const updatedSrc = `${publicUrl}?timestamp=${new Date().getTime()}`;
     const decodedUrl = decodeURIComponent(updatedSrc);

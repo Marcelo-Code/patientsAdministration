@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Box, Button, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./billing.css";
 import { NoCudBillingListContainer } from "./noCudBilling/noCudBillingList/NoCudBillingListContainer";
 import { CudBillingListContainer } from "./cudBilling/cudBillingList/CudBillingListContainer";
@@ -56,8 +56,9 @@ export const Billing = ({
     professionalId,
   };
 
-  setPageIsLoading(false);
-
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
   return (
     <div
       style={{

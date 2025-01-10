@@ -156,7 +156,6 @@ const MedicalRecordListFilter = ({
                     )
               }
               variant="contained"
-              sortUpProfessionalNameMode
               startIcon={
                 sortUpProfessionalNameMode ? (
                   <KeyboardArrowUpIcon />

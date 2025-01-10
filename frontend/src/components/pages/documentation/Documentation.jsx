@@ -3,6 +3,7 @@ import { Android12Switch } from "../../common/switchEditionMode/SwitchEditionMod
 import { DocumentCard } from "./DocumentCard";
 import { Button } from "@mui/material";
 import "./documentCard.css";
+import { useEffect } from "react";
 
 export const Documentation = ({
   patient,
@@ -31,7 +32,9 @@ export const Documentation = ({
     isLoading,
     setIsLoading,
   };
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
   return (
     <>
       <div className="documentCardContainer">

@@ -5,8 +5,9 @@ import { GeneralContext } from "../../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { meetings } from "../../../common/Menu/meetings";
-import { getMedicalRecords } from "../../../../api/medicalRecords";
-import { getPatientRecord } from "../../../../api/patients";
+import { TokenContext } from "../../../../context/TokenContext";
+import { getMedicalRecords } from "../../../../api/consultas/medicalRecords";
+import { getPatientRecord } from "../../../../api/pacientes/patients";
 
 export const MedicalRecordListContainer = () => {
   const [patientFilter, setPatientFilter] = useState("Filtrar Paciente");
@@ -18,7 +19,6 @@ export const MedicalRecordListContainer = () => {
   const [isResetEnabled, setIsResetEnabled] = useState(false);
 
   const { patientId = null, professionalId = null } = useParams();
-
   const { sortRecords, createList, handleGoBack, setPageIsLoading } =
     useContext(GeneralContext);
   const [records, setRecords] = useState(null);
@@ -122,6 +122,13 @@ export const MedicalRecordListContainer = () => {
     setRecordsToReport(sortedRecords);
   };
 
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
+
   useEffect(() => {
     setPageIsLoading(true);
     let filteredRecords;
@@ -149,7 +156,7 @@ export const MedicalRecordListContainer = () => {
         }
       })
       .catch((error) => console.log(error));
-  }, [updateFlag, patientId, professionalId, setPageIsLoading]);
+  }, [updateFlag, patientId, professionalId, setPageIsLoading, userRolRecord]);
 
   useEffect(() => {
     if (listRecords) {
@@ -210,7 +217,6 @@ export const MedicalRecordListContainer = () => {
   useEffect(() => {
     // Habilita el botón si hay algún filtro aplicado
     const hasFilters = Object.values(filters).some((value) => value !== null);
-    console.log(filters);
     setIsResetEnabled(hasFilters);
   }, [filters]);
 
@@ -281,24 +287,27 @@ export const MedicalRecordListContainer = () => {
     name: "idpaciente",
     array: patientsList,
     initialValue: patientFilter,
-    key: `patient-filter-${resetKey}`, // Nueva clave
   };
+
+  const keyPatientsFilterProps = `patient-filter-${resetKey}`; // Nueva clave
 
   const professionalFilterProps = {
     handleChange: handleMenuChange,
     name: "idprofesional",
     array: professionalList,
     initialValue: professionalFilter,
-    key: `professional-filter-${resetKey}`, // Nueva clave
   };
+
+  const keyProfessionalFilterProps = `professional-filter-${resetKey}`; // Nueva clave
 
   const datesFilterProps = {
     handleChange: handleMenuChange,
     name: "fechaconsulta",
     array: dateList,
     initialValue: dateFilter,
-    key: `date-filter-${resetKey}`,
   };
+
+  const keyDatesFilterProps = `date-filter-${resetKey}`;
 
   const reportProps = {
     records: recordsToReport,
@@ -394,6 +403,9 @@ export const MedicalRecordListContainer = () => {
     setPageIsLoading,
     createMedicalRecordUrl,
     editMedicalRecordUrl,
+    keyPatientsFilterProps,
+    keyDatesFilterProps,
+    keyProfessionalFilterProps,
   };
 
   return (

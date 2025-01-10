@@ -25,6 +25,7 @@ import MailIcon from "@mui/icons-material/Mail";
 
 import "./patientDetail.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 export const PatientsDetail = (props) => {
   const {
@@ -82,7 +83,9 @@ export const PatientsDetail = (props) => {
     marginRight: "5px",
   };
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div className="patientDetail">

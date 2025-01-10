@@ -1,13 +1,19 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { TokenContext } from "../../../context/TokenContext";
+import { Spinner } from "../../common/spinner/Spinner";
 
 export const ProtectedRoute = () => {
-  const { isAuthenticated } = useContext(TokenContext); // Usar el contexto
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
+  useEffect(() => {
+    const storedAuth =
+      JSON.parse(localStorage.getItem("isAuthenticated")) || false;
+    setIsAuthenticated(storedAuth);
+    setIsLoading(false);
+  }, []);
 
-  return <Outlet />;
+  if (isLoading) return <Spinner />;
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };

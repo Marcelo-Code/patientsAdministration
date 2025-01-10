@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProfessionalRecord } from "../../../../api/professionals";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { documentData } from "./DocumentData";
 import { ProfessionalDocumentation } from "./ProfessionalDocumentationA";
+import { getProfessionalRecord } from "../../../../api/profesionales/professionals";
 
 export const ProfessionalDocumentationContainer = () => {
   const { professionalId } = useParams();
@@ -38,6 +38,13 @@ export const ProfessionalDocumentationContainer = () => {
     editMode &&
       setUploadDocumentation(initialStateUploadProfessionalDocumentation);
   };
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);

@@ -3,11 +3,12 @@ import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { Spinner } from "../../../common/spinner/Spinner";
+
+import { EditPatient } from "./EditPatient";
 import {
   getPatientRecord,
   updatePatientRecord,
-} from "../../../../api/patients";
-import { EditPatient } from "./EditPatient";
+} from "../../../../api/pacientes/patients";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
@@ -68,6 +69,13 @@ export const EditPatientContainer = () => {
     if (!modifiedFlag) setModifiedFlag(true);
     console.log(patientRecord);
   };
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true),

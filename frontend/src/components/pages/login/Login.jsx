@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -10,8 +11,8 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./login.css";
-import { login } from "../api/login";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { getUser, login } from "../../../api/usuarios/login";
 
 export const Login = ({
   showPassword,
@@ -23,10 +24,8 @@ export const Login = ({
   navigate,
   isLoading,
   setIsLoading,
-  updateToken,
-  setUpdateToken,
-  isAuthenticated,
   probeToken,
+  setUserRolRecord,
 }) => {
   return (
     <div style={{ width: "100vw", display: "flex", justifyContent: "center" }}>
@@ -63,7 +62,9 @@ export const Login = ({
             }}
           />
         </CardContent>
-        <CardActions sx={{ justifyContent: "center" }}>
+        <CardActions
+          sx={{ alignItems: "center", flexDirection: "column", gap: "20px" }}
+        >
           <LoadingButton
             sx={{ marginTop: "20px", width: "100%" }}
             variant="contained"
@@ -72,12 +73,14 @@ export const Login = ({
               setIsLoading(true);
               login(userName, password)
                 .then((response) => {
-                  console.log(response);
                   if (response) {
                     probeToken()
                       .then((response) => {
                         if (response) navigate("/");
                         setIsLoading(false);
+                        getUser(userName, password)
+                          .then((response) => console.log(response))
+                          .catch((error) => console.log(error));
                       })
                       .catch((error) => {
                         console.log(error);
@@ -94,6 +97,14 @@ export const Login = ({
           >
             Iniciar Sesión
           </LoadingButton>
+
+          <Button
+            size="small"
+            sx={{ color: "white" }}
+            onClick={() => navigate("/passwordResetRequest")}
+          >
+            ¿Olvidaste la Contraseña?
+          </Button>
         </CardActions>
       </Card>
     </div>

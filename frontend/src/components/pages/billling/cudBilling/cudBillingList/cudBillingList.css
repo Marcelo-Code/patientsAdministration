@@ -4,4 +4,5 @@ td:first-child {
   left: 0; /* Se fija al borde izquierdo */
   background-color: #f9f9f9; /* Fondo para la columna fija */
   z-index: 1; /* Para asegurarse de que esté encima de otras columnas */
+  padding: 20px;
 }

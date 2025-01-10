@@ -6,6 +6,8 @@ import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import "./alerts.css";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export function Alerts({
   patientsExpirationCudRecords,
@@ -30,6 +32,8 @@ export function Alerts({
     setState({ ...state, [anchor]: open });
   };
 
+  const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+
   const list = (anchor) => (
     <Box
       sx={{
@@ -42,6 +46,22 @@ export function Alerts({
       onClick={(e) => e.stopPropagation()} // Evita que el click cierre el Drawer
       onKeyDown={(e) => e.stopPropagation()} // Evita el cierre al presionar teclas
     >
+      <h3
+        style={{
+          textAlign: "center",
+        }}
+      >
+        Perfil: {userRolRecord?.user?.perfil || "cargando..."}
+      </h3>
+      <h3
+        style={{
+          textAlign: "center",
+          borderBottom: "1px solid white",
+          marginBottom: "20px",
+        }}
+      >
+        {userRolRecord?.user?.nombreyapellidousuario || "cargando..."}
+      </h3>
       <h3
         style={{
           textAlign: "center",

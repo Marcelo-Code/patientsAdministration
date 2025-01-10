@@ -3,10 +3,10 @@ import { CreateMedicalRecord } from "./CreateMedicalRecord";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { meetings } from "../../../common/Menu/meetings";
-import { createMedicalRecord } from "../../../../api/medicalRecords";
 import { useParams } from "react-router-dom";
-import { getPatientsRecords } from "../../../../api/patients";
-import { getProfessionalsRecords } from "../../../../api/professionals";
+import { getPatientsRecords } from "../../../../api/pacientes/patients";
+import { getProfessionalsRecords } from "../../../../api/profesionales/professionals";
+import { createMedicalRecord } from "../../../../api/consultas/medicalRecords";
 
 export const CreateMedicalRecordContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState([]);
@@ -36,6 +36,12 @@ export const CreateMedicalRecordContainer = () => {
   const [medicalRecord, setMedicalRecord] = useState(initialState);
   const { createList, goBackAction, cancelAction, setPageIsLoading } =
     useContext(GeneralContext);
+
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);

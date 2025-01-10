@@ -28,6 +28,7 @@ import {
 import "./createCudBilling.css";
 import dayjs from "dayjs";
 import { OptionsMenu } from "../../../../common/Menu/OptionsMenu";
+import { useEffect } from "react";
 
 export const CreateCudBilling = ({
   handleChange,
@@ -53,7 +54,9 @@ export const CreateCudBilling = ({
     with: "300px",
   };
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div

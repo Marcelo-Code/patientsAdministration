@@ -16,7 +16,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
 import "./professionalsList.css";
-import { deleteProfessionalRecord } from "../../../../api/professionals";
+import { deleteProfessionalRecord } from "../../../../api/profesionales/professionals";
+import { useEffect } from "react";
 
 export const ProfessionalsList = ({
   professionalsRecords,
@@ -27,54 +28,60 @@ export const ProfessionalsList = ({
   setPageIsLoading,
   updateAlertsList,
   setUpdateAlertsList,
+  userRolRecord,
 }) => {
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
+
   return (
     <>
       <div className="professionalsContainer">
-        <span
-          style={{
-            position: "sticky",
-            top: 0,
-            left: 0,
-            width: "100%",
-            background: "white",
-            zIndex: 3,
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "30px",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-          }}
-        >
-          <Link to="/createProfessional">
-            <Button
-              aria-label="fingerprint"
-              size="small"
-              variant="contained"
-              startIcon={<PersonAddIcon />}
-            >
-              Crear Profesional
-            </Button>
-          </Link>
-          <div
+        {userRolRecord.user.perfil === "admin" && (
+          <span
             style={{
-              fontFamily: "Arial",
-              fontSize: "1.2em",
-              color: "gray",
+              position: "sticky",
+              top: 0,
+              left: 0,
+              width: "100%",
+              background: "white",
+              zIndex: 3,
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "30px",
+              boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
+              paddingTop: "10px",
+              paddingBottom: "10px",
             }}
           >
-            Edición
-            <Android12Switch
-              checked={editMode}
-              onChange={handleChange}
-              sx={{ transform: "scale(1.3)" }}
-            />
-          </div>
-        </span>
+            <Link to="/createProfessional">
+              <Button
+                aria-label="fingerprint"
+                size="small"
+                variant="contained"
+                startIcon={<PersonAddIcon />}
+              >
+                Crear Profesional
+              </Button>
+            </Link>
+            <div
+              style={{
+                fontFamily: "Arial",
+                fontSize: "1.2em",
+                color: "gray",
+              }}
+            >
+              Edición
+              <Android12Switch
+                checked={editMode}
+                onChange={handleChange}
+                sx={{ transform: "scale(1.3)" }}
+              />
+            </div>
+          </span>
+        )}
         <div
           style={{
             width: "100%",

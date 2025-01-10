@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
+
+import { Spinner } from "../../../common/spinner/Spinner";
+import { UsersList } from "./UsersList";
 import {
   getUserRecord,
   getUsersRecords,
   updateUserRecord,
-} from "../../../../api/users";
-import { Spinner } from "../../../common/spinner/Spinner";
-import { UsersList } from "./UsersList";
+} from "../../../../api/usuarios/users";
 
 export const UsersListContainer = () => {
   const { handleGoBack, setPageIsLoading, cancelTableAction } =

@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
-import { createPatientRecord } from "../../../../api/patients";
 import { CreatePatient } from "./CreatePatient";
+import { createPatientRecord } from "../../../../api/pacientes/patients";
 
 export const CreatePatientContainer = () => {
   const {
@@ -93,6 +93,13 @@ export const CreatePatientContainer = () => {
         setIsLoading(false);
       });
   };
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   const props = {
     handleChange,

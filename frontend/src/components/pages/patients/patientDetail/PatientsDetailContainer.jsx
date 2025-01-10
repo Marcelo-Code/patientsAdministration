@@ -4,9 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { age } from "../../../common/age";
-import { getPatientRecord } from "../../../../api/patients";
-import { Footer } from "../../../layout/footer/Footer";
-import { NavBarContainer } from "../../../layout/navBar/NavBarContainer";
+import { getPatientRecord } from "../../../../api/pacientes/patients";
 
 export const PatientsDetailContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
@@ -14,6 +12,13 @@ export const PatientsDetailContainer = () => {
   const [patientRecord, setPatientRecord] = useState(null);
 
   const { patientId } = useParams();
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);

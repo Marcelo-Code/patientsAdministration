@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { NavBar } from "./NavBar";
-import { getPatientsRecords } from "../../../api/patients";
-import { getProfessionalsRecords } from "../../../api/professionals";
 import dayjs from "dayjs";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { useNavigate } from "react-router-dom";
 import { ConfirmAlert } from "../../common/alerts/alerts";
+import { getPatientsRecords } from "../../../api/pacientes/patients";
+import { getProfessionalsRecords } from "../../../api/profesionales/professionals";
+import { Spinner } from "../../common/spinner/Spinner";
 
 export const NavBarContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
@@ -68,6 +69,8 @@ export const NavBarContainer = () => {
       );
       if (result.isConfirmed) {
         localStorage.removeItem("token"); // Borra el token
+        localStorage.removeItem("userRolRecord"); // Borra el usuario
+        localStorage.removeItem("isAuthenticated"); // Borra el usuario
         navigate("/login");
       } // Redirige al login
     } catch (error) {

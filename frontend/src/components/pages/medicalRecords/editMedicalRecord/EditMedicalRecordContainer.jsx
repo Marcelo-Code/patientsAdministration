@@ -1,17 +1,22 @@
 import { useParams } from "react-router-dom";
 import { EditMedicalRecord } from "./EditMedicalRecord";
 import { useContext, useEffect, useState } from "react";
+
+import { Spinner } from "../../../common/spinner/Spinner";
+import { GeneralContext } from "../../../../context/GeneralContext";
+
+import {
+  getPatientRecord,
+  getPatientsRecords,
+} from "../../../../api/pacientes/patients";
 import {
   getMedicalRecord,
   updateMedicalRecord,
-} from "../../../../api/medicalRecords";
-import { Spinner } from "../../../common/spinner/Spinner";
-import { GeneralContext } from "../../../../context/GeneralContext";
-import { getPatientRecord, getPatientsRecords } from "../../../../api/patients";
+} from "../../../../api/consultas/medicalRecords";
 import {
   getProfessionalRecord,
   getProfessionalsRecords,
-} from "../../../../api/professionals";
+} from "../../../../api/profesionales/professionals";
 
 export const EditMedicalRecordContainer = () => {
   const {
@@ -72,6 +77,12 @@ export const EditMedicalRecordContainer = () => {
   };
 
   console.log(medicalRecordId);
+
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);

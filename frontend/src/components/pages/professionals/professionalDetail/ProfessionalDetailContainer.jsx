@@ -5,12 +5,19 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { useEffect } from "react";
-import { getProfessionalRecord } from "../../../../api/professionals";
+import { getProfessionalRecord } from "../../../../api/profesionales/professionals";
 
 export const ProfessionalDetailContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
   const [professionalRecord, setProfessionalRecord] = useState(null);
   const { professionalId } = useParams();
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);

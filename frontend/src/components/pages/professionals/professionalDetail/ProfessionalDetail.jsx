@@ -25,6 +25,7 @@ import MailIcon from "@mui/icons-material/Mail";
 
 import "./professionalDetail.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 export const ProfessionalDetail = ({
   professionalRecord,
@@ -51,7 +52,9 @@ export const ProfessionalDetail = ({
     marginRight: "5px",
   };
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div className="professionalDetailContainer">

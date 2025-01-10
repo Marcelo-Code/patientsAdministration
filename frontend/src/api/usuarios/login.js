@@ -1,8 +1,9 @@
 import axios from "axios";
 import {
     BACKEND_URL
-} from "./config"
+} from "../config";
 
+//POST: validación usuario y contraseña
 export const login = async (usuario, password) => {
     try {
         const response = await axios.post(`${BACKEND_URL}/login`, {
@@ -22,5 +23,25 @@ export const login = async (usuario, password) => {
         }
         throw (error);
 
+    }
+}
+
+//GET: usuario, parámetros usuario y contraseña
+export const getUser = async (usuario, password) => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/getUser`, {
+            params: {
+                usuario,
+                password
+            }
+        })
+        if (response.data) {
+            localStorage.setItem("userRolRecord", JSON.stringify(response.data));
+        }
+
+        return (response.data);
+    } catch (error) {
+        console.log(error)
+        return null;
     }
 }

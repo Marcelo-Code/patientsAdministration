@@ -1,13 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { format } from "date-fns";
+import { useEffect } from "react";
 
 export const MedicalRecordDetail = ({
   handleGoBack,
   medicalDetailRecord,
   setPageIsLoading,
 }) => {
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
+
   return (
     <div
       style={{

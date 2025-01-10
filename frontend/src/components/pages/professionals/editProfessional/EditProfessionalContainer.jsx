@@ -8,7 +8,7 @@ import { EditProfessional } from "./EditProfessional.jsx";
 import {
   getProfessionalRecord,
   updateProfessionalRecord,
-} from "../../../../api/professionals.js";
+} from "../../../../api/profesionales/professionals.js";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();
@@ -53,6 +53,13 @@ export const EditProfessionalContainer = () => {
     if (!modifiedFlag) setModifiedFlag(true);
     console.log(professionalRecord);
   };
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true),

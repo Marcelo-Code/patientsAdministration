@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { CreateProfessional } from "./CreateProfessional";
-import { createProfessionalRecord } from "../../../../api/professionals";
+import { createProfessionalRecord } from "../../../../api/profesionales/professionals";
 
 export const CreateProfessionalContainer = () => {
   const {
@@ -76,6 +76,13 @@ export const CreateProfessionalContainer = () => {
         setIsLoading(false);
       });
   };
+
+  //Importa el usuario desde localStorage
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   const props = {
     handleChange,

@@ -26,7 +26,8 @@ import MedicalRecordListFilter from "./MedicalRecordListFilter";
 import { MedicalRecordListFilterDrawer } from "./MedicalRecordListFilterDrawer";
 import { ExportToWord } from "../../../common/exportToWord/ExportToWord";
 import { Animation } from "./Animation";
-import { deleteMedicalRecord } from "../../../../api/medicalRecords";
+import { deleteMedicalRecord } from "../../../../api/consultas/medicalRecords";
+import { useEffect } from "react";
 export const MedicalRecordsList = ({
   records,
   setRecords,
@@ -60,7 +61,9 @@ export const MedicalRecordsList = ({
   professionalId,
   setPageIsLoading,
   createMedicalRecordUrl,
-  editMedicalRecordUrl,
+  keyPatientsFilterProps,
+  keyDatesFilterProps,
+  keyProfessionalFilterProps,
 }) => {
   const filterProps = {
     filterMode,
@@ -76,6 +79,9 @@ export const MedicalRecordsList = ({
     datesFilterProps,
     patientsFilterProps,
     professionalFilterProps,
+    keyPatientsFilterProps,
+    keyDatesFilterProps,
+    keyProfessionalFilterProps,
   };
 
   //Variables para la animación de checkBox
@@ -87,7 +93,9 @@ export const MedicalRecordsList = ({
     exit: theme.transitions.duration.leavingScreen,
   };
 
-  setPageIsLoading(false);
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div className="medicalRecordsListContainer">

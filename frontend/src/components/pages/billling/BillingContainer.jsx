@@ -2,17 +2,23 @@ import { useContext, useEffect, useState } from "react";
 import { Billing } from "./Billing";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
-import { getNoCudBillingRecords } from "../../../api/noCudBilling";
+
+import { Spinner } from "../../common/spinner/Spinner";
+import { TokenContext } from "../../../context/TokenContext";
+import { getNoCudBillingRecords } from "../../../api/facturacionNoCud/noCudBilling";
 import {
   getProfessionalRecord,
   getProfessionalsRecords,
-} from "../../../api/professionals";
-import { getPatientRecord, getPatientsRecords } from "../../../api/patients";
-import { Spinner } from "../../common/spinner/Spinner";
-import { getCudBillingRecords } from "../../../api/cudBilling";
+} from "../../../api/profesionales/professionals";
+import {
+  getPatientRecord,
+  getPatientsRecords,
+} from "../../../api/pacientes/patients";
+import { getCudBillingRecords } from "../../../api/facturacionCud/cudBilling";
 
 export const BillingContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);
+
   const [noCudBillingRecords, setNoCudBillingRecords] = useState(null);
   const [cudBillingRecords, setCudBillingRecords] = useState(null);
   const [filteredNoCudBillingRecords, setFilteredNoCudBillingRecords] =
@@ -25,6 +31,12 @@ export const BillingContainer = () => {
   const [name, setName] = useState(null);
 
   const { patientId = null, professionalId = null } = useParams();
+
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);
@@ -44,6 +56,15 @@ export const BillingContainer = () => {
             .catch((error) => console.log(error));
           filteredResponse = response.filter(
             (record) => record.idprofesional === parseInt(professionalId)
+          );
+        }
+
+        //Si se toma el idprofesional desde el contexto se filtra
+        else if (userRolRecord?.user?.idprofesional) {
+          filteredResponse = response.filter(
+            (record) =>
+              record.idprofesional ===
+              parseInt(userRolRecord.user.idprofesional)
           );
         } else {
           filteredResponse = response;
@@ -68,6 +89,15 @@ export const BillingContainer = () => {
           filteredResponse = response.filter(
             (record) => record.idprofesional === parseInt(professionalId)
           );
+        }
+
+        //Si se toma el idprofesional desde el contexto se filtra
+        else if (userRolRecord?.user?.idprofesional) {
+          filteredResponse = response.filter(
+            (record) =>
+              record.idprofesional ===
+              parseInt(userRolRecord.user.idprofesional)
+          );
         } else {
           filteredResponse = response;
         }
@@ -90,9 +120,10 @@ export const BillingContainer = () => {
         setPatientsRecords(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList, patientId, professionalId, setPageIsLoading]);
+  }, [updateList, patientId, professionalId, setPageIsLoading, userRolRecord]);
 
   if (
+    !professionalsRecords ||
     !noCudBillingRecords ||
     !cudBillingRecords ||
     !patientsRecords ||
@@ -106,11 +137,13 @@ export const BillingContainer = () => {
     professionalsRecords,
     updateList,
     setUpdateList,
+
     //No Cud
     //------
     setNoCudBillingRecords,
     noCudBillingRecords,
     filteredNoCudBillingRecords,
+
     //---------------
     //Cud
     setCudBillingRecords,

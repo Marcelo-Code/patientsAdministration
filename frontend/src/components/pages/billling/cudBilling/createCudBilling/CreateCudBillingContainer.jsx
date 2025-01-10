@@ -1,17 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../../../../../context/GeneralContext";
 import { Spinner } from "../../../../common/spinner/Spinner";
-import { getProfessionalsRecords } from "../../../../../api/professionals";
+
+import { CreateCudBilling } from "./CreateCudBilling";
+import { useParams } from "react-router-dom";
+import { getProfessionalsRecords } from "../../../../../api/profesionales/professionals";
 import {
   getPatientRecord,
   getPatientsRecords,
-} from "../../../../../api/patients";
-import {
-  createCudBillingRecord,
-  updateCudBillingRecord,
-} from "../../../../../api/cudBilling";
-import { CreateCudBilling } from "./CreateCudBilling";
-import { useParams } from "react-router-dom";
+} from "../../../../../api/pacientes/patients";
+import { createCudBillingRecord } from "../../../../../api/facturacionCud/cudBilling";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =
@@ -75,6 +73,8 @@ export const CreateCudBillingContainer = () => {
     cudBillingRecordInitialState
   );
 
+  const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+
   useEffect(() => {
     setPageIsLoading(true);
     getProfessionalsRecords()
@@ -122,7 +122,7 @@ export const CreateCudBillingContainer = () => {
     if (
       professionalId &&
       !updatedCudBillingRecord.idprofesional &&
-      !updateCudBillingRecord.nombreyapellidoprofesional
+      !updatedCudBillingRecord.nombreyapellidoprofesional
     ) {
       updatedCudBillingRecord.idprofesional = professionalRecord.id;
       updatedCudBillingRecord.nombreyapellidoprofesional =

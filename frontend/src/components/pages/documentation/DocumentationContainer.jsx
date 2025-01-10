@@ -5,9 +5,7 @@ import { documentData } from "./DocumentData";
 import "./documentCard.css";
 import { Spinner } from "../../common/spinner/Spinner";
 import { Documentation } from "./Documentation";
-import { getPatientRecord } from "../../../api/patients";
-import { Footer } from "../../layout/footer/Footer";
-import { NavBarContainer } from "../../layout/navBar/NavBarContainer";
+import { getPatientRecord } from "../../../api/pacientes/patients";
 
 export const DocumentationContainer = () => {
   const [patient, setPatient] = useState(null);
@@ -37,6 +35,12 @@ export const DocumentationContainer = () => {
     setEditMode(!editMode);
     editMode && setUploadDocumentation(initialStateUploadDocumentation);
   };
+
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   useEffect(() => {
     setPageIsLoading(true);

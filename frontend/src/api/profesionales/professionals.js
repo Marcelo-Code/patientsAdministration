@@ -1,15 +1,121 @@
+import axios from "axios";
 import {
-    ConfirmAlert,
-    WarningAlert
-} from "../components/common/alerts/alerts";
-import {
-    partialUpdateProfessionalRecord
-} from "./professionals";
-import {
+    BACKEND_URL,
     bucketName,
     supabase
-} from "./supabaseClient";
+} from "../config";
+import {
+    ConfirmAlert,
+    ErrorAlert,
+    SuccessAlert,
+    WarningAlert
+} from "../../components/common/alerts/alerts";
+import {
+    documentData
+} from "../../components/pages/professionals/professionalDocumentation/DocumentData";
+import {
+    borrarImagen
+} from "../pacientes/patients";
 
+//GET: lista de profesionales
+export const getProfessionalsRecords = async () => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/getProfessionalsRecords`)
+        return (response.data);
+    } catch (error) {
+        ErrorAlert("¡Error al buscar profesionales!")
+        console.log("Error al buscar profesionales: ", error.message);
+    }
+}
+
+//GET: profesional por id
+export const getProfessionalRecord = async (professionalId) => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/getProfessionalRecord/${professionalId}`)
+        return (response.data);
+    } catch (error) {
+        ErrorAlert("¡Error al buscar profesional!");
+        console.log("Error al buscar profesional: ", error.message);
+    }
+}
+
+//POST: crear profesional
+export const createProfessionalRecord = async (newProfessional) => {
+    console.log("Creando profesional...")
+    console.log(newProfessional);
+    try {
+        const response = await axios.post(`${BACKEND_URL}/createProfessionalRecord`, newProfessional);
+        console.log("Profesional creado: ", response.data)
+        SuccessAlert(`Profesional ${newProfessional.nombreYApellidoProfesional} creado`);
+        window.history.back();
+        return (response.data);
+    } catch (error) {
+        ErrorAlert("¡Error al crear profesional!");
+        console.log("Error al crear profesional: ", error.message)
+    }
+}
+
+//DELETE: eliminar profesional
+export const deleteProfessionalRecord = async (professionalId, professionalName) => {
+    console.log(professionalId);
+    console.log(typeof (professionalId));
+    try {
+        const result = await ConfirmAlert("¿Estás seguro de eliminar este profesional?", `Vas a eliminar a ${professionalName}`, "Eliminar", "Cancelar");
+        if (result.isConfirmed) {
+            getProfessionalRecord(professionalId)
+                .then((response) => {
+                    documentData.map((document) => {
+                        if (response[document.name] !== "")
+                            borrarImagen(response[document.name])
+                            .then((response) => console.log(response))
+                            .catch((error) => console.log(error))
+                    })
+                })
+                .catch((error) => console.log(error))
+            const response = await axios.delete(`${BACKEND_URL}/deleteProfessionalRecord/${professionalId}`);
+            SuccessAlert("¡Profesional eliminado!");
+            return (response.data);
+        }
+    } catch (error) {
+        ErrorAlert("¡Error al eliminar profesional!");
+        console.log("Error al eliminar profesional: ", error.message);
+        throw error;
+    }
+};
+
+//PUT: update profesional
+export const updateProfessionalRecord = async (professional, profesionalId) => {
+    try {
+        const result = await ConfirmAlert("¿Estás seguro de modificar este profesional?", "", "Modificar", "Cancelar");
+        if (result.isConfirmed) {
+            const response = await axios.put(`${BACKEND_URL}/updateProfessionalRecord/${profesionalId}`, professional);
+            SuccessAlert("¡Profesional modificado!");
+            window.history.back();
+            return (response.data);
+        }
+    } catch (error) {
+        ErrorAlert("¡Error al modificar profesional!");
+        console.log("Error al modificar profesional: ", error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+//PATCH: update profesional
+export const partialUpdateProfessionalRecord = async (professionalRecord, professionalRecordId) => {
+    const response = await axios.patch(`${BACKEND_URL}/partialUpdateProfessionalRecord/${professionalRecordId}`, professionalRecord)
+    try {
+        SuccessAlert("¡Profesional modificado!");
+        return response.data;
+    } catch (error) {
+        ErrorAlert("¡Error al modificar profesional!");
+        console.log("Error al modificar profesional: ", error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+//********** DOCUMENTACIÓN EN BUCKET **********
+
+//PUT: upload documentación profesional a bucket
 export const uploadProfessionalDocumentToBucket = async (fileName, record, name, setIsloading) => {
     if (record[name] !== "") {
         WarningAlert("Debe eliminarse el documento antes de subir otro")
@@ -103,8 +209,7 @@ export const uploadProfessionalDocumentToBucket = async (fileName, record, name,
     }
 };
 
-//DELETE 
-//------
+//DELETE: documentación profesional desde bucket
 export const DeleteProfessionalDocumentFromBucket = async (name, record, folderName) => {
     if (record[name] === "") {
         WarningAlert("¡No hay documento para eliminar!")
