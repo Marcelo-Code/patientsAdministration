@@ -15,7 +15,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import UploadIcon from "@mui/icons-material/Upload";
-import ClearIcon from "@mui/icons-material/Clear";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { CircularProgress } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -31,7 +30,7 @@ import {
   deleteNoCudBillingRecord,
   uploadNoCudBillingDocumentToBucket,
 } from "../../../../../api/facturacionNoCud/noCudBilling";
-import { NoCudBillingListShowTable } from "./noCudBillingListShowTable";
+import { NoCudBillingListShowTable } from "./NoCudBillingListShowTab";
 
 export const NoCudBillingList = ({
   noCudBillingRecords,
