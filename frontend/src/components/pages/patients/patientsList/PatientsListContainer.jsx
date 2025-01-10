@@ -19,6 +19,7 @@ export const PatientsListContainer = () => {
   const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
 
   console.log(userRolRecord);
+  console.log("lista de pacientes");
 
   useEffect(() => {
     setPageIsLoading(true);
