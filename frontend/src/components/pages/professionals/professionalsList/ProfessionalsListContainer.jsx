@@ -26,6 +26,9 @@ export const ProfessionalsListContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getProfessionalsRecords()
       .then((response) => {
         setProfessionalsRecords(response);
@@ -42,11 +45,9 @@ export const ProfessionalsListContainer = () => {
   const props = {
     professionalsRecords,
     editMode,
-    updateList,
     setUpdateList,
     handleChange,
     setPageIsLoading,
-    updateAlertsList,
     setUpdateAlertsList,
     userRolRecord,
   };

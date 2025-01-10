@@ -22,6 +22,9 @@ export const PatientsDetailContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getPatientRecord(patientId)
       .then((response) => setPatientRecord(response))
       .catch((error) => console.log(error));

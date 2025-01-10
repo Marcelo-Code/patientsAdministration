@@ -40,6 +40,9 @@ export const BillingContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getNoCudBillingRecords()
       .then((response) => {
         let filteredResponse;

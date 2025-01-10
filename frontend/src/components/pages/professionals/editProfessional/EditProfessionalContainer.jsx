@@ -62,12 +62,15 @@ export const EditProfessionalContainer = () => {
   }, []);
 
   useEffect(() => {
-    setPageIsLoading(true),
-      getProfessionalRecord(professionalId)
-        .then((response) => {
-          setProfessionalRecord(response);
-        })
-        .catch((error) => console.log(error));
+    setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
+    getProfessionalRecord(professionalId)
+      .then((response) => {
+        setProfessionalRecord(response);
+      })
+      .catch((error) => console.log(error));
   }, [professionalId, setPageIsLoading]);
 
   if (!professionalRecord) return <Spinner />;

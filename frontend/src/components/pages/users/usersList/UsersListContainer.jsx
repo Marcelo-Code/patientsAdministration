@@ -43,6 +43,9 @@ export const UsersListContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getUsersRecords()
       .then((response) => {
         setUsersRecords(response);

@@ -68,6 +68,9 @@ export const CreateNoCudBillingContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getProfessionalsRecords()
       .then((response) => {
         setProfessionalsRecords(response);

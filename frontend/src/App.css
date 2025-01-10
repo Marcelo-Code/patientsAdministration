@@ -20,9 +20,10 @@ body {
     ),
     url("/assets/wallpaper.jpg");
   background-size: center;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   background-attachment: fixed;
+  background-position: center;
   margin: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
 }

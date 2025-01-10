@@ -101,7 +101,7 @@ export const Login = ({
           <Button
             size="small"
             sx={{ color: "white" }}
-            onClick={() => navigate("/passwordResetRequest")}
+            // onClick={() => navigate("/passwordResetRequest")}
           >
             ¿Olvidaste la Contraseña?
           </Button>

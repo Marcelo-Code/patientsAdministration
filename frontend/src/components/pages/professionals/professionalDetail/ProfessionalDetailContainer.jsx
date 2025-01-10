@@ -21,6 +21,9 @@ export const ProfessionalDetailContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getProfessionalRecord(professionalId)
       .then((response) => setProfessionalRecord(response))
       .catch((error) => console.log(error));

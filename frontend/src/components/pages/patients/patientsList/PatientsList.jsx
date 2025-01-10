@@ -22,17 +22,15 @@ import { useEffect } from "react";
 export const PatientsList = ({
   editMode,
   patientsRecords,
-  updateList,
   setUpdateList,
   handleEditModeChange,
   setPageIsLoading,
-  updateAlertsList,
   setUpdateAlertsList,
   userRolRecord,
 }) => {
   useEffect(() => {
     setPageIsLoading(false);
-  }, [setPageIsLoading]);
+  }, [setPageIsLoading, patientsRecords]);
 
   return (
     <>
@@ -151,8 +149,8 @@ export const PatientsList = ({
                         )
                           .then((response) => {
                             console.log(response);
-                            setUpdateList(!updateList);
-                            setUpdateAlertsList(!updateAlertsList);
+                            setUpdateList((prev) => !prev);
+                            setUpdateAlertsList((prev) => !prev);
                           })
                           .catch((error) => console.log(error))
                       }

@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -69,9 +69,9 @@ export const UsersList = ({
           <Button
             variant={"contained"}
             size={"small"}
-            startIcon={<PersonIcon />}
+            startIcon={<PersonAddIcon />}
           >
-            Nuevo Usuario
+            Crear Usuario
           </Button>
         </Link>
         <div

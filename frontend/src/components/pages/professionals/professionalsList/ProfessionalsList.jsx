@@ -22,11 +22,9 @@ import { useEffect } from "react";
 export const ProfessionalsList = ({
   professionalsRecords,
   editMode,
-  updateList,
   setUpdateList,
   handleChange,
   setPageIsLoading,
-  updateAlertsList,
   setUpdateAlertsList,
   userRolRecord,
 }) => {
@@ -181,8 +179,8 @@ export const ProfessionalsList = ({
                         )
                           .then((response) => {
                             console.log(response);
-                            setUpdateList(!updateList);
-                            setUpdateAlertsList(!updateAlertsList);
+                            setUpdateList((prev) => !prev),
+                              setUpdateAlertsList((prev) => !prev);
                           })
                           .catch((error) => console.log(error))
                       }

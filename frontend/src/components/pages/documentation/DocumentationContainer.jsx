@@ -44,6 +44,9 @@ export const DocumentationContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getPatientRecord(patientId)
       .then((response) => {
         setPatient(response);

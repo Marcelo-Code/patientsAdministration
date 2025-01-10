@@ -45,6 +45,9 @@ export const CreateMedicalRecordContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getPatientsRecords()
       .then((response) => {
         setPatientsRecords(response);

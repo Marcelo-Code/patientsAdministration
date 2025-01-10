@@ -19,6 +19,9 @@ export const MedicalRecordDetailContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getMedicalRecords(medicalRecordId)
       .then((response) => {
         const medicalRecord = response.filter(

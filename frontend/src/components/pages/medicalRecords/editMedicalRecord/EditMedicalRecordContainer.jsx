@@ -86,6 +86,9 @@ export const EditMedicalRecordContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getMedicalRecord(medicalRecordId)
       .then((response) => {
         console.log(response);

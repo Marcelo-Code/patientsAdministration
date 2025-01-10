@@ -48,6 +48,9 @@ export const ProfessionalDocumentationContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getProfessionalRecord(professionalId)
       .then((response) => {
         setProfessionalRecord(response);

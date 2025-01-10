@@ -131,6 +131,9 @@ export const MedicalRecordListContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     let filteredRecords;
     getMedicalRecords()
       .then((response) => {

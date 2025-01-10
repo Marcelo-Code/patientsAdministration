@@ -10,6 +10,9 @@ import {
     ErrorAlert,
     SuccessAlert
 } from '../../components/common/alerts/alerts';
+import {
+    documentData
+} from '../../components/pages/documentation/DocumentData';
 
 //POST: crear paciente
 export const createPatientRecord = async (newPatientRecord) => {

@@ -22,6 +22,9 @@ export const PatientsListContainer = () => {
 
   useEffect(() => {
     setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
     getPatientsRecords()
       .then((response) => {
         setPatientsRecords(response);

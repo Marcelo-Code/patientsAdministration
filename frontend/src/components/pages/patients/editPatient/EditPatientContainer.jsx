@@ -78,12 +78,15 @@ export const EditPatientContainer = () => {
   }, []);
 
   useEffect(() => {
-    setPageIsLoading(true),
-      getPatientRecord(patientId)
-        .then((response) => {
-          setPatientRecord(response);
-        })
-        .catch((error) => console.log(error));
+    setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
+  useEffect(() => {
+    getPatientRecord(patientId)
+      .then((response) => {
+        setPatientRecord(response);
+      })
+      .catch((error) => console.log(error));
   }, [patientId, setPageIsLoading]);
 
   if (!patientRecord) return <Spinner />;
