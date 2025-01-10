@@ -18,8 +18,11 @@ export const NavBar = ({
     professionalsExpirationRnpRecords,
   };
 
-  // const [userRolRecord, setUserRolRecord] = useState(null);
-  const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+  const [userRolRecord, setUserRolRecord] = useState(null);
+  useEffect(() => {
+    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    setUserRolRecord(userRolRecord);
+  }, []);
 
   console.log(userRolRecord);
 
