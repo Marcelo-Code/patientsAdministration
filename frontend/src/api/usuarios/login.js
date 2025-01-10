@@ -2,6 +2,9 @@ import axios from "axios";
 import {
     BACKEND_URL
 } from "../config";
+import {
+    ErrorAlert
+} from "../../components/common/alerts/alerts";
 
 //POST: validación usuario y contraseña
 export const login = async (usuario, password) => {
@@ -16,6 +19,7 @@ export const login = async (usuario, password) => {
         localStorage.setItem('token', token);
         return token;
     } catch (error) {
+        ErrorAlert("Usuario o contraseña incorrecta")
         if (error.response && error.response.data) {
             console.log("Error de login: ", error.response.data);
         } else {
