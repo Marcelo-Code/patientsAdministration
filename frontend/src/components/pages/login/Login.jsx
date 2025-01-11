@@ -41,20 +41,34 @@ export const Login = ({
           <TextField
             sx={{ backgroundColor: "white" }}
             size="small"
-            onChange={(e) => setUserName(e.target.value)}
+            value={userName}
+            onChange={(e) =>
+              setUserName(e.target.value.toLowerCase().replace(/\s/g, ""))
+            }
             name="username"
+            slotProps={{
+              input: {
+                maxLength: 20,
+              },
+            }}
           />
           <span style={{ color: "white", marginTop: "20px" }}>Contraseña</span>
           <TextField
             sx={{ backgroundColor: "white" }}
             size="small"
             type={showPassword ? "text" : "password"} // Alterna entre texto y oculto
-            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value.toLowerCase().replace(/\s/g, ""))
+            }
             name="password"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  <IconButton
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    edge="end"
+                  >
                     {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                   </IconButton>
                 </InputAdornment>

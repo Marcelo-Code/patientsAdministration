@@ -36,6 +36,7 @@ export const UsersList = ({
   setModifiedRecord,
   initialModifiedState,
   userRecord,
+  passwordMatch,
 }) => {
   useEffect(() => {
     setPageIsLoading(false);
@@ -169,13 +170,22 @@ export const UsersList = ({
                         >
                           DNI
                         </th>
-                        {/* <th
+
+                        <th
                           style={{
                             textAlign: "center",
                           }}
                         >
                           Password
-                        </th> */}
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "center",
+                          }}
+                        >
+                          Repeat Password
+                        </th>
+
                         <th
                           style={{
                             textAlign: "center",
@@ -188,7 +198,7 @@ export const UsersList = ({
                             textAlign: "center",
                           }}
                         >
-                          Rol
+                          Perfil
                         </th>
                         <th
                           style={{
@@ -361,7 +371,7 @@ export const UsersList = ({
                                       }}
                                     />
                                   </td>
-                                  {/* <td>
+                                  <td>
                                     <TextField
                                       style={{
                                         margin: "10px",
@@ -373,7 +383,7 @@ export const UsersList = ({
                                       id="outlined-basic"
                                       variant="outlined"
                                       name="password"
-                                      value={userRecord.password}
+                                      type="password"
                                       onChange={handleChange}
                                       slotProps={{
                                         inputLabel: {
@@ -381,7 +391,40 @@ export const UsersList = ({
                                         },
                                       }}
                                     />
-                                  </td> */}
+                                  </td>
+                                  <td>
+                                    <span
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {passwordMatch ? (
+                                        <span>✔️</span>
+                                      ) : (
+                                        <span>❌</span>
+                                      )}
+                                      <TextField
+                                        style={{
+                                          margin: "10px",
+                                          width: "80%",
+                                          border: modifiedRecord.passwordrepeat
+                                            ? "1px solid red"
+                                            : null,
+                                        }}
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        name="passwordrepeat"
+                                        type="password"
+                                        onChange={handleChange}
+                                        slotProps={{
+                                          inputLabel: {
+                                            shrink: true,
+                                          },
+                                        }}
+                                      />
+                                    </span>
+                                  </td>
                                   <td>
                                     <TextField
                                       style={{
@@ -403,27 +446,7 @@ export const UsersList = ({
                                       }}
                                     />
                                   </td>
-                                  <td>
-                                    <TextField
-                                      style={{
-                                        margin: "10px",
-                                        width: "80%",
-                                        border: modifiedRecord.rol
-                                          ? "1px solid red"
-                                          : null,
-                                      }}
-                                      id="outlined-basic"
-                                      variant="outlined"
-                                      name="rol"
-                                      value={userRecord.rol}
-                                      onChange={handleChange}
-                                      slotProps={{
-                                        inputLabel: {
-                                          shrink: true,
-                                        },
-                                      }}
-                                    />
-                                  </td>
+                                  <td>{userRecord.perfil}</td>
                                   <td>
                                     {new Date(
                                       record.fechacreacion
@@ -446,9 +469,10 @@ export const UsersList = ({
                                 <td style={{ padding: "20px" }}>
                                   {record.dni}
                                 </td>
-                                {/* <td>{record.password}</td> */}
+                                <td>**********</td>
+                                <td>**********</td>
                                 <td>{record.email}</td>
-                                <td>{record.rol}</td>
+                                <td>{record.perfil}</td>
                                 <td>
                                   {new Date(
                                     record.fechacreacion

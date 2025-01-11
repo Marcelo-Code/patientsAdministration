@@ -173,12 +173,13 @@ app.post('/createUser', async (req, res) => {
 //PUT: update usuario
 app.put("/updateUserRecord/:id", async (req, res) => {
     const {
-        usuario,
+        perfil,
         nombreyapellidousuario,
+        idprofesional,
+        usuario,
         dni,
-        password,
         email,
-        rol,
+        password,
         fechacreacion,
     } = req.body;
 
@@ -187,22 +188,26 @@ app.put("/updateUserRecord/:id", async (req, res) => {
     } = req.params;
 
     try {
+        const salt = await bcrypt.genSalt(12);
+        const hashedPassword = await bcrypt.hash(password, salt);
         const result = await pool.query(
             `UPDATE usuarios
-             SET usuario = $1,
+             SET perfil = $1,
                 nombreyapellidousuario = $2,
-                dni = $3,
-                password = $4,
-                email = $5,
-                rol = $6,
-                fechacreacion = $7
-                WHERE id = $8`, [
-                usuario,
+                idprofesional = $3,
+                usuario = $4,
+                dni = $5,
+                email = $6,
+                password = $7,
+                fechacreacion = $8
+                WHERE id = $9`, [
+                perfil,
                 nombreyapellidousuario,
+                idprofesional,
+                usuario,
                 dni,
-                password,
                 email,
-                rol,
+                hashedPassword,
                 fechacreacion,
                 id
             ]

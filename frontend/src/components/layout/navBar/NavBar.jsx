@@ -11,20 +11,13 @@ export const NavBar = ({
   patientsExpirationCudRecords,
   professionalsExpirationRnpRecords,
   handleLogout,
+  userRolRecord,
 }) => {
   const { darkMode, pageIsLoading } = useContext(GeneralContext);
   const altertsProps = {
     patientsExpirationCudRecords,
     professionalsExpirationRnpRecords,
   };
-
-  const [userRolRecord, setUserRolRecord] = useState(null);
-  useEffect(() => {
-    const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
-    setUserRolRecord(userRolRecord);
-  }, []);
-
-  console.log(userRolRecord);
 
   const burguerMenuProps = {
     userRolRecord,

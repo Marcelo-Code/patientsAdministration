@@ -8,6 +8,8 @@ import {
   getUsersRecords,
   updateUserRecord,
 } from "../../../../api/usuarios/users";
+import { Alert } from "@mui/material";
+import { WarningAlert } from "../../../common/alerts/alerts";
 
 export const UsersListContainer = () => {
   const { handleGoBack, setPageIsLoading, cancelTableAction } =
@@ -18,25 +20,30 @@ export const UsersListContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [updateList, setUpdateList] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(false);
 
   const initialModifiedState = {
-    usuario: false,
+    perfil: false,
     nombreyapellidousuario: false,
+    idprofesional: false,
+    usuario: false,
     dni: false,
-    password: false,
     email: false,
-    rol: false,
+    password: false,
+    passwordrepeat: false,
     fechacreacion: false,
   };
   const [modifiedRecord, setModifiedRecord] = useState(initialModifiedState);
 
   const userRecordInitialState = {
-    usuario: "",
+    perfil: "",
     nombreyapellidousuario: "",
+    idprofesional: "",
+    usuario: "",
     dni: "",
-    password: "",
     email: "",
-    rol: "",
+    password: "",
+    passwordrepeat: "",
     fechacreacion: "",
   };
   const [userRecord, setUserRecord] = useState(userRecordInitialState);
@@ -81,25 +88,34 @@ export const UsersListContainer = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedUserRecord = { ...userRecord, [name]: value };
+    if (updatedUserRecord.password === updatedUserRecord.passwordrepeat) {
+      setPasswordMatch(true);
+    } else {
+      setPasswordMatch(false);
+    }
     setUserRecord(updatedUserRecord);
     setModifiedRecord({ ...modifiedRecord, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
   };
 
   const handleSubmit = (idUserRecord) => {
-    setIsLoading(true);
-    updateUserRecord(userRecord, idUserRecord)
-      .then((response) => {
-        // console.log(response);
-        setEditModeFields(null);
-        setIsLoading(false);
-        setUpdateList(!updateList);
-        setModifiedRecord(initialModifiedState);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+    if (passwordMatch) {
+      setIsLoading(true);
+      updateUserRecord(userRecord, idUserRecord)
+        .then((response) => {
+          // console.log(response);
+          setEditModeFields(null);
+          setIsLoading(false);
+          setUpdateList(!updateList);
+          setModifiedRecord(initialModifiedState);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsLoading(false);
+        });
+    } else {
+      WarningAlert("verificar password");
+    }
   };
 
   const usersListProps = {
@@ -121,6 +137,7 @@ export const UsersListContainer = () => {
     setModifiedRecord,
     initialModifiedState,
     userRecord,
+    passwordMatch,
   };
 
   return <UsersList {...usersListProps} />;

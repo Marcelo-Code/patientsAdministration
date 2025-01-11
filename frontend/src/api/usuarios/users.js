@@ -47,7 +47,6 @@ export const getUserRecord = async (userRecordId) => {
 export const updateUserRecord = async (userRecord, userRecordId) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de modificar este usuario?", "", "Modificar", "Cancelar")
-        console.log(result.isConfirmed);
         if (result.isConfirmed) {
             const response = await axios.put(`${BACKEND_URL}/updateUserRecord/${userRecordId}`, userRecord);
             SuccessAlert("Usuario modificado!")
