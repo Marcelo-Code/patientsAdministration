@@ -27,6 +27,7 @@ export const BillingContainer = () => {
     useState(null);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const [patientsRecords, setPatientsRecords] = useState(null);
+  const [patientRecord, setPatientRecord] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [name, setName] = useState(null);
 
@@ -43,6 +44,11 @@ export const BillingContainer = () => {
   }, [setPageIsLoading]);
 
   useEffect(() => {
+    if (patientId) {
+      getPatientRecord(patientId)
+        .then((response) => setPatientRecord(response))
+        .catch((error) => console.log(error));
+    }
     getNoCudBillingRecords()
       .then((response) => {
         let filteredResponse;
@@ -130,6 +136,7 @@ export const BillingContainer = () => {
     !noCudBillingRecords ||
     !cudBillingRecords ||
     !patientsRecords ||
+    (patientId && !patientRecord) ||
     (!name && (professionalId || patientId))
   )
     return <Spinner />;
@@ -156,6 +163,8 @@ export const BillingContainer = () => {
     patientId,
     professionalId,
     name,
+
+    patientRecord,
   };
 
   return (

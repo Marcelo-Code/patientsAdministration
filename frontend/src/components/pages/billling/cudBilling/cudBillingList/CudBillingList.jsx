@@ -58,6 +58,7 @@ export const CudBillingList = ({
   menuFilterProps,
   patientId,
   professionalId,
+  patientRecord,
 }) => {
   const totalProfesional = cudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montofinalprofesional);
@@ -98,11 +99,15 @@ export const CudBillingList = ({
           padding: "20px",
         }}
       >
-        <Link to={createCudBillingUrl}>
+        <Link
+          to={createCudBillingUrl}
+          style={{ pointerEvents: patientRecord?.cud ? "auto" : "none" }}
+        >
           <Button
             variant={"contained"}
             size={"small"}
             startIcon={<NoteAddIcon />}
+            disabled={!patientRecord?.cud}
           >
             Nueva Facturación
           </Button>

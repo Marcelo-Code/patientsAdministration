@@ -27,6 +27,7 @@ export const Billing = ({
   patientId,
   professionalId,
   name,
+  patientRecord,
 }) => {
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
@@ -42,6 +43,7 @@ export const Billing = ({
     setUpdateList,
     patientId,
     professionalId,
+    patientRecord,
   };
 
   const noCudBillingListContainerProps = {
@@ -54,6 +56,7 @@ export const Billing = ({
     filteredNoCudBillingRecords,
     patientId,
     professionalId,
+    patientRecord,
   };
 
   useEffect(() => {

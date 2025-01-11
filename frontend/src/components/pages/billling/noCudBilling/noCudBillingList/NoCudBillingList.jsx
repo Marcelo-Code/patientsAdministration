@@ -56,6 +56,7 @@ export const NoCudBillingList = ({
   removeAccentsAndSpecialChars,
   patientId,
   professionalId,
+  patientRecord,
 }) => {
   const totalMontoSesion = noCudBillingRecords.reduce((acc, record) => {
     return acc + parseFloat(record.montosesion);
@@ -95,11 +96,15 @@ export const NoCudBillingList = ({
           padding: "20px",
         }}
       >
-        <Link to={createNoCudBillingUrl}>
+        <Link
+          to={createNoCudBillingUrl}
+          style={{ pointerEvents: !patientRecord?.cud ? "auto" : "none" }}
+        >
           <Button
             variant={"contained"}
             size={"small"}
             startIcon={<NoteAddIcon />}
+            disabled={patientRecord?.cud}
           >
             Nueva Facturación
           </Button>

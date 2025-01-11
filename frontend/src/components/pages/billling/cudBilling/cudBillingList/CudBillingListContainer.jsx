@@ -18,6 +18,7 @@ export const CudBillingListContainer = ({
   setUpdateList,
   patientId,
   professionalId,
+  patientRecord,
 }) => {
   const { createList, cancelTableAction } = useContext(GeneralContext);
   useState(null);
@@ -222,6 +223,7 @@ export const CudBillingListContainer = ({
     menuFilterProps,
     patientId,
     professionalId,
+    patientRecord,
   };
   return (
     <>

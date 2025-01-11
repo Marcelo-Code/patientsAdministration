@@ -19,6 +19,7 @@ export const NoCudBillingListContainer = ({
   filteredNoCudBillingRecords,
   patientId,
   professionalId,
+  patientRecord,
 }) => {
   const {
     handleGoBack,
@@ -232,6 +233,7 @@ export const NoCudBillingListContainer = ({
     removeAccentsAndSpecialChars,
     patientId,
     professionalId,
+    patientRecord,
   };
   return (
     <>

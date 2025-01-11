@@ -94,7 +94,10 @@ export const CreateCudBillingContainer = () => {
       .catch((error) => console.log(error));
     getPatientsRecords()
       .then((response) => {
-        setPatientsRecords(response);
+        const filteredResponse = response.filter(
+          (record) => record.cud === true
+        );
+        setPatientsRecords(filteredResponse);
         if (patientId) {
           const foundPatientRecord = response.find(
             (record) => record.id === parseInt(patientId)
