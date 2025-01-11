@@ -108,7 +108,7 @@ export const UsersList = ({
                   // overflowX: "auto",
                   overflowY: "auto",
                   maxHeight: "500px",
-                  width: "90%",
+                  width: "100%",
                   position: "relative",
                 }}
               >
@@ -384,7 +384,16 @@ export const UsersList = ({
                                       variant="outlined"
                                       name="password"
                                       type="password"
-                                      onChange={handleChange}
+                                      value={userRecord.password}
+                                      onChange={(e) => {
+                                        const value = e.target.value
+                                          .toLowerCase()
+                                          .replace(/\s+/g, "") // Elimina los espacios
+                                          .replace(/[^a-z0-9]/g, ""); // Elimina caracteres que no sean letras o números
+                                        handleChange({
+                                          target: { name: "password", value },
+                                        });
+                                      }}
                                       slotProps={{
                                         inputLabel: {
                                           shrink: true,
@@ -415,8 +424,19 @@ export const UsersList = ({
                                         id="outlined-basic"
                                         variant="outlined"
                                         name="passwordrepeat"
+                                        value={userRecord.passwordrepeat}
                                         type="password"
-                                        onChange={handleChange}
+                                        onChange={(e) => {
+                                          const value = e.target.value
+                                            .toLowerCase()
+                                            .replace(/[^a-z0-9]/g, "");
+                                          handleChange({
+                                            target: {
+                                              name: "passwordrepeat",
+                                              value,
+                                            },
+                                          });
+                                        }}
                                         slotProps={{
                                           inputLabel: {
                                             shrink: true,

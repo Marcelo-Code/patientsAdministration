@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { getPatientsRecords } from "../../../../api/pacientes/patients";
+import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
 
 export const PatientsListContainer = () => {
   const { setPageIsLoading, updateAlertsList, setUpdateAlertsList } =
@@ -33,6 +34,10 @@ export const PatientsListContainer = () => {
       .catch((error) => console.log(error));
   }, [updateList, setPageIsLoading]);
 
+  console.log(patientsRecords);
+
+  if (Array.isArray(patientsRecords) && patientsRecords.length === 0)
+    return <NotFoundRecord />;
   if (!patientsRecords || !userRolRecord) return <Spinner />;
 
   const props = {

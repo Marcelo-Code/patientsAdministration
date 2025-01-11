@@ -4,6 +4,7 @@ import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { TokenContext } from "../../../../context/TokenContext";
 import { getProfessionalsRecords } from "../../../../api/profesionales/professionals";
+import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
 
 export const ProfessionalsListContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
@@ -34,13 +35,11 @@ export const ProfessionalsListContainer = () => {
         setProfessionalsRecords(response);
       })
       .catch((error) => console.log(error));
-  }, [updateList, setPageIsLoading]);
+  }, [updateList]);
 
+  if (Array.isArray(professionalsRecords) && professionalsRecords.length === 0)
+    return <NotFoundRecord />;
   if (!professionalsRecords || !userRolRecord) return <Spinner />;
-
-  console.log(userRolRecord.user);
-
-  console.log(professionalsRecords);
 
   const props = {
     professionalsRecords,

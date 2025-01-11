@@ -32,6 +32,16 @@ export const getUsersRecords = async () => {
     }
 }
 
+//GET: existencia de usuario
+export const checkUser = async (userName) => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/checkUser/${userName}`)
+        return response.data.exists;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 //GET: usuario por id
 export const getUserRecord = async (userRecordId) => {
     try {

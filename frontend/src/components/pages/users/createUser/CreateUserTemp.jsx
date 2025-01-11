@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 import "./createUser.css";
 import { OptionsMenu } from "../../../common/Menu/OptionsMenu";
+import { useEffect } from "react";
 
 export const CreateUser = ({
   handleChange,
@@ -24,6 +25,8 @@ export const CreateUser = ({
   professionalsProps,
   usersTypeProps,
   passwordMatch,
+  userMatch,
+  setPageIsLoading,
 }) => {
   const style = {
     display: "flex",
@@ -31,6 +34,10 @@ export const CreateUser = ({
     justifyContent: "center",
     with: "300px",
   };
+
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div
@@ -99,7 +106,8 @@ export const CreateUser = ({
               </span>
             )}
             <span style={style}>
-              <PersonIcon />
+              {/* <PersonIcon /> */}
+              {userMatch ? <span>❌</span> : <span>✔️</span>}
               <TextField
                 style={{
                   margin: "10px",
@@ -109,8 +117,17 @@ export const CreateUser = ({
                 id="outlined-basic"
                 label="Usuario"
                 variant="outlined"
+                value={userRecord.usuario}
                 name="usuario"
-                onChange={handleChange}
+                onChange={(e) => {
+                  const value = e.target.value
+                    .toLowerCase()
+                    .replace(/\s+/g, "") // Elimina los espacios
+                    .replace(/[^a-z0-9]/g, ""); // Elimina caracteres que no sean letras o números
+                  handleChange({
+                    target: { name: "usuario", value },
+                  });
+                }}
               />
             </span>
 
@@ -157,8 +174,16 @@ export const CreateUser = ({
                 label="password"
                 variant="outlined"
                 name="password"
-                onChange={handleChange}
                 value={userRecord.password}
+                onChange={(e) => {
+                  const value = e.target.value
+                    .toLowerCase()
+                    .replace(/\s+/g, "") // Elimina los espacios
+                    .replace(/[^a-z0-9]/g, ""); // Elimina caracteres que no sean letras o números
+                  handleChange({
+                    target: { name: "password", value },
+                  });
+                }}
               />
             </span>
             {userRecord.password !== "" && (
@@ -176,7 +201,15 @@ export const CreateUser = ({
                   variant="outlined"
                   name="passwordrepeat"
                   value={userRecord.passwordrepeat}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const value = e.target.value
+                      .toLowerCase()
+                      .replace(/\s+/g, "") // Elimina los espacios
+                      .replace(/[^a-z0-9]/g, ""); // Elimina caracteres que no sean letras o números
+                    handleChange({
+                      target: { name: "passwordrepeat", value },
+                    });
+                  }}
                 />
               </span>
             )}

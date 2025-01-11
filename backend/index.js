@@ -48,6 +48,39 @@ app.listen(PORT, () => {
 
 //********** FUNCIONES TABLA USUARIOS: **********
 
+// GET: Verificar si el usuario existe por nombre de usuario
+app.get('/checkUser/:usuario', async (req, res) => {
+    const {
+        usuario
+    } = req.params; // Recibir el parámetro desde la URL
+    try {
+        // Buscar el usuario en la base de datos
+        const result = await pool.query(
+            `SELECT 1 FROM usuarios WHERE usuario = $1`,
+            [usuario]
+        );
+
+        // Si result.rows tiene alguna fila, el usuario existe
+        if (result.rows.length > 0) {
+            return res.status(200).json({
+                exists: true // El usuario existe
+            });
+        }
+
+        // Si no se encuentra, el usuario no existe
+        return res.status(200).json({
+            exists: false // El usuario no existe
+        });
+
+    } catch (error) {
+        console.error("Error al verificar usuario:", error);
+        res.status(500).json({
+            message: "Error del servidor",
+            error: error.message
+        });
+    }
+});
+
 //GET: usuario por usuario y password
 app.get('/getUser', async (req, res) => {
     const {

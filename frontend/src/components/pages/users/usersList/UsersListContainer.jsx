@@ -8,7 +8,6 @@ import {
   getUsersRecords,
   updateUserRecord,
 } from "../../../../api/usuarios/users";
-import { Alert } from "@mui/material";
 import { WarningAlert } from "../../../common/alerts/alerts";
 
 export const UsersListContainer = () => {

@@ -8,13 +8,19 @@ import {
   getProfessionalRecord,
   getProfessionalsRecords,
 } from "../../../../api/profesionales/professionals";
-import { createUser } from "../../../../api/usuarios/users";
-import { CreateUser } from "./CreateUserTemp";
+import { checkUser, createUser } from "../../../../api/usuarios/users";
 import { WarningAlert } from "../../../common/alerts/alerts";
+import { CreateUser } from "./CreateUserTemp";
 
 export const CreateUserContainer = () => {
-  const { cancelAction, goBackAction, isLoading, setIsLoading, createList } =
-    useContext(GeneralContext);
+  const {
+    cancelAction,
+    goBackAction,
+    isLoading,
+    setIsLoading,
+    createList,
+    setPageIsLoading,
+  } = useContext(GeneralContext);
 
   //hook para guardar los datos del nuevo paciente
 
@@ -33,6 +39,7 @@ export const CreateUserContainer = () => {
   const [userRecord, setUserRecord] = useState(initialState);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const [passwordMatch, setPasswordMatch] = useState(false);
+  const [userMatch, setUserMatch] = useState(false);
 
   //hooks para detectar los cambios
 
@@ -59,7 +66,14 @@ export const CreateUserContainer = () => {
           )
           .catch((error) => console.log(error));
       }
-      console.log(updatedUserRecord);
+      if (name === "usuario") {
+        checkUser(value)
+          .then((response) => {
+            if (response) setUserMatch(true);
+            else setUserMatch(false);
+          })
+          .catch((error) => console.log(error));
+      }
       if (updatedUserRecord.password === updatedUserRecord.passwordrepeat)
         setPasswordMatch(true);
       else setPasswordMatch(false);
@@ -70,25 +84,33 @@ export const CreateUserContainer = () => {
   //Función para llamar a la función POST
 
   const handleSubmit = () => {
-    if (passwordMatch) {
-      const today = dayjs().format("YYYY-MM-DD");
-      const updateUserRecord = { ...userRecord, fechacreacion: today };
-      setIsLoading(true);
-      console.log(updateUserRecord);
-      createUser(updateUserRecord)
-        .then((response) => {
-          console.log(response);
-          setIsLoading(false);
-          goBackAction();
-        })
-        .catch((error) => {
-          console.log(error.message);
-          setIsLoading(false);
-        });
+    if (!userMatch) {
+      if (passwordMatch) {
+        const today = dayjs().format("YYYY-MM-DD");
+        const updatedUserRecord = { ...userRecord, fechacreacion: today };
+        setIsLoading(true);
+        console.log(updatedUserRecord);
+        createUser(updatedUserRecord)
+          .then((response) => {
+            console.log(response);
+            setIsLoading(false);
+            goBackAction();
+          })
+          .catch((error) => {
+            console.log(error.message);
+            setIsLoading(false);
+          });
+      } else {
+        WarningAlert("verificar password");
+      }
     } else {
-      WarningAlert("verificar password");
+      WarningAlert("Usuario no disponible");
     }
   };
+
+  useEffect(() => {
+    setPageIsLoading(true);
+  }, [setPageIsLoading]);
 
   useEffect(() => {
     getProfessionalsRecords()
@@ -132,6 +154,8 @@ export const CreateUserContainer = () => {
     professionalsProps,
     usersTypeProps,
     passwordMatch,
+    userMatch,
+    setPageIsLoading,
   };
   return (
     <>

@@ -18,6 +18,7 @@ import { Android12Switch } from "../../../common/switchEditionMode/SwitchEdition
 import "./professionalsList.css";
 import { deleteProfessionalRecord } from "../../../../api/profesionales/professionals";
 import { useEffect } from "react";
+import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
 
 export const ProfessionalsList = ({
   professionalsRecords,
