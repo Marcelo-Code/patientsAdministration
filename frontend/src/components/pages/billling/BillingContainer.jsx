@@ -4,7 +4,6 @@ import { GeneralContext } from "../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
 
 import { Spinner } from "../../common/spinner/Spinner";
-import { TokenContext } from "../../../context/TokenContext";
 import { getNoCudBillingRecords } from "../../../api/facturacionNoCud/noCudBilling";
 import {
   getProfessionalRecord,
@@ -48,6 +47,8 @@ export const BillingContainer = () => {
       getPatientRecord(patientId)
         .then((response) => setPatientRecord(response))
         .catch((error) => console.log(error));
+    } else {
+      setPatientRecord(null);
     }
     getNoCudBillingRecords()
       .then((response) => {

@@ -37,6 +37,7 @@ export const ProfessionalDetailContainer = () => {
     handleGoBack,
     professionalRecord,
     setPageIsLoading,
+    userRolRecord,
   };
 
   return (

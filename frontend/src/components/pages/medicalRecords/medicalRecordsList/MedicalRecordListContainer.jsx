@@ -5,7 +5,6 @@ import { GeneralContext } from "../../../../context/GeneralContext";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { meetings } from "../../../common/Menu/meetings";
-import { TokenContext } from "../../../../context/TokenContext";
 import { getMedicalRecords } from "../../../../api/consultas/medicalRecords";
 import { getPatientRecord } from "../../../../api/pacientes/patients";
 
@@ -21,6 +20,7 @@ export const MedicalRecordListContainer = () => {
   const { patientId = null, professionalId = null } = useParams();
   const { sortRecords, createList, handleGoBack, setPageIsLoading } =
     useContext(GeneralContext);
+  const [userProfessionalId, setUserProfessionalId] = useState(null);
   const [records, setRecords] = useState(null);
   const [listRecords, setListRecords] = useState(null);
   const [filters, setFilters] = useState({});
@@ -126,6 +126,8 @@ export const MedicalRecordListContainer = () => {
   const [userRolRecord, setUserRolRecord] = useState(null);
   useEffect(() => {
     const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    if (userRolRecord?.user?.perfil === "profesional")
+      setUserProfessionalId(userRolRecord.user.idprofesional);
     setUserRolRecord(userRolRecord);
   }, []);
 
@@ -137,19 +139,29 @@ export const MedicalRecordListContainer = () => {
     let filteredRecords;
     getMedicalRecords()
       .then((response) => {
-        if (patientId) {
+        if (patientId && !userProfessionalId) {
           filteredRecords = response.filter(
             (record) => record.idpaciente === parseInt(patientId)
           );
-          console.log(filteredRecords);
           setRecords(filteredRecords);
           setListRecords(filteredRecords);
-          getPatientRecord(patientId)
-            .then((response) => setPatient(response))
-            .catch((error) => console.log(error));
+        } else if (patientId && userProfessionalId) {
+          filteredRecords = response.filter(
+            (record) =>
+              record.idpaciente === parseInt(patientId) &&
+              record.idprofesional === parseInt(userProfessionalId)
+          );
+          setRecords(filteredRecords);
+          setListRecords(filteredRecords);
         } else if (professionalId) {
           filteredRecords = response.filter(
             (record) => record.idprofesional === parseInt(professionalId)
+          );
+          setRecords(filteredRecords);
+          setListRecords(filteredRecords);
+        } else if (userProfessionalId && editMode) {
+          filteredRecords = response.filter(
+            (record) => record.idprofesional === parseInt(userProfessionalId)
           );
           setRecords(filteredRecords);
           setListRecords(filteredRecords);
@@ -157,9 +169,22 @@ export const MedicalRecordListContainer = () => {
           setRecords(response);
           setListRecords(response);
         }
+        if (patientId) {
+          getPatientRecord(patientId)
+            .then((response) => setPatient(response))
+            .catch((error) => console.log(error));
+        }
       })
       .catch((error) => console.log(error));
-  }, [updateFlag, patientId, professionalId, setPageIsLoading, userRolRecord]);
+  }, [
+    updateFlag,
+    patientId,
+    professionalId,
+    userProfessionalId,
+    setPageIsLoading,
+    userRolRecord,
+    editMode,
+  ]);
 
   useEffect(() => {
     if (listRecords) {
@@ -372,7 +397,7 @@ export const MedicalRecordListContainer = () => {
     editMedicalRecordUrl = `/editMedicalRecord`;
   }
 
-  const props = {
+  const medicalRecordsListProps = {
     records,
     setRecords,
     sortUpDateMode,
@@ -413,7 +438,7 @@ export const MedicalRecordListContainer = () => {
 
   return (
     <>
-      <MedicalRecordsList {...props} />
+      <MedicalRecordsList {...medicalRecordsListProps} />
     </>
   );
 };

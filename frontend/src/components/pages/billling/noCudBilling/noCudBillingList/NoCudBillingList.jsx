@@ -85,6 +85,8 @@ export const NoCudBillingList = ({
     createNoCudBillingUrl = `/createNoCudBilling/professional/${professionalId}`;
   else createNoCudBillingUrl = "/createNoCudBilling";
 
+  console.log(patientRecord);
+
   return (
     <>
       <div
@@ -98,13 +100,16 @@ export const NoCudBillingList = ({
       >
         <Link
           to={createNoCudBillingUrl}
-          style={{ pointerEvents: !patientRecord?.cud ? "auto" : "none" }}
+          style={{
+            pointerEvents:
+              patientRecord && patientRecord.cud === true ? "none" : "auto",
+          }}
         >
           <Button
             variant={"contained"}
             size={"small"}
             startIcon={<NoteAddIcon />}
-            disabled={patientRecord?.cud}
+            disabled={patientRecord ? patientRecord.cud : false}
           >
             Nueva Facturación
           </Button>

@@ -25,6 +25,7 @@ export const CreateMedicalRecordContainer = () => {
   const [modifiedFlag, setModifiedFlag] = useState(false);
   const [patientRecord, setPatientRecord] = useState(null);
   const [professionalRecord, setProfessionalRecord] = useState(null);
+  const [userProfessionalId, setUserProfessionalId] = useState(null);
 
   const initialState = {
     idpaciente: "",
@@ -40,12 +41,14 @@ export const CreateMedicalRecordContainer = () => {
   const [userRolRecord, setUserRolRecord] = useState(null);
   useEffect(() => {
     const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
+    if (userRolRecord?.user?.perfil === "profesional")
+      setUserProfessionalId(userRolRecord.user.idprofesional);
     setUserRolRecord(userRolRecord);
   }, []);
 
-  useEffect(() => {
-    setPageIsLoading(true);
-  }, [setPageIsLoading]);
+  // useEffect(() => {
+  //   setPageIsLoading(true);
+  // }, [setPageIsLoading]);
 
   useEffect(() => {
     getPatientsRecords()
@@ -68,10 +71,15 @@ export const CreateMedicalRecordContainer = () => {
             (record) => record.id === parseInt(professionalId)
           );
           setProfessionalRecord(foundProfessionalRecord);
+        } else if (userProfessionalId) {
+          const foundProfessionalRecord = response.find(
+            (record) => record.id === parseInt(userProfessionalId)
+          );
+          setProfessionalRecord(foundProfessionalRecord);
         }
       })
       .catch((error) => console.log(error));
-  }, [patientId, professionalId, setPageIsLoading]);
+  }, [patientId, professionalId, setPageIsLoading, userProfessionalId]);
 
   if (!patientsRecords || !professionalsRecords) return <Spinner />;
 
@@ -149,7 +157,7 @@ export const CreateMedicalRecordContainer = () => {
     initialValue: "Selecc. Reunión",
   };
 
-  const props = {
+  const createMedicalRecordProps = {
     goBackAction,
     patientsProps,
     professionalsProps,
@@ -162,12 +170,13 @@ export const CreateMedicalRecordContainer = () => {
     modifiedFlag,
     patientId,
     professionalId,
+    userProfessionalId,
     setPageIsLoading,
   };
 
   return (
     <>
-      <CreateMedicalRecord {...props} />;
+      <CreateMedicalRecord {...createMedicalRecordProps} />;
     </>
   );
 };

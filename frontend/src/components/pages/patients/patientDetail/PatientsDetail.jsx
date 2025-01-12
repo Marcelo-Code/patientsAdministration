@@ -61,6 +61,7 @@ export const PatientsDetail = (props) => {
     fechaultimaactualizacion,
     handleGoBack,
     setPageIsLoading,
+    userRolRecord,
   } = props;
 
   const buttonStyle = {
@@ -397,11 +398,32 @@ export const PatientsDetail = (props) => {
               Documentación
             </Button>
           </Link>
+          {(!userRolRecord || userRolRecord?.user?.perfil === "admin") && (
+            <>
+              <Link
+                to={`/billingPatient/${id}`}
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  margin: "0 auto",
+                }}
+              >
+                <Button
+                  size="small"
+                  sx={buttonStyle}
+                  variant="contained"
+                  startIcon={<ReceiptIcon />}
+                >
+                  Facturación
+                </Button>
+              </Link>
+            </>
+          )}
+          {/* <Link to={`/medicalHistory/${id}`}> */}
           <Link
-            to={`/billingPatient/${id}`}
+            to={`/medicalRecordsList/${id}`}
             style={{
               width: "100%",
-              justifyContent: "center",
               margin: "0 auto",
             }}
           >
@@ -409,28 +431,10 @@ export const PatientsDetail = (props) => {
               size="small"
               sx={buttonStyle}
               variant="contained"
-              startIcon={<ReceiptIcon />}
+              startIcon={<LocalHospitalIcon />}
             >
-              Facturación
+              H. Report
             </Button>
-          </Link>
-          <Link
-            style={{
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            {/* <Link to={`/medicalHistory/${id}`}> */}
-            <Link to={`/medicalRecordsList/${id}`}>
-              <Button
-                size="small"
-                sx={buttonStyle}
-                variant="contained"
-                startIcon={<LocalHospitalIcon />}
-              >
-                H. Report
-              </Button>
-            </Link>
           </Link>
         </CardActions>
         <CardActions>

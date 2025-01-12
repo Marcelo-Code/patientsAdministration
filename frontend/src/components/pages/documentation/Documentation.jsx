@@ -19,6 +19,7 @@ export const Documentation = ({
   isLoading,
   setIsLoading,
   setPageIsLoading,
+  userRolRecord,
 }) => {
   const propsDocumentCard = {
     patient,
@@ -31,6 +32,7 @@ export const Documentation = ({
     initialStateUploadDocumentation,
     isLoading,
     setIsLoading,
+    userRolRecord,
   };
   useEffect(() => {
     setPageIsLoading(false);

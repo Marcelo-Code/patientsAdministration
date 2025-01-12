@@ -15,7 +15,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import UploadIcon from "@mui/icons-material/Upload";
-import ClearIcon from "@mui/icons-material/Clear";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { CircularProgress } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -101,13 +100,16 @@ export const CudBillingList = ({
       >
         <Link
           to={createCudBillingUrl}
-          style={{ pointerEvents: patientRecord?.cud ? "auto" : "none" }}
+          style={{
+            pointerEvents:
+              patientRecord && patientRecord.cud === false ? "none" : "auto",
+          }}
         >
           <Button
             variant={"contained"}
             size={"small"}
             startIcon={<NoteAddIcon />}
-            disabled={!patientRecord?.cud}
+            disabled={patientRecord ? !patientRecord.cud : false}
           >
             Nueva Facturación
           </Button>

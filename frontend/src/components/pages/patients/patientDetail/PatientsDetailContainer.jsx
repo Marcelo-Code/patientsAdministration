@@ -73,6 +73,7 @@ export const PatientsDetailContainer = () => {
     fechaultimaactualizacion: patientRecord.fechaultimaactualizacion,
     handleGoBack,
     setPageIsLoading,
+    userRolRecord,
   };
 
   return (

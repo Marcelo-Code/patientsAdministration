@@ -31,6 +31,7 @@ export const ProfessionalDetail = ({
   professionalRecord,
   handleGoBack,
   setPageIsLoading,
+  userRolRecord,
 }) => {
   const buttonStyle = {
     marginTop: "10px",
@@ -213,42 +214,43 @@ export const ProfessionalDetail = ({
               Documentación
             </Button>
           </Link>
-          <Link
-            to={`/professionalBilling/${professionalRecord.id}`}
-            style={{
-              width: "100%",
-              justifyContent: "center",
-              margin: "0 auto",
-            }}
-          >
-            <Button
-              size="small"
-              sx={buttonStyle}
-              variant="contained"
-              startIcon={<ReceiptIcon />}
-            >
-              Facturación
-            </Button>
-          </Link>
-          <Link
-            style={{
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <Link
-              to={`/professionalMedicalRecordsList/${professionalRecord.id}`}
-            >
-              <Button
-                size="small"
-                sx={buttonStyle}
-                variant="contained"
-                startIcon={<LocalHospitalIcon />}
+          {(!userRolRecord || userRolRecord?.user?.perfil === "admin") && (
+            <>
+              <Link
+                to={`/professionalBilling/${professionalRecord.id}`}
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  margin: "0 auto",
+                }}
               >
-                H. Report
-              </Button>
-            </Link>
-          </Link>
+                <Button
+                  size="small"
+                  sx={buttonStyle}
+                  variant="contained"
+                  startIcon={<ReceiptIcon />}
+                >
+                  Facturación
+                </Button>
+              </Link>
+              <Link
+                to={`/professionalMedicalRecordsList/${professionalRecord.id}`}
+                style={{
+                  width: "100%",
+                  margin: "0 auto",
+                }}
+              >
+                <Button
+                  size="small"
+                  sx={buttonStyle}
+                  variant="contained"
+                  startIcon={<LocalHospitalIcon />}
+                >
+                  H. Report
+                </Button>
+              </Link>
+            </>
+          )}
         </CardActions>
         <CardActions>
           <Button

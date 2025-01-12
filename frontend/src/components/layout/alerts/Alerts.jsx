@@ -49,22 +49,6 @@ export function Alerts({
       <h3
         style={{
           textAlign: "center",
-        }}
-      >
-        Perfil: {userRolRecord?.user?.perfil || "cargando..."}
-      </h3>
-      <h3
-        style={{
-          textAlign: "center",
-          borderBottom: "1px solid white",
-          marginBottom: "20px",
-        }}
-      >
-        {userRolRecord?.user?.nombreyapellidousuario || "cargando..."}
-      </h3>
-      <h3
-        style={{
-          textAlign: "center",
           padding: "30px",
           borderBottom: "1px solid white",
           marginBottom: "20px",

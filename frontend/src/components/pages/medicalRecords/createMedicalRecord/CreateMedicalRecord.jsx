@@ -26,14 +26,15 @@ export const CreateMedicalRecord = ({
   modified,
   patientId,
   professionalId,
+  userProfessionalId,
   setPageIsLoading,
 }) => {
   console.log("profesional" + professionalId);
   console.log("paciente" + patientId);
 
-  useEffect(() => {
-    setPageIsLoading(false);
-  }, [setPageIsLoading]);
+  // useEffect(() => {
+  //   setPageIsLoading(false);
+  //}, [setPageIsLoading]);
 
   return (
     <div className="medicalRecordContainer">
@@ -93,7 +94,11 @@ export const CreateMedicalRecord = ({
         <span style={{ pointerEvents: patientId && "none" }}>
           <OptionsMenu {...patientsProps} />
         </span>
-        <span style={{ pointerEvents: professionalId && "none" }}>
+        <span
+          style={{
+            pointerEvents: (professionalId || userProfessionalId) && "none",
+          }}
+        >
           <OptionsMenu {...professionalsProps} />
         </span>
         <span>

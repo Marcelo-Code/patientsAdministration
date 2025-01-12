@@ -28,6 +28,24 @@ export const BurguerMenu = ({ userRolRecord }) => {
       onStateChange={handleStateChange}
       customBurgerIcon={<MenuRoundedIcon sx={{ color: "white" }} />}
     >
+      <h3
+        style={{
+          textAlign: "center",
+          pointerEvents: "none",
+        }}
+      >
+        Perfil: {userRolRecord?.user?.perfil || "cargando..."}
+      </h3>
+      <h3
+        style={{
+          textAlign: "center",
+          borderBottom: "1px solid white",
+          marginBottom: "20px",
+          pointerEvents: "none",
+        }}
+      >
+        {userRolRecord?.user?.nombreyapellidousuario || "cargando..."}
+      </h3>
       <div className="bm-menu-title">
         <div>
           <div>Gestión</div>
@@ -51,7 +69,7 @@ export const BurguerMenu = ({ userRolRecord }) => {
                 <li className="bm-item">Profesionales</li>
               </Link>
               <Link to="/MedicalRecordsList" onClick={closeMenu}>
-                <li className="bm-item">Consultas</li>
+                <li className="bm-item">Consultas/Report</li>
               </Link>
               <Link to="/Billing" onClick={closeMenu}>
                 <li className="bm-item">Facturación</li>
@@ -76,7 +94,7 @@ export const BurguerMenu = ({ userRolRecord }) => {
                 <li className="bm-item">Pacientes</li>
               </Link>
               <Link to="/MedicalRecordsList" onClick={closeMenu}>
-                <li className="bm-item">Consultas</li>
+                <li className="bm-item">Consultas/Report</li>
               </Link>
               <Link to="/Billing" onClick={closeMenu}>
                 <li className="bm-item">Facturación</li>

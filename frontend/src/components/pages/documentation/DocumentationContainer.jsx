@@ -78,6 +78,7 @@ export const DocumentationContainer = () => {
     isLoading,
     setIsLoading,
     setPageIsLoading,
+    userRolRecord,
   };
 
   return (

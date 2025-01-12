@@ -21,6 +21,7 @@ export const DocumentCard = ({
   initialStateUploadDocumentation,
   isLoading,
   setIsLoading,
+  userRolRecord,
 }) => {
   return (
     <>
@@ -86,31 +87,36 @@ export const DocumentCard = ({
               <CardActions
                 sx={{ justifyContent: "center", alignItems: "center" }}
               >
-                <Link
-                  onClick={() => {
-                    patient[document.name] == ""
-                      ? WarningAlert("No hay imagen guardada")
-                      : DeleteImage(document.name, patient)
-                          .then((response) => {
-                            console.log(response);
-                            setUpdateList((prevState) => !prevState);
-                          })
-                          .catch((error) => console.log(error));
-                  }}
-                >
-                  <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
-                </Link>
-                <Link
-                  onClick={() => {
-                    patient[document.name] !== ""
-                      ? WarningAlert(
-                          "Hay que eliminar la imagen antes de subir otra"
-                        )
-                      : handleClick(document.name);
-                  }}
-                >
-                  <UploadIcon sx={{ margin: "10px", fontSize: "2em" }} />
-                </Link>
+                {(!userRolRecord ||
+                  userRolRecord?.user?.perfil === "admin") && (
+                  <>
+                    <Link
+                      onClick={() => {
+                        patient[document.name] == ""
+                          ? WarningAlert("No hay imagen guardada")
+                          : DeleteImage(document.name, patient)
+                              .then((response) => {
+                                console.log(response);
+                                setUpdateList((prevState) => !prevState);
+                              })
+                              .catch((error) => console.log(error));
+                      }}
+                    >
+                      <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
+                    </Link>
+                    <Link
+                      onClick={() => {
+                        patient[document.name] !== ""
+                          ? WarningAlert(
+                              "Hay que eliminar la imagen antes de subir otra"
+                            )
+                          : handleClick(document.name);
+                      }}
+                    >
+                      <UploadIcon sx={{ margin: "10px", fontSize: "2em" }} />
+                    </Link>
+                  </>
+                )}
                 <Link
                   onClick={() => {
                     patient[document.name] == ""
