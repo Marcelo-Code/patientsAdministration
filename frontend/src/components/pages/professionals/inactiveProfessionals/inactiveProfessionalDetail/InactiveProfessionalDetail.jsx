@@ -17,7 +17,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import MailIcon from "@mui/icons-material/Mail";
 
-import "./inactiveProfessionalDetail.css";
+import "./inactiveProfessionalDetail_.css";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
