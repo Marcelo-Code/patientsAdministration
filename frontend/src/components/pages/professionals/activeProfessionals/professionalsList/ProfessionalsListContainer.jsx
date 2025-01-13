@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { ProfessionalsList } from "./ProfessionalsList";
-import { Spinner } from "../../../common/spinner/Spinner";
-import { GeneralContext } from "../../../../context/GeneralContext";
-import { TokenContext } from "../../../../context/TokenContext";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { TokenContext } from "../../../../../context/TokenContext";
 import {
   getProfessionalRecord,
   getProfessionalsRecords,
-} from "../../../../api/profesionales/professionals";
-import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
+} from "../../../../../api/profesionales/professionals";
+import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecord";
 import { useParams } from "react-router-dom";
 
 export const ProfessionalsListContainer = () => {
@@ -42,7 +42,12 @@ export const ProfessionalsListContainer = () => {
         .catch((error) => console.log(error));
     } else {
       getProfessionalsRecords()
-        .then((response) => setProfessionalsRecords(response))
+        .then((response) => {
+          const filteredResponse = response.filter(
+            (record) => record.activo === true
+          );
+          setProfessionalsRecords(filteredResponse);
+        })
         .catch((error) => console.log(error));
     }
   }, [updateList, userRolRecord, professionalId]);

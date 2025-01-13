@@ -30,6 +30,12 @@ export const NavBarContainer = () => {
 
   const professionalsExpirationRnpRecords = (professionalsRecords || [])
     .map((record) => {
+      if (
+        userRolRecord?.user?.perfil === "profesional" &&
+        record.id !== parseInt(userRolRecord?.user?.idprofesional)
+      ) {
+        return null; // Si no coincide, devuelve null, y luego lo filtramos.
+      }
       const currentDate = dayjs();
       const expirationDate = dayjs(record.fechavencimientornpprofesional);
       const daysOfDifference = expirationDate.diff(currentDate, "day");
@@ -38,23 +44,27 @@ export const NavBarContainer = () => {
         diasexpiracionrnp: daysOfDifference,
       };
     })
+    .filter((record) => record !== null) // Filtra los nulls
     .filter((record) => record.diasexpiracionrnp < 30);
 
   const filteredPatientsRecords = (patientsRecords || []).filter(
     (record) => record.cud
   );
 
-  const patientsExpirationCudRecords = filteredPatientsRecords
-    .map((record) => {
-      const currentDate = dayjs();
-      const expirationDate = dayjs(record.fechavencimientocud);
-      const daysOfDifference = expirationDate.diff(currentDate, "day");
-      return {
-        nombreyapellidopaciente: record.nombreyapellidopaciente,
-        diasexpiracioncud: daysOfDifference,
-      };
-    })
-    .filter((record) => record.diasexpiracioncud < 30);
+  const patientsExpirationCudRecords =
+    userRolRecord?.user?.perfil === "admin"
+      ? filteredPatientsRecords
+          .map((record) => {
+            const currentDate = dayjs();
+            const expirationDate = dayjs(record.fechavencimientocud);
+            const daysOfDifference = expirationDate.diff(currentDate, "day");
+            return {
+              nombreyapellidopaciente: record.nombreyapellidopaciente,
+              diasexpiracioncud: daysOfDifference,
+            };
+          })
+          .filter((record) => record.diasexpiracioncud < 30)
+      : [];
 
   // console.log(professionalsExpirationRnpRecords);
 

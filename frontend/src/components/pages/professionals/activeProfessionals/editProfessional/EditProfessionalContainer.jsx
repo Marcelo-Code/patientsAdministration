@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 
 import { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../../../../context/GeneralContext.jsx";
+import { GeneralContext } from "../../../../../context/GeneralContext.jsx";
 import dayjs from "dayjs";
-import { Spinner } from "../../../common/spinner/Spinner.jsx";
+import { Spinner } from "../../../../common/spinner/Spinner.jsx";
 import { EditProfessional } from "./EditProfessional.jsx";
 import {
   getProfessionalRecord,
   updateProfessionalRecord,
-} from "../../../../api/profesionales/professionals.js";
+} from "../../../../../api/profesionales/professionals.js";
 
 export const EditProfessionalContainer = () => {
   const { professionalId } = useParams();

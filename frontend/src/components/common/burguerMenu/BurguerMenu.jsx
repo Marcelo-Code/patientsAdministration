@@ -65,13 +65,19 @@ export const BurguerMenu = ({ userRolRecord }) => {
           <>
             <ul className="bm-item-list">
               <Link to="/" onClick={closeMenu}>
-                <li className="bm-item">Pacientes</li>
+                <li className="bm-item">Pacientes Act.</li>
+              </Link>
+              <Link to="/inactivePatientsList" onClick={closeMenu}>
+                <li className="bm-item">Pacientes Inact.</li>
               </Link>
               <Link
                 to={`/professionalsList/${professionalId}`}
                 onClick={closeMenu}
               >
-                <li className="bm-item">Profesionales</li>
+                <li className="bm-item">Profesionales Act.</li>
+              </Link>
+              <Link to={`/inactiveProfessionalsList`} onClick={closeMenu}>
+                <li className="bm-item">Profesionales Inact.</li>
               </Link>
               <Link to="/MedicalRecordsList" onClick={closeMenu}>
                 <li className="bm-item">Consultas/Report</li>

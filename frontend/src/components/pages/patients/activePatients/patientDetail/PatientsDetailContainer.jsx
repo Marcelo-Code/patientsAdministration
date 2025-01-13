@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { PatientsDetail } from "./PatientsDetail";
 import { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../../../../context/GeneralContext";
-import { Spinner } from "../../../common/spinner/Spinner";
-import { age } from "../../../common/age";
-import { getPatientRecord } from "../../../../api/pacientes/patients";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { age } from "../../../../common/age";
+import { getPatientRecord } from "../../../../../api/pacientes/patients";
 
 export const PatientsDetailContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);

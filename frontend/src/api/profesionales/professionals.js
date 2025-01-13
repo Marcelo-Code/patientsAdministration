@@ -12,7 +12,7 @@ import {
 } from "../../components/common/alerts/alerts";
 import {
     documentData
-} from "../../components/pages/professionals/professionalDocumentation/DocumentData";
+} from "../../components/pages/professionals/activeProfessionals/professionalDocumentation/DocumentData";
 import {
     borrarImagen
 } from "../pacientes/patients";
@@ -110,6 +110,35 @@ export const partialUpdateProfessionalRecord = async (professionalRecord, profes
         ErrorAlert("¡Error al modificar profesional!");
         console.log("Error al modificar profesional: ", error.response ? error.response.data : error.message);
         throw error;
+    }
+}
+
+//PATCH: soft undelete profesional
+export const softUnDeleteProfessionalRecord = async (professionalId, professionalName) => {
+    const result = await ConfirmAlert("¿Estás seguro de activar este profesional?", `Vas a activar a ${professionalName}`, "Activar", "Cancelar");
+    if (result.isConfirmed) {
+        try {
+            const response = await axios.patch(`${BACKEND_URL}/softUnDeleteProfessionalRecord/${professionalId}`)
+            SuccessAlert("Profesional activo")
+            return response.data;
+        } catch (error) {
+            ErrorAlert("Error al activar profesional")
+            console.log(error)
+        }
+    }
+}
+//PATCH: soft delete profesional
+export const softDeleteProfessionalRecord = async (professionalId, professionalName) => {
+    const result = await ConfirmAlert("¿Estás seguro de inactivar este profesional?", `Vas a eliminar a ${professionalName}`, "Eliminar", "Cancelar");
+    if (result.isConfirmed) {
+        try {
+            const response = await axios.patch(`${BACKEND_URL}/softDeleteProfessionalRecord/${professionalId}`)
+            SuccessAlert("Profesional inactivo")
+            return response.data;
+        } catch (error) {
+            ErrorAlert("Error al inactivar profesional")
+            console.log(error)
+        }
     }
 }
 

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Spinner } from "../../../common/spinner/Spinner";
-import { GeneralContext } from "../../../../context/GeneralContext";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { GeneralContext } from "../../../../../context/GeneralContext";
 import { documentData } from "./DocumentData";
 import { ProfessionalDocumentation } from "./ProfessionalDocumentationA";
-import { getProfessionalRecord } from "../../../../api/profesionales/professionals";
+import { getProfessionalRecord } from "../../../../../api/profesionales/professionals";
 
 export const ProfessionalDocumentationContainer = () => {
   const { professionalId } = useParams();

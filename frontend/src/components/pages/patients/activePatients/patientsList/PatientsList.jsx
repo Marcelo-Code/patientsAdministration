@@ -14,9 +14,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
-import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
+import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
 import "./patientsList.css";
-import { deletePatientRecord } from "../../../../api/pacientes/patients";
+import {
+  deletePatientRecord,
+  softDeletePatientRecord,
+} from "../../../../../api/pacientes/patients";
 import { useEffect } from "react";
 
 export const PatientsList = ({
@@ -143,7 +146,7 @@ export const PatientsList = ({
                   <>
                     <Link
                       onClick={() =>
-                        deletePatientRecord(
+                        softDeletePatientRecord(
                           patient.id,
                           patient.nombreyapellidopaciente
                         )

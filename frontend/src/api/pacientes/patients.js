@@ -110,6 +110,35 @@ export const partialUpdatePatientRecord = async (patientRecord, patientRecordId)
     }
 }
 
+//PATCH: soft undelete paciente
+export const softUnDeletePatientRecord = async (patientRecordId, patientName) => {
+    const result = await ConfirmAlert("¿Estás seguro de activar este paciente?", `Vas a activar a ${patientName}`, "Activar", "Cancelar");
+    if (result.isConfirmed) {
+        try {
+            const response = await axios.patch(`${BACKEND_URL}/softUnDeletePatientRecord/${patientRecordId}`)
+            SuccessAlert("Paciente activo")
+            return response.data;
+        } catch (error) {
+            ErrorAlert("Error al activar paciente")
+            console.log(error)
+        }
+    }
+}
+//PATCH: soft delete paciente
+export const softDeletePatientRecord = async (patientRecordId, patientName) => {
+    const result = await ConfirmAlert("¿Estás seguro de inactivar este paciente?", `Vas a eliminar a ${patientName}`, "Eliminar", "Cancelar");
+    if (result.isConfirmed) {
+        try {
+            const response = await axios.patch(`${BACKEND_URL}/softDeletePatientRecord/${patientRecordId}`)
+            SuccessAlert("Paciente inactivo")
+            return response.data;
+        } catch (error) {
+            ErrorAlert("Error al inactivar paciente")
+            console.log(error)
+        }
+    }
+}
+
 //********** DOCUMENTACIÓN EN BUCKET **********
 
 //DELETE: eliminar imagenes en paciente

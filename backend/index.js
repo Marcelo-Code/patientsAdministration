@@ -680,6 +680,70 @@ app.patch("/partialUpdatePatientRecord/:id", async (req, res) => {
     }
 });
 
+//PATCH: soft eliminar paciente
+app.patch("/softDeletePatientRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        // Actualiza la propiedad "activo" a false en el usuario con el ID dado
+        const result = await pool.query(
+            "UPDATE pacientes SET activo = false WHERE id = $1 RETURNING *",
+            [id]
+        );
+
+        if (result.rowCount > 0) {
+            res.status(200).json({
+                message: "Paciente marcado como inactivo exitosamente",
+                updatedUser: result.rows[0]
+            });
+        } else {
+            res.status(404).json({
+                message: "Paciente no encontrado"
+            });
+        }
+    } catch (error) {
+        console.log("Error al realizar soft delete del paciente: ", error);
+        res.status(500).json({
+            error: "Error al realizar soft delete",
+            details: error.message
+        });
+    }
+});
+
+//PATCH: soft activar paciente
+app.patch("/softUnDeletePatientRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        // Actualiza la propiedad "activo" a false en el usuario con el ID dado
+        const result = await pool.query(
+            "UPDATE pacientes SET activo = true WHERE id = $1 RETURNING *",
+            [id]
+        );
+
+        if (result.rowCount > 0) {
+            res.status(200).json({
+                message: "Paciente marcado como activo exitosamente",
+                updatedUser: result.rows[0]
+            });
+        } else {
+            res.status(404).json({
+                message: "Paciente no encontrado"
+            });
+        }
+    } catch (error) {
+        console.log("Error al realizar soft undelete del paciente: ", error);
+        res.status(500).json({
+            error: "Error al realizar soft undelete",
+            details: error.message
+        });
+    }
+});
+
 //**********FUNCIONES TABLA PROFESIONALES: **********
 
 //GET: lista de profesionales
@@ -759,6 +823,70 @@ app.patch("/partialUpdateProfessionalRecord/:id", async (req, res) => {
         res.status(500).json({
             error: "Error al actualizar profesional: ",
             details: error.message,
+        });
+    }
+});
+
+//PATCH: soft eliminar profesional
+app.patch("/softDeleteProfessionalRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        // Actualiza la propiedad "activo" a false en el usuario con el ID dado
+        const result = await pool.query(
+            "UPDATE profesionales SET activo = false WHERE id = $1 RETURNING *",
+            [id]
+        );
+
+        if (result.rowCount > 0) {
+            res.status(200).json({
+                message: "Profesional marcado como inactivo exitosamente",
+                updatedUser: result.rows[0]
+            });
+        } else {
+            res.status(404).json({
+                message: "Profesional no encontrado"
+            });
+        }
+    } catch (error) {
+        console.log("Error al realizar soft delete del profesional: ", error);
+        res.status(500).json({
+            error: "Error al realizar soft delete",
+            details: error.message
+        });
+    }
+});
+
+//PATCH: soft activar profesional
+app.patch("/softUnDeleteProfessionalRecord/:id", async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        // Actualiza la propiedad "activo" a false en el usuario con el ID dado
+        const result = await pool.query(
+            "UPDATE profesionales SET activo = true WHERE id = $1 RETURNING *",
+            [id]
+        );
+
+        if (result.rowCount > 0) {
+            res.status(200).json({
+                message: "Profesional marcado como activo exitosamente",
+                updatedUser: result.rows[0]
+            });
+        } else {
+            res.status(404).json({
+                message: "Profesional no encontrado"
+            });
+        }
+    } catch (error) {
+        console.log("Error al realizar soft undelete del profesional: ", error);
+        res.status(500).json({
+            error: "Error al realizar soft undelete",
+            details: error.message
         });
     }
 });

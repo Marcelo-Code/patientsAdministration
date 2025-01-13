@@ -1,0 +1,9 @@
+.patientsContainer {
+  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+  padding-bottom: 100px;
+}

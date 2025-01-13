@@ -1,0 +1,11 @@
+.professionalsContainer {
+  position: relative;
+  width: 100vw;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 20px;
+  padding-bottom: 100px;
+}

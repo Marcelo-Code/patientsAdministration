@@ -74,7 +74,10 @@ export const Documentation = ({
             width: "100%",
           }}
         >
-          Documentación: {patient.nombreyapellidopaciente}
+          Documentación: {patient.nombreyapellidopaciente}{" "}
+          {!patient.activo && (
+            <span style={{ fontWeight: "bold", color: "red" }}>INACTIVO</span>
+          )}
         </h2>
         <DocumentCard {...propsDocumentCard} />
       </div>

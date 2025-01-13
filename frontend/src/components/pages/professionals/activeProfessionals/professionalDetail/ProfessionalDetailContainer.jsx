@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { ProfessionalDetail } from "./ProfessionalDetail";
-import { Spinner } from "../../../common/spinner/Spinner";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { GeneralContext } from "../../../../context/GeneralContext";
 import { useEffect } from "react";
-import { getProfessionalRecord } from "../../../../api/profesionales/professionals";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { getProfessionalRecord } from "../../../../../api/profesionales/professionals";
 
 export const ProfessionalDetailContainer = () => {
   const { handleGoBack, setPageIsLoading } = useContext(GeneralContext);

@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CircularProgress } from "@mui/material";
-import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
+import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -9,7 +9,7 @@ import "./professionalDocumentation.css";
 import {
   DeleteProfessionalDocumentFromBucket,
   uploadProfessionalDocumentToBucket,
-} from "../../../../api/profesionales/professionals";
+} from "../../../../../api/profesionales/professionals";
 import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
@@ -47,18 +47,31 @@ export const ProfessionalDocumentation = ({
           padding: "10px",
         }}
       >
-        <span style={{ color: "gray", padding: "10px" }}>
-          Edición
-          <Android12Switch
-            checked={editMode}
-            onChange={handleEditModeChange}
-            sx={{ transform: "scale(1.3)" }}
-          />
-        </span>
+        {professionalRecord.activo && (
+          <span style={{ color: "gray", padding: "10px" }}>
+            Edición
+            <Android12Switch
+              checked={editMode}
+              onChange={handleEditModeChange}
+              sx={{ transform: "scale(1.3)" }}
+            />
+          </span>
+        )}
         <Button sx={{ width: "80%" }} onClick={handleGoBack}>
           Volver
         </Button>
       </div>
+      <h2
+        style={{
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        Documentación: {professionalRecord.nombreyapellidoprofesional}{" "}
+        {!professionalRecord.activo && (
+          <span style={{ fontWeight: "bold", color: "red" }}>INACTIVO</span>
+        )}
+      </h2>
 
       {isLoading && (
         <CircularProgress sx={{ position: "fixed", top: "50%", left: "50%" }} />

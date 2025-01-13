@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { CreatePatient } from "./CreatePatient";
-import { createPatientRecord } from "../../../../api/pacientes/patients";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { createPatientRecord } from "../../../../../api/pacientes/patients";
 
 export const CreatePatientContainer = () => {
   const {

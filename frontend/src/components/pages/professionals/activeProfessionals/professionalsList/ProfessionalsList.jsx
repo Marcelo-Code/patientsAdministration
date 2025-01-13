@@ -14,11 +14,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { Android12Switch } from "../../../common/switchEditionMode/SwitchEditionMode";
+import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
 import "./professionalsList.css";
-import { deleteProfessionalRecord } from "../../../../api/profesionales/professionals";
+import {
+  deleteProfessionalRecord,
+  softDeleteProfessionalRecord,
+} from "../../../../../api/profesionales/professionals";
 import { useEffect } from "react";
-import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
 
 export const ProfessionalsList = ({
   professionalsRecords,
@@ -175,7 +177,7 @@ export const ProfessionalsList = ({
                     {userRolRecord.user.perfil === "admin" && (
                       <Link
                         onClick={() =>
-                          deleteProfessionalRecord(
+                          softDeleteProfessionalRecord(
                             professional.id,
                             professional.nombreyapellidoprofesional
                           )

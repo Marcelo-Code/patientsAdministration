@@ -1,10 +1,10 @@
 import { PatientsList } from "./PatientsList";
 import "./patientsList.css";
 import { useContext, useEffect, useState } from "react";
-import { Spinner } from "../../../common/spinner/Spinner";
-import { GeneralContext } from "../../../../context/GeneralContext";
-import { getPatientsRecords } from "../../../../api/pacientes/patients";
-import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { getPatientsRecords } from "../../../../../api/pacientes/patients";
+import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecord";
 
 export const PatientsListContainer = () => {
   const { setPageIsLoading, updateAlertsList, setUpdateAlertsList } =
@@ -28,7 +28,10 @@ export const PatientsListContainer = () => {
   useEffect(() => {
     getPatientsRecords()
       .then((response) => {
-        setPatientsRecords(response);
+        const filteredResponse = response.filter(
+          (record) => record.activo === true
+        );
+        setPatientsRecords(filteredResponse);
       })
       .catch((error) => console.log(error));
   }, [updateList, setPageIsLoading]);

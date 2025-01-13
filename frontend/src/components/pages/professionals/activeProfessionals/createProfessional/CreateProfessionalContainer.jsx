@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../../../../context/GeneralContext";
 import dayjs from "dayjs";
 import { CreateProfessional } from "./CreateProfessional";
-import { createProfessionalRecord } from "../../../../api/profesionales/professionals";
+import { GeneralContext } from "../../../../../context/GeneralContext";
+import { createProfessionalRecord } from "../../../../../api/profesionales/professionals";
 
 export const CreateProfessionalContainer = () => {
   const {

@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../../../../context/GeneralContext";
+import { GeneralContext } from "../../../../../context/GeneralContext";
 import dayjs from "dayjs";
-import { Spinner } from "../../../common/spinner/Spinner";
+import { Spinner } from "../../../../common/spinner/Spinner";
 
 import { EditPatient } from "./EditPatient";
 import {
   getPatientRecord,
   updatePatientRecord,
-} from "../../../../api/pacientes/patients";
+} from "../../../../../api/pacientes/patients";
 
 export const EditPatientContainer = () => {
   const { patientId } = useParams();
