@@ -78,7 +78,7 @@ function App() {
             element={<EditMedicalRecordContainer />}
           />
           <Route
-            path={"/professionalsList"}
+            path={"/professionalsList/:professionalId"}
             element={<ProfessionalsListContainer />}
           />
           <Route

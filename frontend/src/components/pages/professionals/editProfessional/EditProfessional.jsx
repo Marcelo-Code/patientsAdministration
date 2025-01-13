@@ -65,10 +65,21 @@ export const EditProfessional = (props) => {
         sx={{
           minWidth: "320px",
           width: "60%",
-          color: "text.secondary",
+          color: "text.primary",
           margin: "20px",
         }}
       >
+        <h2
+          style={{
+            textAlign: "center",
+            width: "100%",
+            margin: "10px",
+            paddingBottom: "10px",
+            borderBottom: "2px solid black",
+          }}
+        >
+          Editar profesional
+        </h2>
         <Box
           sx={{
             display: "grid",

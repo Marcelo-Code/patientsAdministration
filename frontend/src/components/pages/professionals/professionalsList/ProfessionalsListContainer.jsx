@@ -3,8 +3,12 @@ import { ProfessionalsList } from "./ProfessionalsList";
 import { Spinner } from "../../../common/spinner/Spinner";
 import { GeneralContext } from "../../../../context/GeneralContext";
 import { TokenContext } from "../../../../context/TokenContext";
-import { getProfessionalsRecords } from "../../../../api/profesionales/professionals";
+import {
+  getProfessionalRecord,
+  getProfessionalsRecords,
+} from "../../../../api/profesionales/professionals";
 import { NotFoundRecord } from "../../../common/errorPages/NotFoundRecord";
+import { useParams } from "react-router-dom";
 
 export const ProfessionalsListContainer = () => {
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
@@ -16,6 +20,8 @@ export const ProfessionalsListContainer = () => {
     setEditMode(e.target.checked);
   };
 
+  const { professionalId = null } = useParams();
+
   //Importa el usuario desde localStorage
   const [userRolRecord, setUserRolRecord] = useState();
   useEffect(() => {
@@ -23,23 +29,32 @@ export const ProfessionalsListContainer = () => {
     setUserRolRecord(userRolRecord);
   }, []);
 
-  console.log(userRolRecord);
-
   useEffect(() => {
     setPageIsLoading(true);
   }, [setPageIsLoading]);
 
   useEffect(() => {
-    getProfessionalsRecords()
-      .then((response) => {
-        setProfessionalsRecords(response);
-      })
-      .catch((error) => console.log(error));
-  }, [updateList]);
+    console.log(userRolRecord);
+    if (parseInt(professionalId)) {
+      console.log("filtrado");
+      getProfessionalRecord(professionalId)
+        .then((response) => setProfessionalsRecords([response]))
+        .catch((error) => console.log(error));
+    } else {
+      getProfessionalsRecords()
+        .then((response) => setProfessionalsRecords(response))
+        .catch((error) => console.log(error));
+    }
+  }, [updateList, userRolRecord, professionalId]);
 
+  console.log(professionalsRecords);
+
+  // if (true) return <Spinner />;
+  if (!professionalsRecords || !userRolRecord) return <Spinner />;
   if (Array.isArray(professionalsRecords) && professionalsRecords.length === 0)
     return <NotFoundRecord />;
-  if (!professionalsRecords || !userRolRecord) return <Spinner />;
+
+  console.log(professionalsRecords);
 
   const props = {
     professionalsRecords,

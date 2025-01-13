@@ -22,6 +22,8 @@ export const BurguerMenu = ({ userRolRecord }) => {
 
   if (!userRolRecord) return <Spinner />;
 
+  const professionalId = userRolRecord.user.idprofesional || null;
+
   return (
     <Menu
       isOpen={menuOpen}
@@ -65,7 +67,10 @@ export const BurguerMenu = ({ userRolRecord }) => {
               <Link to="/" onClick={closeMenu}>
                 <li className="bm-item">Pacientes</li>
               </Link>
-              <Link to="/professionalsList" onClick={closeMenu}>
+              <Link
+                to={`/professionalsList/${professionalId}`}
+                onClick={closeMenu}
+              >
                 <li className="bm-item">Profesionales</li>
               </Link>
               <Link to="/MedicalRecordsList" onClick={closeMenu}>
@@ -85,7 +90,7 @@ export const BurguerMenu = ({ userRolRecord }) => {
           <>
             <ul className="bm-item-list">
               <Link
-                to={`/professionalDetail/${userRolRecord.user.idprofesional}`}
+                to={`/professionalsList/${professionalId}`}
                 onClick={closeMenu}
               >
                 <li className="bm-item">Mi Perfil</li>

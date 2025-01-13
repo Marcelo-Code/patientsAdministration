@@ -36,25 +36,25 @@ export const ProfessionalsList = ({
   return (
     <>
       <div className="professionalsContainer">
-        {userRolRecord.user.perfil === "admin" && (
-          <span
-            style={{
-              position: "sticky",
-              top: 0,
-              left: 0,
-              width: "100%",
-              background: "white",
-              zIndex: 3,
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "30px",
-              boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-            }}
-          >
+        <span
+          style={{
+            position: "sticky",
+            top: 0,
+            left: 0,
+            width: "100%",
+            background: "white",
+            zIndex: 3,
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "30px",
+            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+          }}
+        >
+          {userRolRecord?.user?.perfil === "admin" && (
             <Link to="/createProfessional">
               <Button
                 aria-label="fingerprint"
@@ -65,22 +65,22 @@ export const ProfessionalsList = ({
                 Crear Profesional
               </Button>
             </Link>
-            <div
-              style={{
-                fontFamily: "Arial",
-                fontSize: "1.2em",
-                color: "gray",
-              }}
-            >
-              Edición
-              <Android12Switch
-                checked={editMode}
-                onChange={handleChange}
-                sx={{ transform: "scale(1.3)" }}
-              />
-            </div>
-          </span>
-        )}
+          )}
+          <div
+            style={{
+              fontFamily: "Arial",
+              fontSize: "1.2em",
+              color: "gray",
+            }}
+          >
+            Edición
+            <Android12Switch
+              checked={editMode}
+              onChange={handleChange}
+              sx={{ transform: "scale(1.3)" }}
+            />
+          </div>
+        </span>
         <div
           style={{
             width: "100%",
@@ -172,22 +172,24 @@ export const ProfessionalsList = ({
               <CardActions sx={{ justifyContent: "center" }}>
                 {editMode ? (
                   <>
-                    <Link
-                      onClick={() =>
-                        deleteProfessionalRecord(
-                          professional.id,
-                          professional.nombreyapellidoprofesional
-                        )
-                          .then((response) => {
-                            console.log(response);
-                            setUpdateList((prev) => !prev),
-                              setUpdateAlertsList((prev) => !prev);
-                          })
-                          .catch((error) => console.log(error))
-                      }
-                    >
-                      <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
-                    </Link>
+                    {userRolRecord.user.perfil === "admin" && (
+                      <Link
+                        onClick={() =>
+                          deleteProfessionalRecord(
+                            professional.id,
+                            professional.nombreyapellidoprofesional
+                          )
+                            .then((response) => {
+                              console.log(response);
+                              setUpdateList((prev) => !prev),
+                                setUpdateAlertsList((prev) => !prev);
+                            })
+                            .catch((error) => console.log(error))
+                        }
+                      >
+                        <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
+                      </Link>
+                    )}
                     <Link to={`/editProfessional/${professional.id}`}>
                       <EditIcon sx={{ margin: "10px", fontSize: "2em" }} />
                     </Link>
