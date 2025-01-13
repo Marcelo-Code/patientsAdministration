@@ -86,12 +86,40 @@ export const CreateMedicalRecordContainer = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    console.log(name + value);
+
+    console.log(patientId);
+    console.log(professionalId);
+
     // Actualizar el registro médico, incluyendo el idpaciente si existe
-    const updatedMedicalRecord = {
+    let updatedMedicalRecord = {
       ...medicalRecord,
       [name]: value,
-      ...(patientId && { idpaciente: patientId }), // Agregar idpaciente solo si existe
     };
+
+    if (patientId && !updatedMedicalRecord.idpaciente) {
+      updatedMedicalRecord = {
+        ...updatedMedicalRecord,
+        idpaciente: parseInt(patientId),
+      };
+    }
+
+    if (professionalId && !updatedMedicalRecord.idprofesional) {
+      updatedMedicalRecord = {
+        ...updatedMedicalRecord,
+        idprofesional: parseInt(professionalId),
+      };
+    }
+
+    if (
+      userRolRecord.user.idprofesional &&
+      !updatedMedicalRecord.idprofesional
+    ) {
+      updatedMedicalRecord = {
+        ...updatedMedicalRecord,
+        idprofesional: parseInt(userRolRecord.user.idprofesional),
+      };
+    }
 
     console.log(updatedMedicalRecord);
 
@@ -108,6 +136,7 @@ export const CreateMedicalRecordContainer = () => {
 
   const handleSubmit = () => {
     setIsLoading(true);
+    console.log(medicalRecord);
     createMedicalRecord(medicalRecord)
       .then((response) => {
         console.log(response);
@@ -119,7 +148,7 @@ export const CreateMedicalRecordContainer = () => {
   const patientsList = createList(
     patientsRecords,
     "nombreyapellidopaciente",
-    "idpaciente",
+    "id",
     false
   );
 
@@ -133,18 +162,18 @@ export const CreateMedicalRecordContainer = () => {
   const meetingsList = meetings;
 
   const patientsProps = {
-    handleChange: handleChange,
     name: "idpaciente",
     array: patientsList,
+    handleChange: handleChange,
     initialValue: patientRecord
       ? patientRecord.nombreyapellidopaciente
       : "Selecc. Paciente",
   };
 
   const professionalsProps = {
-    handleChange: handleChange,
     name: "idprofesional",
     array: professionalList,
+    handleChange: handleChange,
     initialValue: professionalRecord
       ? professionalRecord.nombreyapellidoprofesional
       : "Selecc. Profesional",
