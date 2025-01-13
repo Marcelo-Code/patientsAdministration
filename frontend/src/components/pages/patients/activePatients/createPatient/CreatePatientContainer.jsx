@@ -2,7 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { CreatePatient } from "./CreatePatient";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import { createPatientRecord } from "../../../../../api/pacientes/patients";
+import {
+  createPatientRecord,
+  getPatientsRecords,
+} from "../../../../../api/pacientes/patients";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { WarningAlert } from "../../../../common/alerts/alerts";
 
 export const CreatePatientContainer = () => {
   const {
@@ -55,9 +60,13 @@ export const CreatePatientContainer = () => {
     imgLibretaSanitaria: "",
     imgCud: "",
     imgCertificadoEventual: "",
+    activo: true,
   };
 
   const [patient, setPatient] = useState(initialState);
+
+  const [patientsRecords, setPatientsRecords] = useState(null);
+  const [dniMatch, setDniMatch] = useState(false);
 
   //hooks para detectar los cambios
 
@@ -70,6 +79,12 @@ export const CreatePatientContainer = () => {
     if (name == "CUD" && !value) {
       patient.fechaVencimientoCUD = null;
     }
+    if (name === "dniPaciente") {
+      console.log(patientsRecords);
+      if (patientsRecords.some((record) => record.dnipaciente === value))
+        setDniMatch(true);
+      else setDniMatch(false);
+    }
     const updatePatient = { ...patient, [name]: value };
     console.log(updatePatient);
     setPatient(updatePatient);
@@ -79,19 +94,23 @@ export const CreatePatientContainer = () => {
   //Función para llamar a la función POST
 
   const handleSubmit = () => {
-    const today = dayjs().format("YYYY-MM-DD");
-    const updatedPatient = { ...patient, fechaUltimaActualizacion: today };
-    setIsLoading(true);
-    createPatientRecord(updatedPatient)
-      .then((response) => {
-        console.log(response);
-        setIsLoading(false);
-        setUpdateAlertsList(!updateAlertsList);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setIsLoading(false);
-      });
+    if (dniMatch) {
+      WarningAlert("DNI existente");
+    } else {
+      const today = dayjs().format("YYYY-MM-DD");
+      const updatedPatient = { ...patient, fechaUltimaActualizacion: today };
+      setIsLoading(true);
+      createPatientRecord(updatedPatient)
+        .then((response) => {
+          console.log(response);
+          setIsLoading(false);
+          setUpdateAlertsList(!updateAlertsList);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setIsLoading(false);
+        });
+    }
   };
 
   //Importa el usuario desde localStorage
@@ -101,7 +120,17 @@ export const CreatePatientContainer = () => {
     setUserRolRecord(userRolRecord);
   }, []);
 
-  const props = {
+  useEffect(() => {
+    getPatientsRecords()
+      .then((response) => {
+        setPatientsRecords(response);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  if (!patientsRecords) return <Spinner />;
+
+  const createPatientsProps = {
     handleChange,
     patient,
     handleSubmit,
@@ -110,10 +139,11 @@ export const CreatePatientContainer = () => {
     modifiedFlag,
     cancelAction,
     goBackAction,
+    dniMatch,
   };
   return (
     <>
-      <CreatePatient {...props} />
+      <CreatePatient {...createPatientsProps} />
     </>
   );
 };

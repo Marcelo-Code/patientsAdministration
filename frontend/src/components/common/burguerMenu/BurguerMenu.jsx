@@ -67,17 +67,11 @@ export const BurguerMenu = ({ userRolRecord }) => {
               <Link to="/" onClick={closeMenu}>
                 <li className="bm-item">Pacientes Act.</li>
               </Link>
-              <Link to="/inactivePatientsList" onClick={closeMenu}>
-                <li className="bm-item">Pacientes Inact.</li>
-              </Link>
               <Link
                 to={`/professionalsList/${professionalId}`}
                 onClick={closeMenu}
               >
                 <li className="bm-item">Profesionales Act.</li>
-              </Link>
-              <Link to={`/inactiveProfessionalsList`} onClick={closeMenu}>
-                <li className="bm-item">Profesionales Inact.</li>
               </Link>
               <Link to="/MedicalRecordsList" onClick={closeMenu}>
                 <li className="bm-item">Consultas/Report</li>
@@ -87,6 +81,17 @@ export const BurguerMenu = ({ userRolRecord }) => {
               </Link>
               <Link to="/usersList" onClick={closeMenu}>
                 <li className="bm-item">Usuarios</li>
+              </Link>
+            </ul>
+            <ul
+              className="bm-item-list"
+              style={{ borderTop: "1px solid white", width: "300px" }}
+            >
+              <Link to={`/inactiveProfessionalsList`} onClick={closeMenu}>
+                <li className="bm-item">Prof. Inactivos</li>
+              </Link>
+              <Link to="/inactivePatientsList" onClick={closeMenu}>
+                <li className="bm-item">Pacientes Inact.</li>
               </Link>
             </ul>
           </>

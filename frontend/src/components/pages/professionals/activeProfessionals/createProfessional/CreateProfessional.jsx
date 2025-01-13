@@ -26,6 +26,7 @@ export const CreateProfessional = ({
   modifiedFlag,
   cancelAction,
   goBackAction,
+  dniMatch,
 }) => {
   const style = {
     display: "flex",
@@ -129,7 +130,8 @@ export const CreateProfessional = ({
               />
             </span>
             <span style={style}>
-              <ImportContactsIcon />
+              {/* <ImportContactsIcon /> */}
+              {dniMatch ? <span>❌</span> : <span>✔️</span>}
               <TextField
                 style={{
                   margin: "10px",

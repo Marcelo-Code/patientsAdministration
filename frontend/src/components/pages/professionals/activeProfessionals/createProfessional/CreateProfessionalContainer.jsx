@@ -2,7 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { CreateProfessional } from "./CreateProfessional";
 import { GeneralContext } from "../../../../../context/GeneralContext";
-import { createProfessionalRecord } from "../../../../../api/profesionales/professionals";
+import {
+  createProfessionalRecord,
+  getProfessionalsRecords,
+} from "../../../../../api/profesionales/professionals";
+import { Spinner } from "../../../../common/spinner/Spinner";
+import { WarningAlert } from "../../../../common/alerts/alerts";
 
 export const CreateProfessionalContainer = () => {
   const {
@@ -38,6 +43,7 @@ export const CreateProfessionalContainer = () => {
     documentodnidorsoprofesional: "",
     documentoseguroprofesional: "",
     fechaultimaactualizacion: null,
+    activo: true,
   };
 
   const [professional, setProfessional] = useState(initialState);
@@ -45,12 +51,22 @@ export const CreateProfessionalContainer = () => {
   //hooks para detectar los cambios
 
   const [modifiedFlag, setModifiedFlag] = useState(false);
+  const [dniMatch, setDniMatch] = useState(false);
+  const [professionalsRecords, setProfessionalsRecords] = useState(null);
 
   //Función para guardar los cambios en el registro
 
   const handleChange = (e) => {
     const { value, name } = e.target;
     setProfessional({ ...professional, [name]: value });
+    if (name === "dniprofesional") {
+      if (
+        professionalsRecords.some((record) => record.dniprofesional === value)
+      )
+        setDniMatch(true);
+      else setDniMatch(false);
+      console.log(dniMatch);
+    }
     if (!modifiedFlag) setModifiedFlag(true);
     console.log(professional);
   };
@@ -58,23 +74,27 @@ export const CreateProfessionalContainer = () => {
   //Función para llamar a la función POST
 
   const handleSubmit = () => {
-    const today = dayjs().format("YYYY-MM-DD");
-    const updatedProfessional = {
-      ...professional,
-      fechaUltimaActualizacion: today,
-    };
-    setIsLoading(true);
-    // e.preventDefault();
-    createProfessionalRecord(updatedProfessional)
-      .then((response) => {
-        console.log(response);
-        setIsLoading(false);
-        setUpdateAlertsList(!updateAlertsList);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setIsLoading(false);
-      });
+    if (dniMatch) {
+      WarningAlert("DNI existente");
+    } else {
+      const today = dayjs().format("YYYY-MM-DD");
+      const updatedProfessional = {
+        ...professional,
+        fechaUltimaActualizacion: today,
+      };
+      setIsLoading(true);
+      // e.preventDefault();
+      createProfessionalRecord(updatedProfessional)
+        .then((response) => {
+          console.log(response);
+          setIsLoading(false);
+          setUpdateAlertsList(!updateAlertsList);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setIsLoading(false);
+        });
+    }
   };
 
   //Importa el usuario desde localStorage
@@ -84,17 +104,26 @@ export const CreateProfessionalContainer = () => {
     setUserRolRecord(userRolRecord);
   }, []);
 
-  const props = {
+  useEffect(() => {
+    getProfessionalsRecords()
+      .then((response) => setProfessionalsRecords(response))
+      .catch((error) => console.log(error));
+  }, []);
+
+  if (!professionalsRecords) return <Spinner />;
+
+  const createProfessionalProps = {
     handleChange,
     handleSubmit,
     isLoading,
     modifiedFlag,
     goBackAction,
     cancelAction,
+    dniMatch,
   };
   return (
     <>
-      <CreateProfessional {...props} />
+      <CreateProfessional {...createProfessionalProps} />
     </>
   );
 };

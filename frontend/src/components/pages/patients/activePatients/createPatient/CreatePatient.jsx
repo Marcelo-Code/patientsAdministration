@@ -41,6 +41,7 @@ export const CreatePatient = ({
   cancelAction,
   goBackAction,
   patient,
+  dniMatch,
 }) => {
   const style = {
     display: "flex",
@@ -203,7 +204,8 @@ export const CreatePatient = ({
               />
             </span>
             <span style={style}>
-              <ImportContactsIcon />
+              {/* <ImportContactsIcon /> */}
+              {dniMatch ? <span>❌</span> : <span>✔️</span>}
               <TextField
                 style={{
                   margin: "10px",
