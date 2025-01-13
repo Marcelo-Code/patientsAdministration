@@ -17,7 +17,7 @@ import { TokenContextProvider } from "./context/TokenContext.jsx";
 import { PasswordResetRequestContainer } from "./components/pages/passwordResetRequest/PasswordResetRequestContainer.jsx";
 import { LoginContainer } from "./components/pages/login/LoginContainer.jsx";
 import { Footer } from "./components/layout/footer/Footer.jsx";
-import { InactivePatientsListContainer } from "./components/pages/patients/inactivePatients/inactivePatientsList/inactivePatientsListContainer.jsx";
+import { InactivePatientsListContainer } from "./components/pages/patients/inactivePatients/inactivePatientsList/InactivePatientsListContainer_.jsx";
 import { PatientsListContainer } from "./components/pages/patients/activePatients/patientsList/PatientsListContainer.jsx";
 import { PatientsDetailContainer } from "./components/pages/patients/activePatients/patientDetail/PatientsDetailContainer.jsx";
 import { EditPatientContainer } from "./components/pages/patients/activePatients/editPatient/EditPatientContainer.jsx";
