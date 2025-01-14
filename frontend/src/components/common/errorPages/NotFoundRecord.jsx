@@ -1,14 +1,23 @@
 export const NotFoundRecord = () => {
   return (
-    <h2
+    <div
       style={{
         marginTop: "100px",
+        marginBottom: "100px",
         width: "100vw",
         height: "200px",
-        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      No se encontraron registros
-    </h2>
+      <h2
+        style={{
+          textAlign: "center",
+        }}
+      >
+        No se encontraron registros
+      </h2>
+    </div>
   );
 };
