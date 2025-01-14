@@ -18,6 +18,7 @@ import "./createProfessional.css";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useEffect } from "react";
 
 export const CreateProfessional = ({
   handleChange,
@@ -27,6 +28,7 @@ export const CreateProfessional = ({
   cancelAction,
   goBackAction,
   dniMatch,
+  setPageIsLoading,
 }) => {
   const style = {
     display: "flex",
@@ -34,6 +36,10 @@ export const CreateProfessional = ({
     justifyContent: "center",
     with: "300px",
   };
+
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div

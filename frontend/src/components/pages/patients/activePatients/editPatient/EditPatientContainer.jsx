@@ -56,6 +56,7 @@ export const EditPatientContainer = () => {
     fechavencimientocud: false,
     fechainiciotto: false,
     diagnosticoprevio: false,
+    activo: true,
   };
   const [modified, setModified] = useState(initialModifiedState);
   const [modifiedFlag, setModifiedFlag] = useState(false);

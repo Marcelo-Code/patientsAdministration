@@ -17,6 +17,7 @@ export const CreatePatientContainer = () => {
     setIsLoading,
     updateAlertsList,
     setUpdateAlertsList,
+    setPageIsLoading,
   } = useContext(GeneralContext);
 
   //hook para guardar los datos del nuevo paciente
@@ -113,6 +114,10 @@ export const CreatePatientContainer = () => {
     }
   };
 
+  useEffect(() => {
+    setPageIsLoading(true);
+  }, [setPageIsLoading]);
+
   //Importa el usuario desde localStorage
   const [userRolRecord, setUserRolRecord] = useState(null);
   useEffect(() => {
@@ -140,6 +145,7 @@ export const CreatePatientContainer = () => {
     cancelAction,
     goBackAction,
     dniMatch,
+    setPageIsLoading,
   };
   return (
     <>

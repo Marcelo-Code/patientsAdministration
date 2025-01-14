@@ -17,6 +17,7 @@ export const CreateProfessionalContainer = () => {
     setIsLoading,
     updateAlertsList,
     setUpdateAlertsList,
+    setPageIsLoading,
   } = useContext(GeneralContext);
 
   //hook para guardar los datos del nuevo profesional
@@ -80,7 +81,7 @@ export const CreateProfessionalContainer = () => {
       const today = dayjs().format("YYYY-MM-DD");
       const updatedProfessional = {
         ...professional,
-        fechaUltimaActualizacion: today,
+        fechaultimaactualizacion: today,
       };
       setIsLoading(true);
       // e.preventDefault();
@@ -96,6 +97,10 @@ export const CreateProfessionalContainer = () => {
         });
     }
   };
+
+  useEffect(() => {
+    setPageIsLoading(true);
+  }, [setPageIsLoading]);
 
   //Importa el usuario desde localStorage
   const [userRolRecord, setUserRolRecord] = useState(null);
@@ -120,6 +125,7 @@ export const CreateProfessionalContainer = () => {
     goBackAction,
     cancelAction,
     dniMatch,
+    setPageIsLoading,
   };
   return (
     <>

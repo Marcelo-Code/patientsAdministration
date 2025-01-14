@@ -330,7 +330,8 @@ app.post("/createPatientRecord", async (req, res) => {
         imgConstanciaAlumnoRegular,
         imgLibretaSanitaria,
         imgCud,
-        imgCertificadoEventual
+        imgCertificadoEventual,
+        activo
     } = req.body;
     try {
         const result = await pool.query(
@@ -371,9 +372,10 @@ app.post("/createPatientRecord", async (req, res) => {
                                     imgConstanciaAlumnoRegular,
                                     imgLibretaSanitaria,
                                     imgCud,
-                                    imgCertificadoEventual
+                                    imgCertificadoEventual,
+                                    activo
                                     )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38) RETURNING id`,
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39) RETURNING id`,
             [nombreYApellidoPaciente,
                 obraSocialPaciente,
                 telefonoObraSocial,
@@ -411,7 +413,8 @@ app.post("/createPatientRecord", async (req, res) => {
                 imgConstanciaAlumnoRegular,
                 imgLibretaSanitaria,
                 imgCud,
-                imgCertificadoEventual
+                imgCertificadoEventual,
+                activo
             ]
         );
         res.status(201).json(result.rows[0]);
@@ -521,7 +524,8 @@ app.put("/updatePatientRecord/:id", async (req, res) => {
         imgconstanciaalumnoregular,
         imglibretasanitaria,
         imgcud,
-        imgcertificadoeventual
+        imgcertificadoeventual,
+        activo
     } = req.body;
 
     const {
@@ -568,8 +572,9 @@ app.put("/updatePatientRecord/:id", async (req, res) => {
                 imgconstanciaalumnoregular = $35,
                 imglibretasanitaria = $36,
                 imgcud = $37,
-                imgcertificadoeventual = $38
-                WHERE id = $39`, [
+                imgcertificadoeventual = $38,
+                activo = $39
+                WHERE id = $40`, [
                 nombreyapellidopaciente,
                 obrasocialpaciente,
                 telefonoobrasocial,
@@ -608,6 +613,7 @@ app.put("/updatePatientRecord/:id", async (req, res) => {
                 imglibretasanitaria,
                 imgcud,
                 imgcertificadoeventual,
+                activo,
                 id
             ]
         );
@@ -914,7 +920,8 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
         documentodnifrenteprofesional,
         documentodnidorsoprofesional,
         documentoseguroprofesional,
-        fechaultimaactualizacion
+        fechaultimaactualizacion,
+        activo
     } = req.body;
 
     const {
@@ -944,8 +951,9 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
                         documentodnifrenteprofesional = $18,
                         documentodnidorsoprofesional = $19,
                         documentoseguroprofesional = $20,
-                        fechaultimaactualizacion = $21
-                WHERE id = $22`,
+                        fechaultimaactualizacion = $21,
+                        activo = $22
+                WHERE id = $23`,
             [
                 nombreyapellidoprofesional,
                 especialidadprofesional,
@@ -968,6 +976,7 @@ app.put("/updateProfessionalRecord/:id", async (req, res) => {
                 documentodnidorsoprofesional,
                 documentoseguroprofesional,
                 fechaultimaactualizacion,
+                activo,
                 id
             ]
         );
@@ -1039,7 +1048,8 @@ app.post("/createProfessionalRecord", async (req, res) => {
         documentodnifrenteprofesional,
         documentodnidorsoprofesional,
         documentoseguroprofesional,
-        fechaultimaactualizacion
+        fechaultimaactualizacion,
+        activo
     } = req.body;
     try {
         const result = await pool.query(
@@ -1063,9 +1073,10 @@ app.post("/createProfessionalRecord", async (req, res) => {
                                     documentodnifrenteprofesional,
                                     documentodnidorsoprofesional,
                                     documentoseguroprofesional,
-                                    fechaultimaactualizacion
+                                    fechaultimaactualizacion,
+                                    activo
                                     )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) RETURNING id`,
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) RETURNING id`,
             [nombreyapellidoprofesional,
                 especialidadprofesional,
                 matriculaprofesional,
@@ -1086,7 +1097,8 @@ app.post("/createProfessionalRecord", async (req, res) => {
                 documentodnifrenteprofesional,
                 documentodnidorsoprofesional,
                 documentoseguroprofesional,
-                fechaultimaactualizacion
+                fechaultimaactualizacion,
+                activo
             ]
         );
         res.status(201).json(result.rows[0]);

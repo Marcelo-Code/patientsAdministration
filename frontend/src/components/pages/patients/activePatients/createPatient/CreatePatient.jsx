@@ -31,6 +31,7 @@ import { Link } from "react-router-dom";
 
 import "./createPatient.css";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 
 export const CreatePatient = ({
   handleChange,
@@ -42,6 +43,7 @@ export const CreatePatient = ({
   goBackAction,
   patient,
   dniMatch,
+  setPageIsLoading,
 }) => {
   const style = {
     display: "flex",
@@ -49,6 +51,10 @@ export const CreatePatient = ({
     justifyContent: "center",
     with: "300px",
   };
+
+  useEffect(() => {
+    setPageIsLoading(false);
+  }, [setPageIsLoading]);
 
   return (
     <div

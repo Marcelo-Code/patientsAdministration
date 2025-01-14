@@ -40,6 +40,7 @@ export const EditProfessionalContainer = () => {
     telefonoprofesional: false,
     emailprofesional: false,
     fechavencimientornpprofesional: false,
+    activo: true,
   };
   const [modified, setModified] = useState(initialModifiedState);
   const [modifiedFlag, setModifiedFlag] = useState(false);
