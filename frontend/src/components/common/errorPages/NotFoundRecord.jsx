@@ -3,7 +3,7 @@ export const NotFoundRecord = () => {
     <div
       style={{
         marginTop: "100px",
-        marginBottom: "100px",
+        marginBottom: "300px",
         width: "100vw",
         height: "200px",
         display: "flex",
