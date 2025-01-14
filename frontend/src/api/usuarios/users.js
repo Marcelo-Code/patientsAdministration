@@ -70,10 +70,10 @@ export const updateUserRecord = async (userRecord, userRecordId) => {
 }
 
 //DELETE: eliminar usuario
-export const deleteUserRecord = async (userRecordId, userName) => {
+export const deleteUserRecord = async (userRecordId, userName, confirm) => {
     try {
         const result = await ConfirmAlert("¿Estás seguro de eliminar este usuario?", `Vas a eliminar a ${userName}`, "Eliminar", "Cancelar");
-        if (result.isConfirmed) {
+        if (result.isConfirmed || confirm) {
             const response = await axios.delete(`${BACKEND_URL}/deleteUserRecord/${userRecordId}`);
             SuccessAlert(`Acabas de eliminar a ${userName}`)
             return response.data;

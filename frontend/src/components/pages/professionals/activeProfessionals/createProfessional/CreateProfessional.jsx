@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Box, Button, FormGroup, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormGroup,
+  FormHelperText,
+  TextField,
+} from "@mui/material";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import PersonIcon from "@mui/icons-material/Person";
@@ -29,6 +35,7 @@ export const CreateProfessional = ({
   goBackAction,
   dniMatch,
   setPageIsLoading,
+  errors,
 }) => {
   const style = {
     display: "flex",
@@ -76,7 +83,11 @@ export const CreateProfessional = ({
             }}
           >
             <span style={style}>
-              <PersonIcon />
+              {errors.nombreyapellidoprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 sx={{
                   margin: "10px",
@@ -88,10 +99,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="nombreyapellidoprofesional"
                 onChange={handleChange}
+                error={!!errors.nombreyapellidoprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <MedicationIcon />
+              {errors.especialidadprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MedicationIcon />
+              )}
               <TextField
                 sx={{
                   margin: "10px",
@@ -103,10 +119,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="especialidadprofesional"
                 onChange={handleChange}
+                error={!!errors.especialidadprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <CardMembershipIcon />
+              {errors.matriculaprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CardMembershipIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -118,10 +139,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="matriculaprofesional"
                 onChange={handleChange}
+                error={!!errors.matriculaprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <ImportContactsIcon />
+              {errors.cuitprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <ImportContactsIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -133,11 +159,18 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="cuitprofesional"
                 onChange={handleChange}
+                error={!!errors.cuitprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
+              {errors.dniprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : dniMatch ? (
+                <span>❌</span>
+              ) : (
+                <span>✔️</span>
+              )}
               {/* <ImportContactsIcon /> */}
-              {dniMatch ? <span>❌</span> : <span>✔️</span>}
               <TextField
                 style={{
                   margin: "10px",
@@ -149,10 +182,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="dniprofesional"
                 onChange={handleChange}
+                error={!!errors.dniprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <HouseIcon />
+              {errors.direccionprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <HouseIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -164,10 +202,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="direccionprofesional"
                 onChange={handleChange}
+                error={!!errors.direccionprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <LocationCityIcon />
+              {errors.ciudadprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <LocationCityIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -179,10 +222,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="ciudadprofesional"
                 onChange={handleChange}
+                error={!!errors.ciudadprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <CalendarMonthIcon />
+              {errors.fechavencimientornpprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CalendarMonthIcon />
+              )}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
@@ -202,6 +250,7 @@ export const CreateProfessional = ({
                       },
                     });
                   }}
+                  error={!!errors.fechavencimientornpprofesional} // Error si el campo no es válido
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -209,7 +258,11 @@ export const CreateProfessional = ({
               </LocalizationProvider>
             </span>
             <span style={style}>
-              <PhoneInTalkIcon />
+              {errors.telefonoprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PhoneInTalkIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -221,10 +274,15 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="telefonoprofesional"
                 onChange={handleChange}
+                error={!!errors.telefonoprofesional} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <MailIcon />
+              {errors.emailprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MailIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -236,6 +294,7 @@ export const CreateProfessional = ({
                 variant="outlined"
                 name="emailprofesional"
                 onChange={handleChange}
+                error={!!errors.emailprofesional} // Error si el campo no es válido
               />
             </span>
           </Box>

@@ -41,6 +41,53 @@ export const CreateUserContainer = () => {
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [userMatch, setUserMatch] = useState(false);
 
+  //Validación del formulario
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = (userRecord) => {
+    const newErrors = {};
+
+    const requiredFields = [
+      "perfil",
+      "nombreyapellidousuario",
+      "idprofesional",
+      "usuario",
+      "dni",
+      "email",
+      "password",
+    ];
+
+    // Validar campos requeridos generales
+    requiredFields.forEach((field) => {
+      if (!userRecord[field] || userRecord[field].toString().trim() === "") {
+        newErrors[field] = `${field} es obligatorio`;
+      }
+    });
+
+    // Validar nombreyapellidousuario si el perfil es "admin"
+    if (
+      userRecord.perfil === "admin" &&
+      (!userRecord.nombreyapellidousuario ||
+        userRecord.nombreyapellidousuario.toString().trim() === "")
+    ) {
+      newErrors.nombreyapellidousuario =
+        "Nombre y Apellido Usuario es obligatorio para perfil admin";
+    }
+
+    // Validar idprofesional si el perfil es "profesional"
+    if (
+      userRecord.perfil === "profesional" &&
+      (!userRecord.idprofesional ||
+        userRecord.idprofesional.toString().trim() === "")
+    ) {
+      newErrors.idprofesional =
+        "ID Profesional es obligatorio para perfil profesional";
+    }
+
+    return newErrors; // Asegúrate de retornar siempre el objeto newErrors
+  };
+
   //hooks para detectar los cambios
 
   const [modifiedFlag, setModifiedFlag] = useState(false);
@@ -84,28 +131,34 @@ export const CreateUserContainer = () => {
   //Función para llamar a la función POST
 
   const handleSubmit = () => {
-    if (!userMatch) {
-      if (passwordMatch) {
-        const today = dayjs().format("YYYY-MM-DD");
-        const updatedUserRecord = { ...userRecord, fechacreacion: today };
-        setIsLoading(true);
-        console.log(updatedUserRecord);
-        createUser(updatedUserRecord)
-          .then((response) => {
-            console.log(response);
-            setIsLoading(false);
-            goBackAction();
-          })
-          .catch((error) => {
-            console.log(error.message);
-            setIsLoading(false);
-          });
-      } else {
-        WarningAlert("verificar password");
-      }
-    } else {
-      WarningAlert("Usuario no disponible");
+    const validationErrors = validateForm(userRecord);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Asumiendo que setErrors actualiza el estado de los errores
+      WarningAlert("Verificar los campos incompletos ❌");
+      return;
     }
+    if (userMatch) {
+      WarningAlert("Usuario no disponible");
+      return;
+    }
+    if (!passwordMatch) {
+      WarningAlert("verificar password");
+      return;
+    }
+    const today = dayjs().format("YYYY-MM-DD");
+    const updatedUserRecord = { ...userRecord, fechacreacion: today };
+    setIsLoading(true);
+    console.log(updatedUserRecord);
+    createUser(updatedUserRecord)
+      .then((response) => {
+        console.log(response);
+        setIsLoading(false);
+        goBackAction();
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -156,6 +209,7 @@ export const CreateUserContainer = () => {
     passwordMatch,
     userMatch,
     setPageIsLoading,
+    errors,
   };
   return (
     <>

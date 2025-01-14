@@ -55,6 +55,39 @@ export const CreateProfessionalContainer = () => {
   const [dniMatch, setDniMatch] = useState(false);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
 
+  //Validación del formulario
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = (professionalRecord) => {
+    const newErrors = {};
+
+    const requiredFields = [
+      "nombreyapellidoprofesional",
+      "especialidadprofesional",
+      "matriculaprofesional",
+      "cuitprofesional",
+      "dniprofesional",
+      "direccionprofesional",
+      "ciudadprofesional",
+      "fechavencimientornpprofesional",
+      "telefonoprofesional",
+      "emailprofesional",
+    ];
+
+    // Validar campos requeridos generales
+    requiredFields.forEach((field) => {
+      if (
+        !professionalRecord[field] ||
+        professionalRecord[field].toString().trim() === ""
+      ) {
+        newErrors[field] = `${field} es obligatorio`;
+      }
+    });
+
+    return newErrors;
+  };
+
   //Función para guardar los cambios en el registro
 
   const handleChange = (e) => {
@@ -75,27 +108,33 @@ export const CreateProfessionalContainer = () => {
   //Función para llamar a la función POST
 
   const handleSubmit = () => {
+    const validationErrors = validateForm(professional);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Asumiendo que setErrors actualiza el estado de los errores
+      WarningAlert("Verificar los campos incompletos ❌");
+      return;
+    }
     if (dniMatch) {
       WarningAlert("DNI existente");
-    } else {
-      const today = dayjs().format("YYYY-MM-DD");
-      const updatedProfessional = {
-        ...professional,
-        fechaultimaactualizacion: today,
-      };
-      setIsLoading(true);
-      // e.preventDefault();
-      createProfessionalRecord(updatedProfessional)
-        .then((response) => {
-          console.log(response);
-          setIsLoading(false);
-          setUpdateAlertsList(!updateAlertsList);
-        })
-        .catch((error) => {
-          console.log(error.message);
-          setIsLoading(false);
-        });
+      return;
     }
+    const today = dayjs().format("YYYY-MM-DD");
+    const updatedProfessional = {
+      ...professional,
+      fechaultimaactualizacion: today,
+    };
+    setIsLoading(true);
+    // e.preventDefault();
+    createProfessionalRecord(updatedProfessional)
+      .then((response) => {
+        console.log(response);
+        setIsLoading(false);
+        setUpdateAlertsList(!updateAlertsList);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -126,6 +165,7 @@ export const CreateProfessionalContainer = () => {
     cancelAction,
     dniMatch,
     setPageIsLoading,
+    errors,
   };
   return (
     <>

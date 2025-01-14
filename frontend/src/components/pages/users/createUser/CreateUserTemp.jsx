@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Box, Button, FormGroup, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormGroup,
+  FormHelperText,
+  TextField,
+} from "@mui/material";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import PersonIcon from "@mui/icons-material/Person";
 import SaveIcon from "@mui/icons-material/Save";
@@ -27,6 +33,7 @@ export const CreateUser = ({
   passwordMatch,
   userMatch,
   setPageIsLoading,
+  errors,
 }) => {
   const style = {
     display: "flex",
@@ -73,7 +80,11 @@ export const CreateUser = ({
             }}
           >
             <span style={style}>
-              <BuildIcon />
+              {errors.perfil ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <BuildIcon />
+              )}
               <OptionsMenu {...usersTypeProps} />
             </span>
 
@@ -81,7 +92,11 @@ export const CreateUser = ({
 
             {userRecord.perfil === "profesional" && (
               <span style={style}>
-                <PersonIcon />
+                {errors.idprofesional ? (
+                  <FormHelperText>{"❌"}</FormHelperText>
+                ) : (
+                  <PersonIcon />
+                )}
                 <OptionsMenu {...professionalsProps} />
               </span>
             )}
@@ -90,7 +105,11 @@ export const CreateUser = ({
 
             {userRecord.perfil === "admin" && (
               <span style={style}>
-                <PersonIcon />
+                {errors.nombreyapellidousuario ? (
+                  <FormHelperText>{"❌"}</FormHelperText>
+                ) : (
+                  <PersonIcon />
+                )}
                 <TextField
                   style={{
                     margin: "10px",
@@ -106,8 +125,13 @@ export const CreateUser = ({
               </span>
             )}
             <span style={style}>
-              {/* <PersonIcon /> */}
-              {userMatch ? <span>❌</span> : <span>✔️</span>}
+              {errors.usuario ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : userMatch ? (
+                <span>❌</span>
+              ) : (
+                <span>✔️</span>
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -132,7 +156,11 @@ export const CreateUser = ({
             </span>
 
             <span style={style}>
-              <CardMembershipIcon />
+              {errors.email ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CardMembershipIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -162,7 +190,11 @@ export const CreateUser = ({
               />
             </span>
             <span style={style}>
-              <KeyIcon />
+              {errors.password ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <KeyIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",

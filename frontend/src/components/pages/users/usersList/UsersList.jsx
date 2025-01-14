@@ -226,7 +226,8 @@ export const UsersList = ({
                                     onClick={() => {
                                       deleteUserRecord(
                                         record.id,
-                                        record.usuario
+                                        record.usuario,
+                                        false
                                       )
                                         .then((reponse) => {
                                           console.log(reponse);

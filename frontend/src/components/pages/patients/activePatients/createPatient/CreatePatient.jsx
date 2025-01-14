@@ -4,6 +4,7 @@ import {
   Button,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   Radio,
   RadioGroup,
   TextField,
@@ -44,6 +45,7 @@ export const CreatePatient = ({
   patient,
   dniMatch,
   setPageIsLoading,
+  errors,
 }) => {
   const style = {
     display: "flex",
@@ -90,7 +92,11 @@ export const CreatePatient = ({
             }}
           >
             <span style={style}>
-              <PersonIcon />
+              {errors.nombreYApellidoPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -102,10 +108,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nombreYApellidoPaciente"
                 onChange={handleChange}
+                error={!!errors.nombreYApellidoPaciente} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <CardMembershipIcon />
+              {errors.obraSocialPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CardMembershipIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -117,10 +128,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="obraSocialPaciente"
                 onChange={handleChange}
+                error={!!errors.obraSocialPaciente} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <WhatsAppIcon />
+              {errors.telefonoObraSocial ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <WhatsAppIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -132,10 +148,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="telefonoObraSocial"
                 onChange={handleChange}
+                error={!!errors.telefonoObraSocial} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <MailIcon />
+              {errors.email1ObraSocial ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MailIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -147,6 +168,7 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="email1ObraSocial"
                 onChange={handleChange}
+                error={!!errors.email1ObraSocial} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
@@ -180,7 +202,11 @@ export const CreatePatient = ({
               />
             </span>
             <span style={style}>
-              <PersonIcon />
+              {errors.nombreYApellidoReferenteObrasocial ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -192,10 +218,16 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nombreYApellidoReferenteObrasocial"
                 onChange={handleChange}
+                error={!!errors.nombreYApellidoReferenteObrasocial} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <CardMembershipIcon />
+              {errors.nroAfiliadoPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CardMembershipIcon />
+              )}
+
               <TextField
                 style={{
                   margin: "10px",
@@ -207,11 +239,18 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nroAfiliadoPaciente"
                 onChange={handleChange}
+                error={!!errors.nroAfiliadoPaciente} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
+              {errors.dniPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : dniMatch ? (
+                <span>❌</span>
+              ) : (
+                <span>✔️</span>
+              )}
               {/* <ImportContactsIcon /> */}
-              {dniMatch ? <span>❌</span> : <span>✔️</span>}
               <TextField
                 style={{
                   margin: "10px",
@@ -223,10 +262,16 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="dniPaciente"
                 onChange={handleChange}
+                error={!!errors.dniPaciente} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <CalendarIcon />
+              {errors.fechaNacimientoPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CalendarIcon />
+              )}
+
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
@@ -249,11 +294,16 @@ export const CreatePatient = ({
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={!!errors.fechaNacimientoPaciente} // Error si el campo no es válido
                 />
               </LocalizationProvider>
             </span>
             <span style={style}>
-              <MedicationIcon />
+              {errors.diagnosticoPrevio ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MedicationIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -265,10 +315,16 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="diagnosticoPrevio"
                 onChange={handleChange}
+                error={!!errors.diagnosticoPrevio} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <HouseIcon />
+              {errors.direccionPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <HouseIcon />
+              )}
+
               <TextField
                 style={{
                   margin: "10px",
@@ -280,10 +336,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="direccionPaciente"
                 onChange={handleChange}
+                error={!!errors.direccionPaciente} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <LocationCityIcon />
+              {errors.ciudadPaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <LocationCityIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -295,10 +356,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="ciudadPaciente"
                 onChange={handleChange}
+                error={!!errors.ciudadPaciente} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <PersonIcon />
+              {errors.nombreYApellidoResponsable ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -310,10 +376,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nombreYApellidoResponsable"
                 onChange={handleChange}
+                error={!!errors.nombreYApellidoResponsable} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <WhatsAppIcon />
+              {errors.telefonoResponsable ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <WhatsAppIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -325,10 +396,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="telefonoResponsable"
                 onChange={handleChange}
+                error={!!errors.telefonoResponsable} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <SchoolIcon />
+              {errors.escuela ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <SchoolIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -340,10 +416,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="escuela"
                 onChange={handleChange}
+                error={!!errors.escuela} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <SchoolIcon />
+              {errors.direccionEscuela ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <SchoolIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -355,10 +436,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="direccionEscuela"
                 onChange={handleChange}
+                error={!!errors.direccionEscuela} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <WhatsAppIcon />
+              {errors.telefonoEscuela ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <WhatsAppIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -370,10 +456,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="telefonoEscuela"
                 onChange={handleChange}
+                error={!!errors.telefonoEscuela} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <SchoolIcon />
+              {errors.anioGradoSala ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <SchoolIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -385,10 +476,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="anioGradoSala"
                 onChange={handleChange}
+                error={!!errors.anioGradoSala} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <PersonIcon />
+              {errors.nombreYApellidoDocenteReferenteEscuela ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -400,10 +496,15 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nombreYApellidoDocenteReferenteEscuela"
                 onChange={handleChange}
+                error={!!errors.nombreYApellidoDocenteReferenteEscuela} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <PersonIcon />
+              {errors.nombreYApellidoDirectivoEscuela ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -415,6 +516,7 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nombreYApellidoDirectivoEscuela"
                 onChange={handleChange}
+                error={!!errors.nombreYApellidoDirectivoEscuela} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
@@ -486,7 +588,11 @@ export const CreatePatient = ({
             </span>
             {patient.CUD && (
               <span style={style}>
-                <CalendarIcon />
+                {errors.fechaVencimientoCud ? (
+                  <FormHelperText>{"❌"}</FormHelperText>
+                ) : (
+                  <CalendarIcon />
+                )}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     type="date"
@@ -509,12 +615,17 @@ export const CreatePatient = ({
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    error={!!errors.fechaVencimientoCud}
                   />
                 </LocalizationProvider>
               </span>
             )}
             <span style={style}>
-              <CalendarIcon />
+              {errors.fechaInicioTto ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CalendarIcon />
+              )}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
@@ -537,6 +648,7 @@ export const CreatePatient = ({
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={!!errors.fechaInicioTto}
                 />
               </LocalizationProvider>
             </span>

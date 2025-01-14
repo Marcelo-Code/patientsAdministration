@@ -16,6 +16,10 @@ import {
 import {
     borrarImagen
 } from "../pacientes/patients";
+import {
+    deleteUserRecord,
+    getUsersRecords
+} from "../usuarios/users";
 
 //GET: lista de profesionales
 export const getProfessionalsRecords = async () => {
@@ -46,7 +50,7 @@ export const createProfessionalRecord = async (newProfessional) => {
     try {
         const response = await axios.post(`${BACKEND_URL}/createProfessionalRecord`, newProfessional);
         console.log("Profesional creado: ", response.data)
-        SuccessAlert(`Profesional ${newProfessional.nombreYApellidoProfesional} creado`);
+        SuccessAlert(`Profesional ${newProfessional.nombreyapellidoprofesional} creado`);
         window.history.back();
         return (response.data);
     } catch (error) {
@@ -132,6 +136,22 @@ export const softDeleteProfessionalRecord = async (professionalId, professionalN
     const result = await ConfirmAlert("¿Estás seguro de inactivar este profesional?", `Vas a eliminar a ${professionalName}`, "Eliminar", "Cancelar");
     if (result.isConfirmed) {
         try {
+            console.log("eliminar profesional")
+            //Busca lista de usuarios
+            getUsersRecords()
+                .then((response) => {
+                    console.log(response);
+                    console.log(professionalId);
+                    //En caso de encontrar el usuario del profesional lo elimina
+                    if (response.some((record) => parseInt(record.idprofesional) === professionalId)) {
+                        const foundUser = response.find((record) => parseInt(record.idprofesional) === professionalId)
+                        console.log(foundUser);
+                        deleteUserRecord(foundUser.id, "", true)
+                            .then((response) => console.log(response))
+                            .catch((error) => console.log(error))
+                    }
+                })
+                .catch((error) => console.log(error))
             const response = await axios.patch(`${BACKEND_URL}/softDeleteProfessionalRecord/${professionalId}`)
             SuccessAlert("Profesional inactivo")
             return response.data;
