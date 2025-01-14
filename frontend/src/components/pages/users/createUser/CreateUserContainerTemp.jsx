@@ -8,7 +8,11 @@ import {
   getProfessionalRecord,
   getProfessionalsRecords,
 } from "../../../../api/profesionales/professionals";
-import { checkUser, createUser } from "../../../../api/usuarios/users";
+import {
+  checkUser,
+  createUser,
+  getUsersRecords,
+} from "../../../../api/usuarios/users";
 import { WarningAlert } from "../../../common/alerts/alerts";
 import { CreateUser } from "./CreateUserTemp";
 
@@ -37,6 +41,7 @@ export const CreateUserContainer = () => {
   };
 
   const [userRecord, setUserRecord] = useState(initialState);
+  const [usersRecords, setUsersRecords] = useState(null);
   const [professionalsRecords, setProfessionalsRecords] = useState(null);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [userMatch, setUserMatch] = useState(false);
@@ -106,12 +111,11 @@ export const CreateUserContainer = () => {
           .catch((error) => console.log(error));
       }
       if (name === "usuario") {
-        checkUser(value)
-          .then((response) => {
-            if (response) setUserMatch(true);
-            else setUserMatch(false);
-          })
-          .catch((error) => console.log(error));
+        if (usersRecords.some((record) => record.usuario === value)) {
+          setUserMatch(true);
+        } else {
+          setUserMatch(false);
+        }
       }
       if (updatedUserRecord.password === updatedUserRecord.passwordrepeat)
         setPasswordMatch(true);
@@ -162,9 +166,12 @@ export const CreateUserContainer = () => {
     getProfessionalsRecords()
       .then((response) => setProfessionalsRecords(response))
       .catch((error) => console.log(error));
+    getUsersRecords()
+      .then((response) => setUsersRecords(response))
+      .catch((error) => console.log(error));
   }, []);
 
-  if (!professionalsRecords) return <Spinner />;
+  if (!professionalsRecords || !usersRecords) return <Spinner />;
 
   const professionalsList = createList(
     professionalsRecords,
