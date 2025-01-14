@@ -48,15 +48,7 @@ export const CreateUserContainer = () => {
   const validateForm = (userRecord) => {
     const newErrors = {};
 
-    const requiredFields = [
-      "perfil",
-      "nombreyapellidousuario",
-      "idprofesional",
-      "usuario",
-      "dni",
-      "email",
-      "password",
-    ];
+    const requiredFields = ["perfil", "usuario", "dni", "email", "password"];
 
     // Validar campos requeridos generales
     requiredFields.forEach((field) => {
@@ -134,6 +126,7 @@ export const CreateUserContainer = () => {
     const validationErrors = validateForm(userRecord);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors); // Asumiendo que setErrors actualiza el estado de los errores
+      console.log(validationErrors);
       WarningAlert("Verificar los campos incompletos ❌");
       return;
     }
