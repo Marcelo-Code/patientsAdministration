@@ -75,6 +75,57 @@ export const CreateCudBillingContainer = () => {
 
   const userRolRecord = JSON.parse(localStorage.getItem("userRolRecord"));
 
+  //Validación del formulario
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = (userRecord) => {
+    const newErrors = {};
+
+    const requiredFields = [
+      "idprofesional",
+      "prestacion",
+      "idpaciente",
+      "periodofacturado",
+      "nrofactura",
+      "montofacturado",
+      "fechapresentacionos",
+
+      "fechacobro", //obligatorio si cobradaenfecha === true
+      "fechareclamo", //obligatorio si cobradaenfecha === false
+      "medioreclamo", //obligatorio si cobradaenfecha === false
+    ];
+
+    // Validar campos requeridos generales
+    requiredFields.forEach((field) => {
+      if (!userRecord[field] || userRecord[field].toString().trim() === "") {
+        newErrors[field] = `${field} es obligatorio`;
+      }
+    });
+
+    // Validar nombreyapellidousuario si el perfil es "admin"
+    if (
+      userRecord.perfil === "admin" &&
+      (!userRecord.nombreyapellidousuario ||
+        userRecord.nombreyapellidousuario.toString().trim() === "")
+    ) {
+      newErrors.nombreyapellidousuario =
+        "Nombre y Apellido Usuario es obligatorio para perfil admin";
+    }
+
+    // Validar idprofesional si el perfil es "profesional"
+    if (
+      userRecord.perfil === "profesional" &&
+      (!userRecord.idprofesional ||
+        userRecord.idprofesional.toString().trim() === "")
+    ) {
+      newErrors.idprofesional =
+        "ID Profesional es obligatorio para perfil profesional";
+    }
+
+    return newErrors; // Asegúrate de retornar siempre el objeto newErrors
+  };
+
   useEffect(() => {
     setPageIsLoading(true);
   }, [setPageIsLoading]);
