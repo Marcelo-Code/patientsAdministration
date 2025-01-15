@@ -9,9 +9,6 @@ export const Spinner = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "400px",
-        // position: "fixed",
-        // top: "30%",
-        // left: "48%",
         zIndex: 3,
       }}
     >
