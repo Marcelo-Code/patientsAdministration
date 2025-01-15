@@ -27,7 +27,7 @@ export const NavBar = ({
     <div
       style={{
         backgroundColor: darkMode ? "rgba(1, 37, 37, 0.48)" : "aqua",
-        position: pageIsLoading ? "fixed" : "relative",
+        position: pageIsLoading ? "absolute" : "relative",
         top: 0,
         display: "flex",
         justifyContent: "space-around",
