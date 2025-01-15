@@ -6,7 +6,6 @@ import "./burguerMenu.css";
 import { Link } from "react-router-dom";
 import { SwitchMode } from "../switchMode/SwitchMode";
 import { GeneralContext } from "../../../context/GeneralContext";
-import { Spinner } from "../spinner/Spinner";
 
 export const BurguerMenu = ({ userRolRecord }) => {
   const { darkMode, setDarkMode } = useContext(GeneralContext);
@@ -19,8 +18,6 @@ export const BurguerMenu = ({ userRolRecord }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const handleStateChange = (state) => setMenuOpen(state.isOpen);
   const closeMenu = () => setMenuOpen(false);
-
-  if (!userRolRecord) return <Spinner />;
 
   const professionalId = userRolRecord.user.idprofesional || null;
 
