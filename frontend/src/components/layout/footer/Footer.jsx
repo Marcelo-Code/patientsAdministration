@@ -17,7 +17,7 @@ export const Footer = () => {
         width: "100vw",
         height: "auto",
         textAlign: "center",
-        marginTop: "150px",
+        marginTop: "200px",
       }}
     >
       <div className="footerTitle">Gestión Cudnocud</div>
