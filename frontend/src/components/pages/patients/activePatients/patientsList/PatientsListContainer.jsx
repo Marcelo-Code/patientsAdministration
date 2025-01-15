@@ -38,9 +38,9 @@ export const PatientsListContainer = () => {
 
   console.log(patientsRecords);
 
+  if (!patientsRecords || !userRolRecord) return <Spinner />;
   if (Array.isArray(patientsRecords) && patientsRecords.length === 0)
     return <NotFoundRecord />;
-  if (!patientsRecords || !userRolRecord) return <Spinner />;
 
   const props = {
     editMode,

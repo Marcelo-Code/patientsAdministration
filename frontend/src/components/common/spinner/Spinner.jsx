@@ -4,6 +4,8 @@ export const Spinner = () => {
   return (
     <div
       style={{
+        position: "relative",
+        top: "0",
         width: "100vw",
         display: "flex",
         justifyContent: "center",

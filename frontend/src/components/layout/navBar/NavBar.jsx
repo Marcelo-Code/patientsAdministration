@@ -37,7 +37,8 @@ export const NavBar = ({
         padding: "20px",
         width: "100vw",
         height: "auto",
-        gap: "10px,",
+        maxHeight: "170px",
+        gap: "10px",
       }}
     >
       <BurguerMenu {...burguerMenuProps} />
