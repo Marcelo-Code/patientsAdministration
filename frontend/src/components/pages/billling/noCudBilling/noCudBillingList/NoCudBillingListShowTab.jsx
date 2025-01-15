@@ -37,6 +37,7 @@ export const NoCudBillingListShowTable = ({ record, trimUrl }) => {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
+          timeZone: "UTC",
         })}
       </td>
       <td>{record.destinatario}</td>
@@ -47,6 +48,7 @@ export const NoCudBillingListShowTable = ({ record, trimUrl }) => {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
+              timeZone: "UTC",
             })
           : "Sin fecha"}
       </td>
@@ -65,6 +67,7 @@ export const NoCudBillingListShowTable = ({ record, trimUrl }) => {
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",
+                timeZone: "UTC",
               }
             )
           : "Sin fecha"}

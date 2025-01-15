@@ -57,10 +57,14 @@ export const MedicalRecordDetail = ({
             </span>
             <span>
               <b>Fecha: </b>
-              {format(
-                new Date(medicalDetailRecord[0].fechaconsulta),
-                "dd/MM/yyyy"
-              )}
+              {new Date(
+                medicalDetailRecord[0].fechaconsulta
+              ).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                timeZone: "UTC",
+              })}
             </span>
             <span>
               <b>Tipo Consulta: </b> {medicalDetailRecord[0].tipoconsulta}

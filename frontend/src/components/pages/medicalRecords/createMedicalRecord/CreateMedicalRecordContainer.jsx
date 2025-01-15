@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { getPatientsRecords } from "../../../../api/pacientes/patients";
 import { getProfessionalsRecords } from "../../../../api/profesionales/professionals";
 import { createMedicalRecord } from "../../../../api/consultas/medicalRecords";
+import { WarningAlert } from "../../../common/alerts/alerts";
 
 export const CreateMedicalRecordContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState([]);
@@ -45,6 +46,34 @@ export const CreateMedicalRecordContainer = () => {
       setUserProfessionalId(userRolRecord.user.idprofesional);
     setUserRolRecord(userRolRecord);
   }, []);
+
+  //Validación del formulario
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = (noCudBillingRecord) => {
+    const newErrors = {};
+
+    const requiredFields = [
+      "idpaciente",
+      "idprofesional",
+      "fechaconsulta",
+      "tipoconsulta",
+      "descripcion",
+    ];
+
+    // Validar campos requeridos generales
+    requiredFields.forEach((field) => {
+      if (
+        !noCudBillingRecord[field] ||
+        noCudBillingRecord[field].toString().trim() === ""
+      ) {
+        newErrors[field] = `${field} es obligatorio`;
+      }
+    });
+
+    return newErrors;
+  };
 
   // useEffect(() => {
   //   setPageIsLoading(true);
@@ -135,6 +164,12 @@ export const CreateMedicalRecordContainer = () => {
   };
 
   const handleSubmit = () => {
+    const validationErrors = validateForm(medicalRecord);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Asumiendo que setErrors actualiza el estado de los errores
+      WarningAlert("Verificar los campos incompletos ❌");
+      return;
+    }
     setIsLoading(true);
     console.log(medicalRecord);
     createMedicalRecord(medicalRecord)
@@ -201,6 +236,7 @@ export const CreateMedicalRecordContainer = () => {
     professionalId,
     userProfessionalId,
     setPageIsLoading,
+    errors,
   };
 
   return (

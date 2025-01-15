@@ -4,6 +4,7 @@ import {
   Button,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   Radio,
   RadioGroup,
   TextField,
@@ -46,6 +47,7 @@ export const CreateCudBilling = ({
   patientId,
   professionalRecord,
   patientRecord,
+  errors,
 }) => {
   const style = {
     display: "flex",
@@ -105,11 +107,19 @@ export const CreateCudBilling = ({
             }}
           >
             <span style={{ ...style, pointerEvents: professionalId && "none" }}>
-              <PersonIcon />
+              {errors.idprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <OptionsMenu {...professionalsProps} />
             </span>
             <span style={style}>
-              <MedicationIcon />
+              {errors.prestacion ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MedicationIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -121,14 +131,18 @@ export const CreateCudBilling = ({
                 variant="outlined"
                 name="prestacion"
                 onChange={handleChange}
+                error={!!errors.prestacion} // Error si el campo no es válido
               />
             </span>
             <span style={{ ...style, pointerEvents: patientId && "none" }}>
-              <PersonIcon />
+              {errors.idpaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <OptionsMenu {...patientsProps} />
             </span>
             <span style={style}>
-              <CardMembershipIcon />
               <TextField
                 style={{
                   margin: "10px",
@@ -145,7 +159,11 @@ export const CreateCudBilling = ({
               />
             </span>
             <span style={style}>
-              <CalendarIcon />
+              {errors.periodofacturado ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CalendarIcon />
+              )}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
@@ -159,6 +177,7 @@ export const CreateCudBilling = ({
                   name="periodofacturado"
                   maxDate={dayjs()}
                   format="MM/YYYY"
+                  error={!!errors.periodofacturado} // Error si el campo no es válido
                   onChange={(newDate) => {
                     handleChange({
                       target: {
@@ -174,7 +193,11 @@ export const CreateCudBilling = ({
               </LocalizationProvider>
             </span>
             <span style={style}>
-              <ReceiptIcon />
+              {errors.nrofactura ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <ReceiptIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -186,10 +209,15 @@ export const CreateCudBilling = ({
                 variant="outlined"
                 name="nrofactura"
                 onChange={handleChange}
+                error={!!errors.nrofactura} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <MonetizationOnIcon />
+              {errors.montofacturado ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MonetizationOnIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -201,10 +229,15 @@ export const CreateCudBilling = ({
                 variant="outlined"
                 name="montofacturado"
                 onChange={handleChange}
+                error={!!errors.montofacturado} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <CalendarIcon />
+              {errors.fechapresentacionos ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CalendarIcon />
+              )}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
@@ -217,6 +250,7 @@ export const CreateCudBilling = ({
                   name="fechapresentacionos"
                   maxDate={dayjs()}
                   format="DD/MM/YYYY"
+                  error={!!errors.fechapresentacionos} // Error si el campo no es válido
                   onChange={(newDate) => {
                     handleChange({
                       target: {
@@ -300,7 +334,11 @@ export const CreateCudBilling = ({
             {!cudBillingRecord.cobradaenfecha ? (
               <>
                 <span style={style}>
-                  <CalendarIcon />
+                  {errors.fechareclamo ? (
+                    <FormHelperText>{"❌"}</FormHelperText>
+                  ) : (
+                    <CalendarIcon />
+                  )}
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       type="date"
@@ -313,6 +351,7 @@ export const CreateCudBilling = ({
                       name="fechareclamo"
                       maxDate={dayjs()}
                       format="DD/MM/YYYY"
+                      error={!!errors.fechareclamo} // Error si el campo no es válido
                       onChange={(newDate) => {
                         handleChange({
                           target: {
@@ -328,7 +367,11 @@ export const CreateCudBilling = ({
                   </LocalizationProvider>
                 </span>
                 <span style={style}>
-                  <ErrorIcon />
+                  {errors.medioreclamo ? (
+                    <FormHelperText>{"❌"}</FormHelperText>
+                  ) : (
+                    <ErrorIcon />
+                  )}
                   <TextField
                     style={{
                       margin: "10px",
@@ -340,6 +383,7 @@ export const CreateCudBilling = ({
                     variant="outlined"
                     name="medioreclamo"
                     onChange={handleChange}
+                    error={!!errors.medioreclamo} // Error si el campo no es válido
                   />
                 </span>
                 <span style={style}>
@@ -360,7 +404,11 @@ export const CreateCudBilling = ({
               </>
             ) : (
               <span style={style}>
-                <CalendarIcon />
+                {errors.fechacobro ? (
+                  <FormHelperText>{"❌"}</FormHelperText>
+                ) : (
+                  <CalendarIcon />
+                )}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     type="date"
@@ -373,6 +421,7 @@ export const CreateCudBilling = ({
                     name="fechacobro"
                     maxDate={dayjs()}
                     format="DD/MM/YYYY"
+                    error={!!errors.fechacobro} // Error si el campo no es válido
                     onChange={(newDate) => {
                       handleChange({
                         target: {

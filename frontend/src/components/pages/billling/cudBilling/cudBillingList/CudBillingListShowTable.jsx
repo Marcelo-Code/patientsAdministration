@@ -59,11 +59,12 @@ export const CudBillingListShowTable = ({ record, trimUrl }) => {
       </td>
       <td>{record.obrasocialpaciente}</td>
       <td>
-        {new Intl.DateTimeFormat("es-AR", {
-          month: "long",
-          year: "numeric",
-        })
-          .format(new Date(record.periodofacturado))
+        {new Date(record.periodofacturado)
+          .toLocaleDateString("es-AR", {
+            month: "long",
+            year: "numeric",
+            timeZone: "UTC",
+          })
           .replace(" de ", " ")}
       </td>
       <td>{record.nrofactura}</td>
@@ -79,6 +80,7 @@ export const CudBillingListShowTable = ({ record, trimUrl }) => {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
+          timeZone: "UTC",
         })}
       </td>
       <td>
@@ -86,6 +88,7 @@ export const CudBillingListShowTable = ({ record, trimUrl }) => {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
+          timeZone: "UTC",
         })}
       </td>
       <td>{record.cobradaenfecha ? "Si" : "No"}</td>
@@ -95,6 +98,7 @@ export const CudBillingListShowTable = ({ record, trimUrl }) => {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
+              timeZone: "UTC",
             })
           : "Sin reclamo"}
       </td>
@@ -106,6 +110,7 @@ export const CudBillingListShowTable = ({ record, trimUrl }) => {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
+              timeZone: "UTC",
             })
           : "Sin fecha"}
       </td>

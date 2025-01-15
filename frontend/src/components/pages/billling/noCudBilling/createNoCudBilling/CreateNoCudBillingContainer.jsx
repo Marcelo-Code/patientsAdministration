@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { getProfessionalsRecords } from "../../../../../api/profesionales/professionals";
 import { getPatientsRecords } from "../../../../../api/pacientes/patients";
 import { createNoCudBillingRecord } from "../../../../../api/facturacionNoCud/noCudBilling";
+import { WarningAlert } from "../../../../common/alerts/alerts";
 
 export const CreateNoCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =
@@ -62,7 +63,7 @@ export const CreateNoCudBillingContainer = () => {
     documentocomprobantepagoretencion: "",
   };
 
-  const [billRecordNoCud, setBillRecordNoCud] = useState(
+  const [noCudBillingRecord, setNoCudBillingRecord] = useState(
     billRecordInitialState
   );
 
@@ -70,7 +71,7 @@ export const CreateNoCudBillingContainer = () => {
 
   const [errors, setErrors] = useState({});
 
-  const validateForm = (userRecord) => {
+  const validateForm = (noCudBillingRecord) => {
     const newErrors = {};
 
     const requiredFields = [
@@ -83,36 +84,36 @@ export const CreateNoCudBillingContainer = () => {
       "montosesion",
       "fechadepago",
       "destinatario",
-      "fechadeuda", // si pacienteadeuda=== true
-      "pagomontoadeudado", // si pacienteadeuda=== true
-      "fechapagomontoadeudado", // si pacienteadeuda=== true
+      // "fechadeuda", // si pacienteadeuda=== true
+      // "pagomontoadeudado", // si pacienteadeuda=== true
+      // "fechapagomontoadeudado", // si pacienteadeuda=== true
     ];
 
     // Validar campos requeridos generales
     requiredFields.forEach((field) => {
-      if (!userRecord[field] || userRecord[field].toString().trim() === "") {
+      if (
+        !noCudBillingRecord[field] ||
+        noCudBillingRecord[field].toString().trim() === ""
+      ) {
         newErrors[field] = `${field} es obligatorio`;
       }
     });
 
-    // Validar nombreyapellidousuario si el perfil es "admin"
     if (
-      userRecord.perfil === "admin" &&
-      (!userRecord.nombreyapellidousuario ||
-        userRecord.nombreyapellidousuario.toString().trim() === "")
+      noCudBillingRecord.pacienteadeuda === true &&
+      !noCudBillingRecord.fechadeuda
     ) {
-      newErrors.nombreyapellidousuario =
-        "Nombre y Apellido Usuario es obligatorio para perfil admin";
+      newErrors.fechadeuda =
+        "Fecha deuda es obligatorio si paciente adeuda es true ";
     }
 
-    // Validar idprofesional si el perfil es "profesional"
     if (
-      userRecord.perfil === "profesional" &&
-      (!userRecord.idprofesional ||
-        userRecord.idprofesional.toString().trim() === "")
+      noCudBillingRecord.pacienteadeuda === true &&
+      noCudBillingRecord.pagomontoadeudado === true &&
+      !noCudBillingRecord.fechapagomontoadeudado
     ) {
-      newErrors.idprofesional =
-        "ID Profesional es obligatorio para perfil profesional";
+      newErrors.fechapagomontoadeudado =
+        "Fecha pago monto adeudado es obligatorio si pago monto adeudado es true ";
     }
 
     return newErrors; // Asegúrate de retornar siempre el objeto newErrors
@@ -156,7 +157,7 @@ export const CreateNoCudBillingContainer = () => {
 
   const handleChange = async (e) => {
     const { name, value, value2 } = e.target;
-    const updatedNoCudBillRecord = { ...billRecordNoCud, [name]: value };
+    const updatedNoCudBillRecord = { ...noCudBillingRecord, [name]: value };
     if (name === "montosesion") {
       updatedNoCudBillRecord.retencion =
         updatedNoCudBillRecord.montosesion * 0.35;
@@ -198,17 +199,22 @@ export const CreateNoCudBillingContainer = () => {
         patientRecord.obrasocialpaciente;
     }
 
-    setBillRecordNoCud(updatedNoCudBillRecord);
+    setNoCudBillingRecord(updatedNoCudBillRecord);
     setModified({ ...modified, [name]: true });
     if (!modifiedFlag) setModifiedFlag(true);
     console.log(updatedNoCudBillRecord);
-    // console.log(modified);
-    // console.log(billRecordNoCud);
   };
 
   const handleSubmit = () => {
+    const validationErrors = validateForm(noCudBillingRecord);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Asumiendo que setErrors actualiza el estado de los errores
+      WarningAlert("Verificar los campos incompletos ❌");
+      return;
+    }
     setIsLoading(true);
-    createNoCudBillingRecord(billRecordNoCud)
+    createNoCudBillingRecord(noCudBillingRecord)
       .then((response) => {
         console.log(response);
         setIsLoading(false);
@@ -262,11 +268,12 @@ export const CreateNoCudBillingContainer = () => {
     professionalsProps,
     patientsProps,
     modifiedFlag,
-    billRecordNoCud,
+    noCudBillingRecord,
     setPageIsLoading,
     professionalId,
     patientId,
     professionalRecord,
+    errors,
     patientRecord,
   };
 

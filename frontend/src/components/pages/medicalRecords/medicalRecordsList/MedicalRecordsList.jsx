@@ -272,7 +272,12 @@ export const MedicalRecordsList = ({
                 </span>
                 <span>
                   <b>Fecha:</b>{" "}
-                  {format(new Date(record.fechaconsulta), "dd/MM/yyyy")}
+                  {new Date(record.fechaconsulta).toLocaleDateString("es-AR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  })}
                 </span>
                 <span>
                   <b>Tipo Consulta:</b> {record.tipoconsulta}

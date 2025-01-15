@@ -4,6 +4,7 @@ import {
   Button,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   Radio,
   RadioGroup,
   TextField,
@@ -38,11 +39,12 @@ export const CreateNoCudBilling = ({
   professionalsProps,
   patientsProps,
   modifiedFlag,
-  billRecordNoCud,
+  noCudBillingRecord,
   setPageIsLoading,
   professionalId,
   patientId,
   professionalRecord,
+  errors,
   patientRecord,
 }) => {
   const style = {
@@ -103,11 +105,19 @@ export const CreateNoCudBilling = ({
             }}
           >
             <span style={{ ...style, pointerEvents: professionalId && "none" }}>
-              <PersonIcon />
+              {errors.idprofesional ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <OptionsMenu {...professionalsProps} />
             </span>
             <span style={style}>
-              <MedicationIcon />
+              {errors.prestacion ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MedicationIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -119,14 +129,23 @@ export const CreateNoCudBilling = ({
                 variant="outlined"
                 name="prestacion"
                 onChange={handleChange}
+                error={!!errors.prestacion} // Error si el campo no es válido
               />
             </span>
             <span style={{ ...style, pointerEvents: patientId && "none" }}>
-              <PersonIcon />
+              {errors.idpaciente ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <OptionsMenu {...patientsProps} />
             </span>
             <span style={style}>
-              <MonetizationOnIcon />
+              {errors.modopago ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MonetizationOnIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -137,12 +156,17 @@ export const CreateNoCudBilling = ({
                 label="Modo Pago"
                 variant="outlined"
                 name="modopago"
-                value={billRecordNoCud.modopago}
+                value={noCudBillingRecord.modopago}
                 onChange={handleChange}
+                error={!!errors.modopago} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <MonetizationOnIcon />
+              {errors.mediopago ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MonetizationOnIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -153,12 +177,17 @@ export const CreateNoCudBilling = ({
                 label="Medio de Pago"
                 variant="outlined"
                 name="mediopago"
-                value={billRecordNoCud.mediopago}
+                value={noCudBillingRecord.mediopago}
                 onChange={handleChange}
+                error={!!errors.mediopago} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <PersonIcon />
+              {errors.destinatariopago ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -169,12 +198,17 @@ export const CreateNoCudBilling = ({
                 label="Destinatario Pago"
                 variant="outlined"
                 name="destinatariopago"
-                value={billRecordNoCud.destinatariopago}
+                value={noCudBillingRecord.destinatariopago}
                 onChange={handleChange}
+                error={!!errors.destinatariopago} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
-              <MonetizationOnIcon />
+              {errors.montosesion ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <MonetizationOnIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -187,6 +221,7 @@ export const CreateNoCudBilling = ({
                 variant="outlined"
                 name="montosesion"
                 onChange={handleChange}
+                error={!!errors.montosesion} // Error si el campo no es válido
               />
             </span>
             <span style={style}>
@@ -204,8 +239,9 @@ export const CreateNoCudBilling = ({
                 variant="outlined"
                 name="retencion"
                 value={
-                  billRecordNoCud.retencion !== 0 && billRecordNoCud.retencion
-                    ? parseFloat(billRecordNoCud.retencion).toFixed(2)
+                  noCudBillingRecord.retencion !== 0 &&
+                  noCudBillingRecord.retencion
+                    ? parseFloat(noCudBillingRecord.retencion).toFixed(2)
                     : ""
                 }
                 onChange={handleChange}
@@ -226,18 +262,22 @@ export const CreateNoCudBilling = ({
                 variant="outlined"
                 name="montofinalprofesional"
                 value={
-                  billRecordNoCud.montofinalprofesional !== 0 &&
-                  billRecordNoCud.montofinalprofesional
-                    ? parseFloat(billRecordNoCud.montofinalprofesional).toFixed(
-                        2
-                      )
+                  noCudBillingRecord.montofinalprofesional !== 0 &&
+                  noCudBillingRecord.montofinalprofesional
+                    ? parseFloat(
+                        noCudBillingRecord.montofinalprofesional
+                      ).toFixed(2)
                     : ""
                 }
                 onChange={handleChange}
               />
             </span>
             <span style={style}>
-              <CalendarIcon />
+              {errors.fechadepago ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <CalendarIcon />
+              )}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   type="date"
@@ -250,6 +290,7 @@ export const CreateNoCudBilling = ({
                   name="fechadepago"
                   maxDate={dayjs()}
                   format="DD/MM/YYYY"
+                  error={!!errors.fechadepago} // Error si el campo no es válido
                   onChange={(newDate) => {
                     handleChange({
                       target: {
@@ -265,7 +306,11 @@ export const CreateNoCudBilling = ({
               </LocalizationProvider>
             </span>
             <span style={style}>
-              <PersonIcon />
+              {errors.destinatario ? (
+                <FormHelperText>{"❌"}</FormHelperText>
+              ) : (
+                <PersonIcon />
+              )}
               <TextField
                 style={{
                   margin: "10px",
@@ -276,8 +321,9 @@ export const CreateNoCudBilling = ({
                 label="Destinatario Pago"
                 variant="outlined"
                 name="destinatario"
-                value={billRecordNoCud.destinatario}
+                value={noCudBillingRecord.destinatario}
                 onChange={handleChange}
+                error={!!errors.destinatario} // Error si el campo no es válido
               />
             </span>
             <span
@@ -301,7 +347,7 @@ export const CreateNoCudBilling = ({
                   width: "200px",
                   justifyContent: "center",
                 }}
-                value={billRecordNoCud.pacienteadeuda ? "yes" : "no"}
+                value={noCudBillingRecord.pacienteadeuda ? "yes" : "no"}
                 name="pacienteadeuda"
                 onChange={(e) => {
                   const value = e.target.value === "yes";
@@ -317,10 +363,11 @@ export const CreateNoCudBilling = ({
                 <FormControlLabel value="no" control={<Radio />} label="No" />
               </RadioGroup>
             </span>
-            {billRecordNoCud.pacienteadeuda && (
+            {noCudBillingRecord.pacienteadeuda && (
               <CreateNoCudBillingPacienteAdeuda
                 handleChange={handleChange}
-                billRecordNoCud={billRecordNoCud}
+                noCudBillingRecord={noCudBillingRecord}
+                errors={errors}
               />
             )}
           </Box>

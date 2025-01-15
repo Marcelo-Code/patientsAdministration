@@ -8,11 +8,17 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import "./createNoCudBilling.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import {
+  FormControlLabel,
+  FormHelperText,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
 export const CreateNoCudBillingPacienteAdeuda = ({
   handleChange,
-  billRecordNoCud,
+  noCudBillingRecord,
+  errors,
 }) => {
   const style = {
     display: "flex",
@@ -24,7 +30,11 @@ export const CreateNoCudBillingPacienteAdeuda = ({
   return (
     <>
       <span style={style}>
-        <CalendarIcon />
+        {errors.fechadeuda ? (
+          <FormHelperText>{"❌"}</FormHelperText>
+        ) : (
+          <CalendarIcon />
+        )}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             type="date"
@@ -33,6 +43,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
             name="fechadeuda"
             maxDate={dayjs()}
             format="DD/MM/YYYY"
+            error={!!errors.fechadeuda} // Error si el campo no es válido
             onChange={(newDate) => {
               handleChange({
                 target: {
@@ -68,7 +79,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
             width: "200px",
             justifyContent: "center",
           }}
-          value={billRecordNoCud.pagomontoadeudado ? "yes" : "no"}
+          value={noCudBillingRecord.pagomontoadeudado ? "yes" : "no"}
           name="pagomontoadeudado"
           onChange={(e) => {
             const value = e.target.value === "yes";
@@ -84,9 +95,13 @@ export const CreateNoCudBillingPacienteAdeuda = ({
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
       </span>
-      {billRecordNoCud.pagomontoadeudado && (
+      {noCudBillingRecord.pagomontoadeudado && (
         <span style={style}>
-          <CalendarIcon />
+          {errors.fechapagomontoadeudado ? (
+            <FormHelperText>{"❌"}</FormHelperText>
+          ) : (
+            <CalendarIcon />
+          )}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               type="date"
@@ -95,6 +110,7 @@ export const CreateNoCudBillingPacienteAdeuda = ({
               name="fechapagomontoadeudado"
               maxDate={dayjs()}
               format="DD/MM/YYYY"
+              error={!!errors.fechapagomontoadeudado} // Error si el campo no es válido
               onChange={(newDate) => {
                 handleChange({
                   target: {

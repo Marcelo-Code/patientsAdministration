@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
-import { Button, TextareaAutosize } from "@mui/material";
+import { Button, FormHelperText, TextareaAutosize } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import PersonIcon from "@mui/icons-material/Person";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import "./createMedicalRecord.css";
 import { OptionsMenu } from "../../../common/Menu/OptionsMenu";
-import { useEffect } from "react";
+import { CalendarIcon } from "@mui/x-date-pickers";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 export const CreateMedicalRecord = ({
   goBackAction,
@@ -27,7 +28,8 @@ export const CreateMedicalRecord = ({
   patientId,
   professionalId,
   userProfessionalId,
-  setPageIsLoading,
+  // setPageIsLoading,
+  errors,
 }) => {
   console.log("profesional" + professionalId);
   console.log("paciente" + patientId);
@@ -35,6 +37,12 @@ export const CreateMedicalRecord = ({
   // useEffect(() => {
   //   setPageIsLoading(false);
   //}, [setPageIsLoading]);
+  const style = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    with: "300px",
+  };
 
   return (
     <div className="medicalRecordContainer">
@@ -67,44 +75,65 @@ export const CreateMedicalRecord = ({
           paddingBottom: "10px",
         }}
       >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "150px", backgroundColor: "white" }}
-            name="fechaConsulta"
-            onChange={(newDate) =>
-              handleChange({
-                target: {
-                  name: "fechaconsulta",
-                  value: dayjs(newDate).format("YYYY-MM-DD"),
-                },
-              })
-            }
-            maxDate={dayjs()}
-            format="DD/MM/YYYY"
-            label="Fecha"
-            slots={{
-              openPickerIcon: () => (
-                <CalendarMonthIcon
-                  sx={{ color: modified.fechaconsulta ? "red" : "gray" }}
-                />
-              ),
-            }}
-          />
-        </LocalizationProvider>
-        <span style={{ pointerEvents: patientId && "none" }}>
+        <span style={style}>
+          {errors.fechaconsulta ? (
+            <FormHelperText>{"❌"}</FormHelperText>
+          ) : (
+            <CalendarIcon />
+          )}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              sx={{ width: "150px", backgroundColor: "white" }}
+              name="fechaConsulta"
+              error={!!errors.fechaconsulta} // Error si el campo no es válido
+              onChange={(newDate) =>
+                handleChange({
+                  target: {
+                    name: "fechaconsulta",
+                    value: dayjs(newDate).format("YYYY-MM-DD"),
+                  },
+                })
+              }
+              maxDate={dayjs()}
+              format="DD/MM/YYYY"
+              label="Fecha"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </LocalizationProvider>
+        </span>
+        <span style={{ pointerEvents: patientId && "none", ...style }}>
+          {errors.idpaciente ? (
+            <FormHelperText>{"❌"}</FormHelperText>
+          ) : (
+            <PersonIcon />
+          )}
           <OptionsMenu {...patientsProps} />
         </span>
         <span
           style={{
             pointerEvents: (professionalId || userProfessionalId) && "none",
+            ...style,
           }}
         >
+          {errors.idprofesional ? (
+            <FormHelperText>{"❌"}</FormHelperText>
+          ) : (
+            <PersonIcon />
+          )}
           <OptionsMenu {...professionalsProps} />
         </span>
-        <span>
+        <span style={style}>
+          {errors.tipoconsulta ? (
+            <FormHelperText>{"❌"}</FormHelperText>
+          ) : (
+            <GroupsIcon />
+          )}
           <OptionsMenu {...meetingsProps} />
         </span>
       </div>
+      {errors.descripcion && <FormHelperText>{"❌"}</FormHelperText>}
       <TextareaAutosize
         style={{
           maxWidth: "80%",

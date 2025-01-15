@@ -10,15 +10,10 @@ import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import MedicationIcon from "@mui/icons-material/Medication";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Android12Switch } from "../../../../common/switchEditionMode/SwitchEditionMode";
 import "./inactiveProfessionalsList.css";
-import {
-  deleteProfessionalRecord,
-  softUnDeleteProfessionalRecord,
-} from "../../../../../api/profesionales/professionals";
+import { softUnDeleteProfessionalRecord } from "../../../../../api/profesionales/professionals";
 import { useEffect } from "react";
 import SettingsBackupRestoreIcon from "@mui/icons-material/SettingsBackupRestore";
 
@@ -169,6 +164,7 @@ export const InactiveProfessionalsList = ({
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
+                    timeZone: "UTC",
                   })}
                 </Typography>
               </CardContent>

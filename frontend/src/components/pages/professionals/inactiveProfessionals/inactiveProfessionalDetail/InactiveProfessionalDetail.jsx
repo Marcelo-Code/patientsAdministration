@@ -169,6 +169,7 @@ export const InactiveProfessionalDetail = ({
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",
+                timeZone: "UTC",
               })}
             </span>
           </Typography>
@@ -182,6 +183,7 @@ export const InactiveProfessionalDetail = ({
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",
+                timeZone: "UTC",
               })}
             </span>
           </Typography>

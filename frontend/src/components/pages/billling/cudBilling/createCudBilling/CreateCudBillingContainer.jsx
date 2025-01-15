@@ -10,6 +10,7 @@ import {
   getPatientsRecords,
 } from "../../../../../api/pacientes/patients";
 import { createCudBillingRecord } from "../../../../../api/facturacionCud/cudBilling";
+import { WarningAlert } from "../../../../common/alerts/alerts";
 
 export const CreateCudBillingContainer = () => {
   const { goBackAction, createList, cancelAction, setPageIsLoading } =
@@ -79,7 +80,7 @@ export const CreateCudBillingContainer = () => {
 
   const [errors, setErrors] = useState({});
 
-  const validateForm = (userRecord) => {
+  const validateForm = (cudBillingRecord) => {
     const newErrors = {};
 
     const requiredFields = [
@@ -90,37 +91,45 @@ export const CreateCudBillingContainer = () => {
       "nrofactura",
       "montofacturado",
       "fechapresentacionos",
-
-      "fechacobro", //obligatorio si cobradaenfecha === true
-      "fechareclamo", //obligatorio si cobradaenfecha === false
-      "medioreclamo", //obligatorio si cobradaenfecha === false
+      // "fechacobro", //obligatorio si cobradaenfecha === true
+      // "fechareclamo", //obligatorio si cobradaenfecha === false
+      // "medioreclamo", //obligatorio si cobradaenfecha === false
     ];
 
     // Validar campos requeridos generales
     requiredFields.forEach((field) => {
-      if (!userRecord[field] || userRecord[field].toString().trim() === "") {
+      if (
+        !cudBillingRecord[field] ||
+        cudBillingRecord[field].toString().trim() === ""
+      ) {
         newErrors[field] = `${field} es obligatorio`;
       }
     });
 
     // Validar nombreyapellidousuario si el perfil es "admin"
     if (
-      userRecord.perfil === "admin" &&
-      (!userRecord.nombreyapellidousuario ||
-        userRecord.nombreyapellidousuario.toString().trim() === "")
+      cudBillingRecord.cobradaenfecha === true &&
+      !cudBillingRecord.fechacobro
     ) {
-      newErrors.nombreyapellidousuario =
-        "Nombre y Apellido Usuario es obligatorio para perfil admin";
+      newErrors.fechacobro =
+        "Fecha de cobro es obligatoria si cobrada en fecha es true";
     }
 
     // Validar idprofesional si el perfil es "profesional"
     if (
-      userRecord.perfil === "profesional" &&
-      (!userRecord.idprofesional ||
-        userRecord.idprofesional.toString().trim() === "")
+      cudBillingRecord.cobradaenfecha === false &&
+      !cudBillingRecord.fechareclamo
     ) {
-      newErrors.idprofesional =
-        "ID Profesional es obligatorio para perfil profesional";
+      newErrors.fechareclamo =
+        "Fecha de reclamo es obligatoria si cobrada en fecha es false";
+    }
+    if (
+      cudBillingRecord.cobradaenfecha === false &&
+      (!cudBillingRecord.medioreclamo ||
+        cudBillingRecord.medioreclamo.toString().trim() === "")
+    ) {
+      newErrors.medioreclamo =
+        "Medio de reclamo es obligatorio si cobrada en fecha es false";
     }
 
     return newErrors; // Asegúrate de retornar siempre el objeto newErrors
@@ -216,6 +225,13 @@ export const CreateCudBillingContainer = () => {
   };
 
   const handleSubmit = () => {
+    const validationErrors = validateForm(cudBillingRecord);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Asumiendo que setErrors actualiza el estado de los errores
+      WarningAlert("Verificar los campos incompletos ❌");
+      return;
+    }
     setIsLoading(true);
     createCudBillingRecord(cudBillingRecord)
       .then((response) => {
@@ -279,6 +295,7 @@ export const CreateCudBillingContainer = () => {
     patientId,
     professionalRecord,
     patientRecord,
+    errors,
   };
 
   return (

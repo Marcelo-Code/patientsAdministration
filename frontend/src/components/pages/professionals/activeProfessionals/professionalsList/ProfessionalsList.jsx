@@ -168,6 +168,7 @@ export const ProfessionalsList = ({
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
+                    timeZone: "UTC",
                   })}
                 </Typography>
               </CardContent>
