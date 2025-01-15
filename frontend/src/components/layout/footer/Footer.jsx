@@ -12,7 +12,7 @@ export const Footer = () => {
     <div
       style={{
         backgroundColor: darkMode ? "rgba(1, 37, 37, 0.48)" : "aqua",
-        position: pageIsLoading ? "absolute" : "relative",
+        position: pageIsLoading ? "fixed" : "relative",
         bottom: "0px",
         width: "100vw",
         height: "auto",
