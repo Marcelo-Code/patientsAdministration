@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ConfirmAlert } from "../../common/alerts/alerts";
 import { getPatientsRecords } from "../../../api/pacientes/patients";
 import { getProfessionalsRecords } from "../../../api/profesionales/professionals";
+import { Spinner } from "../../common/spinner/Spinner";
 
 export const NavBarContainer = () => {
   const [patientsRecords, setPatientsRecords] = useState(null);
@@ -27,6 +28,9 @@ export const NavBarContainer = () => {
       })
       .catch((error) => console.log(error));
   }, [updateAlertsList]);
+
+  if (!patientsRecords || !professionalsRecords || !userRolRecord)
+    return <Spinner />;
 
   const professionalsExpirationRnpRecords = (professionalsRecords || [])
     .map((record) => {
