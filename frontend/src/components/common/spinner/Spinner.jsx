@@ -4,9 +4,14 @@ export const Spinner = () => {
   return (
     <div
       style={{
-        position: "fixed",
-        top: "30%",
-        left: "48%",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "400px",
+        // position: "fixed",
+        // top: "30%",
+        // left: "48%",
         zIndex: 3,
       }}
     >
