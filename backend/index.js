@@ -46,6 +46,8 @@ app.use(cors({
 //     console.log(`server started on port ${PORT}`);
 // });
 
+// console.log("server started")
+
 app.get('/', (req, res) => {
     res.send('Servidor funcionando');
 });
