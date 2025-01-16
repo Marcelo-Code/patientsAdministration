@@ -5,6 +5,8 @@ import { GeneralContext } from "../../../context/GeneralContext";
 import { Alerts } from "../alerts/Alerts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import "./navBar.css";
 
 export const NavBar = ({
@@ -41,7 +43,11 @@ export const NavBar = ({
         gap: "10px",
       }}
     >
-      <BurguerMenu {...burguerMenuProps} />
+      {userRolRecord ? (
+        <BurguerMenu {...burguerMenuProps} />
+      ) : (
+        <CircularProgress size={30} color="secondary" />
+      )}
       <span
         style={{
           display: "flex",
@@ -58,7 +64,11 @@ export const NavBar = ({
         </span>
         <span className="navBarTitle">Gestión Cudnocud</span>
       </span>
-      <Alerts {...altertsProps} />
+      {userRolRecord ? (
+        <Alerts {...altertsProps} />
+      ) : (
+        <CircularProgress size={30} color="secondary" />
+      )}
       <span style={{ padding: "10px" }}>
         <Link onClick={handleLogout}>
           <LogoutIcon sx={{ color: "white" }} />

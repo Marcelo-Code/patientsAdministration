@@ -29,9 +29,6 @@ export const NavBarContainer = () => {
       .catch((error) => console.log(error));
   }, [updateAlertsList]);
 
-  if (!patientsRecords || !professionalsRecords || !userRolRecord)
-    return <Spinner />;
-
   const professionalsExpirationRnpRecords = (professionalsRecords || [])
     .map((record) => {
       if (
