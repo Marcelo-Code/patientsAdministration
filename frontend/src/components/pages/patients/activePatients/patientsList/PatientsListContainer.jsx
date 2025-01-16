@@ -9,6 +9,7 @@ import { NotFoundRecord } from "../../../../common/errorPages/NotFoundRecord";
 export const PatientsListContainer = () => {
   const { setPageIsLoading, updateAlertsList, setUpdateAlertsList } =
     useContext(GeneralContext);
+  const [isLoading, setIsloading] = useState(true);
   const [patientsRecords, setPatientsRecords] = useState(null);
   const [updateList, setUpdateList] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -32,13 +33,17 @@ export const PatientsListContainer = () => {
           (record) => record.activo === true
         );
         setPatientsRecords(filteredResponse);
+        setIsloading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsloading(false);
+      });
   }, [updateList, setPageIsLoading]);
 
   console.log(patientsRecords);
 
-  if (!patientsRecords || !userRolRecord) return <Spinner />;
+  if (isLoading || !userRolRecord) return <Spinner />;
   if (Array.isArray(patientsRecords) && patientsRecords.length === 0)
     return <NotFoundRecord />;
 
