@@ -6,8 +6,6 @@ import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import "./alerts.css";
-import { useState } from "react";
-import { useEffect } from "react";
 
 export function Alerts({
   patientsExpirationCudRecords,
