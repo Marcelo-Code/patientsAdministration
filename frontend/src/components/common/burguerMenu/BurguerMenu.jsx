@@ -20,7 +20,7 @@ export const BurguerMenu = ({ userRolRecord }) => {
   const handleStateChange = (state) => setMenuOpen(state.isOpen);
   const closeMenu = () => setMenuOpen(false);
 
-  const professionalId = userRolRecord.user.idprofesional || null;
+  const professionalId = userRolRecord?.user?.idprofesional || null;
 
   return (
     <Menu
@@ -47,7 +47,9 @@ export const BurguerMenu = ({ userRolRecord }) => {
           pointerEvents: "none",
         }}
       >
-        {userRolRecord?.user?.nombreyapellidousuario || "cargando..."}
+        {userRolRecord?.user?.nombreyapellidousuario || (
+          <CircularProgress size={30} color="secondary" />
+        )}
       </h3>
       <div className="bm-menu-title">
         <div>
@@ -62,7 +64,9 @@ export const BurguerMenu = ({ userRolRecord }) => {
 
         {/* Menú para perfil "admin" */}
 
-        {userRolRecord.user.perfil === "admin" ? (
+        {!userRolRecord ? (
+          <CircularProgress />
+        ) : userRolRecord.user.perfil === "admin" ? (
           <>
             <ul className="bm-item-list">
               <Link to="/" onClick={closeMenu}>
