@@ -43,7 +43,7 @@ export const PatientsListContainer = () => {
 
   console.log(patientsRecords);
 
-  if (isLoading || !userRolRecord) return <Spinner />;
+  if (isLoading) return <Spinner />;
   if (Array.isArray(patientsRecords) && patientsRecords.length === 0)
     return <NotFoundRecord />;
 

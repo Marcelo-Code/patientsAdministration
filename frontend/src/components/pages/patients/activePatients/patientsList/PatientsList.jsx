@@ -38,7 +38,7 @@ export const PatientsList = ({
   return (
     <>
       <div className="patientsContainer">
-        {userRolRecord.user.perfil == "admin" && (
+        {userRolRecord?.user?.perfil == "admin" && (
           <span
             style={{
               position: "sticky",
