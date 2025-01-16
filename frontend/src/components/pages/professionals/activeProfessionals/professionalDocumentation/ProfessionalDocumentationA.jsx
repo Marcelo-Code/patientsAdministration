@@ -19,12 +19,12 @@ export const ProfessionalDocumentation = ({
   documentData,
   handleEditModeChange,
   editMode,
-  isLoading,
-  setIsLoading,
   updateList,
   setUpdateList,
   trimUrl,
   setPageIsLoading,
+  isLoadingDocument,
+  setIsLoadingDocument,
 }) => {
   useEffect(() => {
     setPageIsLoading(false);
@@ -73,10 +73,6 @@ export const ProfessionalDocumentation = ({
         )}
       </h2>
 
-      {isLoading && (
-        <CircularProgress sx={{ position: "fixed", top: "50%", left: "50%" }} />
-      )}
-
       <div
         style={{
           display: "flex",
@@ -107,7 +103,9 @@ export const ProfessionalDocumentation = ({
                 whiteSpace: "normal", // Permite que el texto se ajuste al ancho del contenedor
               }}
             >
-              {professionalRecord[document.name] === "" ? (
+              {isLoadingDocument === document.name ? (
+                <CircularProgress />
+              ) : !professionalRecord[document.name] ? (
                 <ClearIcon />
               ) : (
                 <Link
@@ -128,7 +126,7 @@ export const ProfessionalDocumentation = ({
                 <div>
                   <Link
                     onClick={() => {
-                      setIsLoading(true);
+                      setIsLoadingDocument(document.name);
                       DeleteProfessionalDocumentFromBucket(
                         document.name,
                         professionalRecord,
@@ -137,11 +135,11 @@ export const ProfessionalDocumentation = ({
                         .then((response) => {
                           console.log(response);
                           setUpdateList(!updateList);
-                          setIsLoading(false);
+                          setIsLoadingDocument(null);
                         })
                         .catch((error) => {
+                          setIsLoadingDocument(null);
                           console.log(error);
-                          setIsLoading(false);
                         });
                     }}
                   >
@@ -149,21 +147,20 @@ export const ProfessionalDocumentation = ({
                   </Link>
                   <Link
                     onClick={() => {
-                      setIsLoading(true);
                       uploadProfessionalDocumentToBucket(
                         `${document.name}_${professionalRecord.dniprofesional}_${professionalRecord.nombreyapellidoprofesional}`,
                         professionalRecord,
                         document.name,
-                        setIsLoading
+                        setIsLoadingDocument
                       )
                         .then((response) => {
                           console.log(response);
                           setUpdateList(!updateList);
-                          setIsLoading(false);
+                          setIsLoadingDocument(null);
                         })
                         .catch((error) => {
                           console.log(error);
-                          setIsLoading(false);
+                          setIsLoadingDocument(null);
                         });
                     }}
                   >

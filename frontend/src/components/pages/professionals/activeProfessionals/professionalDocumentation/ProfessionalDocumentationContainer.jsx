@@ -14,8 +14,6 @@ export const ProfessionalDocumentationContainer = () => {
   const [editMode, setEditMode] = useState(false);
   const [updateList, setUpdateList] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const initialStateUploadProfessionalDocumentation = {
     documentoConstanciaMatriculaProfesional: false,
     documentoCertificadoRnpProfesional: false,
@@ -32,6 +30,7 @@ export const ProfessionalDocumentationContainer = () => {
   const [uploadDocumentation, setUploadDocumentation] = useState(
     initialStateUploadProfessionalDocumentation
   );
+  const [isLoadingDocument, setIsLoadingDocument] = useState(null);
 
   const handleEditModeChange = () => {
     setEditMode(!editMode);
@@ -68,8 +67,8 @@ export const ProfessionalDocumentationContainer = () => {
     documentData,
     handleEditModeChange,
     editMode,
-    isLoading,
-    setIsLoading,
+    isLoadingDocument,
+    setIsLoadingDocument,
     updateList,
     setUpdateList,
     trimUrl,

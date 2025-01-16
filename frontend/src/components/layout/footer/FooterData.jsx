@@ -23,7 +23,7 @@ export const FooterData = ({ darkMode }) => {
             textShadow: "0 0 20px black",
           }}
         >
-          Información Útil
+          Canales de Contacto
         </span>
       </AccordionSummary>
       <AccordionDetails

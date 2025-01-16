@@ -165,97 +165,98 @@ export const softDeleteProfessionalRecord = async (professionalId, professionalN
 //********** DOCUMENTACIÓN EN BUCKET **********
 
 //PUT: upload documentación profesional a bucket
-export const uploadProfessionalDocumentToBucket = async (fileName, record, name, setIsloading) => {
-    if (record[name] !== "") {
+export const uploadProfessionalDocumentToBucket = async (fileName, record, name, setIsLoadingDocument) => {
+    if (record[name]) {
         WarningAlert("Debe eliminarse el documento antes de subir otro")
-    } else {
-        try {
-            // Crear un input de archivo dinámicamente
-            const input = document.createElement("input");
-            input.type = "file";
-            input.accept = ".jpg,.jpeg,.png,.pdf,.doc,.docx";
-
-
-            // Promesa para manejar la selección de archivo
-            const file = await new Promise((resolve, reject) => {
-
-                input.onchange = (event) => {
-                    const selectedFile = event.target.files[0];
-                    console.log(event);
-                    console.log(selectedFile);
-                    if (selectedFile !== undefined) {
-                        resolve(selectedFile);
-                        setIsloading(true);
-                    } else {
-                        reject(new Error("No se seleccionó ningún archivo."));
-                    }
-                };
-                input.click();
-            }).catch(() => {
-                return null
-            })
-
-            if (!file) {
-                console.log("no hay nada")
-            }
-
-            // Procesar el archivo seleccionado
-            const fileFormat = file.name.split(".").pop();
-            const filePath = `professionalsDocuments/${fileName}.${fileFormat}`;
-
-            console.log("Ruta del archivo:", filePath);
-
-            // Subir archivo al bucket
-            const {
-                data,
-                error
-            } = await supabase.storage
-                .from(bucketName)
-                .upload(filePath, file, {
-                    contentType: file.type,
-                    cacheControl: "3600",
-                    upsert: false,
-                });
-
-            if (error) {
-                throw new Error(`Error subiendo archivo: ${error.message}`);
-            }
-
-            console.log("Archivo subido exitosamente:", data);
-
-            // Obtener URL pública del archivo
-            const {
-                data: publicData
-            } = supabase.storage
-                .from(bucketName)
-                .getPublicUrl(filePath);
-
-            const publicUrl = publicData && publicData.publicUrl;
-            if (!publicUrl) {
-                throw new Error("No se pudo obtener la URL pública del archivo.");
-            }
-
-            const decodedUrl = decodeURIComponent(publicUrl);
-            console.log("URL pública del archivo:", decodedUrl);
-
-            // Actualizar registro con la URL del archivo
-            const updatedRecord = {
-                ...record,
-                [name]: decodedUrl
-            };
-
-            await partialUpdateProfessionalRecord(updatedRecord, record.id);
-            console.log("Registro actualizado correctamente:", updatedRecord);
-
-            return Promise.resolve({
-                success: true,
-                message: "Archivo subido correctamente",
-            });
-        } catch (error) {
-            console.error("Error durante el proceso de selección y subida del archivo:", error);
-            return Promise.reject(error);
-        }
+        return;
     }
+    try {
+        // Crear un input de archivo dinámicamente
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".jpg,.jpeg,.png,.pdf,.doc,.docx";
+
+
+        // Promesa para manejar la selección de archivo
+        const file = await new Promise((resolve, reject) => {
+
+            input.onchange = (event) => {
+                const selectedFile = event.target.files[0];
+                console.log(event);
+                console.log(selectedFile);
+                if (selectedFile !== undefined) {
+                    resolve(selectedFile);
+                    setIsLoadingDocument(name);
+                } else {
+                    reject(new Error("No se seleccionó ningún archivo."));
+                }
+            };
+            input.click();
+        }).catch(() => {
+            return null
+        })
+
+        if (!file) {
+            console.log("no hay nada")
+        }
+
+        // Procesar el archivo seleccionado
+        const fileFormat = file.name.split(".").pop();
+        const filePath = `professionalsDocuments/${fileName}.${fileFormat}`;
+
+        console.log("Ruta del archivo:", filePath);
+
+        // Subir archivo al bucket
+        const {
+            data,
+            error
+        } = await supabase.storage
+            .from(bucketName)
+            .upload(filePath, file, {
+                contentType: file.type,
+                cacheControl: "3600",
+                upsert: false,
+            });
+
+        if (error) {
+            throw new Error(`Error subiendo archivo: ${error.message}`);
+        }
+
+        console.log("Archivo subido exitosamente:", data);
+
+        // Obtener URL pública del archivo
+        const {
+            data: publicData
+        } = supabase.storage
+            .from(bucketName)
+            .getPublicUrl(filePath);
+
+        const publicUrl = publicData && publicData.publicUrl;
+        if (!publicUrl) {
+            throw new Error("No se pudo obtener la URL pública del archivo.");
+        }
+
+        const decodedUrl = decodeURIComponent(publicUrl);
+        console.log("URL pública del archivo:", decodedUrl);
+
+        // Actualizar registro con la URL del archivo
+        const updatedRecord = {
+            ...record,
+            [name]: decodedUrl
+        };
+
+        await partialUpdateProfessionalRecord(updatedRecord, record.id);
+        console.log("Registro actualizado correctamente:", updatedRecord);
+
+        return Promise.resolve({
+            success: true,
+            message: "Archivo subido correctamente",
+        });
+    } catch (error) {
+        console.error("Error durante el proceso de selección y subida del archivo:", error);
+        return Promise.reject(error);
+    }
+
 };
 
 //DELETE: documentación profesional desde bucket
