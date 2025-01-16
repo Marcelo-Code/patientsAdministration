@@ -108,7 +108,7 @@ export const CreatePatient = ({
                 variant="outlined"
                 name="nombreYApellidoPaciente"
                 onChange={handleChange}
-                error={!!errors.nombreYApellidoPaciente} // Error si el campo no es válido
+                error={!!errors.nombreYApellidoPaciente}
               />
             </span>
             <span style={style}>
