@@ -46,6 +46,10 @@ app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
 });
 
+app.get('/', (req, res) => {
+    res.send('Servidor funcionando');
+});
+
 //********** FUNCIONES TABLA USUARIOS: **********
 
 // GET: Verificar si el usuario existe por nombre de usuario
