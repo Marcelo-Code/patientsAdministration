@@ -42,13 +42,15 @@ app.use(cors({
     origin: FRONTEND_URL,
 }))
 
-app.listen(PORT, () => {
-    console.log(`server started on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`server started on port ${PORT}`);
+// });
 
 app.get('/', (req, res) => {
     res.send('Servidor funcionando');
 });
+
+
 
 //********** FUNCIONES TABLA USUARIOS: **********
 
@@ -1987,3 +1989,5 @@ app.post('/login', async (req, res) => {
         });
     }
 });
+
+export default app;
