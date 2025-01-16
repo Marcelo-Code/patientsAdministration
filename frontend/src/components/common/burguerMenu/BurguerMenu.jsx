@@ -6,6 +6,7 @@ import "./burguerMenu.css";
 import { Link } from "react-router-dom";
 import { SwitchMode } from "../switchMode/SwitchMode";
 import { GeneralContext } from "../../../context/GeneralContext";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const BurguerMenu = ({ userRolRecord }) => {
   const { darkMode, setDarkMode } = useContext(GeneralContext);
@@ -33,7 +34,10 @@ export const BurguerMenu = ({ userRolRecord }) => {
           pointerEvents: "none",
         }}
       >
-        Perfil: {userRolRecord?.user?.perfil || "cargando..."}
+        Perfil:{" "}
+        {userRolRecord?.user?.perfil || (
+          <CircularProgress size={30} color="secondary" />
+        )}
       </h3>
       <h3
         style={{

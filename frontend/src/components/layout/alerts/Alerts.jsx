@@ -2,7 +2,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { Badge } from "@mui/material";
+import { Badge, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import "./alerts.css";
@@ -54,46 +54,49 @@ export function Alerts({
       >
         Documentos a expirar
       </h3>
-
-      {userRolRecord?.user?.perfil === "admin" && (
-        <>
-          <h3 style={{ textAlign: "center" }}>CUD</h3>
-          {patientsExpirationCudRecords.length === 0 ? (
-            <h2 style={{ textAlign: "center" }}>No hay vencimientos</h2>
-          ) : (
-            <div>
-              <span
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "200px 100px",
-                  paddingLeft: "10px",
-                }}
-              >
-                <span>
-                  <h3 style={{ textAlign: "left" }}>Paciente</h3>
-                </span>
-                <span>
-                  <h3 style={{ textAlign: "left" }}>Días</h3>
-                </span>
-              </span>
-              {patientsExpirationCudRecords.map((record, index) => (
-                <div
-                  key={index}
+      {!userRolRecord ? (
+        <CircularProgress size={30} color="secondary" />
+      ) : (
+        userRolRecord?.user?.perfil === "admin" && (
+          <>
+            <h3 style={{ textAlign: "center" }}>CUD</h3>
+            {patientsExpirationCudRecords.length === 0 ? (
+              <h2 style={{ textAlign: "center" }}>No hay vencimientos</h2>
+            ) : (
+              <div>
+                <span
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "200px 20px",
+                    gridTemplateColumns: "200px 100px",
                     paddingLeft: "10px",
                   }}
                 >
-                  <span>{record.nombreyapellidopaciente}</span>
-                  <span style={{ textAlign: "right" }}>
-                    {record.diasexpiracioncud}
+                  <span>
+                    <h3 style={{ textAlign: "left" }}>Paciente</h3>
                   </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
+                  <span>
+                    <h3 style={{ textAlign: "left" }}>Días</h3>
+                  </span>
+                </span>
+                {patientsExpirationCudRecords.map((record, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "200px 20px",
+                      paddingLeft: "10px",
+                    }}
+                  >
+                    <span>{record.nombreyapellidopaciente}</span>
+                    <span style={{ textAlign: "right" }}>
+                      {record.diasexpiracioncud}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )
       )}
 
       <h3 style={{ textAlign: "center", marginTop: "30px" }}>RNP</h3>

@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { BurguerMenu } from "../../common/burguerMenu/BurguerMenu";
 import { GeneralContext } from "../../../context/GeneralContext";
 import { Alerts } from "../alerts/Alerts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import "./navBar.css";
+import { CircularProgress } from "@mui/material";
 
 export const NavBar = ({
   patientsExpirationCudRecords,
@@ -43,11 +43,7 @@ export const NavBar = ({
         gap: "10px",
       }}
     >
-      {userRolRecord ? (
-        <BurguerMenu {...burguerMenuProps} />
-      ) : (
-        <CircularProgress size={30} color="secondary" />
-      )}
+      <BurguerMenu {...burguerMenuProps} />
       <span
         style={{
           display: "flex",
@@ -64,11 +60,9 @@ export const NavBar = ({
         </span>
         <span className="navBarTitle">Gestión Cudnocud</span>
       </span>
-      {userRolRecord ? (
-        <Alerts {...altertsProps} />
-      ) : (
-        <CircularProgress size={30} color="secondary" />
-      )}
+
+      <Alerts {...altertsProps} />
+
       <span style={{ padding: "10px" }}>
         <Link onClick={handleLogout}>
           <LogoutIcon sx={{ color: "white" }} />
