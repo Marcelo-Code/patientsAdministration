@@ -72,6 +72,7 @@ export const OptionsMenu = ({
                   ? new Date(element.name).toLocaleDateString("es-ES", {
                       month: "long",
                       year: "numeric",
+                      timeZone: "UTC",
                     })
                   : element.name
               );
@@ -81,6 +82,7 @@ export const OptionsMenu = ({
               ? new Date(element.name).toLocaleDateString("es-ES", {
                   month: "long",
                   year: "numeric",
+                  timeZone: "UTC",
                 })
               : element.name}
           </MenuItem>
