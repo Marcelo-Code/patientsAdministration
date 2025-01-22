@@ -107,7 +107,10 @@ export const EditPatientContainer = () => {
         setIsLoading(false);
         setUpdateAlertsList(!updateAlertsList);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        console.log(error.message);
+        setIsLoading(false);
+      });
   };
 
   const props = {

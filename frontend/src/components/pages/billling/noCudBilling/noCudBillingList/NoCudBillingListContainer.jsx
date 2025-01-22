@@ -150,19 +150,21 @@ export const NoCudBillingListContainer = ({
       setNoCudBillingRecords(filteredNoCudBillingRecords);
     } else {
       const filteredRecords = filteredNoCudBillingRecords.filter(
-        (record) => record.periodofacturado === value
+        (record) => record.pacienteadeuda === value
       );
       setNoCudBillingRecords(filteredRecords);
     }
   };
 
-  const billingPeriodFilterList = createList(
+  const billingFilterList = createList(
     noCudBillingRecords,
-    "periodofacturado",
-    "periodofacturado",
+    "pacienteadeuda",
+    "pacienteadeuda",
     true,
-    "periodofacturado"
+    "pacienteadeuda"
   );
+
+  console.log(billingFilterList);
 
   const professionalsList = createList(
     professionalsRecords,
@@ -199,7 +201,7 @@ export const NoCudBillingListContainer = ({
   const menuFilterProps = {
     handleChange: handleFilterChange,
     name: "idProfesional",
-    array: billingPeriodFilterList,
+    array: billingFilterList,
     initialValue: "Todos",
     // modified: modified.nombreyapellidopaciente,
     date: true,

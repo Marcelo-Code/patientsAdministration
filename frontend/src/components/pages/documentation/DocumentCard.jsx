@@ -94,12 +94,21 @@ export const DocumentCard = ({
                         onClick={() => {
                           patient[document.name] == ""
                             ? WarningAlert("No hay imagen guardada")
-                            : DeleteImage(document.name, patient)
+                            : (setIsLoading(true),
+                              DeleteImage(document.name, patient)
                                 .then((response) => {
                                   console.log(response);
                                   setUpdateList((prevState) => !prevState);
+                                  setIsLoading(false);
                                 })
-                                .catch((error) => console.log(error));
+                                .catch((error) => {
+                                  console.log(error);
+                                  setIsLoading(false);
+                                }));
+                        }}
+                        style={{
+                          pointerEvents: isLoading ? "none" : "auto",
+                          cursor: isLoading ? "not-allowed" : "pointer",
                         }}
                       >
                         <DeleteIcon sx={{ margin: "10px", fontSize: "2em" }} />
@@ -112,6 +121,10 @@ export const DocumentCard = ({
                               )
                             : handleClick(document.name);
                         }}
+                        style={{
+                          pointerEvents: isLoading ? "none" : "auto",
+                          cursor: isLoading ? "not-allowed" : "pointer",
+                        }}
                       >
                         <UploadIcon sx={{ margin: "10px", fontSize: "2em" }} />
                       </Link>
@@ -122,6 +135,10 @@ export const DocumentCard = ({
                     patient[document.name] == ""
                       ? WarningAlert("No hay imagen para descargar")
                       : downloadImage(patient[document.name]);
+                  }}
+                  style={{
+                    pointerEvents: isLoading ? "none" : "auto",
+                    cursor: isLoading ? "not-allowed" : "pointer",
                   }}
                 >
                   <DownloadIcon sx={{ margin: "10px", fontSize: "2em" }} />

@@ -159,6 +159,8 @@ export const CudBillingListContainer = ({
     "periodofacturado"
   );
 
+  console.log(billingPeriodFilterList);
+
   const professionalsList = createList(
     professionalsRecords,
     "nombreyapellidoprofesional",

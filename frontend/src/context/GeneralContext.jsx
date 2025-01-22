@@ -102,11 +102,24 @@ export const GeneralContextProvider = ({ children }) => {
     const result = [];
 
     records.forEach((record) => {
-      const fieldValue = record[name] || "";
-      const recordValue = record[value] || "";
-      const recordValue2 = record[value2] || null;
-      const recordValue3 = record[value3] || null;
-      const recordValue4 = record[value4] || null;
+      const fieldValue =
+        record[name] !== undefined && record[name] !== null ? record[name] : "";
+      const recordValue =
+        record[value] !== undefined && record[value] !== null
+          ? record[value]
+          : "";
+      const recordValue2 =
+        record[value2] !== undefined && record[value2] !== null
+          ? record[value2]
+          : null;
+      const recordValue3 =
+        record[value3] !== undefined && record[value3] !== null
+          ? record[value3]
+          : null;
+      const recordValue4 =
+        record[value4] !== undefined && record[value4] !== null
+          ? record[value4]
+          : null;
 
       if (!uniqueFileds.has(fieldValue)) {
         uniqueFileds.add(fieldValue);
@@ -124,7 +137,14 @@ export const GeneralContextProvider = ({ children }) => {
     const sortedRecords = result.sort((a, b) => {
       const nameA = a.name || ""; // Asegura que siempre sea una cadena
       const nameB = b.name || "";
-      return nameA.localeCompare(nameB, "es", { sensitivity: "base" });
+
+      // Solo usar localeCompare si ambos son cadenas
+      if (typeof nameA === "string" && typeof nameB === "string") {
+        return nameA.localeCompare(nameB, "es", { sensitivity: "base" });
+      }
+
+      // Si no son cadenas, no ordenar (puedes ajustarlo según tus necesidades)
+      return 0;
     });
 
     if (includeAllOption) {

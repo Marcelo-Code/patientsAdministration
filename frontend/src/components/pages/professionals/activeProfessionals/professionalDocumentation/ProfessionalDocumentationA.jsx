@@ -142,6 +142,10 @@ export const ProfessionalDocumentation = ({
                           console.log(error);
                         });
                     }}
+                    style={{
+                      pointerEvents: isLoadingDocument ? "none" : "auto",
+                      cursor: isLoadingDocument ? "not-allowed" : "pointer",
+                    }}
                   >
                     <DeleteIcon sx={{ fontSize: "2em", margin: "10px" }} />
                   </Link>
@@ -162,6 +166,10 @@ export const ProfessionalDocumentation = ({
                           console.log(error);
                           setIsLoadingDocument(null);
                         });
+                    }}
+                    style={{
+                      pointerEvents: isLoadingDocument ? "none" : "auto",
+                      cursor: isLoadingDocument ? "not-allowed" : "pointer",
                     }}
                   >
                     <UploadIcon sx={{ fontSize: "2em", margin: "10px" }} />

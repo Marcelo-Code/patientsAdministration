@@ -27,6 +27,11 @@ export const OptionsMenu = ({
     handleClose();
   };
 
+  const isValidDate = (dateString) => {
+    const date = new Date(dateString);
+    return !isNaN(date.getTime()); // Comprobar si la fecha es válida
+  };
+
   return (
     <div>
       <Button
@@ -41,7 +46,7 @@ export const OptionsMenu = ({
           backgroundColor: "white",
         }}
       >
-        {type || initialValue}
+        {type !== null ? type : initialValue}
       </Button>
       <Menu
         disableScrollLock={true}
@@ -68,22 +73,30 @@ export const OptionsMenu = ({
                 },
               });
               handleSelect(
-                date && !isNaN(new Date(element.name).getTime())
+                date && date && isValidDate(element.name)
                   ? new Date(element.name).toLocaleDateString("es-ES", {
                       month: "long",
                       year: "numeric",
                       timeZone: "UTC",
                     })
+                  : element.name == true
+                  ? "Si"
+                  : element.name === false
+                  ? "No"
                   : element.name
               );
             }}
           >
-            {date && !isNaN(new Date(element.name).getTime())
+            {date && date && isValidDate(element.name)
               ? new Date(element.name).toLocaleDateString("es-ES", {
                   month: "long",
                   year: "numeric",
                   timeZone: "UTC",
                 })
+              : element.name == true
+              ? "Si"
+              : element.name === false
+              ? "No"
               : element.name}
           </MenuItem>
         ))}
