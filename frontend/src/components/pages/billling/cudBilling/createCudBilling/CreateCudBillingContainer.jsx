@@ -142,7 +142,11 @@ export const CreateCudBillingContainer = () => {
   useEffect(() => {
     getProfessionalsRecords()
       .then((response) => {
-        setProfessionalsRecords(response);
+        setProfessionalsRecords(
+          response.filter(
+            (professionalRecord) => professionalRecord.activo === true
+          )
+        );
         if (professionalId) {
           const foundProfessionalRecord = response.find(
             (record) => record.id === parseInt(professionalId)
@@ -155,7 +159,8 @@ export const CreateCudBillingContainer = () => {
     getPatientsRecords()
       .then((response) => {
         const filteredResponse = response.filter(
-          (record) => record.cud === true
+          (patientRecord) =>
+            patientRecord.cud === true && patientRecord.activo === true
         );
         setPatientsRecords(filteredResponse);
         if (patientId) {

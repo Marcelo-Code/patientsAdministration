@@ -82,7 +82,9 @@ export const CreateMedicalRecordContainer = () => {
   useEffect(() => {
     getPatientsRecords()
       .then((response) => {
-        setPatientsRecords(response);
+        setPatientsRecords(
+          response.filter((patientRecord) => patientRecord.activo === true)
+        );
         if (patientId) {
           const foundPatientRecord = response.find(
             (record) => record.id === parseInt(patientId)
@@ -94,7 +96,12 @@ export const CreateMedicalRecordContainer = () => {
       .catch((error) => console.log(error));
     getProfessionalsRecords()
       .then((response) => {
-        setProfessionalsRecords(response);
+        //se asegura de que la lista sea con profesionales activos
+        setProfessionalsRecords(
+          response.filter(
+            (professionalRecord) => professionalRecord.activo === true
+          )
+        );
         if (professionalId) {
           const foundProfessionalRecord = response.find(
             (record) => record.id === parseInt(professionalId)
