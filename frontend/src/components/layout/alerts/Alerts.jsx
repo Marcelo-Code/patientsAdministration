@@ -35,8 +35,11 @@ export function Alerts({
   const list = (anchor) => (
     <Box
       sx={{
-        width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
-        height: "100%",
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 300,
+        height: "100vh",
+        overflowY: "auto",
+        scrollbarWidth: "thin",
+        overflowX: "hidden",
         backgroundColor: "#373a47",
         color: "white",
       }}
