@@ -277,6 +277,7 @@ export const EditProfessional = (props) => {
               label="e-mail"
               variant="outlined"
               name="emailprofesional"
+              type="email"
               onChange={handleChange}
               value={emailprofesional}
               slotProps={{

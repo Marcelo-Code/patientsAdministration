@@ -186,6 +186,7 @@ export const CreateUser = ({
                 label="e-mail"
                 variant="outlined"
                 name="email"
+                type="email"
                 onChange={handleChange}
               />
             </span>

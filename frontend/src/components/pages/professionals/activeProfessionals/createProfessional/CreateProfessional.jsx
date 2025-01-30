@@ -293,6 +293,7 @@ export const CreateProfessional = ({
                 label="e-mail"
                 variant="outlined"
                 name="emailprofesional"
+                type="email"
                 onChange={handleChange}
                 error={!!errors.emailprofesional} // Error si el campo no es válido
               />

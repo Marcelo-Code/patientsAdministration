@@ -210,6 +210,7 @@ export const EditPatient = (props) => {
                 label="email 1 Obra Social"
                 variant="outlined"
                 name="email1obrasocial"
+                type="email"
                 value={email1obrasocial}
                 onChange={handleChange}
                 slotProps={{
@@ -234,6 +235,7 @@ export const EditPatient = (props) => {
                 label="email 2 Obra Social"
                 variant="outlined"
                 name="email2obrasocial"
+                type="email"
                 value={email2obrasocial}
                 onChange={handleChange}
                 slotProps={{
@@ -258,6 +260,7 @@ export const EditPatient = (props) => {
                 label="email 3 Obra Social"
                 variant="outlined"
                 name="email3obrasocial"
+                type="email"
                 value={email3obrasocial}
                 onChange={handleChange}
                 slotProps={{

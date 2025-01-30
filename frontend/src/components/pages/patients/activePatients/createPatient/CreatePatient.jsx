@@ -166,6 +166,7 @@ export const CreatePatient = ({
                 label="e-mail 1 Obra Social"
                 variant="outlined"
                 name="email1ObraSocial"
+                type="email"
                 onChange={handleChange}
                 error={!!errors.email1ObraSocial} // Error si el campo no es válido
               />
@@ -182,6 +183,7 @@ export const CreatePatient = ({
                 label="e-mail 2 Obra Social"
                 variant="outlined"
                 name="email2ObraSocial"
+                type="email"
                 onChange={handleChange}
               />
             </span>
@@ -197,6 +199,7 @@ export const CreatePatient = ({
                 label="e-mail 3 Obra Social"
                 variant="outlined"
                 name="email3ObraSocial"
+                type="email"
                 onChange={handleChange}
               />
             </span>
