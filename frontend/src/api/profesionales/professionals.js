@@ -257,9 +257,11 @@ export const uploadProfessionalDocumentToBucket = async (
     }
 
     // Procesar el archivo seleccionado
-    const fileFormat = sanitizeFileName(file.name.split(".").pop());
+    const fileFormat = name.split(".").pop();
 
-    const filePath = `professionalsDocuments/${fileName}.${fileFormat}`;
+    const sanitizedFileName = sanitizeFileName(fileName);
+
+    const filePath = `professionalsDocuments/${sanitizedFileName}.${fileFormat}`;
 
     console.log("Ruta del archivo:", filePath);
 
