@@ -186,11 +186,9 @@ export const CreateUser = ({
                 label="e-mail"
                 variant="outlined"
                 name="email"
-                error={!!errors.email1ObraSocial}
+                error={!!errors.email}
                 type="email"
-                helperText={
-                  errors.email1ObraSocial ? "Ingrese un email válido" : ""
-                }
+                helperText={errors.email ? "Ingrese un email válido" : ""}
                 onChange={handleChange}
               />
             </span>
