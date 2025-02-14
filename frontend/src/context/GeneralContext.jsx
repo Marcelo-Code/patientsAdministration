@@ -175,9 +175,10 @@ export const GeneralContextProvider = ({ children }) => {
   const formatPeriod = (datePeriod) => {
     const date = new Date(datePeriod);
     // Crear el formateador para el mes y el año
-    const formatter = new Intl.DateTimeFormat("es-ES", {
+    const formatter = new Intl.DateTimeFormat("es-AR", {
       month: "long",
       year: "numeric",
+      timeZone: "UTC",
     });
 
     // Formatear la fecha
