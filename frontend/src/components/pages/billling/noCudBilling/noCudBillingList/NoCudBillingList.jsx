@@ -798,7 +798,7 @@ export const NoCudBillingList = ({
                       }}
                     >
                       <td
-                        colSpan={editMode ? 8 : 7}
+                        colSpan={editMode ? 7 : 6}
                         style={{
                           textAlign: "center",
                           fontWeight: "bold",
